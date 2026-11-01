@@ -311,6 +311,43 @@
   .scoreboard { text-align: center; padding: 10px 0; }
   .scoreboard b { font: 800 40px var(--head); display: block; }
 
+  /* ---------- application pack ---------- */
+  .modal.drawer .sheet.pack-sheet { max-width: 900px; padding: 0; display: flex; flex-direction: column; }
+  .pack-head { padding: 22px 28px 0; border-bottom: 1px solid var(--line); }
+  .pack-head h2 { margin: 6px 0 2px; }
+  .pack-tabs { display: flex; gap: 2px; margin-top: 16px; overflow-x: auto; scrollbar-width: none; }
+  .pack-tabs::-webkit-scrollbar { display: none; }
+  .pack-tabs button { border: 0; background: none; padding: 10px 14px; cursor: pointer; color: var(--muted); font-weight: 600; font-size: 13px; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .pack-tabs button.on { color: var(--ink); border-bottom-color: var(--lav); }
+  .pack-body { padding: 22px 28px 40px; overflow: auto; flex: 1; background: var(--bg); }
+  .assess { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; font-size: 13.5px; margin-bottom: 8px; border: 1px solid var(--line); background: var(--surface); }
+  .assess.warn { background: var(--butter-50); border-color: #efe3bd; } .assess.good { background: var(--mint-50); border-color: #d4ebe0; }
+  .assess b { flex: none; }
+  .check { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; margin-bottom: 8px; font-size: 14px; }
+  .check input { width: 18px; height: 18px; accent-color: var(--mint); margin: 1px 0 0; flex: none; cursor: pointer; }
+  .check.done span { color: var(--muted); text-decoration: line-through; }
+  .progress-line { display: flex; align-items: center; gap: 12px; margin: 18px 0 10px; font-size: 13px; color: var(--muted); }
+  .progress-line .bar i { background: var(--mint); }
+  .doc-tools { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+  .doc-page { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 8px 24px -12px rgba(30, 29, 38, .18); max-width: 720px; margin: 0 auto; padding: 56px 64px; font: 11pt/1.6 Georgia, "Times New Roman", serif; color: #222; min-height: 600px; outline: none; }
+  .doc-page:focus { box-shadow: 0 0 0 3px var(--lav-100), 0 8px 24px -12px rgba(30, 29, 38, .18); }
+  .doc-page p { margin: 0 0 14px; }
+  .edited { font-size: 11.5px; color: var(--lav); font-weight: 600; }
+  .answer { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .answer .q { font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .answer textarea { width: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px; font: inherit; resize: vertical; min-height: 44px; background: var(--soft); }
+  .answer textarea:focus { outline: 3px solid var(--lav-100); background: var(--surface); }
+  .answer .hint { font-size: 12px; color: var(--butter); margin-top: 6px; }
+  .answer.empty-a textarea { background: var(--butter-50); border-color: #efe3bd; }
+  .pdf-frame { width: 100%; height: 78vh; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+  .fit { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 13.5px; }
+  .fit th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); background: var(--soft); padding: 9px 14px; }
+  .fit td { padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  .fit td:last-child { color: var(--mint); font-weight: 500; }
+  .pack-sec { font: 700 15px var(--head); margin: 24px 0 10px; }
+  .pack-sec:first-child { margin-top: 0; }
+  .pack-pill { display: inline-flex; gap: 6px; align-items: center; font-size: 11.5px; font-weight: 600; color: var(--mint); background: var(--mint-50); padding: 2px 9px; border-radius: 6px; }
+
   /* ---------- responsive ---------- */
   @media (max-width: 1100px) {
     .discover { grid-template-columns: 1fr; }
@@ -357,6 +394,10 @@
     .sheet { border-radius: 18px 18px 0 0; max-height: 92dvh; padding: 20px 16px; }
     .modal.drawer .sheet { border-radius: 18px 18px 0 0; height: 92dvh; padding: 20px 16px; }
     .sheet .form .row2 { grid-template-columns: 1fr; }
+    .pack-head { padding: 18px 16px 0; } .pack-body { padding: 16px 16px 40px; }
+    .doc-page { padding: 28px 22px; font-size: 10.5pt; min-height: 0; }
+    .pdf-frame { height: 60vh; }
+    .fit th:first-child, .fit td:first-child { width: 45%; }
     .promo-track { height: 196px; }
     .edge-hint { white-space: normal; text-align: center; width: max-content; max-width: 88%; }
   }
@@ -542,6 +583,7 @@
 </nav>
 
 <div class="modal drawer" id="m-detail"><div class="sheet" id="detail"></div></div>
+<div class="modal drawer" id="m-pack"><div class="sheet pack-sheet" id="pack"></div></div>
 <div class="modal" id="m-reason"><div class="sheet" style="max-width:500px">
   <h2>Why are you passing?</h2>
   <p class="small muted" style="margin:0 0 14px">Your reasons shape the next ranking. Pick as many as you like.</p>
@@ -600,6 +642,7 @@
   <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 20V9M7 14l5-5 5 5M5 4h14"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
   <symbol id="i-later" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 </svg>
 
@@ -1173,12 +1216,12 @@ function renderFilters() {
 
 // ---------------- lists ----------------
 function itemHTML(r, acts) {
-  const { j, d } = r, packs = APP.packs?.[j.id] || [];
+  const { j, d } = r, pk = APP.packs?.[j.id];
   return `<div class="box item">${avatar(j.company)}
     <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)} · score <b style="color:var(--ink)">${r.score}</b>${j.closed ? " · <b>post closed</b>" : ""}${d.hiddenWhy ? ` · ${esc(d.hiddenWhy)}` : ""}</div>
     ${r.decision?.reasons?.length ? `<div class="tags" style="margin-top:6px">${r.decision.reasons.map((x) => `<span class="tag red">${esc(x)}</span>`).join("")}</div>` : ""}
     ${d.filtered && !r.decision ? `<div class="tags" style="margin-top:6px"><span class="tag red">${esc(d.filtered)}</span></div>` : ""}
-    ${packs.length ? `<div class="small" style="margin-top:6px">📦 ${packs.map((p) => `<a href="/packs/${encodeURIComponent(j.id)}/${encodeURIComponent(p)}" target="_blank">${esc(p)}</a>`).join(" · ")}</div>` : ""}
+    ${pk ? `<div style="margin-top:6px"><span class="pack-pill">📦 Application pack ready · ${packProgress(j.id)}</span></div>` : ""}
     </div><div class="acts">${acts}</div></div>`;
 }
 function renderLists() {
@@ -1192,7 +1235,7 @@ function renderLists() {
   $("#pipeline").innerHTML = statuses.map((s) => `<span class="tag ${counts[s] ? "green" : "gray"}">${esc(s)} · ${counts[s] || 0}</span>`).join("");
   $("#short-list").innerHTML = liked.length ? liked.map((r) => itemHTML(r, `
       <select class="field" data-status="${esc(r.j.id)}">${statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-      ${r.decision.status === "Saved" ? `<button class="btn primary sm" data-pack="${esc(r.j.id)}">Prepare pack</button>` : ""}
+      ${APP.packs?.[r.j.id] ? `<button class="btn primary sm" data-openpack="${esc(r.j.id)}">Open pack</button>` : r.decision.status === "Saved" ? `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>` : ""}
       <button class="btn sm" data-detail="${esc(r.j.id)}">Details</button>
       <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`)).join("")
     : `<div class="box empty">Nothing shortlisted yet. Swipe a card right on Discover.</div>`;
@@ -1622,6 +1665,94 @@ function finishChallenge() {
   renderPromo();
 }
 
+
+// ---------------- application packs ----------------
+const PACKVIEW = { id: null, tab: "overview" };
+const PACK_TABS = [["overview", "Overview"], ["resume", "Resume"], ["cover", "Cover letter"], ["answers", "Form answers"], ["prep", "Interview prep"]];
+function packEdits(id) { APP.state.packs = APP.state.packs || {}; return (APP.state.packs[id] = APP.state.packs[id] || { checks: {}, prep: {}, answers: {} }); }
+function packProgress(id) {
+  const pk = APP.packs[id], e = APP.state.packs?.[id];
+  const n = pk.checklist.length, done = pk.checklist.filter((_, i) => e?.checks?.[i]).length;
+  return done === n ? "all steps done ✓" : `${done}/${n} steps done`;
+}
+function packCoverText(id) {
+  const e = APP.state.packs?.[id], c = APP.packs[id].cover_letter;
+  return e?.cover ?? [c.greeting, ...c.paragraphs, c.signoff, c.name].join("\n\n");
+}
+const packAnswer = (id, i) => APP.state.packs?.[id]?.answers?.[i] ?? APP.packs[id].answers[i].a;
+function copyText(text, msg) { navigator.clipboard.writeText(text).then(() => toast(msg), () => toast("Couldn't copy. Select the text and copy it manually")); }
+function downloadCoverDoc(id) {
+  const pk = APP.packs[id], paras = packCoverText(id).split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+  const doc = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:Calibri,sans-serif;font-size:11pt;line-height:1.5}p{margin:0 0 10pt}</style></head><body>${paras}</body></html>`;
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob(["﻿" + doc], { type: "application/msword" })), download: `Nesibe Keles_Cover Letter_${pk.company}.doc` });
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+function openPack(id, tab) {
+  const pk = APP.packs?.[id]; if (!pk) return;
+  PACKVIEW.id = id; PACKVIEW.tab = tab;
+  const e = packEdits(id), pdf = `/packs/${encodeURIComponent(id)}/${encodeURIComponent(pk.resume_file)}`;
+  let body = "";
+  if (tab === "overview") {
+    const done = pk.checklist.filter((_, i) => e.checks[i]).length;
+    body = `<div class="pack-sec">Honest take</div>
+      ${pk.assessment.map((a) => `<div class="assess ${a.tone}"><b>${{ warn: "⚠︎", info: "ℹ︎", good: "✓" }[a.tone]}</b><span>${esc(a.text)}</span></div>`).join("")}
+      <div class="progress-line"><b style="color:var(--ink)">Before you apply</b><div class="bar"><i style="width:${(done / pk.checklist.length) * 100}%"></i></div>${done}/${pk.checklist.length}</div>
+      ${pk.checklist.map((c, i) => `<label class="check ${e.checks[i] ? "done" : ""}"><input type="checkbox" data-pcheck="${i}" ${e.checks[i] ? "checked" : ""}><span>${esc(c)}</span></label>`).join("")}`;
+  } else if (tab === "resume") {
+    body = `<div class="doc-tools"><a class="btn primary sm" href="${pdf}" download>${icon("download")}Download PDF</a><a class="btn sm" href="${pdf}" target="_blank" rel="noopener">${icon("ext")}Open in a new tab</a>
+      <span class="small muted">Tailored for this role. Only real experience, reordered and reworded.</span></div>
+      <iframe class="pdf-frame" src="${pdf}#view=FitH" title="Resume"></iframe>`;
+  } else if (tab === "cover") {
+    const paras = packCoverText(id).split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+    body = `<div class="doc-tools"><button class="btn primary sm" data-pcopy>${icon("copy")}Copy text</button><button class="btn sm" data-pword>${icon("download")}Download for Word</button>
+      ${e.cover != null ? `<span class="edited">Edited by you · saved</span><button class="btn ghost sm" data-preset>Reset to original</button>` : `<span class="small muted">Click anywhere on the page to edit. Changes save automatically.</span>`}</div>
+      <div class="doc-page" contenteditable="true" spellcheck="true" id="cover-doc">${paras}</div>`;
+  } else if (tab === "answers") {
+    body = pk.answers.map((a, i) => { const v = packAnswer(id, i);
+      return `<div class="answer ${v ? "" : "empty-a"}"><div class="q"><span>${esc(a.q)}</span><button class="btn ghost sm" data-acopy="${i}">${icon("copy")}Copy</button></div>
+        <textarea data-aedit="${i}" rows="${Math.max(2, Math.ceil(v.length / 90))}" placeholder="Your answer">${esc(v)}</textarea>${a.note ? `<div class="hint">${esc(a.note)}</div>` : ""}</div>`; }).join("");
+  } else if (tab === "prep") {
+    body = `<div class="pack-sec">Where you match</div>
+      <table class="fit"><tr><th>They need</th><th>You have</th></tr>${pk.fit.map((f) => `<tr><td>${esc(f.need)}</td><td>${esc(f.you)}</td></tr>`).join("")}</table>
+      <div class="pack-sec">Gaps to prepare for</div>${pk.gaps.map((g) => `<div class="assess"><b>→</b><span>${esc(g)}</span></div>`).join("")}
+      <div class="pack-sec">Likely questions <span class="small muted" style="font-weight:500">· tick when you've prepared an answer</span></div>
+      ${pk.questions.map((q, i) => `<label class="check ${e.prep[i] ? "done" : ""}"><input type="checkbox" data-pprep="${i}" ${e.prep[i] ? "checked" : ""}><span>${esc(q)}</span></label>`).join("")}`;
+  }
+  $("#pack").innerHTML = `
+    <div class="pack-head">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
+        <div style="display:flex;gap:12px;align-items:center">${avatar(pk.company)}<div><div class="eyebrow">Application pack</div><h2>${esc(pk.title)}</h2>
+          <div class="small muted">${esc(pk.company)} · ${esc(pk.location)} · prepared ${esc(pk.prepared_at)}</div></div></div>
+        <div style="display:flex;gap:6px"><a class="btn primary sm" href="${esc(pk.apply_url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a><button class="icon-btn" data-close="m-pack">${icon("x")}</button></div>
+      </div>
+      <div class="pack-tabs">${PACK_TABS.map(([k, l]) => `<button data-ptab="${k}" class="${k === tab ? "on" : ""}">${l}</button>`).join("")}</div>
+    </div>
+    <div class="pack-body">${body}</div>`;
+  $("#m-pack").classList.add("on");
+}
+document.addEventListener("change", (e) => {
+  const t = e.target, ds = t.dataset;
+  if (ds.pcheck != null || ds.pprep != null) {
+    const ed = packEdits(PACKVIEW.id), key = ds.pcheck != null ? "checks" : "prep", i = ds.pcheck ?? ds.pprep;
+    ed[key][i] = t.checked; save(); openPack(PACKVIEW.id, PACKVIEW.tab); renderLists();
+  }
+});
+let packTimer;
+document.addEventListener("input", (e) => {
+  const t = e.target;
+  if (t.id === "cover-doc" || t.dataset.aedit != null) {
+    clearTimeout(packTimer);
+    packTimer = setTimeout(() => {
+      const ed = packEdits(PACKVIEW.id);
+      if (t.id === "cover-doc") ed.cover = [...t.querySelectorAll("p")].map((p) => p.innerText.trim()).filter(Boolean).join("\n\n") || t.innerText.trim();
+      else ed.answers[t.dataset.aedit] = t.value;
+      save();
+      const tools = document.querySelector(".doc-tools .small.muted");
+      if (t.id === "cover-doc" && tools) tools.outerHTML = `<span class="edited">Edited by you · saved</span>`;
+    }, 400);
+  }
+});
+
 // ---------------- render ----------------
 function refresh(keepOrder) {
   compute();
@@ -1667,6 +1798,12 @@ document.addEventListener("click", (e) => {
   if ("wordcheck" in ds) { const v = $("#word-in").value.trim().toUpperCase(); if (v) answerChallenge(v); return; }
   if ("cnext" in ds) { QUIZ.step++; QUIZ.picked = null; if (QUIZ.step >= 3) finishChallenge(); return renderChallenge(); }
   if (ds.detail) return openDetail(ds.detail);
+  if (ds.openpack) return openPack(ds.openpack, "overview");
+  if (ds.ptab) return openPack(PACKVIEW.id, ds.ptab);
+  if ("pcopy" in ds) return copyText(packCoverText(PACKVIEW.id), "Cover letter copied");
+  if (ds.acopy != null) return copyText(packAnswer(PACKVIEW.id, +ds.acopy), "Answer copied");
+  if ("pword" in ds) return downloadCoverDoc(PACKVIEW.id);
+  if ("preset" in ds) { if (confirm("Throw away your edits and go back to the original cover letter?")) { delete packEdits(PACKVIEW.id).cover; save(); openPack(PACKVIEW.id, "cover"); } return; }
   if (ds.act === "like") return like();
   if (ds.act === "nope") return askReason();
   if (ds.act === "later") return go(1);

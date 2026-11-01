@@ -39,9 +39,10 @@ def run_fetch():
 
 
 def packs_index():
+    """{job_id: pack.json contents} for every prepared pack; the app renders and edits them."""
     if not PACKS.is_dir():
         return {}
-    return {d.name: sorted(p.name for p in d.iterdir() if p.is_file()) for d in PACKS.iterdir() if d.is_dir()}
+    return {d.name: jf.load_json(d / "pack.json") for d in PACKS.iterdir() if (d / "pack.json").is_file()}
 
 
 FEED_TEST = {

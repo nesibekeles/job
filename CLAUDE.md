@@ -9,17 +9,17 @@ Kullanıcı Türkçe konuşur; sohbet Türkçe. Web arayüzü, etiketler ve baş
 - Canlı sürüm: GitHub Pages (https://nesibekeles.github.io/Job/), her gün `.github/workflows/update.yml` ile güncellenir. Orada durum sadece tarayıcıda; kullanıcı “Yedeği indir” ile `jobness-yedek-*.json` (eski adı `pusula-yedek-*.json`) verir, aynı formatta.
 - `config/*.json`: profil, şehir/maaş hedefleri, şirket listesi (kullanıcı arayüzden de düzenler)
 - `voice.md`: yazı sesi ve CV uyarlama kuralları. **Paket hazırlamadan önce mutlaka oku.**
-- CV kaynağı: `../Nesibe Keles_Resume.docx` ve `.pdf`
+- CV kaynağı: `private/resume_base.json` (yapılandırılmış, git'e girmez; telefon/e-posta içerir). Orijinali `../Nesibe Keles_Resume.pdf`.
+- `packs.py`: `packs/<id>/pack.json` → tek sayfa PDF özgeçmiş (Chrome headless + Calibri, orijinal CV düzeni).
 
 ## Komut: "paketleri hazırla"
+Kullanıcı ham markdown / .docx istemiyor: CV **sadece PDF**, geri kalan her şey uygulamadaki paket panelinde (checklist, düzenlenebilir cover letter, kopyalanabilir form cevapları, mülakat hazırlığı) gösterilir. Örnek: `packs/airbnb-8207342/pack.json`.
 1. Kararları oku: `data/state.json` ya da kullanıcının verdiği `jobness-yedek-*.json` → `decisions` içinde `status == "Pack requested"` olan her ilan id'si için `data/jobs.json`'dan ilanı (açıklama dahil) oku.
-2. `packs/<id>/` klasörüne yaz:
-   - `cv.docx`: `../Nesibe Keles_Resume.docx`'tan türet (docx skill), voice.md'deki CV kurallarına göre. Uydurma yok. Ayrıca `cv.pdf`.
-   - `cover_letter.md`: voice.md yapısı ve yasak listesiyle. Taşınma ve sponsorluk ihtiyacını tek cümleyle dürüstçe söyle.
-   - `answers.md`: sık form soruları (Why us, Why this role, salary expectation = şehrin `gross_target_eur` değeri yerel para biriminde, notice period, right to work: "I'd require visa sponsorship"), ilan linki.
-   - `notes.md`: eşleşen noktalar, boşluklar (gaps), mülakatta beklenecek sorular.
-3. Bittikten sonra state dosyasında ilgili kararın `status`'ünü "Pack ready" yap ve `updated_at`'i şimdiye çek (yerel sunucuda arayüz bunu alır; yedek dosyasıysa güncellenmiş dosyayı kullanıcıya geri ver, Ayarlar → Yedek yükle).
-4. Her cover letter'ı yazdıktan sonra yasak listesini tara; kalırsa düzelt.
+2. `packs/<id>/pack.json` yaz (İngilizce): `job_id, company, title, location, apply_url, prepared_at, resume_file` (`"Nesibe Keles_CV_<Şirket>.pdf"`), `assessment` [{tone: warn|info|good, text}], `checklist` [metin], `resume` (sadece `resume_base.json`'dan farklı üst düzey alanlar: headline, profile, expertise, experience…; voice.md CV kuralları, uydurma yok), `cover_letter` {greeting, paragraphs[], signoff, name} (voice.md yapısı + yasak listesi; taşınma ve sponsorluk tek cümle), `answers` [{q, a, note?}] (salary expectation = şehir hedefi yerel para biriminde ya da ilan aralığı; boş bırakılacaklar `a: ""` + note), `fit` [{need, you}], `gaps` [metin], `questions` [metin].
+3. `python3 packs.py <id>` çalıştır. "1 page" demeli; uzunsa `resume` metnini kısalt, tekrar üret. PDF'i `sips -s format png` ile görsele çevirip bak.
+4. Cover letter ve cevaplarda yasak listesini tara; kalırsa düzelt.
+5. State dosyasında kararın `status`'ünü "Pack ready" yap, `updated_at`'i şimdiye çek (yerel sunucuda arayüz bunu alır; yedek dosyasıysa güncellenmiş dosyayı kullanıcıya geri ver).
+Kullanıcının panelde yaptığı düzenlemeler ve tikler `state.packs[<id>]` içinde ({checks, prep, answers, cover}); paketi yeniden üretirken bunları ezme.
 
 Başvuruyu **asla otomatik gönderme**. Hesap açma ve şifre girme de yok. Kullanıcı paketi gözden geçirip kendisi başvurur.
 

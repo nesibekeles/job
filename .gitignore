@@ -8,3 +8,4 @@ _site/
 __pycache__/
 .DS_Store
 data/state.json
+private/
