@@ -446,90 +446,13 @@ def _dedupe(tags):
     return out
 
 
-# ---------- scoring ----------
-
-CITY_POINTS = {1: 15, 2: 13, 3: 11, 4: 9, 5: 8, 6: 6, 7: 5, 8: 4, 9: 3}
-
-
-def base_score(f, model=None):
-    """0-100. model = learned adjustments from swipes (see learn())."""
-    model = model or {}
-    rw = model.get("reason_weights", {})
-    s = f["cv_match"] * 30
-    s += CITY_POINTS.get(f["city_priority"], 3)
-    if f["sponsorship"] == "yes":
-        s += 15
-    elif f["sponsorship"] == "unknown" and not f["remote"]:
-        s += {"known": 8, "sometimes": 3}.get(f["company_sponsor"], 0) - rw.get("sponsor", 0)
-    sal = f.get("salary")
-    if sal and f.get("gross_target_eur"):
-        s += 10 if sal["max_eur"] >= f["gross_target_eur"] else 4 if sal["max_eur"] >= f["gross_min_eur"] else -10
-    else:
-        s += {"top": 8, "high": 5, "mid": 2}.get(f["company_pay"], 2) - (rw.get("salary", 0) if f["company_pay"] == "mid" else 0)
-    s += {"stratejik": 8, "karma": 2, "operasyonel": -8 - rw.get("operational", 0)}[f["role_type"]]
-    s += {"junior": -10 - rw.get("junior", 0), "exec": -3 - rw.get("senior", 0), "mid-senior": 2}[f["seniority"]]
-    if f["workplace"] == "Ofis":
-        s -= rw.get("office", 0)
-    if f.get("years_required") and f["years_required"] > 8:
-        s -= 5
-    return max(0, min(100, round(s / 80 * 100)))
-
-
-def job_features(j):
-    f = j["f"]
-    toks = {w for w in re.findall(r"[a-z]+", j["title"].lower()) if len(w) > 2}
-    return (["t:" + t for t in toks] + ["tag:" + t["label"] for t in f["tags"]] +
-            ["co:" + j["company"], "city:" + f["city"], "role:" + f["role_type"]])
-
-
-REASON_KEYS = {"Sponsorluk / vize riski": "sponsor", "Maaş düşük olabilir": "salary", "Çok operasyonel": "operational",
-               "Fazla junior": "junior", "Fazla senior": "senior", "Ofis / çalışma şekli": "office"}
-
-
-def learn(jobs_by_id, decisions):
-    """Turns swipe history into feature weights (naive-Bayes style log-odds) + reason penalties."""
-    likes, dislikes, reason_counts = {}, {}, {}
-    for d in decisions.values():
-        j = jobs_by_id.get(d["id"])
-        if not j:
-            continue
-        bucket = likes if d["decision"] == "like" else dislikes
-        feats = job_features(j)
-        for r in d.get("reasons", []):
-            reason_counts[r] = reason_counts.get(r, 0) + 1
-            if r == "Şirket ilgimi çekmiyor":
-                feats += ["co:" + j["company"]] * 2
-            if r == "Lokasyon":
-                feats += ["city:" + j["f"]["city"]] * 2
-            if r in ("Sektör / ürün ilgimi çekmiyor", "Rol içeriği uymuyor"):
-                feats += ["co:" + j["company"]] + [x for x in feats if x.startswith("t:")]
-        for x in feats:
-            bucket[x] = bucket.get(x, 0) + 1
-    weights = {}
-    for x in set(likes) | set(dislikes):
-        a, b = likes.get(x, 0), dislikes.get(x, 0)
-        if a + b >= 2:
-            weights[x] = round(max(-6, min(6, 3 * math.log((a + 1) / (b + 1)))), 2)
-    reason_weights = {REASON_KEYS[r]: min(10, 2 * n) for r, n in reason_counts.items() if r in REASON_KEYS}
-    return {"weights": weights, "reason_weights": reason_weights, "reason_counts": reason_counts,
-            "n_likes": sum(1 for d in decisions.values() if d["decision"] == "like"),
-            "n_dislikes": sum(1 for d in decisions.values() if d["decision"] == "dislike")}
-
-
-def final_score(j, model):
-    s = base_score(j["f"], model)
-    w = model.get("weights", {})
-    adj = sum(w.get(x, 0) for x in job_features(j))
-    return max(0, min(100, round(s + max(-15, min(15, adj))))), round(adj, 1)
-
-
 # ---------- pipeline ----------
 
 def analyse_all(raw_jobs, profile, cities, companies):
     matcher = Matcher(profile, cities)
     comp = {c["name"]: c for c in companies["companies"]}
     notes = load_json(DATA / "ai_notes.json", {})
-    decided = load_json(DATA / "decisions.json", {})
+    decided = load_json(DATA / "state.json", {}).get("decisions", {})
     out, seen = [], set()
     for j in raw_jobs:
         key = (j["company"], j["title"].lower(), tuple(sorted(j["locations"]))[:1])
@@ -577,7 +500,7 @@ def fetch_all(progress=print, only=None):
     raw += [j for j in old.values() if j["company"] not in fetched and not j.get("manual")]
     raw += load_json(DATA / "manual_jobs.json", [])
 
-    decisions = load_json(DATA / "decisions.json", {})
+    decisions = load_json(DATA / "state.json", {}).get("decisions", {})
     now = datetime.now(timezone.utc).isoformat()
     by_id = {}
     for j in raw:
@@ -606,11 +529,16 @@ def rescore():
 STATUSES = ["Kaydedildi", "Paket istendi", "Paket hazır", "Başvuruldu", "Mülakat", "Teklif", "Red"]
 
 
+def app_data():
+    """Everything the web app needs; scoring, rules and learning run in the browser."""
+    profile, cities, companies = configs()
+    return {"jobs": load_json(DATA / "jobs.json", []), "meta": load_json(DATA / "meta.json", {}),
+            "watchlist": companies.get("watchlist", []), "statuses": STATUSES,
+            "config": {"profile": profile, "cities": cities, "companies": companies}}
+
+
 def export_static(path):
-    """Single JSON the static (GitHub Pages) site runs on; scoring + learning happen in the browser."""
-    companies = load_json(CONFIG / "companies.json", {})
-    save_json(path, {"jobs": load_json(DATA / "jobs.json", []), "meta": load_json(DATA / "meta.json", {}),
-                     "watchlist": companies.get("watchlist", []), "statuses": STATUSES})
+    save_json(path, app_data())
 
 
 if __name__ == "__main__":

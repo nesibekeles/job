@@ -2,52 +2,94 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>İş Radarı</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2f5d50">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pusula">
+<title>Pusula</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="logo.svg">
 <style>
   :root {
-    --bg: #f5f3ef; --panel: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e4e1db;
-    --accent: #2f5d50; --accent-soft: #e3eee9;
+    --bg: #f5f3ef; --panel: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e6e2db; --soft: #f1eee8;
+    --accent: #2f5d50; --accent-soft: #e3eee9; --coral: #ff7a59;
     --green: #1f7a4d; --green-bg: #e2f3e9; --red: #b42318; --red-bg: #fde8e6; --yellow: #8a5a00; --yellow-bg: #fdf1d6;
     --shadow: 0 10px 30px rgba(30, 30, 40, .10);
   }
   * { box-sizing: border-box; }
   body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; background: var(--bg); color: var(--ink); }
-  header { display: flex; align-items: center; gap: 18px; padding: 12px 20px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; flex-wrap: wrap; }
-  header h1 { font-size: 16px; margin: 0; letter-spacing: -.01em; }
-  nav { display: flex; gap: 4px; flex-wrap: wrap; }
-  nav button { border: 0; background: none; padding: 7px 12px; border-radius: 8px; cursor: pointer; color: var(--muted); font: inherit; }
+  button, input, select { font: inherit; color: inherit; }
+  header { display: flex; align-items: center; gap: 16px; padding: 10px 20px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; letter-spacing: -.02em; white-space: nowrap; }
+  .brand img { width: 28px; height: 28px; }
+  nav { display: flex; gap: 4px; }
+  nav button { border: 0; background: none; padding: 7px 12px; border-radius: 8px; cursor: pointer; color: var(--muted); white-space: nowrap; }
   nav button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
   .spacer { flex: 1; }
-  .btn { border: 1px solid var(--line); background: var(--panel); padding: 7px 12px; border-radius: 8px; cursor: pointer; font: inherit; color: var(--ink); }
+  .btn { border: 1px solid var(--line); background: var(--panel); padding: 7px 12px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .btn:hover { border-color: #cfcac1; }
   .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.ghost { border-color: transparent; background: none; color: var(--muted); }
+  .btn.sm { padding: 4px 9px; font-size: 12.5px; }
   .btn:disabled { opacity: .5; cursor: default; }
-  .muted { color: var(--muted); }
-  .small { font-size: 12px; }
-  main { padding: 20px; max-width: 1200px; margin: 0 auto; }
+  .muted { color: var(--muted); } .small { font-size: 12px; }
+  main { padding: 20px; max-width: 1180px; margin: 0 auto; }
   .view { display: none; } .view.on { display: block; }
+  h2.page { font-size: 20px; margin: 4px 0 4px; letter-spacing: -.01em; }
+  p.lead { margin: 0 0 18px; color: var(--muted); }
+  a { color: var(--accent); }
+
+  /* generic widgets */
+  .card-box { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .card-box h3 { margin: 0 0 4px; font-size: 15px; }
+  .card-box .sub { margin: 0 0 14px; font-size: 12.5px; color: var(--muted); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .switch { position: relative; width: 36px; height: 21px; flex: none; display: inline-block; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch span { position: absolute; inset: 0; background: #d5d0c7; border-radius: 99px; transition: .2s; cursor: pointer; }
+  .switch span::after { content: ""; position: absolute; width: 15px; height: 15px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .switch input:checked + span { background: var(--accent); }
+  .switch input:checked + span::after { transform: translateX(15px); }
+  .field { border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; background: var(--panel); min-width: 0; }
+  .field:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  input.field[type=number] { width: 92px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .chip { border: 1px solid var(--line); background: var(--panel); border-radius: 99px; padding: 4px 10px; cursor: pointer; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; }
+  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .chip .x { border: 0; background: none; cursor: pointer; color: var(--muted); padding: 0 0 0 2px; font-size: 14px; line-height: 1; }
+  .chip .w { background: var(--accent-soft); color: var(--accent); border-radius: 99px; padding: 0 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
+  .chip-add { border: 1px dashed #cfcac1; border-radius: 99px; padding: 4px 10px; font-size: 12.5px; width: 150px; background: none; }
+  .stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--panel); }
+  .stepper button { border: 0; background: var(--soft); width: 30px; height: 30px; cursor: pointer; font-size: 16px; }
+  .stepper b { min-width: 46px; text-align: center; font-size: 14px; }
+  .pos { color: var(--green); } .neg { color: var(--red); }
+  .tag { font-size: 12px; padding: 3px 9px; border-radius: 99px; font-weight: 500; display: inline-block; }
+  .tag.green { background: var(--green-bg); color: var(--green); }
+  .tag.red { background: var(--red-bg); color: var(--red); }
+  .tag.yellow { background: var(--yellow-bg); color: var(--yellow); }
+  .tag.gray { background: var(--soft); color: var(--muted); }
+  .seg { display: inline-flex; background: var(--soft); border-radius: 9px; padding: 3px; gap: 2px; }
+  .seg button { border: 0; background: none; padding: 4px 10px; border-radius: 7px; cursor: pointer; font-size: 12.5px; color: var(--muted); }
+  .seg button.on { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); font-weight: 600; }
 
   /* discover */
   .discover { display: grid; grid-template-columns: 250px 1fr; gap: 24px; }
-  aside .box { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
-  aside h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { border: 1px solid var(--line); background: var(--panel); border-radius: 99px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
-  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .watch a { display: block; color: var(--accent); text-decoration: none; padding: 2px 0; font-size: 13px; }
-  label.row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 13px; }
-  input[type=range] { width: 100%; }
-
+  aside .card-box { margin-bottom: 14px; padding: 14px; }
+  aside h4 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; }
+  .watch a { display: block; text-decoration: none; padding: 2px 0; font-size: 13px; }
+  label.row { display: flex; align-items: center; gap: 8px; margin: 7px 0; font-size: 13px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
   .deck-wrap { display: flex; flex-direction: column; align-items: center; }
   .deck { position: relative; width: min(560px, 100%); height: 600px; }
   .card { position: absolute; inset: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--shadow); padding: 22px 24px; overflow: hidden; display: flex; flex-direction: column; gap: 12px; touch-action: none; user-select: none; transition: transform .25s ease, opacity .25s ease; }
   .card.behind { transform: scale(.96) translateY(14px); opacity: .7; pointer-events: none; }
   .card.dragging { transition: none; cursor: grabbing; }
-  .stamp { position: absolute; top: 24px; padding: 6px 14px; border: 3px solid; border-radius: 8px; font-weight: 800; font-size: 20px; opacity: 0; transform: rotate(-12deg); }
+  .stamp { position: absolute; top: 24px; padding: 6px 14px; border: 3px solid; border-radius: 8px; font-weight: 800; font-size: 20px; opacity: 0; transform: rotate(-12deg); background: rgba(255,255,255,.9); }
   .stamp.like { left: 24px; color: var(--green); }
   .stamp.nope { right: 24px; color: var(--red); transform: rotate(12deg); }
   .co { display: flex; align-items: center; gap: 10px; }
-  .logo { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; }
+  .logo { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; flex: none; }
   .co b { font-size: 15px; }
   .badge { font-size: 11px; padding: 2px 7px; border-radius: 6px; background: #eee; color: #444; margin-left: 6px; }
   .badge.top { background: #1d1d1f; color: #fff; }
@@ -63,20 +105,14 @@
   .duties { margin: 0; padding-left: 18px; color: #333; }
   .duties li { margin-bottom: 4px; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-size: 12px; padding: 3px 9px; border-radius: 99px; font-weight: 500; }
-  .tag.green { background: var(--green-bg); color: var(--green); }
-  .tag.red { background: var(--red-bg); color: var(--red); }
-  .tag.yellow { background: var(--yellow-bg); color: var(--yellow); }
-  .kw { font-size: 12px; }
-  .kw em { font-style: normal; color: var(--green); }
-  .kw i { font-style: normal; color: var(--red); }
-  .card .more { margin-top: auto; }
+  .kw { font-size: 12px; } .kw em { font-style: normal; color: var(--green); } .kw i { font-style: normal; color: var(--red); }
   .controls { display: flex; gap: 18px; margin-top: 18px; align-items: center; }
   .round { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); font-size: 24px; cursor: pointer; box-shadow: var(--shadow); }
   .round.no { color: var(--red); } .round.yes { color: var(--green); }
   .round.sm { width: 44px; height: 44px; font-size: 17px; }
   .hint { margin-top: 10px; font-size: 12px; color: var(--muted); }
-  .empty { text-align: center; padding: 80px 20px; color: var(--muted); }
+  .empty { text-align: center; padding: 70px 20px; color: var(--muted); }
+  .filter-toggle { display: none; }
 
   /* lists */
   .list { display: flex; flex-direction: column; gap: 10px; }
@@ -84,68 +120,92 @@
   .row-card .sc { font-size: 20px; font-weight: 700; text-align: center; }
   .row-card h4 { margin: 0 0 2px; font-size: 15px; }
   .row-card .acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
-  select { font: inherit; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); }
   .section-title { margin: 26px 0 10px; font-size: 15px; }
-  a { color: var(--accent); }
+
+  /* scoring */
+  .rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+  .rule { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .rule.off { opacity: .55; }
+  .rule-head { display: flex; align-items: center; gap: 10px; }
+  .rule-head input.name { flex: 1; border: 0; font-weight: 600; font-size: 14px; padding: 4px 2px; background: none; min-width: 0; }
+  .rule-head input.name:focus { outline: none; border-bottom: 1px solid var(--accent); }
+  .cond { display: grid; grid-template-columns: 1.2fr .7fr 1fr 22px; gap: 6px; align-items: center; }
+  .cond .field { padding: 5px 7px; font-size: 12.5px; width: 100%; }
+  .cond .rm { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 15px; }
+  .rule-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+  .wrow { display: grid; grid-template-columns: 1fr 90px 110px 64px; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--soft); }
+  .wrow .lbl { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wrow .kind { font-size: 11px; color: var(--muted); display: block; }
+  .wrow .auto { font-size: 12px; color: var(--muted); text-align: right; }
+  .wrow .act { display: flex; gap: 2px; justify-content: flex-end; }
+  .icon { border: 0; background: none; cursor: pointer; padding: 4px 6px; border-radius: 6px; color: var(--muted); font-size: 14px; }
+  .icon:hover { background: var(--soft); color: var(--ink); }
+  .add-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 10px; background: var(--soft); border-radius: 10px; margin-bottom: 8px; }
+  .add-row .field { flex: 1; min-width: 120px; }
+  .breakdown div { display: flex; justify-content: space-between; padding: 3px 0; font-size: 13px; border-bottom: 1px dashed var(--line); }
+
+  /* settings */
+  .city { display: grid; grid-template-columns: 40px 1fr 74px 120px 90px; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--soft); }
+  .city .nm b { display: block; } .city .nm span { font-size: 11.5px; color: var(--muted); }
+  .city select { width: 100%; }
+  .city .min { font-size: 12px; color: var(--muted); }
+  .city.head { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; border: 0; padding-bottom: 0; }
+  .comp { display: grid; grid-template-columns: 1fr 100px 100px 110px 40px; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--soft); }
+  .comp select { width: 100%; font-size: 12.5px; padding: 5px 6px; }
+  .comp.hidden-co .nm { opacity: .45; text-decoration: line-through; }
+  .money { display: flex; gap: 18px; align-items: end; flex-wrap: wrap; }
+  .money label { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+  .big-input { font-size: 18px; font-weight: 600; width: 160px; }
 
   /* modal */
   .modal { position: fixed; inset: 0; background: rgba(20,20,25,.45); display: none; align-items: center; justify-content: center; z-index: 20; padding: 16px; }
   .modal.on { display: flex; }
   .sheet { background: var(--panel); border-radius: 16px; max-width: 760px; width: 100%; max-height: 88vh; overflow: auto; padding: 24px; }
-  .sheet h2 { margin-top: 0; }
   .desc { white-space: pre-wrap; font-size: 13.5px; color: #333; border-top: 1px solid var(--line); padding-top: 14px; }
   .evidence { background: var(--bg); padding: 8px 12px; border-left: 3px solid var(--accent); border-radius: 6px; font-size: 13px; margin: 8px 0; }
-  textarea { width: 100%; font: 12.5px/1.45 ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--panel); }
-  input[type=text], input[type=url] { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
-  .wt { display: flex; justify-content: space-between; padding: 3px 0; font-size: 13px; border-bottom: 1px dashed var(--line); }
-  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1d1d1f; color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0; transition: opacity .2s; z-index: 30; }
+  .sheet input[type=text], .sheet input[type=url], .sheet textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; font: inherit; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1d1d1f; color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0; transition: opacity .2s; z-index: 30; pointer-events: none; max-width: 90vw; }
   .toast.on { opacity: 1; }
-  .only-static, .only-static-inline { display: none; }
-  body.static .only-static { display: block; } body.static .only-static-inline { display: inline; }
-  body.static .only-server, body.static .only-server-inline { display: none; }
-  .filter-toggle { display: none; }
+
   @media (max-width: 860px) {
-    header { padding: 8px 12px; gap: 8px; flex-wrap: nowrap; }
-    header h1 { font-size: 15px; white-space: nowrap; }
-    nav { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; flex: 1; }
-    nav::-webkit-scrollbar { display: none; }
-    nav button { padding: 6px 9px; white-space: nowrap; font-size: 13px; }
+    header { padding: 8px 12px; gap: 8px; }
+    .brand span { display: none; }
+    nav { overflow-x: auto; scrollbar-width: none; flex: 1; } nav::-webkit-scrollbar { display: none; }
+    nav button { padding: 6px 9px; font-size: 13px; }
     .spacer, #fetch-info { display: none; }
-    #fetch-btn { padding: 6px 9px; font-size: 0; } #fetch-btn::before { content: "↻"; font-size: 16px; }
-    main { padding: 10px 12px 16px; }
+    #fetch-btn { padding: 6px 10px; font-size: 0; } #fetch-btn::before { content: "↻"; font-size: 16px; }
+    main { padding: 10px 12px 24px; }
     .discover { grid-template-columns: 1fr; gap: 10px; }
-    .discover aside { display: none; order: 2; }
-    .discover.show-filters aside { display: block; }
-    .filter-toggle { display: inline-block; align-self: flex-start; margin-bottom: 8px; }
+    .discover aside { display: none; order: 2; } .discover.show-filters aside { display: block; }
+    .filter-toggle { display: inline-flex; align-self: flex-start; margin-bottom: 8px; }
     .deck { height: calc(100dvh - 205px); min-height: 430px; }
     .card { padding: 16px; gap: 9px; border-radius: 16px; }
-    .card h2 { font-size: 18px; }
-    .score b { font-size: 22px; }
+    .card h2 { font-size: 18px; } .score b { font-size: 22px; }
     .facts { gap: 6px; } .fact { padding: 6px 8px; } .fact b { font-size: 12px; } .fact span { font-size: 10.5px; }
     .duties { font-size: 13px; } .duties li { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .duties li:nth-child(n+3) { display: none; }
     .tag { font-size: 11px; padding: 2px 8px; }
-    .controls { margin-top: 12px; gap: 22px; }
-    .hint { display: none; }
-    .grid2 { grid-template-columns: 1fr; }
+    .controls { margin-top: 12px; gap: 22px; } .hint { display: none; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .rules { grid-template-columns: 1fr; }
     .row-card { grid-template-columns: 40px 1fr; padding: 12px; } .row-card .acts { grid-column: 1 / -1; justify-content: flex-start; }
+    .wrow { grid-template-columns: 1fr 80px 64px; } .wrow .auto { display: none; }
+    .city { grid-template-columns: 40px 1fr 64px 96px; } .city .min { display: none; }
+    .comp { grid-template-columns: 1fr 82px 82px 40px; } .comp .pay { display: none; }
+    .cond { grid-template-columns: 1fr .8fr 22px; } .cond .val { grid-column: 1 / 3; }
     .modal { padding: 0; align-items: flex-end; }
     .sheet { max-height: 92dvh; border-radius: 16px 16px 0 0; padding: 18px 16px; }
-    .sheet .facts { grid-template-columns: 1fr 1fr; }
-    textarea { font-size: 12px; }
   }
 </style>
 </head>
 <body>
 <header>
-  <h1>🧭 İş Radarı</h1>
+  <div class="brand"><img src="logo.svg" alt=""><span>Pusula</span></div>
   <nav id="tabs">
     <button data-v="discover" class="on">Keşfet <span id="n-deck"></span></button>
     <button data-v="short">Kısa liste <span id="n-short"></span></button>
     <button data-v="rejected">Elenenler <span id="n-rej"></span></button>
-    <button data-v="learn">Öğrenme</button>
+    <button data-v="scoring">Puanlama</button>
     <button data-v="settings">Ayarlar</button>
   </nav>
   <div class="spacer"></div>
@@ -154,34 +214,27 @@
 </header>
 
 <main>
-  <!-- DISCOVER -->
   <section class="view on" id="v-discover">
     <div class="discover">
       <aside>
-        <div class="box">
-          <h3>Şehir</h3>
-          <div class="chips" id="f-cities"></div>
-        </div>
-        <div class="box">
-          <h3>Filtre</h3>
+        <div class="card-box"><h4>Şehir</h4><div class="chips" id="f-cities"></div></div>
+        <div class="card-box">
+          <h4>Filtre</h4>
           <label class="row">Min skor: <b id="f-min-val">0</b></label>
           <input type="range" id="f-min" min="0" max="90" step="5" value="0">
-          <label class="row"><input type="checkbox" id="f-sponsor"> Sadece sponsorluk ✓</label>
-          <label class="row"><input type="checkbox" id="f-top"> Sadece top-tier şirketler</label>
-          <label class="row"><input type="checkbox" id="f-new"> Sadece yeni ilanlar</label>
+          <label class="row"><span class="switch"><input type="checkbox" id="f-sponsor"><span></span></span> Sadece sponsorluk ✓</label>
+          <label class="row"><span class="switch"><input type="checkbox" id="f-top"><span></span></span> Sadece top-tier</label>
+          <label class="row"><span class="switch"><input type="checkbox" id="f-new"><span></span></span> Sadece yeni ilanlar</label>
         </div>
-        <div class="box">
-          <h3>Etiket (persona)</h3>
-          <div class="chips" id="f-tags"></div>
-        </div>
-        <div class="box">
-          <h3>Manuel takip</h3>
+        <div class="card-box"><h4>Etiket (persona)</h4><div class="chips" id="f-tags"></div></div>
+        <div class="card-box">
+          <h4>Manuel takip</h4>
           <div class="watch" id="watchlist"></div>
-          <button class="btn" style="margin-top:10px;width:100%" id="add-btn">+ İlan ekle</button>
+          <button class="btn" style="margin-top:10px;width:100%;justify-content:center" id="add-btn">+ İlan ekle</button>
         </div>
       </aside>
       <div class="deck-wrap">
-        <button class="btn filter-toggle" id="filter-toggle">⚙︎ Filtreler <span id="filter-count"></span></button>
+        <button class="btn filter-toggle" id="filter-toggle">⚙︎ Filtreler</button>
         <div class="deck" id="deck"></div>
         <div class="controls">
           <button class="round no" id="b-no" title="Geç (←)">✕</button>
@@ -194,17 +247,11 @@
     </div>
   </section>
 
-  <!-- SHORTLIST -->
   <section class="view" id="v-short">
-    <div class="panel" style="margin-bottom:14px">
-      <b>Başvuru paketi nasıl hazırlanır?</b>
-      <span class="muted only-static-inline">İlanda “Paket hazırla”ya bas, sonra Ayarlar → “Kararları indir” ile dosyayı indirip Claude Code'a ver ve <code>paketleri hazırla</code> yaz. CV, cover letter ve form cevapları bilgisayarındaki <code>packs/</code> klasörüne gelir.</span>
-      <span class="muted only-server-inline">İlanda “Paket hazırla”ya bas, sonra Claude Code'a <code>paketleri hazırla</code> yaz. Role özel CV, cover letter ve form cevapları <code>packs/</code> klasörüne gelir; burada linkleri görünür. Sen kontrol edip başvurursun, sonra durumu “Başvuruldu” yaparsın.</span>
-    </div>
+    <div class="card-box" style="margin-bottom:14px" id="pack-help"></div>
     <div class="list" id="short-list"></div>
   </section>
 
-  <!-- REJECTED -->
   <section class="view" id="v-rejected">
     <h3 class="section-title">Senin geçtiklerin</h3>
     <div class="list" id="rej-mine"></div>
@@ -212,132 +259,273 @@
     <div class="list" id="rej-auto"></div>
   </section>
 
-  <!-- LEARN -->
-  <section class="view" id="v-learn">
-    <div class="panel" style="margin-bottom:16px" id="learn-summary"></div>
-    <div class="grid2">
-      <div class="panel"><h3 style="margin-top:0">Puanı artıranlar</h3><div id="learn-pos"></div></div>
-      <div class="panel"><h3 style="margin-top:0">Puanı düşürenler</h3><div id="learn-neg"></div></div>
+  <section class="view" id="v-scoring">
+    <h2 class="page">Puanlama</h2>
+    <p class="lead">Skor = temel puan (CV eşleşmesi, şehir, sponsorluk, maaş, rol tipi) + <b>puan matrisi</b> + <b>ağırlıklar</b>. Her şey burada; değiştirdiğin an tüm ilanlar yeniden sıralanır.</p>
+    <div class="card-box" style="margin-bottom:16px" id="learn-summary"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
+      <div><h3 style="margin:0">Puan matrisi</h3><div class="muted small">Koşula uyan her ilana puan ekler ya da çıkarır.</div></div>
+      <button class="btn primary" id="add-rule">+ Yeni kural</button>
+    </div>
+    <div class="rules" id="rules"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:28px 0 10px;gap:10px;flex-wrap:wrap">
+      <div><h3 style="margin:0">Ağırlıklar</h3><div class="muted small">“Otomatik” olanlar kaydırmalarından öğrenildi. Değeri değiştirirsen senin değerin geçerli olur. Silersen bir daha öğrenilmez.</div></div>
+      <div class="seg" id="w-filter"><button data-wf="all" class="on">Hepsi</button><button data-wf="auto">Otomatik</button><button data-wf="manual">Manuel</button></div>
+    </div>
+    <div class="card-box">
+      <div class="add-row">
+        <select class="field" id="w-kind" style="flex:0 0 150px">
+          <option value="t">Başlıkta kelime</option><option value="co">Şirket</option><option value="city">Şehir</option><option value="tag">Etiket</option><option value="role">Rol tipi</option>
+        </select>
+        <input class="field" id="w-val" list="w-suggest" placeholder="ör. marketing">
+        <datalist id="w-suggest"></datalist>
+        <input class="field" id="w-pts" type="number" step="0.5" value="3" style="flex:0 0 80px">
+        <button class="btn primary" id="w-add">Ekle</button>
+      </div>
+      <div id="weights"></div>
+      <div class="small muted" style="margin-top:10px" id="hidden-info"></div>
     </div>
   </section>
 
-  <!-- SETTINGS -->
   <section class="view" id="v-settings">
-    <div class="only-static">
-      <div class="panel" style="margin-bottom:14px">
-        <h3 style="margin-top:0">Kararlarım (bu cihazda kayıtlı)</h3>
-        <p class="muted small">Kaydırmaların bu tarayıcıda tutuluyor. Telefon ile bilgisayar arasında taşımak ya da Claude Code'a paket hazırlatmak için indir; diğer cihazda yükle.</p>
-        <button class="btn primary" id="dl-dec">⬇ Kararları indir</button>
-        <label class="btn" style="display:inline-block">⬆ Kararları yükle<input type="file" id="ul-dec" accept=".json" hidden></label>
+    <h2 class="page">Ayarlar</h2>
+    <p class="lead">Değişiklikler anında uygulanır ve bu cihazda saklanır. Başka cihaza taşımak için en alttaki “Yedek” kartını kullan.</p>
+    <div class="stack">
+      <div class="card-box">
+        <h3>💶 Maaş beklentisi</h3>
+        <p class="sub">İstanbul'daki net maaşın, her şehirde aynı yaşam standardına çevrilir. Hedefleri tek tek de değiştirebilirsin.</p>
+        <div class="money">
+          <label>İstanbul net / ay (TL)<input class="field big-input" type="number" step="5000" id="s-try"></label>
+          <label style="flex:1;min-width:220px">İyi bir rol için kabul edeceğin düşüş: <b id="s-flex-val"></b><input type="range" min="0" max="30" step="1" id="s-flex"></label>
+        </div>
       </div>
-      <div class="panel">
-        <h3 style="margin-top:0">Ayarları düzenle</h3>
-        <p class="muted small">GitHub'da düzenleyip “Commit changes”e bas. Birkaç dakika içinde ilanlar yeni ayarlarla yeniden puanlanır ve site güncellenir.</p>
-        <div class="watch" id="edit-links"></div>
+      <div class="card-box">
+        <h3>📍 Şehirler & öncelik</h3>
+        <p class="sub">1 = en çok istediğin. Kapalı şehirlerin ilanları gizlenir. Hedef = brüt yıllık, € karşılığı.</p>
+        <div class="city head"><span></span><span>Şehir</span><span>Öncelik</span><span>Hedef (€/yıl)</span><span class="min">Min</span></div>
+        <div id="s-cities"></div>
       </div>
-    </div>
-    <div class="only-server">
-    <div class="panel" style="margin-bottom:14px">
-      Ayarlar düz JSON. Kaydedince tüm ilanlar yeniden puanlanır. Yeni şirket eklediysen sonra “İlanları güncelle”ye bas.
-      Bir şeyi bozarsan Claude Code'a “ayar dosyasını düzelt” demen yeterli.
-    </div>
-    <div class="chips" style="margin-bottom:10px" id="cfg-tabs">
-      <span class="chip on" data-c="profile">Profil & anahtar kelimeler</span>
-      <span class="chip" data-c="cities">Şehirler & maaş</span>
-      <span class="chip" data-c="companies">Şirketler</span>
-    </div>
-    <textarea id="cfg-text" rows="30" spellcheck="false"></textarea>
-    <div style="margin-top:10px;display:flex;gap:10px;align-items:center">
-      <button class="btn primary" id="cfg-save">Kaydet</button><span id="cfg-msg" class="small"></span>
-    </div>
+      <div class="grid-2">
+        <div class="card-box">
+          <h3>🎯 Rol yakınlığı</h3>
+          <p class="sub">Başlıkta geçen kelimeye göre rol “birebir yaptığım iş” ya da “alanıma yakın” sayılır. Puan matrisinde kullanılır.</p>
+          <div class="small" style="margin-bottom:6px"><b>Birebir yaptığım işler</b></div>
+          <div class="chips" id="s-exact"></div>
+          <div class="small" style="margin:14px 0 6px"><b>Alanıma yakın işler</b></div>
+          <div class="chips" id="s-adjacent"></div>
+          <div class="small" style="margin:14px 0 6px"><b>Başlıkta görmek istemediklerim</b> <span class="muted">(bu ilanlar gizlenir)</span></div>
+          <div class="chips" id="s-hide"></div>
+        </div>
+        <div class="card-box">
+          <h3>🧩 CV anahtar kelimeleri</h3>
+          <p class="sub">İlan metninde geçen kelimeler CV eşleşmesini artırır. Rozete tıklayınca ağırlık değişir (0.5 → 3).</p>
+          <div class="chips" id="s-cv"></div>
+          <div class="small" style="margin:14px 0 6px"><b>Eksik beceri uyarıları</b> <span class="muted">(kartta kırmızı görünür)</span></div>
+          <div class="chips" id="s-gaps"></div>
+        </div>
+      </div>
+      <div class="card-box">
+        <h3>🏢 Şirketler</h3>
+        <p class="sub">Seviye ve itibar bilgisi, ilanda maaş yazmadığında puanı etkiler. Göz ikonu şirketi gizler. Yeni şirket için Claude Code'a “yeni şirket ekle X” yaz.</p>
+        <div class="comp head small muted"><span>Şirket</span><span>Seviye</span><span class="pay">Maaş itibarı</span><span>Sponsorluk</span><span></span></div>
+        <div id="s-companies"></div>
+      </div>
+      <div class="card-box">
+        <h3>💾 Yedek & cihazlar arası taşıma</h3>
+        <p class="sub">Kararların, kuralların, ağırlıkların ve ayarların tek dosyada. Telefonda indirip bilgisayarda yükleyebilir ya da Claude Code'a paket hazırlatmak için verebilirsin.</p>
+        <div class="chips">
+          <button class="btn primary" id="dl-state">⬇ Yedeği indir</button>
+          <label class="btn">⬆ Yedek yükle<input type="file" id="ul-state" accept=".json" hidden></label>
+          <button class="btn ghost" id="reset-settings">Ayarları varsayılana döndür</button>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
-<!-- detail -->
 <div class="modal" id="m-detail"><div class="sheet" id="detail"></div></div>
-
-<!-- reasons -->
 <div class="modal" id="m-reason"><div class="sheet" style="max-width:520px">
-  <h2 style="font-size:18px">Neden geçtin?</h2>
+  <h2 style="font-size:18px;margin-top:0">Neden geçtin?</h2>
   <p class="muted small" style="margin-top:-8px">Seçtiklerin sonraki sıralamayı etkiler. Birden fazla seçebilirsin.</p>
   <div class="chips" id="reasons"></div>
   <input type="text" id="reason-note" placeholder="Not (isteğe bağlı)" style="margin-top:12px">
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
-    <button class="btn" id="r-cancel">Vazgeç</button>
-    <button class="btn primary" id="r-save">Geç</button>
+    <button class="btn" id="r-cancel">Vazgeç</button><button class="btn primary" id="r-save">Geç</button>
   </div>
 </div></div>
-
-<!-- manual add -->
 <div class="modal" id="m-add"><div class="sheet" style="max-width:600px">
-  <h2 style="font-size:18px">İlan ekle</h2>
-  <p class="muted small" style="margin-top:-8px">LinkedIn ya da takip listesindeki bir siteden ilan metnini yapıştır. Ya da Claude Code'a linki ver, o eklesin.</p>
-  <input type="text" id="a-company" placeholder="Şirket">
-  <input type="text" id="a-title" placeholder="Pozisyon">
-  <input type="text" id="a-loc" placeholder="Lokasyon (örn. London)">
-  <input type="url" id="a-url" placeholder="İlan linki">
+  <h2 style="font-size:18px;margin-top:0">İlan ekle</h2>
+  <p class="muted small" style="margin-top:-8px">LinkedIn ya da takip listesindeki bir siteden ilan metnini yapıştır.</p>
+  <input type="text" id="a-company" placeholder="Şirket"><input type="text" id="a-title" placeholder="Pozisyon">
+  <input type="text" id="a-loc" placeholder="Lokasyon (örn. London)"><input type="url" id="a-url" placeholder="İlan linki">
   <textarea id="a-desc" rows="10" placeholder="İlan metni"></textarea>
   <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px">
-    <button class="btn" data-close="m-add">Vazgeç</button>
-    <button class="btn primary" id="a-save">Ekle</button>
+    <button class="btn" data-close="m-add">Vazgeç</button><button class="btn primary" id="a-save">Ekle</button>
   </div>
 </div></div>
-
 <div class="toast" id="toast"></div>
 
 <script>
+const REPO = "nesibekeles/Job";
+const STORE_KEY = "pusula.state.v1";
 const REASONS = ["Sponsorluk / vize riski", "Çok operasyonel", "Rol içeriği uymuyor", "Fazla junior", "Fazla senior",
   "Maaş düşük olabilir", "Şirket ilgimi çekmiyor", "Sektör / ürün ilgimi çekmiyor", "Lokasyon", "Ofis / çalışma şekli", "Diğer"];
-const S = { jobs: [], model: {}, statuses: [], filters: { cities: new Set(), tags: new Set(), min: 0, sponsor: false, top: false, fresh: false }, history: [], cfg: "profile" };
+const REASON_KEYS = { "Sponsorluk / vize riski": "sponsor", "Maaş düşük olabilir": "salary", "Çok operasyonel": "operational", "Fazla junior": "junior", "Fazla senior": "senior", "Ofis / çalışma şekli": "office" };
+const CITY_POINTS = { 1: 15, 2: 13, 3: 11, 4: 9, 5: 8, 6: 6, 7: 5, 8: 4, 9: 3 };
+const CURRENCY = { "United Kingdom": ["GBP", "£"], "New Zealand": ["NZD", "NZ$"], Denmark: ["DKK", "DKK "], Sweden: ["SEK", "SEK "], Norway: ["NOK", "NOK "], Czechia: ["CZK", "CZK "], Hungary: ["HUF", "HUF "] };
+const BASE_TRY = 200000; // city targets in config were set for this Istanbul salary
+
+const DEFAULT_RULES = [
+  { name: "≤5 yıl tecrübe isteyen roller", all: [{ f: "years", op: "lte", v: 5 }], pts: 5 },
+  { name: "8+ yıl tecrübe isteyen roller", all: [{ f: "years", op: "gte", v: 9 }], pts: -6 },
+  { name: "CV ile 4.5+ eşleşen roller", all: [{ f: "cv", op: "gte", v: 4.5 }], pts: 8 },
+  { name: "Birebir yaptığım iş", all: [{ f: "family", op: "is", v: "birebir" }], pts: 6 },
+  { name: "Birebir değil ama alanıma yakın", all: [{ f: "family", op: "is", v: "yakın" }], pts: 3 },
+  { name: "Başlıkta “marketing”", all: [{ f: "title", op: "has", v: "marketing" }], pts: 4 },
+  { name: "Top-tier şirket", all: [{ f: "tier", op: "is", v: "top" }], pts: 4 },
+  { name: "Türkçe artı", all: [{ f: "tag", op: "is", v: "Türkçe artı" }], pts: 3 },
+];
+const SELECT_LABELS = {
+  family: { birebir: "Birebir yaptığım iş", "yakın": "Alanıma yakın", "diğer": "Diğer" },
+  seniority: { junior: "Junior", "mid-senior": "Mid/Senior", exec: "Direktör+" },
+  role_type: { stratejik: "Stratejik", karma: "Karma", operasyonel: "Operasyonel" },
+  sponsorship: { yes: "Var", unknown: "Belirsiz", no: "Yok" },
+  workplace: { "Hibrit": "Hibrit", "Uzaktan": "Uzaktan", "Ofis": "Ofis", "?": "Bilinmiyor" },
+  tier: { top: "Top-tier", big: "Büyük", scaleup: "Scale-up" },
+  salary: { hedefte: "Hedefte", "hedef altı": "Hedef altı", "belirtilmemiş": "Belirtilmemiş" },
+};
+const FIELDS = {
+  title: { label: "Başlık", type: "text" }, desc: { label: "İlan metni", type: "text" },
+  cv: { label: "CV eşleşmesi (0–5)", type: "number", step: 0.5 }, years: { label: "İstenen tecrübe (yıl)", type: "number", step: 1 },
+  family: { label: "Rol yakınlığı", type: "select" }, seniority: { label: "Seviye", type: "select" },
+  role_type: { label: "Rol tipi", type: "select" }, sponsorship: { label: "Sponsorluk", type: "select" },
+  workplace: { label: "Çalışma tipi", type: "select" }, tier: { label: "Şirket seviyesi", type: "select" },
+  salary: { label: "Maaş durumu", type: "select" }, company: { label: "Şirket", type: "select" },
+  city: { label: "Şehir", type: "select" }, tag: { label: "Etiket", type: "select" },
+};
+const OPS = { text: [["has", "içerir"], ["not", "içermez"]], select: [["is", "="], ["isnt", "≠"]], number: [["gte", "≥"], ["lte", "≤"]] };
+const W_KIND = { t: "Başlıkta kelime", co: "Şirket", city: "Şehir", tag: "Etiket", role: "Rol tipi" };
+
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const REPO = "nesibekeles/Job";
-const httpApi = (u, body) => fetch(u, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {}).then((r) => r.json());
-const api = (u, body) => (STATIC ? Promise.resolve(staticApi(u, body)) : httpApi(u, body));
-
-// ---- static mode (GitHub Pages): no Python server, swipes live in this browser ----
-let STATIC = null;
-const LS = {
-  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { toast("Bu tarayıcı kayıt tutmuyor (gizli sekme?)"); } },
-};
-const decisionsLS = () => LS.get("radar.decisions", {});
-
-const CITY_POINTS = { 1: 15, 2: 13, 3: 11, 4: 9, 5: 8, 6: 6, 7: 5, 8: 4, 9: 3 };
-const REASON_KEYS = { "Sponsorluk / vize riski": "sponsor", "Maaş düşük olabilir": "salary", "Çok operasyonel": "operational", "Fazla junior": "junior", "Fazla senior": "senior", "Ofis / çalışma şekli": "office" };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("on"), 2400); };
+const eur = (n) => "€" + Math.round(n / 1000) + "k";
+const ago = (iso) => { if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 864e5; return d < 1 ? "bugün" : d < 2 ? "dün" : Math.floor(d) + " gün önce"; };
+const signed = (n) => (n > 0 ? "+" : "") + (Math.round(n * 10) / 10);
 
-// mirrors jobfinder.base_score / learn / final_score
-function baseScore(f, model) {
-  const rw = model.reason_weights || {};
-  let s = f.cv_match * 30 + (CITY_POINTS[f.city_priority] ?? 3);
+const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all",
+  filters: { cities: new Set(), tags: new Set(), min: 0, sponsor: false, top: false, fresh: false } };
+
+// ---------------- state ----------------
+function defaultSettings(cfg) {
+  const c = cfg.cities, p = cfg.profile;
+  return {
+    istanbul_net_try: c.istanbul_reference?.net_month_try || BASE_TRY, flex_pct: 15,
+    cities: c.cities.map((x) => ({ name: x.name, country: x.country, priority: x.priority, on: true, target: x.gross_target_eur })),
+    remote: { on: c.remote?.enabled ?? true, priority: c.remote?.priority ?? 6, target: c.remote?.gross_target_eur ?? 45000 },
+    exact_kw: ["growth", "revenue", "go-to-market", "gtm", "commercial", "category", "expansion", "monetization", "monetisation", "market development"],
+    adjacent_kw: ["product marketing", "lifecycle", "crm", "brand", "performance marketing", "marketing manager", "marketing lead", "partnership", "product manager", "product owner", "insights", "consumer", "b2c", "acquisition", "retention"],
+    hide_title_kw: [],
+    cv_keywords: { ...p.cv_keywords }, gap_keywords: [...(p.gap_keywords || [])],
+    companies: Object.fromEntries(cfg.companies.companies.map((x) => [x.name, { tier: x.tier, pay: x.pay, sponsor: x.sponsor, hidden: false }])),
+  };
+}
+function freshState() {
+  return { v: 1, decisions: {}, rules: DEFAULT_RULES.map((r) => ({ id: uid(), on: true, ...structuredClone(r) })), overrides: {}, hidden: [], settings: null };
+}
+function readLocal() { try { return JSON.parse(localStorage.getItem(STORE_KEY)); } catch { return null; } }
+function hydrate(s) {
+  const st = { ...freshState(), ...(s || {}) };
+  const def = defaultSettings(APP.data.config);
+  st.settings = { ...def, ...(st.settings || {}) };
+  st.settings.companies = { ...def.companies, ...st.settings.companies };
+  for (const c of def.cities) if (!st.settings.cities.some((x) => x.name === c.name)) st.settings.cities.push(c);
+  return st;
+}
+let saveTimer;
+function save() {
+  APP.state.updated_at = new Date().toISOString();
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(APP.state)); } catch { toast("Bu tarayıcı kayıt tutmuyor (gizli sekme?)"); }
+  if (APP.server) { clearTimeout(saveTimer); saveTimer = setTimeout(() => post("/api/state", APP.state), 300); }
+}
+const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
+
+// ---------------- derive + score ----------------
+function cityCfg(name, remote) {
+  const s = APP.state.settings;
+  return remote ? { ...s.remote, name } : s.cities.find((c) => c.name === name);
+}
+function targetsFor(cc) {
+  if (!cc) return {};
+  const s = APP.state.settings, t = Math.round((cc.target * s.istanbul_net_try) / BASE_TRY);
+  return { target: t, min: Math.round(t * (1 - s.flex_pct / 100)) };
+}
+function family(title) {
+  const t = title.toLowerCase(), s = APP.state.settings;
+  if (s.exact_kw.some((k) => k && t.includes(k.toLowerCase()))) return "birebir";
+  if (s.adjacent_kw.some((k) => k && t.includes(k.toLowerCase()))) return "yakın";
+  return "diğer";
+}
+function derive(j) {
+  const s = APP.state.settings, f = j.f;
+  const text = j._text || (j._text = (j.title + "\n" + (j.description || "")).toLowerCase());
+  const cc = cityCfg(f.city, f.remote), { target, min } = targetsFor(cc);
+  const co = s.companies[j.company] || { tier: f.company_tier, pay: f.company_pay, sponsor: f.company_sponsor };
+  const hits = Object.entries(s.cv_keywords).filter(([k]) => k.trim() && text.includes(k.trim().toLowerCase())).sort((a, b) => b[1] - a[1]);
+  const cv_match = Math.min(1, hits.reduce((a, [, w]) => a + w, 0) / 20);
+  const gaps = s.gap_keywords.filter((g) => new RegExp("\\b" + g.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b").test(text)).slice(0, 5);
+  const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "hedefte" : "hedef altı") : "belirtilmemiş";
+  let filtered = f.filtered && !/^Maaş düşük/.test(f.filtered) ? f.filtered : null;
+  if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Maaş düşük (€${f.salary.max_eur.toLocaleString("tr")} < min €${min.toLocaleString("tr")})`;
+  const hiddenWhy = (cc && cc.on === false) ? "şehir kapalı" : co.hidden ? "şirket gizli" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "başlık gizli" : null;
+  const tags = f.tags.filter((t) => !/^Maaş hedef/.test(t.label));
+  if (salaryStatus !== "belirtilmemiş") tags.push({ color: salaryStatus === "hedefte" ? "green" : "yellow", label: salaryStatus === "hedefte" ? "Maaş hedefte" : "Maaş hedef altı" });
+  return { city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor,
+    cv_match, cv5: Math.round(cv_match * 50) / 10, level: clamp(Math.ceil(cv_match * 5), 1, 5), matched: hits.slice(0, 6).map(([k]) => k.trim()),
+    gaps, family: family(j.title), salaryStatus, filtered, hiddenWhy, tags, text };
+}
+function baseScore(j, d, rw) {
+  const f = j.f;
+  let s = d.cv_match * 30 + (CITY_POINTS[d.priority] ?? 3);
   if (f.sponsorship === "yes") s += 15;
-  else if (f.sponsorship === "unknown" && !f.remote) s += ({ known: 8, sometimes: 3 }[f.company_sponsor] || 0) - (rw.sponsor || 0);
-  const sal = f.salary;
-  if (sal && f.gross_target_eur) s += sal.max_eur >= f.gross_target_eur ? 10 : sal.max_eur >= f.gross_min_eur ? 4 : -10;
-  else s += ({ top: 8, high: 5, mid: 2 }[f.company_pay] ?? 2) - (f.company_pay === "mid" ? rw.salary || 0 : 0);
+  else if (f.sponsorship === "unknown" && !f.remote) s += ({ known: 8, sometimes: 3 }[d.sponsor] || 0) - (rw.sponsor || 0);
+  if (d.salaryStatus === "hedefte") s += 10; else if (d.salaryStatus === "hedef altı") s += f.salary.max_eur >= d.min ? 4 : -10;
+  else s += ({ top: 8, high: 5, mid: 2 }[d.pay] ?? 2) - (d.pay === "mid" ? rw.salary || 0 : 0);
   s += { stratejik: 8, karma: 2, operasyonel: -8 - (rw.operational || 0) }[f.role_type] ?? 0;
   s += { junior: -10 - (rw.junior || 0), exec: -3 - (rw.senior || 0), "mid-senior": 2 }[f.seniority] ?? 0;
   if (f.workplace === "Ofis") s -= rw.office || 0;
-  if (f.years_required > 8) s -= 5;
-  return clamp(Math.round((s / 80) * 100), 0, 100);
+  return (s / 80) * 100;
 }
-function jobFeatures(j) {
-  const toks = new Set((j.title.toLowerCase().match(/[a-z]+/g) || []).filter((w) => w.length > 2));
-  return [...[...toks].map((t) => "t:" + t), ...j.f.tags.map((t) => "tag:" + t.label), "co:" + j.company, "city:" + j.f.city, "role:" + j.f.role_type];
+function fieldValue(j, d, f) {
+  return { title: j.title.toLowerCase(), desc: d.text, cv: d.cv5, years: j.f.years_required, family: d.family, seniority: j.f.seniority,
+    role_type: j.f.role_type, sponsorship: j.f.sponsorship, workplace: j.f.workplace, tier: d.tier, salary: d.salaryStatus,
+    company: j.company, city: d.city, tag: d.tags.map((t) => t.label) }[f];
 }
-function learn(byId, decisions) {
+function condOk(c, j, d) {
+  const v = fieldValue(j, d, c.f), type = FIELDS[c.f]?.type;
+  if (type === "text") { const has = !!c.v && v.includes(String(c.v).toLowerCase()); return c.op === "not" ? !has : has; }
+  if (type === "number") { if (v == null || c.v === "" || c.v == null) return false; return c.op === "lte" ? v <= +c.v : v >= +c.v; }
+  const has = Array.isArray(v) ? v.includes(c.v) : v === c.v;
+  return c.op === "isnt" ? !has : has;
+}
+const ruleHits = (r, j, d) => r.on && r.all.length > 0 && r.all.every((c) => condOk(c, j, d));
+function features(j, d) {
+  const toks = new Set((j.title.toLowerCase().match(/[a-zçğıöşü]+/g) || []).filter((w) => w.length > 2));
+  return [...[...toks].map((t) => "t:" + t), ...d.tags.map((t) => "tag:" + t.label), "co:" + j.company, "city:" + d.city, "role:" + j.f.role_type];
+}
+function learn(rowsById, decisions) {
   const likes = {}, dislikes = {}, rc = {};
-  for (const d of Object.values(decisions)) {
-    const j = byId[d.id]; if (!j) continue;
-    const bucket = d.decision === "like" ? likes : dislikes;
-    let feats = jobFeatures(j);
-    for (const r of d.reasons || []) {
-      rc[r] = (rc[r] || 0) + 1;
-      if (r === "Şirket ilgimi çekmiyor") feats.push("co:" + j.company, "co:" + j.company);
-      if (r === "Lokasyon") feats.push("city:" + j.f.city, "city:" + j.f.city);
-      if (r === "Sektör / ürün ilgimi çekmiyor" || r === "Rol içeriği uymuyor") feats = feats.concat(["co:" + j.company], feats.filter((x) => x.startsWith("t:")));
+  for (const dec of Object.values(decisions)) {
+    const r = rowsById[dec.id]; if (!r) continue;
+    const bucket = dec.decision === "like" ? likes : dislikes;
+    let feats = features(r.j, r.d);
+    for (const why of dec.reasons || []) {
+      rc[why] = (rc[why] || 0) + 1;
+      if (why === "Şirket ilgimi çekmiyor") feats.push("co:" + r.j.company, "co:" + r.j.company);
+      if (why === "Lokasyon") feats.push("city:" + r.d.city, "city:" + r.d.city);
+      if (why === "Sektör / ürün ilgimi çekmiyor" || why === "Rol içeriği uymuyor") feats = feats.concat(["co:" + r.j.company], feats.filter((x) => x.startsWith("t:")));
     }
     for (const x of feats) bucket[x] = (bucket[x] || 0) + 1;
   }
@@ -346,128 +534,95 @@ function learn(byId, decisions) {
     const a = likes[x] || 0, b = dislikes[x] || 0;
     if (a + b >= 2) weights[x] = Math.round(clamp(3 * Math.log((a + 1) / (b + 1)), -6, 6) * 100) / 100;
   }
-  const reason_weights = {};
-  for (const [r, n] of Object.entries(rc)) if (REASON_KEYS[r]) reason_weights[REASON_KEYS[r]] = Math.min(10, 2 * n);
+  const rw = {};
+  for (const [r, n] of Object.entries(rc)) if (REASON_KEYS[r]) rw[REASON_KEYS[r]] = Math.min(10, 2 * n);
   const ds = Object.values(decisions);
-  return { weights, reason_weights, reason_counts: rc, n_likes: ds.filter((d) => d.decision === "like").length, n_dislikes: ds.filter((d) => d.decision === "dislike").length };
+  return { weights, rw, rc, likes: ds.filter((x) => x.decision === "like").length, dislikes: ds.filter((x) => x.decision === "dislike").length };
 }
-function staticPayload() {
-  const dec = decisionsLS(), byId = Object.fromEntries(STATIC.jobs.map((j) => [j.id, j]));
-  const model = learn(byId, dec);
-  const jobs = STATIC.jobs.map((j) => {
-    const adj = jobFeatures(j).reduce((a, x) => a + (model.weights[x] || 0), 0);
-    const { description, ...rest } = j;
-    return { ...rest, score: clamp(Math.round(baseScore(j.f, model) + clamp(adj, -15, 15)), 0, 100), learned_adj: Math.round(adj * 10) / 10, decision: dec[j.id] || null, pack_files: [] };
-  }).sort((a, b) => b.score - a.score);
-  const w = Object.entries(model.weights).sort((a, b) => a[1] - b[1]);
-  return { jobs, model: { ...model, top_neg: w.slice(0, 12), top_pos: w.slice().reverse().slice(0, 12) }, meta: STATIC.meta, fetch: { running: false, log: [] }, watchlist: STATIC.watchlist, statuses: STATIC.statuses };
-}
-function staticApi(u, b) {
-  const dec = decisionsLS(), now = new Date().toISOString();
-  if (u === "/api/jobs") return staticPayload();
-  if (u.startsWith("/api/job/")) return STATIC.jobs.find((j) => j.id === decodeURIComponent(u.slice(9)));
-  if (u === "/api/decision") {
-    const prev = dec[b.id] || {};
-    dec[b.id] = { id: b.id, decision: b.decision, reasons: b.reasons || [], note: b.note || "", at: now, status: b.decision === "like" ? (prev.decision === "like" ? prev.status : "Kaydedildi") : null };
-  } else if (u === "/api/undo") delete dec[b.id];
-  else if (u === "/api/status" && dec[b.id]) Object.assign(dec[b.id], { status: b.status, status_at: now });
-  else if (u === "/api/fetch") return { running: false, log: [] };
-  LS.set("radar.decisions", dec);
-  return { ok: true };
-}
-async function detectMode() {
-  try { const d = await httpApi("/api/jobs"); if (d && d.jobs) return; } catch {}
-  STATIC = await fetch("data/static.json", { cache: "no-cache" }).then((r) => r.json());
-  document.body.classList.add("static");
-}
-function downloadDecisions() {
-  const blob = new Blob([JSON.stringify(decisionsLS(), null, 2)], { type: "application/json" });
-  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "decisions.json" });
-  a.click(); URL.revokeObjectURL(a.href);
-}
-async function importDecisions(file) {
-  try {
-    const incoming = JSON.parse(await file.text());
-    LS.set("radar.decisions", { ...decisionsLS(), ...incoming });
-    toast(`${Object.keys(incoming).length} karar yüklendi`); load();
-  } catch { toast("Dosya okunamadı"); }
-}
-const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("on"), 2200); };
-const eur = (n) => "€" + Math.round(n / 1000) + "k";
-const ago = (iso) => { if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 864e5; return d < 1 ? "bugün" : d < 2 ? "dün" : Math.floor(d) + " gün önce"; };
-
-async function load() {
-  const d = await api("/api/jobs");
-  S.jobs = d.jobs; S.model = d.model; S.statuses = d.statuses;
-  $("#fetch-info").textContent = d.meta.last_fetch ? `Son güncelleme: ${ago(d.meta.last_fetch)} · ${d.meta.count} ilan` : "Henüz ilan çekilmedi";
-  $("#watchlist").innerHTML = d.watchlist.map((w) => `<a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)} ↗</a>`).join("");
-  buildFilters(); renderAll();
+function compute() {
+  const st = APP.state;
+  const rows = APP.data.jobs.map((j) => ({ j, d: derive(j) }));
+  APP.byId = Object.fromEntries(rows.map((r) => [r.j.id, r]));
+  const m = learn(APP.byId, st.decisions);
+  APP.model = m;
+  const hidden = new Set(st.hidden);
+  for (const r of rows) {
+    const base = baseScore(r.j, r.d, m.rw);
+    const rules = st.rules.filter((x) => ruleHits(x, r.j, r.d)).map((x) => [x.name, x.pts]);
+    let auto = 0, manual = 0;
+    const wparts = [];
+    for (const k of features(r.j, r.d)) {
+      if (hidden.has(k)) continue;
+      if (k in st.overrides) { manual += st.overrides[k]; wparts.push([k, st.overrides[k], "manuel"]); }
+      else if (m.weights[k]) { auto += m.weights[k]; wparts.push([k, m.weights[k], "oto"]); }
+    }
+    auto = clamp(auto, -15, 15);
+    const rsum = rules.reduce((a, [, p]) => a + p, 0);
+    r.score = clamp(Math.round(base + rsum + manual + auto), 0, 100);
+    r.parts = { base: Math.round(base), rules, rsum, manual, auto, wparts };
+    r.decision = st.decisions[r.j.id] || null;
+  }
+  APP.rows = rows.sort((a, b) => b.score - a.score);
 }
 
-function deckJobs() {
-  const f = S.filters;
-  return S.jobs.filter((j) => !j.decision && !j.f.filtered && !j.closed)
-    .filter((j) => !f.cities.size || f.cities.has(j.f.city))
-    .filter((j) => j.score >= f.min)
-    .filter((j) => !f.sponsor || j.f.sponsorship === "yes")
-    .filter((j) => !f.top || j.f.company_tier === "top")
-    .filter((j) => !f.fresh || j.is_new)
-    .filter((j) => !f.tags.size || j.f.tags.some((t) => f.tags.has(t.label)));
+// ---------------- discover ----------------
+function deckRows() {
+  const f = APP.filters;
+  return APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed)
+    .filter((r) => !f.cities.size || f.cities.has(r.d.city))
+    .filter((r) => r.score >= f.min)
+    .filter((r) => !f.sponsor || r.j.f.sponsorship === "yes")
+    .filter((r) => !f.top || r.d.tier === "top")
+    .filter((r) => !f.fresh || r.j.is_new)
+    .filter((r) => !f.tags.size || r.d.tags.some((t) => f.tags.has(t.label)));
 }
-
 function buildFilters() {
-  const open = S.jobs.filter((j) => !j.decision && !j.f.filtered);
-  const count = (arr) => arr.reduce((m, k) => (m[k] = (m[k] || 0) + 1, m), {});
-  const cities = count(open.map((j) => j.f.city));
-  const prio = Object.fromEntries(open.map((j) => [j.f.city, j.f.city_priority]));
+  const open = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy);
+  const count = (arr) => arr.reduce((m, k) => ((m[k] = (m[k] || 0) + 1), m), {});
+  const cities = count(open.map((r) => r.d.city)), prio = Object.fromEntries(open.map((r) => [r.d.city, r.d.priority]));
   $("#f-cities").innerHTML = Object.keys(cities).sort((a, b) => prio[a] - prio[b] || a.localeCompare(b))
-    .map((c) => `<span class="chip ${S.filters.cities.has(c) ? "on" : ""}" data-city="${esc(c)}">${esc(c)} ${cities[c]}</span>`).join("");
-  const tags = count(open.flatMap((j) => j.f.tags.map((t) => t.color + "|" + t.label)));
+    .map((c) => `<span class="chip ${APP.filters.cities.has(c) ? "on" : ""}" data-city="${esc(c)}">${esc(c)} ${cities[c]}</span>`).join("");
+  const tags = count(open.flatMap((r) => r.d.tags.map((t) => t.color + "|" + t.label)));
   $("#f-tags").innerHTML = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 18).map(([k, n]) => {
     const [c, l] = k.split("|");
-    return `<span class="chip tag ${c} ${S.filters.tags.has(l) ? "on" : ""}" data-tag="${esc(l)}">${esc(l)} ${n}</span>`;
+    return `<span class="chip tag ${c} ${APP.filters.tags.has(l) ? "on" : ""}" data-tag="${esc(l)}">${esc(l)} ${n}</span>`;
   }).join("");
 }
-
-function factCells(j) {
+function facts({ j, d }) {
   const f = j.f;
-  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)} ${f.salary.max_eur >= (f.gross_target_eur || 0) ? "✓" : "⚠︎"}`
-    : `Belirtilmemiş · ${{ top: "piyasa üstü", high: "iyi ödeyen", mid: "piyasa ortası" }[f.company_pay] || "?"}`;
-  const sp = { yes: "✓ Var / relocation", no: "✕ Yok", unknown: f.remote ? "Gerekmez (uzaktan)" : `Belirsiz · ${{ known: "şirket sponsor olur", sometimes: "bazen", rare: "nadiren" }[f.company_sponsor] || "?"}` }[f.sponsorship];
-  const wp = f.workplace + (f.office_days ? ` · ${f.office_days} gün ofis` : "");
+  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)} ${d.salaryStatus === "hedefte" ? "✓" : "⚠︎"}`
+    : `Belirtilmemiş · ${{ top: "piyasa üstü", high: "iyi ödeyen", mid: "piyasa ortası" }[d.pay] || "?"}`;
+  const sp = { yes: "✓ Var / relocation", no: "✕ Yok", unknown: f.remote ? "Gerekmez (uzaktan)" : `Belirsiz · ${{ known: "şirket sponsor olur", sometimes: "bazen", rare: "nadiren" }[d.sponsor] || "?"}` }[f.sponsorship];
   return `
-    <div class="fact"><span>📍 Lokasyon</span><b>${esc(f.city)}</b> <span class="muted small">#${f.city_priority} tercih</span></div>
-    <div class="fact"><span>💶 Maaş (brüt/yıl)</span><b>${esc(sal)}</b>${f.gross_target_eur ? `<span class="small muted">hedef ${eur(f.gross_target_eur)}</span>` : ""}</div>
+    <div class="fact"><span>📍 Lokasyon</span><b>${esc(d.city)}</b> <span class="muted small">#${d.priority} tercih</span></div>
+    <div class="fact"><span>💶 Maaş (brüt/yıl)</span><b>${esc(sal)}</b>${d.target ? `<span class="small muted">hedef ${eur(d.target)}</span>` : ""}</div>
     <div class="fact"><span>🛂 Vize sponsorluğu</span><b>${esc(sp)}</b></div>
-    <div class="fact"><span>🏢 Çalışma tipi · Seviye</span><b>${esc(wp)} · ${esc({ junior: "Junior", "mid-senior": "Mid/Senior", exec: "Direktör+" }[f.seniority])}</b></div>`;
+    <div class="fact"><span>🏢 Çalışma tipi · Seviye</span><b>${esc(f.workplace + (f.office_days ? ` · ${f.office_days} gün ofis` : ""))} · ${esc(SELECT_LABELS.seniority[f.seniority])}</b></div>`;
 }
-
-function cardHTML(j, behind) {
-  const f = j.f;
+function cardHTML(r, behind) {
+  const { j, d } = r, f = j.f, extra = r.score - r.parts.base;
   return `<div class="card ${behind ? "behind" : ""}" data-id="${esc(j.id)}">
     <div class="stamp like">BEĞEN</div><div class="stamp nope">GEÇ</div>
     <div class="co"><div class="logo">${esc(j.company[0])}</div>
-      <div><b>${esc(j.company)}</b>${f.company_tier === "top" ? '<span class="badge top">TOP</span>' : ""}${j.is_new ? '<span class="badge new">YENİ</span>' : ""}
-      <div class="small muted">${esc(ago(j.posted || j.first_seen))}</div></div>
-      <div class="score"><b>${j.score}</b><span class="small muted">skor${j.learned_adj ? ` (${j.learned_adj > 0 ? "+" : ""}${j.learned_adj} öğrenilen)` : ""}</span></div></div>
+      <div><b>${esc(j.company)}</b>${d.tier === "top" ? '<span class="badge top">TOP</span>' : ""}${j.is_new ? '<span class="badge new">YENİ</span>' : ""}
+      <div class="small muted">${esc(ago(j.posted || j.first_seen))} · ${esc(SELECT_LABELS.family[d.family])}</div></div>
+      <div class="score"><b>${r.score}</b><span class="small muted">skor${extra ? ` (${signed(extra)} kural)` : ""}</span></div></div>
     <h2>${esc(j.title)}</h2>
-    <div class="facts">${factCells(j)}</div>
-    <div><span class="small muted">CV eşleşmesi </span><span class="dots">${"●".repeat(f.match_level)}${"○".repeat(5 - f.match_level)}</span> <span class="small muted">${f.match_level}/5 · ${esc(f.role_type)} rol</span></div>
+    <div class="facts">${facts(r)}</div>
+    <div><span class="small muted">CV eşleşmesi </span><span class="dots">${"●".repeat(d.level)}${"○".repeat(5 - d.level)}</span> <span class="small muted">${d.cv5}/5 · ${esc(f.role_type)} rol${f.years_required ? ` · ${f.years_required}+ yıl` : ""}</span></div>
     ${f.ai_summary ? `<div class="evidence">${esc(f.ai_summary)}</div>` : ""}
-    ${f.duties.length ? `<ul class="duties">${f.duties.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
-    <div class="tags">${f.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
-    <div class="kw">${f.matched.length ? `Eşleşen: <em>${esc(f.matched.join(", "))}</em>` : ""}${f.gaps.length ? ` · Eksik: <i>${esc(f.gaps.join(", "))}</i>` : ""}</div>
+    ${f.duties.length ? `<ul class="duties">${f.duties.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    <div class="tags">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
+    <div class="kw">${d.matched.length ? `Eşleşen: <em>${esc(d.matched.join(", "))}</em>` : ""}${d.gaps.length ? ` · Eksik: <i>${esc(d.gaps.join(", "))}</i>` : ""}</div>
   </div>`;
 }
-
 function renderDeck() {
-  const list = deckJobs();
+  const list = deckRows();
   $("#n-deck").textContent = list.length ? `(${list.length})` : "";
-  if (!list.length) { $("#deck").innerHTML = `<div class="empty">Bu filtrelerle bakılacak ilan kalmadı.<br><br>Filtreleri gevşet ya da “İlanları güncelle”ye bas.</div>`; return; }
+  if (!list.length) { $("#deck").innerHTML = `<div class="empty">Bu filtrelerle bakılacak ilan kalmadı.<br><br>Filtreleri gevşet ya da ilanları güncelle.</div>`; return; }
   $("#deck").innerHTML = (list[1] ? cardHTML(list[1], true) : "") + cardHTML(list[0], false);
   bindDrag($("#deck .card:not(.behind)"));
 }
-
 function bindDrag(card) {
   let x0 = null, dx = 0;
   const like = card.querySelector(".stamp.like"), nope = card.querySelector(".stamp.nope");
@@ -475,131 +630,279 @@ function bindDrag(card) {
   card.addEventListener("pointermove", (e) => {
     if (x0 === null) return; dx = e.clientX - x0;
     card.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`;
-    like.style.opacity = Math.max(0, dx / 120); nope.style.opacity = Math.max(0, -dx / 120);
+    like.style.opacity = Math.max(0, dx / 110); nope.style.opacity = Math.max(0, -dx / 110);
   });
   card.addEventListener("pointerup", () => {
     card.classList.remove("dragging"); x0 = null;
-    if (dx > 120) swipe("like"); else if (dx < -120) swipe("dislike");
-    else if (Math.abs(dx) < 5) openDetail(card.dataset.id);
+    if (dx > 110) swipe("like"); else if (dx < -110) swipe("dislike");
+    else if (Math.abs(dx) < 6) openDetail(card.dataset.id);
     else { card.style.transform = ""; like.style.opacity = nope.style.opacity = 0; }
     dx = 0;
   });
 }
-
-function topJob() { return deckJobs()[0]; }
-
-function flyOut(dir) {
-  const c = $("#deck .card:not(.behind)"); if (!c) return;
-  c.style.transform = `translateX(${dir * 700}px) rotate(${dir * 25}deg)`; c.style.opacity = 0;
-}
-
+const topRow = () => deckRows()[0];
+function flyOut(dir) { const c = $("#deck .card:not(.behind)"); if (c) { c.style.transform = `translateX(${dir * 700}px) rotate(${dir * 25}deg)`; c.style.opacity = 0; } }
 let pendingReject = null;
-function swipe(decision) {
-  const j = topJob(); if (!j) return;
-  if (decision === "like") { flyOut(1); decide(j, "like", []); return; }
-  pendingReject = j;
-  $("#reasons").innerHTML = REASONS.map((r) => `<span class="chip" data-r="${esc(r)}">${esc(r)}</span>`).join("");
+function swipe(kind) {
+  const r = topRow(); if (!r) return;
+  if (kind === "like") { flyOut(1); decide(r.j.id, "like", []); return; }
+  pendingReject = r.j.id;
+  $("#reasons").innerHTML = REASONS.map((x) => `<span class="chip" data-r="${esc(x)}">${esc(x)}</span>`).join("");
   $("#reason-note").value = "";
   $("#m-reason").classList.add("on");
 }
-
-async function decide(j, decision, reasons, note) {
-  j.decision = { decision, reasons, status: decision === "like" ? "Kaydedildi" : null };
-  S.history.push(j.id);
-  await api("/api/decision", { id: j.id, decision, reasons, note });
-  toast(decision === "like" ? `♥ Kısa listeye eklendi: ${j.company}` : "Geçildi, sıralama güncelleniyor");
-  setTimeout(load, 260);
+function decide(id, decision, reasons, note) {
+  const prev = APP.state.decisions[id];
+  APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(),
+    status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Kaydedildi") : null };
+  APP.history.push(id); save();
+  toast(decision === "like" ? `♥ Kısa listeye eklendi` : "Geçildi, sıralama güncellendi");
+  setTimeout(refresh, 250);
 }
-
-async function undo() {
-  const id = S.history.pop(); if (!id) return toast("Geri alınacak bir şey yok");
-  await api("/api/undo", { id }); load();
+function undo() {
+  const id = APP.history.pop(); if (!id) return toast("Geri alınacak bir şey yok");
+  delete APP.state.decisions[id]; save(); refresh();
 }
-
-async function openDetail(id) {
-  const j = await api("/api/job/" + encodeURIComponent(id));
-  const s = S.jobs.find((x) => x.id === id) || {};
-  const f = j.f;
+function openDetail(id) {
+  const r = APP.byId[id]; if (!r) return;
+  const { j, d } = r, f = j.f, p = r.parts;
+  const lbl = (k) => esc(prettyKey(k));
   $("#detail").innerHTML = `
     <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
-      <div><div class="muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2>${esc(j.title)}</h2></div>
+      <div><div class="muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2 style="margin:4px 0 12px">${esc(j.title)}</h2></div>
       <button class="btn" data-close="m-detail">Kapat ✕</button></div>
-    <div class="facts" style="margin-bottom:12px">${factCells({ ...j, f })}</div>
+    <div class="facts" style="margin-bottom:12px">${facts(r)}</div>
     ${f.sponsorship_evidence ? `<div class="small muted">Sponsorluk kanıtı:</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
-    <div class="tags" style="margin:10px 0">${f.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
-    <div class="small muted">Stratejik kelime: ${f.strategic_count} · Operasyonel kelime: ${f.op_count}${f.years_required ? ` · ${f.years_required}+ yıl` : ""} · Skor ${s.score ?? "–"}</div>
+    <div class="tags" style="margin:10px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
+    <details style="margin:10px 0"><summary><b>Skor ${r.score}</b> <span class="muted small">nasıl hesaplandı?</span></summary>
+      <div class="breakdown" style="margin-top:8px">
+        <div><span>Temel puan</span><b>${p.base}</b></div>
+        ${p.rules.map(([n, pts]) => `<div><span>Kural: ${esc(n)}</span><b class="${pts > 0 ? "pos" : "neg"}">${signed(pts)}</b></div>`).join("")}
+        ${p.wparts.map(([k, v, src]) => `<div><span>${lbl(k)} <span class="muted small">(${src})</span></span><b class="${v > 0 ? "pos" : "neg"}">${signed(v)}</b></div>`).join("")}
+        ${p.wparts.some((x) => x[2] === "oto") ? `<div class="muted small"><span>Otomatik ağırlıkların toplamı ±15 ile sınırlı</span><span>${signed(p.auto)}</span></div>` : ""}
+      </div></details>
     <p><a href="${esc(j.url)}" target="_blank" rel="noopener">İlanı aç ↗</a></p>
     <div class="desc">${esc(j.description)}</div>`;
   $("#m-detail").classList.add("on");
 }
 
-function rowHTML(j, acts) {
-  return `<div class="row-card"><div class="sc">${j.score}</div>
-    <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(j.f.city)} · ${esc(j.f.workplace)}${j.closed ? " · <b>ilan kapandı</b>" : ""}</div>
-    ${j.decision?.reasons?.length ? `<div class="small" style="margin-top:4px">${j.decision.reasons.map((r) => `<span class="tag red">${esc(r)}</span>`).join(" ")}</div>` : ""}
-    ${j.f.filtered ? `<div class="small" style="margin-top:4px"><span class="tag red">${esc(j.f.filtered)}</span></div>` : ""}
-    ${j.pack_files?.length ? `<div class="small" style="margin-top:6px">📦 ${j.pack_files.map((p) => `<a href="/packs/${encodeURIComponent(j.id)}/${encodeURIComponent(p)}" target="_blank">${esc(p)}</a>`).join(" · ")}</div>` : ""}
+// ---------------- lists ----------------
+function rowHTML(r, acts) {
+  const { j, d } = r, packs = APP.packs?.[j.id] || [];
+  return `<div class="row-card"><div class="sc">${r.score}</div>
+    <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)}${j.closed ? " · <b>ilan kapandı</b>" : ""}${d.hiddenWhy ? ` · <b>${esc(d.hiddenWhy)}</b>` : ""}</div>
+    ${r.decision?.reasons?.length ? `<div style="margin-top:4px">${r.decision.reasons.map((x) => `<span class="tag red">${esc(x)}</span>`).join(" ")}</div>` : ""}
+    ${d.filtered && !r.decision ? `<div style="margin-top:4px"><span class="tag red">${esc(d.filtered)}</span></div>` : ""}
+    ${packs.length ? `<div class="small" style="margin-top:6px">📦 ${packs.map((p) => `<a href="/packs/${encodeURIComponent(j.id)}/${encodeURIComponent(p)}" target="_blank">${esc(p)}</a>`).join(" · ")}</div>` : ""}
     </div><div class="acts">${acts}</div></div>`;
 }
-
 function renderLists() {
-  const liked = S.jobs.filter((j) => j.decision?.decision === "like");
-  const order = Object.fromEntries(S.statuses.map((s, i) => [s, i]));
+  const liked = APP.rows.filter((r) => r.decision?.decision === "like");
+  const order = Object.fromEntries(APP.data.statuses.map((s, i) => [s, i]));
   liked.sort((a, b) => (order[a.decision.status] ?? 0) - (order[b.decision.status] ?? 0) || b.score - a.score);
   $("#n-short").textContent = liked.length ? `(${liked.length})` : "";
-  $("#short-list").innerHTML = liked.length ? liked.map((j) => rowHTML(j, `
-      <select data-status="${esc(j.id)}">${S.statuses.map((s) => `<option ${s === j.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-      ${j.decision.status === "Kaydedildi" ? `<button class="btn primary" data-pack="${esc(j.id)}">Paket hazırla</button>` : ""}
-      <button class="btn" data-detail="${esc(j.id)}">Detay</button>
-      <a class="btn" href="${esc(j.apply_url || j.url)}" target="_blank" rel="noopener">Başvuru ↗</a>`)).join("")
+  $("#short-list").innerHTML = liked.length ? liked.map((r) => rowHTML(r, `
+      <select class="field" data-status="${esc(r.j.id)}">${APP.data.statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
+      ${r.decision.status === "Kaydedildi" ? `<button class="btn primary sm" data-pack="${esc(r.j.id)}">Paket hazırla</button>` : ""}
+      <button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button>
+      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">Başvuru ↗</a>`)).join("")
     : `<div class="empty">Henüz beğendiğin ilan yok. Keşfet'te sağa kaydır.</div>`;
-  const mine = S.jobs.filter((j) => j.decision?.decision === "dislike");
-  const auto = S.jobs.filter((j) => !j.decision && j.f.filtered);
+  const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
+  const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#n-rej").textContent = `(${mine.length + auto.length})`;
-  $("#rej-mine").innerHTML = mine.map((j) => rowHTML(j, `<button class="btn" data-detail="${esc(j.id)}">Detay</button><button class="btn" data-unrej="${esc(j.id)}">Geri al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
-  $("#rej-auto").innerHTML = auto.map((j) => rowHTML(j, `<button class="btn" data-detail="${esc(j.id)}">Detay</button><button class="btn" data-rescue="${esc(j.id)}">Kısa listeye al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
+  $("#rej-mine").innerHTML = mine.map((r) => rowHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm" data-unrej="${esc(r.j.id)}">Geri al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
+  $("#rej-auto").innerHTML = auto.map((r) => rowHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm" data-rescue="${esc(r.j.id)}">Kısa listeye al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
+  $("#pack-help").innerHTML = APP.server
+    ? `<b>Başvuru paketi:</b> <span class="muted">“Paket hazırla”ya bas, sonra Claude Code'a <code>paketleri hazırla</code> yaz. Role özel CV, cover letter ve form cevapları burada link olarak görünür. Kontrol et, başvur, durumu “Başvuruldu” yap.</span>`
+    : `<b>Başvuru paketi:</b> <span class="muted">“Paket hazırla”ya bas, sonra Ayarlar → “Yedeği indir” ile dosyayı Claude Code'a ver ve <code>paketleri hazırla</code> yaz. Paketler bilgisayarındaki <code>packs/</code> klasörüne gelir.</span>`;
 }
 
-function renderLearn() {
-  const m = S.model, rc = m.reason_counts || {};
-  const pretty = (k) => k.replace(/^t:/, "Başlıkta “").replace(/^tag:/, "Etiket: ").replace(/^co:/, "Şirket: ").replace(/^city:/, "Şehir: ").replace(/^role:/, "Rol tipi: ") + (k.startsWith("t:") ? "”" : "");
-  $("#learn-summary").innerHTML = `<b>${m.n_likes || 0}</b> beğeni · <b>${m.n_dislikes || 0}</b> geçiş.
-    ${Object.keys(rc).length ? "<br>En çok seçtiğin sebepler: " + Object.entries(rc).sort((a, b) => b[1] - a[1]).map(([r, n]) => `<span class="tag yellow">${esc(r)} × ${n}</span>`).join(" ") : ""}
-    <div class="small muted" style="margin-top:8px">Her kaydırmada kelime, şirket, şehir ve etiketlerin beğenme oranları güncellenir (bir özelliğin etkisi en az 2 örnekten sonra başlar, ±15 puanla sınırlı). Sebepler ayrıca ilgili cezaları büyütür; örneğin “Çok operasyonel” seçtikçe operasyonel roller daha çok düşer.</div>`;
-  const row = ([k, v]) => `<div class="wt"><span>${esc(pretty(k))}</span><b style="color:${v > 0 ? "var(--green)" : "var(--red)"}">${v > 0 ? "+" : ""}${v}</b></div>`;
-  $("#learn-pos").innerHTML = (m.top_pos || []).filter((x) => x[1] > 0).map(row).join("") || `<div class="muted small">Biraz daha kaydır.</div>`;
-  $("#learn-neg").innerHTML = (m.top_neg || []).filter((x) => x[1] < 0).map(row).join("") || `<div class="muted small">Biraz daha kaydır.</div>`;
+// ---------------- scoring view ----------------
+function prettyKey(k) {
+  const [kind, ...rest] = k.split(":"), v = rest.join(":");
+  return kind === "t" ? `Başlıkta “${v}”` : `${W_KIND[kind] || kind}: ${v}`;
+}
+function selectOptions(f) {
+  if (SELECT_LABELS[f]) return Object.entries(SELECT_LABELS[f]);
+  if (f === "company") return [...new Set(APP.data.jobs.map((j) => j.company))].sort().map((x) => [x, x]);
+  if (f === "city") return [...new Set(APP.rows.map((r) => r.d.city))].sort().map((x) => [x, x]);
+  if (f === "tag") return [...new Set(APP.rows.flatMap((r) => r.d.tags.map((t) => t.label)))].sort().map((x) => [x, x]);
+  return [];
+}
+function condHTML(rule, c, i) {
+  const type = FIELDS[c.f].type;
+  const val = type === "select"
+    ? `<select class="field val" data-cv="${i}">${selectOptions(c.f).map(([v, l]) => `<option value="${esc(v)}" ${v === c.v ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>`
+    : `<input class="field val" data-cv="${i}" type="${type === "number" ? "number" : "text"}" ${type === "number" ? `step="${FIELDS[c.f].step}"` : ""} value="${esc(c.v)}" placeholder="değer">`;
+  return `<div class="cond">
+    <select class="field" data-cf="${i}">${Object.entries(FIELDS).map(([k, x]) => `<option value="${k}" ${k === c.f ? "selected" : ""}>${x.label}</option>`).join("")}</select>
+    <select class="field" data-co="${i}">${OPS[type].map(([k, l]) => `<option value="${k}" ${k === c.op ? "selected" : ""}>${l}</option>`).join("")}</select>
+    ${val}<button class="rm" data-crm="${i}" title="Koşulu sil">×</button></div>`;
+}
+function renderRules() {
+  $("#rules").innerHTML = APP.state.rules.map((r) => {
+    const n = APP.rows.filter((x) => !x.d.filtered && ruleHits(r, x.j, x.d)).length;
+    return `<div class="rule ${r.on ? "" : "off"}" data-rule="${r.id}">
+      <div class="rule-head"><label class="switch"><input type="checkbox" data-ron ${r.on ? "checked" : ""}><span></span></label>
+        <input class="name" data-rname value="${esc(r.name)}"><button class="icon" data-rdel title="Kuralı sil">🗑</button></div>
+      ${r.all.map((c, i) => condHTML(r, c, i)).join("")}
+      <div><button class="btn ghost sm" data-cadd>+ koşul (VE)</button></div>
+      <div class="rule-foot"><span class="small muted">${n} ilan eşleşiyor</span>
+        <div class="stepper"><button data-pts="-1">−</button><b class="${r.pts > 0 ? "pos" : r.pts < 0 ? "neg" : ""}">${signed(r.pts)}</b><button data-pts="1">+</button></div></div>
+    </div>`;
+  }).join("");
+}
+function renderWeights() {
+  const st = APP.state, m = APP.model, hidden = new Set(st.hidden);
+  const keys = new Set([...Object.keys(m.weights), ...Object.keys(st.overrides)]);
+  let rows = [...keys].filter((k) => !hidden.has(k)).map((k) => ({ k, auto: m.weights[k], manual: st.overrides[k], eff: k in st.overrides ? st.overrides[k] : m.weights[k] }));
+  if (APP.wf === "auto") rows = rows.filter((r) => !(r.k in st.overrides));
+  if (APP.wf === "manual") rows = rows.filter((r) => r.k in st.overrides);
+  rows.sort((a, b) => Math.abs(b.eff) - Math.abs(a.eff));
+  $("#weights").innerHTML = rows.length ? `<div class="wrow small muted" style="border:0"><span>Özellik</span><span class="auto">Öğrenilen</span><span>Geçerli puan</span><span></span></div>` +
+    rows.map((r) => `<div class="wrow" data-wk="${esc(r.k)}">
+      <span class="lbl">${esc(prettyKey(r.k))}<span class="kind">${r.k in st.overrides ? "✎ manuel" : "otomatik"}</span></span>
+      <span class="auto">${r.auto != null ? signed(r.auto) : "–"}</span>
+      <input class="field" type="number" step="0.5" value="${r.eff}" data-wset style="width:100%">
+      <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon" data-wreset title="Öğrenilene dön">↺</button>` : ""}<button class="icon" data-wdel title="Sil">🗑</button></span></div>`).join("")
+    : `<div class="muted small" style="padding:10px 0">Henüz ağırlık yok. Kaydırdıkça burada oluşur, ya da yukarıdan elle ekle.</div>`;
+  $("#hidden-info").innerHTML = st.hidden.length ? `${st.hidden.length} silinmiş ağırlık öğrenilmiyor. <a href="#" id="unhide">Geri getir</a>` : "";
+  const kind = $("#w-kind").value;
+  const sug = kind === "t" ? [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-zçğıöşü]+/g) || []).filter((w) => w.length > 2)))]
+    : selectOptions({ co: "company", city: "city", tag: "tag", role: "role_type" }[kind]).map(([v]) => v);
+  $("#w-suggest").innerHTML = sug.slice(0, 300).map((x) => `<option value="${esc(x)}">`).join("");
+}
+function renderLearnSummary() {
+  const m = APP.model;
+  $("#learn-summary").innerHTML = `<b>${m.likes}</b> beğeni · <b>${m.dislikes}</b> geçiş
+    ${Object.keys(m.rc).length ? `<div style="margin-top:8px">${Object.entries(m.rc).sort((a, b) => b[1] - a[1]).map(([r, n]) => `<span class="tag yellow">${esc(r)} × ${n}</span>`).join(" ")}</div>
+      <div class="small muted" style="margin-top:6px">Sebepler ilgili cezaları da büyütür (ör. “Çok operasyonel” seçtikçe operasyonel roller daha çok düşer).</div>` : ""}`;
 }
 
-function renderAll() { renderDeck(); renderLists(); renderLearn(); }
-
-async function loadCfg() { $("#cfg-text").value = (await api("/api/config/" + S.cfg)).text; $("#cfg-msg").textContent = ""; }
-
-async function pollFetch() {
-  const f = await api("/api/fetch");
-  $("#fetch-btn").disabled = f.running;
-  $("#fetch-btn").textContent = f.running ? `Çekiliyor… ${f.log.at(-1) || ""}` : "↻ İlanları güncelle";
-  if (f.running) setTimeout(pollFetch, 2000); else if (S._wasFetching) { S._wasFetching = false; toast(f.log.at(-1) || "Bitti"); load(); }
+// ---------------- settings view ----------------
+function chipEditor(el, list, key, weighted) {
+  const items = weighted ? Object.entries(list) : list.map((x) => [x]);
+  el.innerHTML = items.map(([k, w]) => `<span class="chip">${esc(k.trim())}${weighted ? `<span class="w" data-wcycle="${esc(k)}">${w}</span>` : ""}<button class="x" data-chrm="${esc(k)}">×</button></span>`).join("")
+    + `<input class="chip-add" placeholder="+ ekle, Enter">`;
+  el.dataset.key = key; el.dataset.weighted = weighted ? "1" : "";
+}
+function renderSettings() {
+  const s = APP.state.settings, fx = APP.data.config.cities.fx_to_eur;
+  $("#s-try").value = s.istanbul_net_try;
+  $("#s-flex").value = s.flex_pct; $("#s-flex-val").textContent = "%" + s.flex_pct;
+  const cityRow = (c, i, remote) => {
+    const { target, min } = targetsFor(c), cur = CURRENCY[c.country];
+    return `<div class="city" data-ci="${remote ? "remote" : i}">
+      <label class="switch"><input type="checkbox" data-con ${c.on ? "checked" : ""}><span></span></label>
+      <span class="nm"><b>${esc(remote ? "Uzaktan (TR'den)" : c.name)}</b><span>${esc(remote ? "vize gerekmez" : c.country)}${cur ? ` · ≈ ${cur[1]}${Math.round(target / fx[cur[0]] / 1000)}k` : ""}</span></span>
+      <select class="field" data-cprio>${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option ${n === c.priority ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <input class="field" type="number" step="1000" data-ctarget value="${target}" style="width:100%">
+      <span class="min">min ${eur(min)}</span></div>`;
+  };
+  $("#s-cities").innerHTML = s.cities.map((c, i) => [c, i]).sort((a, b) => a[0].priority - b[0].priority || a[0].name.localeCompare(b[0].name))
+    .map(([c, i]) => cityRow(c, i)).join("") + cityRow(s.remote, -1, true);
+  chipEditor($("#s-exact"), s.exact_kw, "exact_kw");
+  chipEditor($("#s-adjacent"), s.adjacent_kw, "adjacent_kw");
+  chipEditor($("#s-hide"), s.hide_title_kw, "hide_title_kw");
+  chipEditor($("#s-cv"), s.cv_keywords, "cv_keywords", true);
+  chipEditor($("#s-gaps"), s.gap_keywords, "gap_keywords");
+  const opt = (map, v) => Object.entries(map).map(([k, l]) => `<option value="${k}" ${k === v ? "selected" : ""}>${l}</option>`).join("");
+  $("#s-companies").innerHTML = Object.entries(s.companies).sort((a, b) => a[0].localeCompare(b[0])).map(([n, c]) => `
+    <div class="comp ${c.hidden ? "hidden-co" : ""}" data-comp="${esc(n)}"><span class="nm"><b>${esc(n)}</b></span>
+      <select class="field" data-cof="tier">${opt(SELECT_LABELS.tier, c.tier)}</select>
+      <select class="field pay" data-cof="pay">${opt({ top: "Piyasa üstü", high: "İyi", mid: "Orta" }, c.pay)}</select>
+      <select class="field" data-cof="sponsor">${opt({ known: "Sponsor olur", sometimes: "Bazen", rare: "Nadiren" }, c.sponsor)}</select>
+      <button class="icon" data-cohide title="${c.hidden ? "Göster" : "Gizle"}">${c.hidden ? "🙈" : "👁"}</button></div>`).join("");
 }
 
-// events
-document.addEventListener("click", async (e) => {
-  const t = e.target.closest("[data-v],[data-city],[data-tag],[data-r],[data-close],[data-detail],[data-pack],[data-unrej],[data-rescue],[data-c]");
-  if (e.target.classList.contains("modal")) e.target.classList.remove("on");
-  if (!t) return;
-  if (t.dataset.v) { document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b === t)); document.querySelectorAll(".view").forEach((v) => v.classList.toggle("on", v.id === "v-" + t.dataset.v)); if (t.dataset.v === "settings") loadCfg(); }
-  if (t.dataset.city) { const s = S.filters.cities; s.has(t.dataset.city) ? s.delete(t.dataset.city) : s.add(t.dataset.city); buildFilters(); renderDeck(); }
-  if (t.dataset.tag) { const s = S.filters.tags; s.has(t.dataset.tag) ? s.delete(t.dataset.tag) : s.add(t.dataset.tag); buildFilters(); renderDeck(); }
-  if (t.dataset.r) t.classList.toggle("on");
-  if (t.dataset.close) $("#" + t.dataset.close).classList.remove("on");
-  if (t.dataset.detail) openDetail(t.dataset.detail);
-  if (t.dataset.pack) { await api("/api/status", { id: t.dataset.pack, status: "Paket istendi" }); toast("Sıraya alındı. Claude Code'a “paketleri hazırla” yaz."); load(); }
-  if (t.dataset.unrej) { await api("/api/undo", { id: t.dataset.unrej }); load(); }
-  if (t.dataset.rescue) { await api("/api/decision", { id: t.dataset.rescue, decision: "like", reasons: [] }); toast("Kısa listeye alındı"); load(); }
-  if (t.dataset.c) { document.querySelectorAll("#cfg-tabs .chip").forEach((c) => c.classList.toggle("on", c === t)); S.cfg = t.dataset.c; loadCfg(); }
+// ---------------- render ----------------
+function refresh() {
+  compute(); buildFilters(); renderDeck(); renderLists(); renderLearnSummary();
+  const v = document.querySelector(".view.on").id;
+  if (v === "v-scoring") { renderRules(); renderWeights(); }
+  if (v === "v-settings") renderSettings();
+}
+function showView(v) {
+  document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.v === v));
+  document.querySelectorAll(".view").forEach((x) => x.classList.toggle("on", x.id === "v-" + v));
+  if (v === "scoring") { renderRules(); renderWeights(); }
+  if (v === "settings") renderSettings();
+  window.scrollTo(0, 0);
+}
+
+// ---------------- events ----------------
+const ruleOf = (el) => APP.state.rules.find((r) => r.id === el.closest("[data-rule]")?.dataset.rule);
+const commit = () => { save(); refresh(); };
+document.addEventListener("click", (e) => {
+  const t = e.target;
+  if (t.classList.contains("modal")) return t.classList.remove("on");
+  const a = t.closest("button, [data-city], [data-tag], [data-r], [data-wcycle], [data-v], a#unhide");
+  if (!a) return;
+  const ds = a.dataset;
+  if (ds.v) return showView(ds.v);
+  if (ds.city) { const s = APP.filters.cities; s.has(ds.city) ? s.delete(ds.city) : s.add(ds.city); buildFilters(); return renderDeck(); }
+  if (ds.tag) { const s = APP.filters.tags; s.has(ds.tag) ? s.delete(ds.tag) : s.add(ds.tag); buildFilters(); return renderDeck(); }
+  if (ds.r) return a.classList.toggle("on");
+  if (ds.close) return $("#" + ds.close).classList.remove("on");
+  if (ds.detail) return openDetail(ds.detail);
+  if (ds.pack) { APP.state.decisions[ds.pack].status = "Paket istendi"; toast(APP.server ? "Sıraya alındı. Claude Code'a “paketleri hazırla” yaz." : "İşaretlendi. Yedeği indirip Claude Code'a ver."); return commit(); }
+  if (ds.unrej) { delete APP.state.decisions[ds.unrej]; return commit(); }
+  if (ds.rescue) { APP.state.decisions[ds.rescue] = { id: ds.rescue, decision: "like", reasons: [], status: "Kaydedildi", at: new Date().toISOString() }; toast("Kısa listeye alındı"); return commit(); }
+  // rules
+  if ("rdel" in ds) { const r = ruleOf(a); if (confirm(`“${r.name}” kuralı silinsin mi?`)) { APP.state.rules = APP.state.rules.filter((x) => x !== r); commit(); } return; }
+  if ("cadd" in ds) { ruleOf(a).all.push({ f: "title", op: "has", v: "" }); return commit(); }
+  if (ds.crm != null) { ruleOf(a).all.splice(+ds.crm, 1); return commit(); }
+  if (ds.pts) { const r = ruleOf(a); r.pts = clamp(r.pts + +ds.pts, -30, 30); return commit(); }
+  // weights
+  if (ds.wf) { APP.wf = ds.wf; document.querySelectorAll("#w-filter button").forEach((b) => b.classList.toggle("on", b === a)); return renderWeights(); }
+  if ("wreset" in ds) { delete APP.state.overrides[a.closest("[data-wk]").dataset.wk]; return commit(); }
+  if ("wdel" in ds) { const k = a.closest("[data-wk]").dataset.wk; delete APP.state.overrides[k]; if (APP.model.weights[k] != null) APP.state.hidden.push(k); return commit(); }
+  if (a.id === "unhide") { e.preventDefault(); APP.state.hidden = []; return commit(); }
+  // settings
+  if (ds.chrm) { const el = a.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings;
+    if (el.dataset.weighted) delete s[key][ds.chrm]; else s[key] = s[key].filter((x) => x !== ds.chrm); return commit(); }
+  if (ds.wcycle) { const steps = [0.5, 1, 1.5, 2, 3], s = APP.state.settings.cv_keywords, cur = s[ds.wcycle];
+    s[ds.wcycle] = steps[(steps.indexOf(cur) + 1) % steps.length] ?? 1; return commit(); }
+  if ("cohide" in ds) { const c = APP.state.settings.companies[a.closest("[data-comp]").dataset.comp]; c.hidden = !c.hidden; return commit(); }
 });
-document.addEventListener("change", async (e) => {
-  if (e.target.dataset.status) { await api("/api/status", { id: e.target.dataset.status, status: e.target.value }); toast("Durum güncellendi"); load(); }
+document.addEventListener("change", (e) => {
+  const t = e.target, ds = t.dataset;
+  if (ds.status) { APP.state.decisions[ds.status].status = t.value; toast("Durum güncellendi"); return commit(); }
+  if ("ron" in ds) { ruleOf(t).on = t.checked; return commit(); }
+  if ("rname" in ds) { ruleOf(t).name = t.value.trim() || "Adsız kural"; return commit(); }
+  if (ds.cf != null) { const c = ruleOf(t).all[+ds.cf], type = FIELDS[t.value].type; c.f = t.value; c.op = OPS[type][0][0]; c.v = type === "select" ? selectOptions(t.value)[0]?.[0] ?? "" : ""; return commit(); }
+  if (ds.co != null) { ruleOf(t).all[+ds.co].op = t.value; return commit(); }
+  if (ds.cv != null) { const c = ruleOf(t).all[+ds.cv]; c.v = FIELDS[c.f].type === "number" ? (t.value === "" ? "" : +t.value) : t.value; return commit(); }
+  if ("wset" in ds) { const k = t.closest("[data-wk]").dataset.wk; if (t.value !== "") APP.state.overrides[k] = +t.value; return commit(); }
+  const s = APP.state.settings;
+  const cityEl = t.closest("[data-ci]");
+  if (cityEl) {
+    const c = cityEl.dataset.ci === "remote" ? s.remote : s.cities[+cityEl.dataset.ci];
+    if ("con" in ds) c.on = t.checked;
+    if ("cprio" in ds) c.priority = +t.value;
+    if ("ctarget" in ds && t.value) c.target = Math.round((+t.value * BASE_TRY) / s.istanbul_net_try);
+    return commit();
+  }
+  if (ds.cof) { s.companies[t.closest("[data-comp]").dataset.comp][ds.cof] = t.value; return commit(); }
+  if (t.id === "s-try" && +t.value > 0) { s.istanbul_net_try = +t.value; return commit(); }
+  if (t.id === "s-flex") { s.flex_pct = +t.value; return commit(); }
+});
+document.addEventListener("input", (e) => { if (e.target.id === "s-flex") $("#s-flex-val").textContent = "%" + e.target.value; });
+document.addEventListener("keydown", (e) => {
+  const t = e.target;
+  if (t.classList.contains("chip-add") && e.key === "Enter" && t.value.trim()) {
+    const el = t.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings, v = t.value.trim().toLowerCase();
+    if (el.dataset.weighted) s[key][v] = s[key][v] ?? 1; else if (!s[key].includes(v)) s[key].push(v);
+    commit(); setTimeout(() => document.querySelector(`[data-key="${key}"] .chip-add`)?.focus(), 0); return;
+  }
+  if (["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName)) return;
+  const modal = document.querySelector(".modal.on");
+  if (e.key === "Escape" && modal) { modal.id === "m-reason" ? $("#r-cancel").click() : modal.classList.remove("on"); return; }
+  if (modal || !$("#v-discover").classList.contains("on")) return;
+  if (e.key === "ArrowRight") swipe("like");
+  if (e.key === "ArrowLeft") swipe("dislike");
+  if (e.key.toLowerCase() === "d") $("#b-info").click();
+  if (e.key.toLowerCase() === "u") undo();
 });
 $("#r-save").onclick = () => {
   const reasons = [...document.querySelectorAll("#reasons .chip.on")].map((c) => c.dataset.r);
@@ -610,45 +913,76 @@ $("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingR
 $("#b-yes").onclick = () => swipe("like");
 $("#b-no").onclick = () => swipe("dislike");
 $("#b-undo").onclick = undo;
-$("#b-info").onclick = () => topJob() && openDetail(topJob().id);
-$("#f-min").oninput = (e) => { S.filters.min = +e.target.value; $("#f-min-val").textContent = e.target.value; renderDeck(); };
-$("#f-sponsor").onchange = (e) => { S.filters.sponsor = e.target.checked; renderDeck(); };
-$("#f-top").onchange = (e) => { S.filters.top = e.target.checked; renderDeck(); };
-$("#f-new").onchange = (e) => { S.filters.fresh = e.target.checked; renderDeck(); };
-$("#fetch-btn").onclick = async () => {
-  if (STATIC) { window.open(`https://github.com/${REPO}/actions/workflows/update.yml`, "_blank", "noopener"); return toast("“Run workflow”a bas; birkaç dakika sonra sayfayı yenile"); }
-  await api("/api/fetch", {}); S._wasFetching = true; pollFetch();
-};
-$("#add-btn").onclick = () => STATIC ? toast("İlan linkini Claude Code'a gönder, o eklesin") : $("#m-add").classList.add("on");
+$("#b-info").onclick = () => topRow() && openDetail(topRow().j.id);
+$("#f-min").oninput = (e) => { APP.filters.min = +e.target.value; $("#f-min-val").textContent = e.target.value; renderDeck(); };
+$("#f-sponsor").onchange = (e) => { APP.filters.sponsor = e.target.checked; renderDeck(); };
+$("#f-top").onchange = (e) => { APP.filters.top = e.target.checked; renderDeck(); };
+$("#f-new").onchange = (e) => { APP.filters.fresh = e.target.checked; renderDeck(); };
 $("#filter-toggle").onclick = () => $(".discover").classList.toggle("show-filters");
-$("#dl-dec").onclick = downloadDecisions;
-$("#ul-dec").onchange = (e) => e.target.files[0] && importDecisions(e.target.files[0]);
-$("#edit-links").innerHTML = [["profile", "Profil & anahtar kelimeler"], ["cities", "Şehirler & maaş hedefleri"], ["companies", "Şirket listesi"]]
-  .map(([f, l]) => `<a href="https://github.com/${REPO}/edit/main/config/${f}.json" target="_blank" rel="noopener">${l} ↗</a>`).join("");
+$("#add-rule").onclick = () => { APP.state.rules.unshift({ id: uid(), on: true, name: "Yeni kural", all: [{ f: "title", op: "has", v: "" }], pts: 3 }); commit(); };
+$("#w-kind").onchange = renderWeights;
+$("#w-add").onclick = () => {
+  const kind = $("#w-kind").value, v = $("#w-val").value.trim(), pts = +$("#w-pts").value;
+  if (!v) return toast("Bir değer yaz");
+  const k = `${kind}:${kind === "t" ? v.toLowerCase() : v}`;
+  APP.state.overrides[k] = pts; APP.state.hidden = APP.state.hidden.filter((x) => x !== k);
+  $("#w-val").value = ""; toast(`${prettyKey(k)} → ${signed(pts)}`); commit();
+};
+$("#dl-state").onclick = () => {
+  const blob = new Blob([JSON.stringify(APP.state, null, 2)], { type: "application/json" });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `pusula-yedek-${new Date().toISOString().slice(0, 10)}.json` });
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$("#ul-state").onchange = async (e) => {
+  const file = e.target.files[0]; if (!file) return;
+  try { APP.state = hydrate(JSON.parse(await file.text())); commit(); toast("Yedek yüklendi"); } catch { toast("Dosya okunamadı"); }
+};
+$("#reset-settings").onclick = () => { if (confirm("Ayarlar varsayılana dönsün mü? Kararların ve kuralların kalır.")) { APP.state.settings = null; APP.state = hydrate(APP.state); commit(); } };
+$("#add-btn").onclick = () => (APP.server ? $("#m-add").classList.add("on") : toast("İlan linkini Claude Code'a gönder, o eklesin"));
 $("#a-save").onclick = async () => {
   const b = { company: $("#a-company").value.trim(), title: $("#a-title").value.trim(), location: $("#a-loc").value.trim(), url: $("#a-url").value.trim(), description: $("#a-desc").value };
   if (!b.company || !b.title) return toast("Şirket ve pozisyon gerekli");
-  const r = await api("/api/manual", b);
+  const r = await post("/api/manual", b);
   $("#m-add").classList.remove("on"); document.querySelectorAll("#m-add input, #m-add textarea").forEach((i) => (i.value = ""));
-  toast(r.location_matched ? "Eklendi" : "Eklendi (lokasyon şehir listende yok)"); load();
+  toast(r.location_matched ? "Eklendi" : "Eklendi (lokasyon şehir listende yok)"); await loadData(); refresh();
 };
-$("#cfg-save").onclick = async () => {
-  const r = await api("/api/config/" + S.cfg, { text: $("#cfg-text").value });
-  $("#cfg-msg").textContent = r.ok ? `Kaydedildi · ${r.rescored} ilan yeniden puanlandı` : r.error;
-  $("#cfg-msg").style.color = r.ok ? "var(--green)" : "var(--red)";
-  if (r.ok) load();
+$("#fetch-btn").onclick = async () => {
+  if (!APP.server) { window.open(`https://github.com/${REPO}/actions/workflows/update.yml`, "_blank", "noopener"); return toast("“Run workflow”a bas; birkaç dakika sonra sayfayı yenile"); }
+  await post("/api/fetch", {}); pollFetch(true);
 };
-document.addEventListener("keydown", (e) => {
-  if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
-  const anyModal = document.querySelector(".modal.on");
-  if (e.key === "Escape" && anyModal) { if (anyModal.id === "m-reason") $("#r-cancel").click(); else anyModal.classList.remove("on"); return; }
-  if (anyModal || !$("#v-discover").classList.contains("on")) return;
-  if (e.key === "ArrowRight") swipe("like");
-  if (e.key === "ArrowLeft") swipe("dislike");
-  if (e.key.toLowerCase() === "d") $("#b-info").click();
-  if (e.key.toLowerCase() === "u") undo();
-});
-detectMode().then(() => { load(); if (!STATIC) pollFetch(); });
+async function pollFetch(started) {
+  const f = await fetch("/api/fetch").then((r) => r.json());
+  $("#fetch-btn").disabled = f.running;
+  $("#fetch-btn").textContent = f.running ? `Çekiliyor… ${f.log.at(-1) || ""}` : "↻ İlanları güncelle";
+  if (f.running) setTimeout(() => pollFetch(true), 2000);
+  else if (started) { toast(f.log.at(-1) || "Bitti"); await loadData(); refresh(); }
+}
+
+// ---------------- boot ----------------
+async function loadData() {
+  if (!location.hostname.endsWith("github.io")) { // only the local Python server has /api
+    try { const d = await fetch("/api/data").then((r) => r.json()); if (d.jobs) { APP.data = d; APP.server = true; } } catch {}
+  }
+  if (!APP.server) APP.data = await fetch("data/static.json", { cache: "no-cache" }).then((r) => r.json());
+  if (APP.server) APP.packs = await fetch("/api/packs").then((r) => r.json()).catch(() => ({}));
+  const m = APP.data.meta;
+  $("#fetch-info").textContent = m.last_fetch ? `Son güncelleme: ${ago(m.last_fetch)} · ${m.count} ilan` : "";
+  $("#watchlist").innerHTML = APP.data.watchlist.map((w) => `<a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)} ↗</a>`).join("");
+}
+(async function boot() {
+  await loadData();
+  let saved = readLocal();
+  if (APP.server) { // the server copy wins when it is newer (e.g. Claude marked packs as ready)
+    const remote = await fetch("/api/state").then((r) => r.json()).catch(() => null);
+    if (remote?.updated_at && (!saved?.updated_at || remote.updated_at > saved.updated_at)) saved = remote;
+  }
+  if (!saved) { // carry over swipes from the first version
+    try { const old = JSON.parse(localStorage.getItem("radar.decisions")); if (old) saved = { decisions: old }; } catch {}
+  }
+  APP.state = hydrate(saved);
+  save(); refresh();
+  if (APP.server) pollFetch(false);
+})();
 </script>
 </body>
 </html>

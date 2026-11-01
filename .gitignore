@@ -7,3 +7,4 @@ samples/
 _site/
 __pycache__/
 .DS_Store
+data/state.json

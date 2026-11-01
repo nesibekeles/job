@@ -1,23 +1,24 @@
-# İş Radarı – Claude Code çalışma notları
+# Pusula – Claude Code çalışma notları
 
 Nesibe Keleş'in yurtdışı marketing / growth / product marketing iş araması için kişisel araç.
 Kullanıcı Türkçe konuşur; arayüz ve cevaplar Türkçe, başvuru belgeleri İngilizce.
 
 ## Parçalar
 - `jobfinder.py`: kariyer sitelerinden (Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Amazon) ilan çeker, analiz eder → `data/jobs.json`
-- `server.py`: http://localhost:8765 arayüzü ve API. Kaydırmalar `data/decisions.json`, öğrenme `jobfinder.learn()`
+- `server.py`: http://localhost:8765 yerel sunucu. Puanlama, kurallar, öğrenme ve ayarlar tarayıcıda (`web/index.html`); sunucu uygulama durumunu `data/state.json`'a yansıtır (kararlar, kurallar, ağırlıklar, ayarlar).
+- Canlı sürüm: GitHub Pages (https://nesibekeles.github.io/Job/), her gün `.github/workflows/update.yml` ile güncellenir. Orada durum sadece tarayıcıda; kullanıcı “Yedeği indir” ile `pusula-yedek-*.json` verir, aynı formatta.
 - `config/*.json`: profil, şehir/maaş hedefleri, şirket listesi (kullanıcı arayüzden de düzenler)
 - `voice.md`: yazı sesi ve CV uyarlama kuralları. **Paket hazırlamadan önce mutlaka oku.**
 - CV kaynağı: `../Nesibe Keles_Resume.docx` ve `.pdf`
 
 ## Komut: "paketleri hazırla"
-1. `data/pack_queue.json` içindeki her ilan id'si için `data/jobs.json`'dan ilanı (açıklama dahil) oku.
+1. Kararları oku: `data/state.json` ya da kullanıcının verdiği `pusula-yedek-*.json` → `decisions` içinde `status == "Paket istendi"` olan her ilan id'si için `data/jobs.json`'dan ilanı (açıklama dahil) oku.
 2. `packs/<id>/` klasörüne yaz:
    - `cv.docx`: `../Nesibe Keles_Resume.docx`'tan türet (docx skill), voice.md'deki CV kurallarına göre. Uydurma yok. Ayrıca `cv.pdf`.
    - `cover_letter.md`: voice.md yapısı ve yasak listesiyle. Taşınma ve sponsorluk ihtiyacını tek cümleyle dürüstçe söyle.
    - `answers.md`: sık form soruları (Why us, Why this role, salary expectation = şehrin `gross_target_eur` değeri yerel para biriminde, notice period, right to work: "I'd require visa sponsorship"), ilan linki.
    - `notes.md`: eşleşen noktalar, boşluklar (gaps), mülakatta beklenecek sorular.
-3. Bittikten sonra `data/decisions.json`'da ilgili kaydın `status`'ünü "Paket hazır" yap ve id'yi kuyruktan çıkar.
+3. Bittikten sonra state dosyasında ilgili kararın `status`'ünü "Paket hazır" yap ve `updated_at`'i şimdiye çek (yerel sunucuda arayüz bunu alır; yedek dosyasıysa güncellenmiş dosyayı kullanıcıya geri ver, Ayarlar → Yedek yükle).
 4. Her cover letter'ı yazdıktan sonra yasak listesini tara; kalırsa düzelt.
 
 Başvuruyu **asla otomatik gönderme**. Hesap açma ve şifre girme de yok. Kullanıcı paketi gözden geçirip kendisi başvurur.
