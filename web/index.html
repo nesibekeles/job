@@ -351,6 +351,10 @@
   .alist .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
   .alist .n { margin-left: auto; font: 800 14px var(--head); color: var(--ink); background: var(--soft); border-radius: 99px; padding: 2px 10px; min-width: 34px; text-align: center; }
   .alist .chev { color: var(--muted); }
+  .alist li button:disabled { cursor: default; color: var(--muted); opacity: .55; }
+  .alist li button:disabled:hover { color: var(--muted); }
+  .alist li button:disabled:hover .n, .alist li button:disabled .n { background: var(--soft); color: var(--muted); }
+  .alist li button:disabled .chev { opacity: .35; }
   .picks { display: flex; flex-direction: column; gap: 8px; }
   .pick { display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border: 1.5px solid #ecebf2; border-radius: 14px 16px 12px 18px; background: #fdfcfa; cursor: pointer; text-align: left; width: 100%; }
   .pick:hover { border-color: var(--lav-200); background: var(--lav-50); }
@@ -2302,7 +2306,8 @@ function renderHome() {
   const h = homeData(), hr = new Date().getHours(), { out, soon } = homeTodos(h);
   const g = GREETINGS[Math.floor(hr / 3)], art = artSet();
   const doneN = out.filter((x) => x.done).length;
-  const row = (dot, label, n, attr) => `<li><button ${attr}><span class="dot" style="background:${dot}"></span>${label}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
+  // nothing to open when the count is zero: the row turns gray and can't be clicked
+  const row = (dot, label, n, attr) => `<li><button ${n ? attr : "disabled"}><span class="dot" style="background:${n ? dot : "var(--line)"}"></span>${label}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
   const picks = [...h.fresh.sort((a, b) => b.score - a.score).slice(0, 3), ...h.hot.filter((r) => !h.isNew(r)).slice(0, 4)].slice(0, 6);
   el.innerHTML = `
     <div class="home-hero">
