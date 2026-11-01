@@ -145,7 +145,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    print(f"Pusula çalışıyor: http://localhost:{PORT}  (durdurmak için Ctrl+C)")
+    print(f"Jobness çalışıyor: http://localhost:{PORT}  (durdurmak için Ctrl+C)")
     if "--no-browser" not in sys.argv:
         threading.Timer(0.8, lambda: webbrowser.open(f"http://localhost:{PORT}")).start()
     srv.serve_forever()

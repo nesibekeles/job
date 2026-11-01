@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7f7fa">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Pusula">
-<title>Pusula</title>
+<meta name="apple-mobile-web-app-title" content="Jobness">
+<title>Jobness</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,8 @@
   .side { position: fixed; inset: 0 auto 0 0; width: var(--side); background: var(--surface); border-right: 1px solid var(--line); padding: 22px 14px; display: flex; flex-direction: column; gap: 4px; z-index: 10; }
   .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; font: 800 20px/1 var(--head); letter-spacing: -.03em; }
   .brand img { width: 32px; height: 32px; }
-  .brand b { color: var(--lav); }
+  .brand b { color: var(--mint); }
+  .brand small { display: block; font: 500 11.5px/1.3 "Inter", sans-serif; letter-spacing: 0; color: var(--muted); margin-top: 4px; }
   .side .eyebrow { padding: 6px 10px 8px; }
   .navlink { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; border: 0; background: none; cursor: pointer; color: var(--ink-2); font-weight: 500; text-align: left; width: 100%; }
   .navlink:hover { background: var(--soft); }
@@ -263,7 +264,7 @@
     .main { margin-left: 0; padding-bottom: 76px; }
     .topbar { padding: 0 16px; height: 54px; }
     .crumb { display: none; } .m-brand { display: flex; align-items: center; gap: 8px; font: 800 18px var(--head); letter-spacing: -.03em; }
-    .m-brand img { width: 26px; height: 26px; } .m-brand b { color: var(--lav); }
+    .m-brand img { width: 26px; height: 26px; } .m-brand b { color: var(--mint); }
     #fetch-info { display: none; }
     .page { padding: 16px 16px 32px; }
     h1.hero { font-size: 25px; } p.sub { margin-bottom: 16px; font-size: 13.5px; }
@@ -303,7 +304,7 @@
 </head>
 <body>
 <aside class="side">
-  <div class="brand"><img src="logo.svg" alt=""><span>pusula<b>.</b></span></div>
+  <div class="brand"><img src="logo.svg" alt=""><div><span>jobness<b>.</b></span><small>Welcome to the job jungle.</small></div></div>
   <div class="eyebrow">Kariyer çalışma alanın</div>
   <button class="navlink on" data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Keşfet<span class="count" id="c-deck"></span></button>
   <button class="navlink" data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Kısa liste<span class="count" id="c-short"></span></button>
@@ -312,8 +313,8 @@
   <button class="navlink" data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Puanlama</button>
   <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profil & tercihler</button>
   <div class="side-card">
-    <svg class="i" style="color:var(--lav)"><use href="#i-globe"/></svg>
-    <h4>Daha büyük bir dünya. Yeni bir bölüm.</h4>
+    <svg class="i" style="color:var(--mint)"><use href="#i-leaf"/></svg>
+    <h4>Welcome to the job jungle.</h4>
     <p>Önce Avrupa. Yeni Zelanda her zaman ufukta.</p>
     <div class="eyebrow" style="margin-top:12px;font-size:10px">İstanbul → sıradaki durak</div>
   </div>
@@ -321,7 +322,7 @@
 
 <div class="main">
   <div class="topbar">
-    <div class="m-brand"><img src="logo.svg" alt="">pusula<b>.</b></div>
+    <div class="m-brand"><img src="logo.svg" alt="">jobness<b>.</b></div>
     <div class="crumb">Çalışma alanın <svg class="i" style="width:14px;height:14px"><use href="#i-chev"/></svg> <b id="crumb">Keşfet</b></div>
     <div class="spacer"></div>
     <span class="small muted" id="fetch-info"></span>
@@ -330,7 +331,7 @@
 
   <div class="page">
     <section class="view on" id="v-discover">
-      <div class="eyebrow">Sıradaki adımını değerli kıl</div>
+      <div class="eyebrow">Welcome to the job jungle</div>
       <h1 class="hero">Doğru rol, doğru şehir.</h1>
       <p class="sub">Daha az arama, sana gerçekten uyan daha çok seçenek. Kartlar arasında yukarı-aşağı gez; karar vermek zorunda değilsin.</p>
       <div class="stats">
@@ -516,6 +517,7 @@
   <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 20V6l8-3v17M12 9h8v11M7 9h2M7 13h2M7 17h2M15 13h2M15 17h2M3 20h18"/></symbol>
   <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
   <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
@@ -540,7 +542,7 @@
 
 <script>
 const REPO = "nesibekeles/Job";
-const STORE_KEY = "pusula.state.v1";
+const STORE_KEY = "pusula.state.v1"; // pre-rename key, kept so saved swipes survive
 const REASONS = ["Sponsorluk / vize riski", "Çok operasyonel", "Rol içeriği uymuyor", "Fazla junior", "Fazla senior",
   "Maaş düşük olabilir", "Şirket ilgimi çekmiyor", "Sektör / ürün ilgimi çekmiyor", "Lokasyon", "Ofis / çalışma şekli", "Diğer"];
 const REASON_KEYS = { "Sponsorluk / vize riski": "sponsor", "Maaş düşük olabilir": "salary", "Çok operasyonel": "operational", "Fazla junior": "junior", "Fazla senior": "senior", "Ofis / çalışma şekli": "office" };
@@ -1325,7 +1327,7 @@ $("#w-add").onclick = () => {
 };
 $("#dl-state").onclick = () => {
   const blob = new Blob([JSON.stringify(APP.state, null, 2)], { type: "application/json" });
-  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `pusula-yedek-${new Date().toISOString().slice(0, 10)}.json` });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `jobness-yedek-${new Date().toISOString().slice(0, 10)}.json` });
   a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
 $("#ul-state").onchange = async (e) => {

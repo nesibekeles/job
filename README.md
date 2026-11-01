@@ -1,4 +1,6 @@
-# Pusula 🧭
+# Jobness 🌿
+
+*Welcome to the job jungle.*
 
 ## Çalıştırma
 Terminalde:

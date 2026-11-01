@@ -1,4 +1,4 @@
-# Pusula – Claude Code çalışma notları
+# Jobness – Claude Code çalışma notları
 
 Nesibe Keleş'in yurtdışı marketing / growth / product marketing iş araması için kişisel araç.
 Kullanıcı Türkçe konuşur; arayüz ve cevaplar Türkçe, başvuru belgeleri İngilizce.
@@ -6,13 +6,13 @@ Kullanıcı Türkçe konuşur; arayüz ve cevaplar Türkçe, başvuru belgeleri 
 ## Parçalar
 - `jobfinder.py`: kariyer sitelerinden (Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Amazon) ilan çeker, analiz eder → `data/jobs.json`
 - `server.py`: http://localhost:8765 yerel sunucu. Puanlama, kurallar, öğrenme ve ayarlar tarayıcıda (`web/index.html`); sunucu uygulama durumunu `data/state.json`'a yansıtır (kararlar, kurallar, ağırlıklar, ayarlar).
-- Canlı sürüm: GitHub Pages (https://nesibekeles.github.io/Job/), her gün `.github/workflows/update.yml` ile güncellenir. Orada durum sadece tarayıcıda; kullanıcı “Yedeği indir” ile `pusula-yedek-*.json` verir, aynı formatta.
+- Canlı sürüm: GitHub Pages (https://nesibekeles.github.io/Job/), her gün `.github/workflows/update.yml` ile güncellenir. Orada durum sadece tarayıcıda; kullanıcı “Yedeği indir” ile `jobness-yedek-*.json` (eski adı `pusula-yedek-*.json`) verir, aynı formatta.
 - `config/*.json`: profil, şehir/maaş hedefleri, şirket listesi (kullanıcı arayüzden de düzenler)
 - `voice.md`: yazı sesi ve CV uyarlama kuralları. **Paket hazırlamadan önce mutlaka oku.**
 - CV kaynağı: `../Nesibe Keles_Resume.docx` ve `.pdf`
 
 ## Komut: "paketleri hazırla"
-1. Kararları oku: `data/state.json` ya da kullanıcının verdiği `pusula-yedek-*.json` → `decisions` içinde `status == "Paket istendi"` olan her ilan id'si için `data/jobs.json`'dan ilanı (açıklama dahil) oku.
+1. Kararları oku: `data/state.json` ya da kullanıcının verdiği `jobness-yedek-*.json` → `decisions` içinde `status == "Paket istendi"` olan her ilan id'si için `data/jobs.json`'dan ilanı (açıklama dahil) oku.
 2. `packs/<id>/` klasörüne yaz:
    - `cv.docx`: `../Nesibe Keles_Resume.docx`'tan türet (docx skill), voice.md'deki CV kurallarına göre. Uydurma yok. Ayrıca `cv.pdf`.
    - `cover_letter.md`: voice.md yapısı ve yasak listesiyle. Taşınma ve sponsorluk ihtiyacını tek cümleyle dürüstçe söyle.
