@@ -1,6 +1,6 @@
 # Jobness 🌿
 
-*Welcome to the job jungle.*
+*Welcome to the jungle.*
 
 ## Çalıştırma
 Terminalde:
