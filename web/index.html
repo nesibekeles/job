@@ -537,7 +537,6 @@
   </div>
 
   <div class="page">
-    <div class="note" id="shared-banner" hidden style="margin-bottom:16px"></div>
     <section class="view on" id="v-home"><div id="home"></div></section>
 
     <section class="view" id="v-discover">
@@ -2390,8 +2389,6 @@ async function loadData() {
       saved = shared;
       try { localStorage.setItem("jobness.shared_seen", shared.published_at); } catch {}
     }
-    $("#shared-banner").hidden = false;
-    $("#shared-banner").innerHTML = `${icon("info")}<div>You're seeing <b>Nesibe's view</b>, synced ${ago(shared.published_at)}. Changes made here stay on this device and are replaced by her next update.</div>`;
   }
   APP.state = hydrate(saved);
   save(); bindStack(); bindCardPop(); refresh(); renderPromo(); startPromo();
