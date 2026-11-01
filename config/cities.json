@@ -1,0 +1,44 @@
+{
+  "_help": "priority: 1 = en çok istenen. Maaşlar EUR karşılığı brüt yıllık. Hedef = İstanbul'da 200K TL net/ay ile aynı yaşam standardı (kira + rahat yaşam + birikim). min = hedefin %15 altı. Kurlar yaklaşık, buradan güncelleyebilirsin.",
+  "istanbul_reference": { "net_month_try": 200000, "try_per_eur": 56 },
+
+  "fx_to_eur": {
+    "EUR": 1, "GBP": 1.16, "NZD": 0.52, "USD": 0.87, "AUD": 0.57, "CHF": 1.06,
+    "DKK": 0.134, "SEK": 0.09, "NOK": 0.085, "CZK": 0.04, "HUF": 0.0025
+  },
+
+  "cities": [
+    { "name": "Vienna",     "country": "Austria",        "aliases": ["vienna", "wien", "austria"],          "priority": 1, "net_month_eur": 3000, "gross_target_eur": 56000, "gross_min_eur": 48000 },
+    { "name": "London",     "country": "United Kingdom", "aliases": ["london"],                             "priority": 2, "net_month_eur": 4870, "gross_target_eur": 83500, "gross_min_eur": 71000, "_local": "£72k hedef / £61k min" },
+    { "name": "Auckland",   "country": "New Zealand",    "aliases": ["auckland", "new zealand", "wellington"], "priority": 2, "net_month_eur": 2900, "gross_target_eur": 45800, "gross_min_eur": 39000, "_local": "NZ$88k hedef / NZ$75k min" },
+    { "name": "Amsterdam",  "country": "Netherlands",    "aliases": ["amsterdam", "netherlands", "hilversum", "rotterdam", "utrecht", "the hague", "eindhoven"], "priority": 3, "net_month_eur": 3600, "gross_target_eur": 62000, "gross_min_eur": 53000 },
+    { "name": "Munich",     "country": "Germany",        "aliases": ["munich", "münchen", "muenchen"],      "priority": 4, "net_month_eur": 3300, "gross_target_eur": 62000, "gross_min_eur": 53000 },
+    { "name": "Dublin",     "country": "Ireland",        "aliases": ["dublin", "ireland"],                  "priority": 5, "net_month_eur": 3800, "gross_target_eur": 66000, "gross_min_eur": 56000 },
+    { "name": "Barcelona",  "country": "Spain",          "aliases": ["barcelona"],                          "priority": 6, "net_month_eur": 2700, "gross_target_eur": 44000, "gross_min_eur": 37000 },
+    { "name": "Lisbon",     "country": "Portugal",       "aliases": ["lisbon", "lisboa"],                   "priority": 7, "net_month_eur": 2500, "gross_target_eur": 43000, "gross_min_eur": 37000 },
+    { "name": "Paris",      "country": "France",         "aliases": ["paris"],                              "priority": 8, "net_month_eur": 3200, "gross_target_eur": 58000, "gross_min_eur": 49000 },
+
+    { "name": "Berlin",     "country": "Germany",        "aliases": ["berlin"],                             "priority": 9, "net_month_eur": 3100, "gross_target_eur": 58000, "gross_min_eur": 49000 },
+    { "name": "Madrid",     "country": "Spain",          "aliases": ["madrid"],                             "priority": 9, "net_month_eur": 2700, "gross_target_eur": 44000, "gross_min_eur": 37000 },
+    { "name": "Rome",       "country": "Italy",          "aliases": ["rome", "roma"],                       "priority": 9, "net_month_eur": 2500, "gross_target_eur": 43000, "gross_min_eur": 37000 },
+    { "name": "Brussels",   "country": "Belgium",        "aliases": ["brussels", "bruxelles"],              "priority": 9, "net_month_eur": 3000, "gross_target_eur": 58000, "gross_min_eur": 49000 },
+    { "name": "Luxembourg", "country": "Luxembourg",     "aliases": ["luxembourg"],                         "priority": 9, "net_month_eur": 3700, "gross_target_eur": 68000, "gross_min_eur": 58000 },
+    { "name": "Copenhagen", "country": "Denmark",        "aliases": ["copenhagen", "københavn"],            "priority": 9, "net_month_eur": 3600, "gross_target_eur": 75000, "gross_min_eur": 64000 },
+    { "name": "Stockholm",  "country": "Sweden",         "aliases": ["stockholm"],                          "priority": 9, "net_month_eur": 3200, "gross_target_eur": 62000, "gross_min_eur": 53000 },
+    { "name": "Oslo",       "country": "Norway",         "aliases": ["oslo"],                               "priority": 9, "net_month_eur": 3700, "gross_target_eur": 70000, "gross_min_eur": 60000 },
+    { "name": "Helsinki",   "country": "Finland",        "aliases": ["helsinki"],                           "priority": 9, "net_month_eur": 3000, "gross_target_eur": 55000, "gross_min_eur": 47000 },
+    { "name": "Prague",     "country": "Czechia",        "aliases": ["prague", "praha"],                    "priority": 9, "net_month_eur": 2400, "gross_target_eur": 42000, "gross_min_eur": 36000 },
+    { "name": "Budapest",   "country": "Hungary",        "aliases": ["budapest"],                           "priority": 9, "net_month_eur": 2200, "gross_target_eur": 38000, "gross_min_eur": 32000 },
+    { "name": "Tallinn",    "country": "Estonia",        "aliases": ["tallinn"],                            "priority": 9, "net_month_eur": 2500, "gross_target_eur": 42000, "gross_min_eur": 36000 },
+    { "name": "Reykjavik",  "country": "Iceland",        "aliases": ["reykjavik"],                          "priority": 9, "net_month_eur": 3600, "gross_target_eur": 70000, "gross_min_eur": 60000 }
+  ],
+
+  "_remote_help": "Türkiye'den çalışılabilecek uzaktan roller (vize gerekmez). İstemezsen enabled:false yap.",
+  "remote": {
+    "enabled": true,
+    "priority": 6,
+    "patterns": ["remote - emea", "remote (emea)", "remote, emea", "emea remote", "remote - europe", "remote (europe)", "remote, europe", "europe remote", "remote - turkey", "turkey", "türkiye", "istanbul", "anywhere"],
+    "gross_target_eur": 45000,
+    "gross_min_eur": 38000
+  }
+}

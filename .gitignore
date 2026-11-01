@@ -1,0 +1,9 @@
+# personal / local-only
+data/decisions.json
+data/pack_queue.json
+data/manual_jobs.json
+packs/
+samples/
+_site/
+__pycache__/
+.DS_Store
