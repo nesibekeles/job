@@ -44,6 +44,33 @@ def packs_index():
     return {d.name: sorted(p.name for p in d.iterdir() if p.is_file()) for d in PACKS.iterdir() if d.is_dir()}
 
 
+FEED_TEST = {
+    "greenhouse": lambda c: len(jf.http_json(f"https://boards-api.greenhouse.io/v1/boards/{c['slug']}/jobs")["jobs"]),
+    "lever": lambda c: len(jf.http_json(f"https://api.lever.co/v0/postings/{c['slug']}?mode=json")),
+    "ashby": lambda c: len(jf.http_json(f"https://api.ashbyhq.com/posting-api/job-board/{c['slug']}")["jobs"]),
+    "smartrecruiters": lambda c: jf.http_json(f"https://api.smartrecruiters.com/v1/companies/{c['slug']}/postings?limit=1")["totalFound"],
+    "workday": lambda c: jf.http_json(f"https://{c['host']}/wday/cxs/{c['tenant']}/{c['site']}/jobs",
+                                      {"limit": 1, "offset": 0, "searchText": "", "appliedFacets": {}})["total"],
+}
+
+
+def add_company(b):
+    """Adds a company with a readable job feed to config/companies.json so the next fetch includes it."""
+    if b.get("ats") not in FEED_TEST:
+        return {"ok": False, "error": "Otomatik ilan kaynağı bulunamadı"}, 400
+    try:
+        n = FEED_TEST[b["ats"]](b)
+    except Exception as e:
+        return {"ok": False, "error": f"Kaynak okunamadı: {str(e)[:80]}"}, 400
+    keys = ("name", "ats", "slug", "host", "tenant", "site", "tier", "pay", "sponsor", "tags", "priority")
+    entry = {k: b[k] for k in keys if b.get(k) not in (None, "")}
+    with LOCK:
+        cfg = jf.load_json(jf.CONFIG / "companies.json")
+        cfg["companies"] = [c for c in cfg["companies"] if c["name"] != b["name"]] + [entry]
+        jf.save_json(jf.CONFIG / "companies.json", cfg)
+    return {"ok": True, "open_roles": n}, 200
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=str(WEB), **kw)
@@ -93,6 +120,8 @@ class Handler(SimpleHTTPRequestHandler):
                 queue = [d["id"] for d in b.get("decisions", {}).values() if d.get("status") == "Paket istendi"]
                 jf.save_json(jf.DATA / "pack_queue.json", queue)
             return self.send_json({"ok": True})
+        if path == "/api/company":
+            return self.send_json(*add_company(b))
         if path == "/api/fetch":
             if not FETCH["running"]:
                 threading.Thread(target=run_fetch, daemon=True).start()

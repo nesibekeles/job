@@ -3,367 +3,540 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2f5d50">
+<meta name="theme-color" content="#f7f7fa">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Pusula">
 <title>Pusula</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f3ef; --panel: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e6e2db; --soft: #f1eee8;
-    --accent: #2f5d50; --accent-soft: #e3eee9; --coral: #ff7a59;
-    --green: #1f7a4d; --green-bg: #e2f3e9; --red: #b42318; --red-bg: #fde8e6; --yellow: #8a5a00; --yellow-bg: #fdf1d6;
-    --shadow: 0 10px 30px rgba(30, 30, 40, .10);
+    --bg: #f7f7fa; --surface: #ffffff; --ink: #1e1d26; --ink-2: #474457; --muted: #7a7789; --line: #e7e6ee; --soft: #f3f2f7;
+    --lav: #6655c4; --lav-50: #f4f2fc; --lav-100: #e9e5f8; --lav-200: #d6cff2;
+    --mint: #2f7d62; --mint-50: #ebf6f1; --butter: #7d6420; --butter-50: #f8f3e3;
+    --sky: #3a6390; --sky-50: #ebf1f8; --rose: #a8475b; --rose-50: #f8ecef;
+    --shadow-sm: 0 1px 2px rgba(30, 29, 38, .04); --shadow: 0 14px 34px -14px rgba(40, 36, 80, .20);
+    --radius: 14px; --side: 236px; --head: "Manrope", "Inter", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; background: var(--bg); color: var(--ink); }
-  button, input, select { font: inherit; color: inherit; }
-  header { display: flex; align-items: center; gap: 16px; padding: 10px 20px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
-  .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; letter-spacing: -.02em; white-space: nowrap; }
-  .brand img { width: 28px; height: 28px; }
-  nav { display: flex; gap: 4px; }
-  nav button { border: 0; background: none; padding: 7px 12px; border-radius: 8px; cursor: pointer; color: var(--muted); white-space: nowrap; }
-  nav button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-  .spacer { flex: 1; }
-  .btn { border: 1px solid var(--line); background: var(--panel); padding: 7px 12px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
-  .btn:hover { border-color: #cfcac1; }
-  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .btn.ghost { border-color: transparent; background: none; color: var(--muted); }
-  .btn.sm { padding: 4px 9px; font-size: 12.5px; }
-  .btn:disabled { opacity: .5; cursor: default; }
-  .muted { color: var(--muted); } .small { font-size: 12px; }
-  main { padding: 20px; max-width: 1180px; margin: 0 auto; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font: 14px/1.5 "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  a { color: var(--lav); text-decoration: none; }
+  svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* ---------- shell ---------- */
+  .side { position: fixed; inset: 0 auto 0 0; width: var(--side); background: var(--surface); border-right: 1px solid var(--line); padding: 22px 14px; display: flex; flex-direction: column; gap: 4px; z-index: 10; }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; font: 800 20px/1 var(--head); letter-spacing: -.03em; }
+  .brand img { width: 32px; height: 32px; }
+  .brand b { color: var(--lav); }
+  .side .eyebrow { padding: 6px 10px 8px; }
+  .navlink { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; border: 0; background: none; cursor: pointer; color: var(--ink-2); font-weight: 500; text-align: left; width: 100%; }
+  .navlink:hover { background: var(--soft); }
+  .navlink.on { background: var(--lav-50); color: var(--lav); font-weight: 600; }
+  .navlink .count { margin-left: auto; font-size: 11.5px; color: var(--muted); }
+  .side-card { margin-top: auto; background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px; }
+  .side-card h4 { font: 700 17px/1.3 var(--head); margin: 8px 0 6px; letter-spacing: -.02em; }
+  .side-card p { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .main { margin-left: var(--side); min-height: 100vh; }
+  .topbar { height: 60px; display: flex; align-items: center; gap: 12px; padding: 0 32px; border-bottom: 1px solid var(--line); background: rgba(247, 247, 250, .88); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 8; }
+  .crumb { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+  .crumb b { color: var(--ink); font-weight: 600; }
+  .topbar .spacer { flex: 1; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); display: inline-block; margin-right: 6px; }
+  .page { padding: 28px 32px 48px; max-width: 1240px; }
   .view { display: none; } .view.on { display: block; }
-  h2.page { font-size: 20px; margin: 4px 0 4px; letter-spacing: -.01em; }
-  p.lead { margin: 0 0 18px; color: var(--muted); }
-  a { color: var(--accent); }
+  .tabbar { display: none; }
+  .m-brand { display: none; }
 
-  /* generic widgets */
-  .card-box { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
-  .card-box h3 { margin: 0 0 4px; font-size: 15px; }
-  .card-box .sub { margin: 0 0 14px; font-size: 12.5px; color: var(--muted); }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .stack { display: flex; flex-direction: column; gap: 16px; }
-  .switch { position: relative; width: 36px; height: 21px; flex: none; display: inline-block; }
-  .switch input { opacity: 0; width: 0; height: 0; }
-  .switch span { position: absolute; inset: 0; background: #d5d0c7; border-radius: 99px; transition: .2s; cursor: pointer; }
-  .switch span::after { content: ""; position: absolute; width: 15px; height: 15px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
-  .switch input:checked + span { background: var(--accent); }
-  .switch input:checked + span::after { transform: translateX(15px); }
-  .field { border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; background: var(--panel); min-width: 0; }
-  .field:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
-  input.field[type=number] { width: 92px; }
+  /* ---------- type & atoms ---------- */
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  h1.hero { font: 800 32px/1.15 var(--head); letter-spacing: -.035em; margin: 8px 0 6px; }
+  p.sub { color: var(--muted); margin: 0 0 22px; max-width: 640px; }
+  h3.sec { font: 700 16px/1.3 var(--head); letter-spacing: -.02em; margin: 0; }
+  .muted { color: var(--muted); } .small { font-size: 12.5px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--surface); padding: 9px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13.5px; color: var(--ink-2); box-shadow: var(--shadow-sm); white-space: nowrap; }
+  .btn:hover { border-color: #d3d1de; color: var(--ink); }
+  .btn.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .btn.primary:hover { background: #33313f; color: #fff; }
+  .btn.accent { background: var(--lav); border-color: var(--lav); color: #fff; }
+  .btn.mint { background: var(--mint-50); border-color: #d4ebe0; color: var(--mint); }
+  .btn.rose { background: var(--surface); border-color: var(--line); color: var(--rose); }
+  .btn.rose:hover { background: var(--rose-50); }
+  .btn.ghost { background: none; border-color: transparent; box-shadow: none; color: var(--muted); }
+  .btn.sm { padding: 6px 10px; font-size: 12.5px; border-radius: 8px; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .icon-btn { border: 0; background: none; cursor: pointer; color: var(--muted); padding: 6px; border-radius: 8px; display: inline-flex; }
+  .icon-btn:hover { background: var(--soft); color: var(--ink); }
+  .box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .pad { padding: 18px 20px; }
+  .note { display: flex; gap: 10px; align-items: flex-start; background: var(--soft); border: 1px solid var(--line); color: var(--ink-2); padding: 12px 14px; border-radius: 12px; font-size: 13px; }
+  .note svg { color: var(--lav); margin-top: 1px; }
+  .field { border: 1px solid var(--line); border-radius: 9px; padding: 8px 11px; background: var(--surface); min-width: 0; }
+  .field:focus { outline: 3px solid var(--lav-100); border-color: var(--lav-200); }
+  select.field { cursor: pointer; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-  .chip { border: 1px solid var(--line); background: var(--panel); border-radius: 99px; padding: 4px 10px; cursor: pointer; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; }
-  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 4px 11px; font-size: 12.5px; cursor: pointer; color: var(--ink-2); white-space: nowrap; }
+  .chip:hover { border-color: #d3d1de; }
+  .chip.on { background: var(--lav-50); border-color: var(--lav-200); color: var(--lav); font-weight: 600; }
   .chip .x { border: 0; background: none; cursor: pointer; color: var(--muted); padding: 0 0 0 2px; font-size: 14px; line-height: 1; }
-  .chip .w { background: var(--accent-soft); color: var(--accent); border-radius: 99px; padding: 0 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
-  .chip-add { border: 1px dashed #cfcac1; border-radius: 99px; padding: 4px 10px; font-size: 12.5px; width: 150px; background: none; }
-  .stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--panel); }
-  .stepper button { border: 0; background: var(--soft); width: 30px; height: 30px; cursor: pointer; font-size: 16px; }
-  .stepper b { min-width: 46px; text-align: center; font-size: 14px; }
-  .pos { color: var(--green); } .neg { color: var(--red); }
-  .tag { font-size: 12px; padding: 3px 9px; border-radius: 99px; font-weight: 500; display: inline-block; }
-  .tag.green { background: var(--green-bg); color: var(--green); }
-  .tag.red { background: var(--red-bg); color: var(--red); }
-  .tag.yellow { background: var(--yellow-bg); color: var(--yellow); }
-  .tag.gray { background: var(--soft); color: var(--muted); }
-  .seg { display: inline-flex; background: var(--soft); border-radius: 9px; padding: 3px; gap: 2px; }
-  .seg button { border: 0; background: none; padding: 4px 10px; border-radius: 7px; cursor: pointer; font-size: 12.5px; color: var(--muted); }
-  .seg button.on { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); font-weight: 600; }
-
-  /* discover */
-  .discover { display: grid; grid-template-columns: 250px 1fr; gap: 24px; }
-  aside .card-box { margin-bottom: 14px; padding: 14px; }
-  aside h4 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; }
-  .watch a { display: block; text-decoration: none; padding: 2px 0; font-size: 13px; }
-  label.row { display: flex; align-items: center; gap: 8px; margin: 7px 0; font-size: 13px; }
-  input[type=range] { width: 100%; accent-color: var(--accent); }
-  .deck-wrap { display: flex; flex-direction: column; align-items: center; }
-  .deck { position: relative; width: min(560px, 100%); height: 600px; }
-  .card { position: absolute; inset: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--shadow); padding: 22px 24px; overflow: hidden; display: flex; flex-direction: column; gap: 12px; touch-action: none; user-select: none; transition: transform .25s ease, opacity .25s ease; }
-  .card.behind { transform: scale(.96) translateY(14px); opacity: .7; pointer-events: none; }
-  .card.dragging { transition: none; cursor: grabbing; }
-  .stamp { position: absolute; top: 24px; padding: 6px 14px; border: 3px solid; border-radius: 8px; font-weight: 800; font-size: 20px; opacity: 0; transform: rotate(-12deg); background: rgba(255,255,255,.9); }
-  .stamp.like { left: 24px; color: var(--green); }
-  .stamp.nope { right: 24px; color: var(--red); transform: rotate(12deg); }
-  .co { display: flex; align-items: center; gap: 10px; }
-  .logo { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; flex: none; }
-  .co b { font-size: 15px; }
-  .badge { font-size: 11px; padding: 2px 7px; border-radius: 6px; background: #eee; color: #444; margin-left: 6px; }
-  .badge.top { background: #1d1d1f; color: #fff; }
-  .badge.new { background: var(--accent); color: #fff; }
-  .score { margin-left: auto; text-align: right; }
-  .score b { font-size: 26px; display: block; line-height: 1; }
-  .card h2 { font-size: 21px; margin: 0; letter-spacing: -.01em; line-height: 1.25; }
-  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .fact { background: var(--bg); border-radius: 10px; padding: 8px 10px; }
-  .fact span { display: block; font-size: 11px; color: var(--muted); }
-  .fact b { font-size: 13px; }
-  .dots { letter-spacing: 2px; color: var(--accent); }
-  .duties { margin: 0; padding-left: 18px; color: #333; }
-  .duties li { margin-bottom: 4px; }
+  .chip .w { background: var(--soft); color: var(--ink-2); border-radius: 99px; padding: 0 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
+  .chip-add { border: 1px dashed #d3d1de; border-radius: 99px; padding: 4px 11px; font-size: 12.5px; width: 140px; background: none; }
+  .chip-add:focus { outline: none; border-style: solid; border-color: var(--lav-200); }
+  .tag { display: inline-flex; align-items: center; font-size: 11.5px; padding: 2px 9px; border-radius: 6px; font-weight: 500; white-space: nowrap; }
+  .tag.green { background: var(--mint-50); color: var(--mint); } .tag.red { background: var(--rose-50); color: var(--rose); }
+  .tag.yellow { background: var(--butter-50); color: var(--butter); } .tag.gray { background: var(--soft); color: var(--muted); }
+  .tag.line { background: none; border: 1px solid var(--line); color: var(--ink-2); }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .kw { font-size: 12px; } .kw em { font-style: normal; color: var(--green); } .kw i { font-style: normal; color: var(--red); }
-  .controls { display: flex; gap: 18px; margin-top: 18px; align-items: center; }
-  .round { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); font-size: 24px; cursor: pointer; box-shadow: var(--shadow); }
-  .round.no { color: var(--red); } .round.yes { color: var(--green); }
-  .round.sm { width: 44px; height: 44px; font-size: 17px; }
-  .hint { margin-top: 10px; font-size: 12px; color: var(--muted); }
-  .empty { text-align: center; padding: 70px 20px; color: var(--muted); }
-  .filter-toggle { display: none; }
+  .switch { position: relative; width: 36px; height: 21px; flex: none; display: inline-block; }
+  .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .switch span { position: absolute; inset: 0; background: #d9d8e2; border-radius: 99px; transition: .2s; cursor: pointer; }
+  .switch span::after { content: ""; position: absolute; width: 15px; height: 15px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .switch input:checked + span { background: var(--lav); }
+  .switch input:checked + span::after { transform: translateX(15px); }
+  .seg { display: inline-flex; background: var(--soft); border-radius: 10px; padding: 3px; gap: 2px; }
+  .seg button { border: 0; background: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .seg button.on { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm); }
+  .stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--surface); }
+  .stepper button { border: 0; background: var(--soft); width: 30px; height: 30px; cursor: pointer; font-size: 16px; color: var(--ink-2); }
+  .stepper b { min-width: 46px; text-align: center; }
+  .pos { color: var(--mint); } .neg { color: var(--rose); }
+  .avatar { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font: 700 16px var(--head); flex: none; }
+  .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 10px; opacity: 0; transition: .2s; z-index: 60; pointer-events: none; max-width: 90vw; font-size: 13.5px; }
+  .toast.on { opacity: 1; transform: translateX(-50%); }
 
-  /* lists */
+  /* ---------- discover ---------- */
+  .stats { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .stat { padding: 18px 20px; }
+  .stat .eyebrow { font-size: 10.5px; }
+  .stat b { display: block; font: 800 32px/1.1 var(--head); letter-spacing: -.03em; margin-top: 8px; }
+  .stat span.small { color: var(--muted); }
+  .stat.hero-stat { background: var(--lav-50); border-color: var(--lav-100); }
+  .stat.hero-stat h4 { font: 800 20px/1.2 var(--head); margin: 8px 0 10px; letter-spacing: -.02em; }
+  .stat.hero-stat .tag { background: var(--surface); color: var(--ink-2); border: 1px solid var(--lav-100); }
+  .filterbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
+  .search { position: relative; flex: 1 1 220px; }
+  .search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .search input { width: 100%; padding-left: 36px; }
+  .filterbar select { flex: 0 1 170px; }
+  .discover { display: grid; grid-template-columns: minmax(320px, 430px) 1fr; gap: 26px; align-items: start; }
+  .stack-col { position: sticky; top: 84px; }
+  .stack-wrap { position: relative; perspective: 1400px; }
+  .stack { position: relative; height: 430px; touch-action: none; user-select: none; outline: none; }
+  .mini { position: absolute; left: 0; right: 0; top: 50%; height: 190px; margin-top: -95px; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;
+          background: #fbfbfd; border: 1px solid var(--line); box-shadow: 0 2px 6px rgba(30, 29, 38, .05); overflow: hidden; cursor: pointer;
+          transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .38s, box-shadow .3s; }
+  .mini:not(.center) > :not(.stamp) { opacity: .45; transition: opacity .3s; }
+  .mini.center { background: var(--surface); box-shadow: var(--shadow); border-color: #dedce8; cursor: grab; }
+  .mini.dragging { transition: none; cursor: grabbing; }
+  .mini .row1 { display: flex; align-items: center; gap: 10px; }
+  .mini .row1 .avatar { width: 34px; height: 34px; font-size: 14px; }
+  .mini .co { font-weight: 600; font-size: 13.5px; }
+  .mini .co span { display: block; font-weight: 400; font-size: 11.5px; color: var(--muted); }
+  .mini .scorepill { margin-left: auto; text-align: right; font: 800 20px/1 var(--head); color: var(--ink); }
+  .mini .scorepill small { display: block; font: 600 9.5px var(--head); letter-spacing: .1em; color: var(--muted); margin-top: 2px; }
+  .mini h3 { font: 700 17px/1.3 var(--head); margin: 0; letter-spacing: -.02em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .mini .meta { margin-top: auto; display: flex; gap: 6px; flex-wrap: wrap; font-size: 11.5px; color: var(--ink-2); }
+  .mini .meta span { background: var(--soft); padding: 2px 8px; border-radius: 6px; }
+  .mini .meta span.ok { background: var(--mint-50); color: var(--mint); }
+  .stamp { position: absolute; top: 16px; padding: 4px 11px; border: 2px solid; border-radius: 8px; font: 800 13px var(--head); letter-spacing: .08em; opacity: 0; background: var(--surface); pointer-events: none; }
+  .stamp.like { right: 18px; color: var(--mint); transform: rotate(6deg); }
+  .stamp.nope { left: 18px; color: var(--rose); transform: rotate(-6deg); }
+  .position { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .position .count { font: 700 15px var(--head); white-space: nowrap; }
+  .position .count span { color: var(--muted); font-weight: 600; }
+  .bar { flex: 1; height: 5px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--lav); border-radius: 99px; transition: width .3s; }
+  .navbtns { display: flex; gap: 6px; }
+  .navbtns button { border: 1px solid var(--line); background: var(--surface); width: 34px; height: 34px; border-radius: 9px; cursor: pointer; display: grid; place-items: center; color: var(--ink-2); }
+  .navbtns button:hover { border-color: #d3d1de; color: var(--ink); }
+  .keys { margin-top: 10px; font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+  kbd { font: 600 11px var(--head); background: var(--surface); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; }
+  .reorder { margin-top: 12px; display: none; }
+  .reorder.on { display: flex; }
+
+  .panel { padding: 22px 24px; }
+  .panel .head { display: flex; gap: 14px; align-items: flex-start; }
+  .panel .head h2 { font: 800 22px/1.25 var(--head); letter-spacing: -.025em; margin: 4px 0 0; }
+  .panel .bigscore { margin-left: auto; text-align: center; border: 1px solid var(--line); border-radius: 12px; padding: 8px 14px; }
+  .panel .bigscore b { font: 800 28px/1 var(--head); display: block; }
+  .panel .bigscore span { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--muted); }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0; }
+  .fact { background: var(--soft); border-radius: 10px; padding: 10px 12px; }
+  .fact span { display: block; font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+  .fact b { font-size: 13px; font-weight: 600; }
+  .fact em { font-style: normal; display: block; font-size: 11.5px; color: var(--muted); }
+  .matchbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font-size: 13px; flex-wrap: wrap; }
+  .matchbar .bar { max-width: 160px; min-width: 100px; }
+  .matchbar .bar i { background: var(--mint); }
+  .duties { margin: 0 0 14px; padding-left: 18px; color: var(--ink-2); }
+  .duties li { margin-bottom: 5px; }
+  .kw { font-size: 12.5px; margin-top: 12px; color: var(--ink-2); }
+  .kw em { font-style: normal; color: var(--mint); font-weight: 600; } .kw i { font-style: normal; color: var(--rose); font-weight: 600; }
+  .evidence { background: var(--soft); padding: 9px 12px; border-left: 3px solid var(--lav-200); border-radius: 6px; font-size: 13px; margin: 10px 0; color: var(--ink-2); }
+  .actions { display: flex; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .actions .btn { flex: 1; justify-content: center; padding: 10px 14px; }
+
+  /* ---------- lists ---------- */
+  .pipeline { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
   .list { display: flex; flex-direction: column; gap: 10px; }
-  .row-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 48px 1fr auto; gap: 14px; align-items: center; }
-  .row-card .sc { font-size: 20px; font-weight: 700; text-align: center; }
-  .row-card h4 { margin: 0 0 2px; font-size: 15px; }
-  .row-card .acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
-  .section-title { margin: 26px 0 10px; font-size: 15px; }
+  .item { display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: center; padding: 14px 16px; }
+  .item h4 { margin: 0 0 2px; font: 700 15px var(--head); letter-spacing: -.01em; }
+  .item .acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+  .section-title { margin: 28px 0 12px; }
 
-  /* scoring */
-  .rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
-  .rule { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+  /* ---------- companies ---------- */
+  .co-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+  .co-card { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .co-card.hidden-co { opacity: .5; }
+  .co-card .top { display: flex; align-items: center; gap: 12px; }
+  .co-card .top b { font: 700 15.5px var(--head); display: block; }
+  .co-card .top span { font-size: 12px; color: var(--muted); }
+  .co-card .foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 12px; margin-top: auto; }
+  .star { color: #cfcdd9; } .star.on { color: #c9a13b; } .star.on svg { fill: #c9a13b; }
+  .src { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; }
+  .src.feed { background: var(--mint-50); color: var(--mint); } .src.manual { background: var(--soft); color: var(--muted); } .src.user { background: var(--lav-50); color: var(--lav); }
+
+  /* ---------- scoring ---------- */
+  .rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 14px; }
+  .rule { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
   .rule.off { opacity: .55; }
   .rule-head { display: flex; align-items: center; gap: 10px; }
-  .rule-head input.name { flex: 1; border: 0; font-weight: 600; font-size: 14px; padding: 4px 2px; background: none; min-width: 0; }
-  .rule-head input.name:focus { outline: none; border-bottom: 1px solid var(--accent); }
-  .cond { display: grid; grid-template-columns: 1.2fr .7fr 1fr 22px; gap: 6px; align-items: center; }
-  .cond .field { padding: 5px 7px; font-size: 12.5px; width: 100%; }
-  .cond .rm { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 15px; }
+  .rule-head input.name { flex: 1; border: 0; font: 700 14px var(--head); padding: 4px 2px; background: none; min-width: 0; }
+  .rule-head input.name:focus { outline: none; box-shadow: 0 1px 0 var(--lav); }
+  .cond { display: grid; grid-template-columns: 1.25fr .7fr 1fr 24px; gap: 6px; align-items: center; }
+  .cond .field { padding: 6px 8px; font-size: 12.5px; width: 100%; }
   .rule-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
-  .wrow { display: grid; grid-template-columns: 1fr 90px 110px 64px; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--soft); }
-  .wrow .lbl { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .wrow .kind { font-size: 11px; color: var(--muted); display: block; }
+  .wrow { display: grid; grid-template-columns: 1fr 90px 110px 70px; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--soft); }
+  .wrow .lbl { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+  .wrow .kind { font-size: 11px; color: var(--muted); display: block; font-weight: 400; }
   .wrow .auto { font-size: 12px; color: var(--muted); text-align: right; }
   .wrow .act { display: flex; gap: 2px; justify-content: flex-end; }
-  .icon { border: 0; background: none; cursor: pointer; padding: 4px 6px; border-radius: 6px; color: var(--muted); font-size: 14px; }
-  .icon:hover { background: var(--soft); color: var(--ink); }
-  .add-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 10px; background: var(--soft); border-radius: 10px; margin-bottom: 8px; }
+  .add-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 12px; background: var(--soft); border-radius: 10px; margin-bottom: 8px; }
   .add-row .field { flex: 1; min-width: 120px; }
-  .breakdown div { display: flex; justify-content: space-between; padding: 3px 0; font-size: 13px; border-bottom: 1px dashed var(--line); }
+  .breakdown div { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; border-bottom: 1px dashed var(--line); }
 
-  /* settings */
-  .city { display: grid; grid-template-columns: 40px 1fr 74px 120px 90px; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--soft); }
-  .city .nm b { display: block; } .city .nm span { font-size: 11.5px; color: var(--muted); }
-  .city select { width: 100%; }
+  /* ---------- settings ---------- */
+  .stack-v { display: flex; flex-direction: column; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .box h3 { font: 700 15.5px var(--head); margin: 0 0 4px; letter-spacing: -.01em; }
+  .box p.hint { margin: 0 0 16px; font-size: 12.5px; color: var(--muted); }
+  .city { display: grid; grid-template-columns: 44px 1fr 80px 130px 90px; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--soft); }
+  .city .nm b { display: block; font-weight: 600; } .city .nm span { font-size: 11.5px; color: var(--muted); }
   .city .min { font-size: 12px; color: var(--muted); }
-  .city.head { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; border: 0; padding-bottom: 0; }
-  .comp { display: grid; grid-template-columns: 1fr 100px 100px 110px 40px; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--soft); }
-  .comp select { width: 100%; font-size: 12.5px; padding: 5px 6px; }
-  .comp.hidden-co .nm { opacity: .45; text-decoration: line-through; }
-  .money { display: flex; gap: 18px; align-items: end; flex-wrap: wrap; }
-  .money label { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
-  .big-input { font-size: 18px; font-weight: 600; width: 160px; }
+  .city.head { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; border: 0; padding-bottom: 0; }
+  .money { display: flex; gap: 24px; align-items: end; flex-wrap: wrap; }
+  .money label { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
+  .big-input { font: 700 19px var(--head); width: 170px; }
+  input[type=range] { width: 100%; accent-color: var(--lav); }
+  .flabel { font-size: 12.5px; font-weight: 600; margin: 14px 0 7px; display: block; }
+  .flabel:first-of-type { margin-top: 0; }
 
-  /* modal */
-  .modal { position: fixed; inset: 0; background: rgba(20,20,25,.45); display: none; align-items: center; justify-content: center; z-index: 20; padding: 16px; }
-  .modal.on { display: flex; }
-  .sheet { background: var(--panel); border-radius: 16px; max-width: 760px; width: 100%; max-height: 88vh; overflow: auto; padding: 24px; }
-  .desc { white-space: pre-wrap; font-size: 13.5px; color: #333; border-top: 1px solid var(--line); padding-top: 14px; }
-  .evidence { background: var(--bg); padding: 8px 12px; border-left: 3px solid var(--accent); border-radius: 6px; font-size: 13px; margin: 8px 0; }
-  .sheet input[type=text], .sheet input[type=url], .sheet textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; font: inherit; }
-  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1d1d1f; color: #fff; padding: 10px 16px; border-radius: 10px; opacity: 0; transition: opacity .2s; z-index: 30; pointer-events: none; max-width: 90vw; }
-  .toast.on { opacity: 1; }
+  /* ---------- sheets ---------- */
+  .modal { position: fixed; inset: 0; background: rgba(30, 29, 38, .32); backdrop-filter: blur(2px); display: none; z-index: 50; }
+  .modal.on { display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .sheet { background: var(--surface); border-radius: 18px; max-width: 560px; width: 100%; max-height: 90vh; overflow: auto; padding: 24px; box-shadow: 0 30px 60px -20px rgba(30, 29, 38, .35); }
+  .sheet h2 { font: 800 19px var(--head); letter-spacing: -.02em; margin: 0 0 4px; }
+  .sheet .form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .sheet .form label { font-size: 12px; font-weight: 600; color: var(--ink-2); display: flex; flex-direction: column; gap: 6px; }
+  .sheet .form .field { width: 100%; }
+  .sheet .form .row2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .sheet-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .modal.drawer.on { justify-content: flex-end; align-items: stretch; padding: 0; }
+  .modal.drawer .sheet { max-width: 720px; max-height: none; height: 100%; border-radius: 18px 0 0 18px; padding: 28px; }
+  .desc { white-space: pre-wrap; font-size: 13.5px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+  .detect { font-size: 12.5px; padding: 8px 11px; border-radius: 8px; }
+  .detect.ok { background: var(--mint-50); color: var(--mint); } .detect.no { background: var(--butter-50); color: var(--butter); }
 
-  @media (max-width: 860px) {
-    header { padding: 8px 12px; gap: 8px; }
-    .brand span { display: none; }
-    nav { overflow-x: auto; scrollbar-width: none; flex: 1; } nav::-webkit-scrollbar { display: none; }
-    nav button { padding: 6px 9px; font-size: 13px; }
-    .spacer, #fetch-info { display: none; }
-    #fetch-btn { padding: 6px 10px; font-size: 0; } #fetch-btn::before { content: "↻"; font-size: 16px; }
-    main { padding: 10px 12px 24px; }
-    .discover { grid-template-columns: 1fr; gap: 10px; }
-    .discover aside { display: none; order: 2; } .discover.show-filters aside { display: block; }
-    .filter-toggle { display: inline-flex; align-self: flex-start; margin-bottom: 8px; }
-    .deck { height: calc(100dvh - 205px); min-height: 430px; }
-    .card { padding: 16px; gap: 9px; border-radius: 16px; }
-    .card h2 { font-size: 18px; } .score b { font-size: 22px; }
-    .facts { gap: 6px; } .fact { padding: 6px 8px; } .fact b { font-size: 12px; } .fact span { font-size: 10.5px; }
-    .duties { font-size: 13px; } .duties li { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .duties li:nth-child(n+3) { display: none; }
-    .tag { font-size: 11px; padding: 2px 8px; }
-    .controls { margin-top: 12px; gap: 22px; } .hint { display: none; }
+  /* ---------- responsive ---------- */
+  @media (max-width: 1100px) {
+    .discover { grid-template-columns: 1fr; }
+    .stack-col { position: static; max-width: 520px; margin: 0 auto; width: 100%; }
+    .stats { grid-template-columns: 1fr 1fr 1fr; } .stat.hero-stat { display: none; }
+  }
+  @media (max-width: 760px) {
+    .side { display: none; }
+    .main { margin-left: 0; padding-bottom: 76px; }
+    .topbar { padding: 0 16px; height: 54px; }
+    .crumb { display: none; } .m-brand { display: flex; align-items: center; gap: 8px; font: 800 18px var(--head); letter-spacing: -.03em; }
+    .m-brand img { width: 26px; height: 26px; } .m-brand b { color: var(--lav); }
+    #fetch-info { display: none; }
+    .page { padding: 16px 16px 32px; }
+    h1.hero { font-size: 25px; } p.sub { margin-bottom: 16px; font-size: 13.5px; }
+    #v-discover > .eyebrow, #v-discover > h1.hero, #v-discover > p.sub { display: none; }
+    .stats { display: none; }
+    .filterbar { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px 10px; padding: 0 16px 4px; scrollbar-width: none; }
+    .filterbar::-webkit-scrollbar { display: none; }
+    .filterbar .search { flex: 0 0 180px; } .filterbar select { flex: 0 0 auto; }
+    .stack { height: 300px; }
+    .mini { height: 164px; margin-top: -82px; padding: 15px 16px; }
+    .mini h3 { font-size: 16px; }
+    .keys { display: none; }
+    .panel { padding: 18px 16px; }
+    .panel .head h2 { font-size: 18.5px; }
+    .facts { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .actions { position: sticky; bottom: 68px; background: var(--surface); margin: 16px -16px -18px; padding: 12px 16px; border-radius: 0 0 14px 14px; }
+    .actions { flex-wrap: nowrap; gap: 8px; }
+    .actions .btn { padding: 10px 8px; font-size: 13px; gap: 6px; }
+    .actions .btn.ghost, .actions .lg { display: none; }
+    .item { grid-template-columns: 36px 1fr; } .item .acts { grid-column: 1 / -1; justify-content: flex-start; }
+    .item .avatar { width: 36px; height: 36px; }
     .grid-2 { grid-template-columns: 1fr; }
     .rules { grid-template-columns: 1fr; }
-    .row-card { grid-template-columns: 40px 1fr; padding: 12px; } .row-card .acts { grid-column: 1 / -1; justify-content: flex-start; }
-    .wrow { grid-template-columns: 1fr 80px 64px; } .wrow .auto { display: none; }
-    .city { grid-template-columns: 40px 1fr 64px 96px; } .city .min { display: none; }
-    .comp { grid-template-columns: 1fr 82px 82px 40px; } .comp .pay { display: none; }
-    .cond { grid-template-columns: 1fr .8fr 22px; } .cond .val { grid-column: 1 / 3; }
-    .modal { padding: 0; align-items: flex-end; }
-    .sheet { max-height: 92dvh; border-radius: 16px 16px 0 0; padding: 18px 16px; }
+    .cond { grid-template-columns: 1fr .8fr 24px; } .cond .val { grid-column: 1 / 3; }
+    .wrow { grid-template-columns: 1fr 76px 64px; } .wrow .auto { display: none; }
+    .city { grid-template-columns: 40px 1fr 64px 100px; } .city .min { display: none; }
+    .co-grid { grid-template-columns: 1fr; }
+    .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; height: 66px; padding-bottom: env(safe-area-inset-bottom); background: rgba(255,255,255,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line); z-index: 20; }
+    .tabbar button { flex: 1; border: 0; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10.5px; font-weight: 600; color: var(--muted); cursor: pointer; }
+    .tabbar button.on { color: var(--lav); }
+    .modal.on { align-items: flex-end; padding: 0; }
+    .sheet { border-radius: 18px 18px 0 0; max-height: 92dvh; padding: 20px 16px; }
+    .modal.drawer .sheet { border-radius: 18px 18px 0 0; height: 92dvh; padding: 20px 16px; }
+    .sheet .form .row2 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
-<header>
-  <div class="brand"><img src="logo.svg" alt=""><span>Pusula</span></div>
-  <nav id="tabs">
-    <button data-v="discover" class="on">Keşfet <span id="n-deck"></span></button>
-    <button data-v="short">Kısa liste <span id="n-short"></span></button>
-    <button data-v="rejected">Elenenler <span id="n-rej"></span></button>
-    <button data-v="scoring">Puanlama</button>
-    <button data-v="settings">Ayarlar</button>
-  </nav>
-  <div class="spacer"></div>
-  <span class="muted small" id="fetch-info"></span>
-  <button class="btn primary" id="fetch-btn">↻ İlanları güncelle</button>
-</header>
+<aside class="side">
+  <div class="brand"><img src="logo.svg" alt=""><span>pusula<b>.</b></span></div>
+  <div class="eyebrow">Kariyer çalışma alanın</div>
+  <button class="navlink on" data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Keşfet<span class="count" id="c-deck"></span></button>
+  <button class="navlink" data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Kısa liste<span class="count" id="c-short"></span></button>
+  <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Elenenler<span class="count" id="c-rej"></span></button>
+  <button class="navlink" data-v="companies"><svg class="i"><use href="#i-building"/></svg>Şirketler<span class="count" id="c-co"></span></button>
+  <button class="navlink" data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Puanlama</button>
+  <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profil & tercihler</button>
+  <div class="side-card">
+    <svg class="i" style="color:var(--lav)"><use href="#i-globe"/></svg>
+    <h4>Daha büyük bir dünya. Yeni bir bölüm.</h4>
+    <p>Önce Avrupa. Yeni Zelanda her zaman ufukta.</p>
+    <div class="eyebrow" style="margin-top:12px;font-size:10px">İstanbul → sıradaki durak</div>
+  </div>
+</aside>
 
-<main>
-  <section class="view on" id="v-discover">
-    <div class="discover">
-      <aside>
-        <div class="card-box"><h4>Şehir</h4><div class="chips" id="f-cities"></div></div>
-        <div class="card-box">
-          <h4>Filtre</h4>
-          <label class="row">Min skor: <b id="f-min-val">0</b></label>
-          <input type="range" id="f-min" min="0" max="90" step="5" value="0">
-          <label class="row"><span class="switch"><input type="checkbox" id="f-sponsor"><span></span></span> Sadece sponsorluk ✓</label>
-          <label class="row"><span class="switch"><input type="checkbox" id="f-top"><span></span></span> Sadece top-tier</label>
-          <label class="row"><span class="switch"><input type="checkbox" id="f-new"><span></span></span> Sadece yeni ilanlar</label>
-        </div>
-        <div class="card-box"><h4>Etiket (persona)</h4><div class="chips" id="f-tags"></div></div>
-        <div class="card-box">
-          <h4>Manuel takip</h4>
-          <div class="watch" id="watchlist"></div>
-          <button class="btn" style="margin-top:10px;width:100%;justify-content:center" id="add-btn">+ İlan ekle</button>
-        </div>
-      </aside>
-      <div class="deck-wrap">
-        <button class="btn filter-toggle" id="filter-toggle">⚙︎ Filtreler</button>
-        <div class="deck" id="deck"></div>
-        <div class="controls">
-          <button class="round no" id="b-no" title="Geç (←)">✕</button>
-          <button class="round sm" id="b-undo" title="Geri al (U)">↶</button>
-          <button class="round sm" id="b-info" title="Detay (D)">ⓘ</button>
-          <button class="round yes" id="b-yes" title="Beğen (→)">♥</button>
-        </div>
-        <div class="hint">Kartı sürükle ya da ← → tuşları · D = detay · U = geri al</div>
-      </div>
-    </div>
-  </section>
+<div class="main">
+  <div class="topbar">
+    <div class="m-brand"><img src="logo.svg" alt="">pusula<b>.</b></div>
+    <div class="crumb">Çalışma alanın <svg class="i" style="width:14px;height:14px"><use href="#i-chev"/></svg> <b id="crumb">Keşfet</b></div>
+    <div class="spacer"></div>
+    <span class="small muted" id="fetch-info"></span>
+    <button class="btn sm" id="fetch-btn"><svg class="i"><use href="#i-refresh"/></svg><span>İlanları güncelle</span></button>
+  </div>
 
-  <section class="view" id="v-short">
-    <div class="card-box" style="margin-bottom:14px" id="pack-help"></div>
-    <div class="list" id="short-list"></div>
-  </section>
-
-  <section class="view" id="v-rejected">
-    <h3 class="section-title">Senin geçtiklerin</h3>
-    <div class="list" id="rej-mine"></div>
-    <h3 class="section-title">Otomatik elenenler <span class="muted small">(sponsorluk yok, dil şartı, düşük maaş). Yanlış elendiyse kısa listeye alabilirsin.</span></h3>
-    <div class="list" id="rej-auto"></div>
-  </section>
-
-  <section class="view" id="v-scoring">
-    <h2 class="page">Puanlama</h2>
-    <p class="lead">Skor = temel puan (CV eşleşmesi, şehir, sponsorluk, maaş, rol tipi) + <b>puan matrisi</b> + <b>ağırlıklar</b>. Her şey burada; değiştirdiğin an tüm ilanlar yeniden sıralanır.</p>
-    <div class="card-box" style="margin-bottom:16px" id="learn-summary"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px;gap:10px;flex-wrap:wrap">
-      <div><h3 style="margin:0">Puan matrisi</h3><div class="muted small">Koşula uyan her ilana puan ekler ya da çıkarır.</div></div>
-      <button class="btn primary" id="add-rule">+ Yeni kural</button>
-    </div>
-    <div class="rules" id="rules"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin:28px 0 10px;gap:10px;flex-wrap:wrap">
-      <div><h3 style="margin:0">Ağırlıklar</h3><div class="muted small">“Otomatik” olanlar kaydırmalarından öğrenildi. Değeri değiştirirsen senin değerin geçerli olur. Silersen bir daha öğrenilmez.</div></div>
-      <div class="seg" id="w-filter"><button data-wf="all" class="on">Hepsi</button><button data-wf="auto">Otomatik</button><button data-wf="manual">Manuel</button></div>
-    </div>
-    <div class="card-box">
-      <div class="add-row">
-        <select class="field" id="w-kind" style="flex:0 0 150px">
-          <option value="t">Başlıkta kelime</option><option value="co">Şirket</option><option value="city">Şehir</option><option value="tag">Etiket</option><option value="role">Rol tipi</option>
-        </select>
-        <input class="field" id="w-val" list="w-suggest" placeholder="ör. marketing">
-        <datalist id="w-suggest"></datalist>
-        <input class="field" id="w-pts" type="number" step="0.5" value="3" style="flex:0 0 80px">
-        <button class="btn primary" id="w-add">Ekle</button>
+  <div class="page">
+    <section class="view on" id="v-discover">
+      <div class="eyebrow">Sıradaki adımını değerli kıl</div>
+      <h1 class="hero">Doğru rol, doğru şehir.</h1>
+      <p class="sub">Daha az arama, sana gerçekten uyan daha çok seçenek. Kartlar arasında yukarı-aşağı gez; karar vermek zorunda değilsin.</p>
+      <div class="stats">
+        <div class="box stat hero-stat"><div class="eyebrow">Aramanın özeti</div><h4>Sınır tanımayan hırs.</h4><div class="tags" id="hero-chips"></div></div>
+        <div class="box stat"><div class="eyebrow">Keşfedilecek</div><b id="st-deck">0</b><span class="small">sana uygun rol</span></div>
+        <div class="box stat"><div class="eyebrow">Kısa listen</div><b id="st-short">0</b><span class="small">tutmaya değer</span></div>
+        <div class="box stat"><div class="eyebrow">Başvurular</div><b id="st-applied">0</b><span class="small">yolda olanlar</span></div>
       </div>
-      <div id="weights"></div>
-      <div class="small muted" style="margin-top:10px" id="hidden-info"></div>
-    </div>
-  </section>
+      <div class="filterbar">
+        <div class="search"><svg class="i"><use href="#i-search"/></svg><input class="field" id="f-q" placeholder="Rol, şirket ya da şehir ara"></div>
+        <select class="field" id="f-city"><option value="">Tüm şehirler</option></select>
+        <select class="field" id="f-tag"><option value="">Tüm personalar</option></select>
+        <select class="field" id="f-min"><option value="0">Tüm skorlar</option><option value="50">Skor 50+</option><option value="65">Skor 65+</option><option value="80">Skor 80+</option></select>
+        <span class="chip" data-ftoggle="sponsor">Sponsorluk ✓</span>
+        <span class="chip" data-ftoggle="top">Öncelikli şirket</span>
+        <span class="chip" data-ftoggle="fresh">Yeni</span>
+      </div>
+      <div class="discover">
+        <div class="stack-col">
+          <div class="stack-wrap"><div class="stack" id="stack" tabindex="0"></div></div>
+          <div class="position">
+            <div class="count" id="pos">0 <span>/ 0</span></div>
+            <div class="bar"><i id="pos-bar" style="width:0"></i></div>
+            <div class="navbtns">
+              <button id="b-prev" title="Önceki (↑)"><svg class="i"><use href="#i-up"/></svg></button>
+              <button id="b-next" title="Sonraki (↓)"><svg class="i"><use href="#i-down"/></svg></button>
+              <button id="b-undo" title="Son kararı geri al (U)"><svg class="i"><use href="#i-undo"/></svg></button>
+            </div>
+          </div>
+          <div class="keys"><span><kbd>↑</kbd><kbd>↓</kbd> gez</span><span><kbd>←</kbd> geç</span><span><kbd>→</kbd> kısa liste</span><span><kbd>D</kbd> tüm ilan</span></div>
+          <div class="note reorder" id="reorder"><svg class="i"><use href="#i-sparkle"/></svg><div>Kararlarından öğrendim; sıralamayı güncelleyebilirim. <a href="#" id="do-reorder">Yeniden sırala</a></div></div>
+        </div>
+        <div class="box panel" id="panel"></div>
+      </div>
+    </section>
 
-  <section class="view" id="v-settings">
-    <h2 class="page">Ayarlar</h2>
-    <p class="lead">Değişiklikler anında uygulanır ve bu cihazda saklanır. Başka cihaza taşımak için en alttaki “Yedek” kartını kullan.</p>
-    <div class="stack">
-      <div class="card-box">
-        <h3>💶 Maaş beklentisi</h3>
-        <p class="sub">İstanbul'daki net maaşın, her şehirde aynı yaşam standardına çevrilir. Hedefleri tek tek de değiştirebilirsin.</p>
-        <div class="money">
-          <label>İstanbul net / ay (TL)<input class="field big-input" type="number" step="5000" id="s-try"></label>
-          <label style="flex:1;min-width:220px">İyi bir rol için kabul edeceğin düşüş: <b id="s-flex-val"></b><input type="range" min="0" max="30" step="1" id="s-flex"></label>
+    <section class="view" id="v-short">
+      <div class="eyebrow">Tutmaya değer</div>
+      <h1 class="hero">Kısa listen.</h1>
+      <p class="sub" id="pack-help"></p>
+      <div class="pipeline" id="pipeline"></div>
+      <div class="list" id="short-list"></div>
+    </section>
+
+    <section class="view" id="v-rejected">
+      <div class="eyebrow">Geride bıraktıkların</div>
+      <h1 class="hero">Elenenler.</h1>
+      <p class="sub">Senin geçtiklerin ve otomatik elenenler. Yanlış elenen bir şey varsa buradan geri alabilirsin.</p>
+      <h3 class="sec section-title">Senin geçtiklerin</h3>
+      <div class="list" id="rej-mine"></div>
+      <h3 class="sec section-title">Otomatik elenenler <span class="small muted" style="font-weight:500">· sponsorluk yok, dil şartı ya da düşük maaş</span></h3>
+      <div class="list" id="rej-auto"></div>
+    </section>
+
+    <section class="view" id="v-companies">
+      <div class="eyebrow">İzleme listen</div>
+      <h1 class="hero">Sana uyan şirketleri seç.</h1>
+      <p class="sub">İzleme listen, ilan kaynakların ve düzenlenebilir şirket personaları.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+        <button class="btn primary" id="add-co"><svg class="i"><use href="#i-plus"/></svg>Şirket ekle</button>
+        <div class="seg" id="co-filter"><button data-cof="all" class="on">Hepsi</button><button data-cof="priority">Öncelikli</button><button data-cof="feed">Otomatik</button><button data-cof="manual">Manuel</button><button data-cof="hidden">Gizli</button></div>
+      </div>
+      <div class="note" style="margin-bottom:18px"><svg class="i"><use href="#i-info"/></svg><div>Greenhouse, Lever, Ashby, SmartRecruiters ve Workday kaynaklı şirketlerin ilanları otomatik gelir. Diğerleri kariyer sayfasına link verir. Etiketler senin tercihlerin, doğrulanmış kültür değerlendirmesi değil.</div></div>
+      <div class="co-grid" id="co-grid"></div>
+    </section>
+
+    <section class="view" id="v-scoring">
+      <div class="eyebrow">Senin kuralların</div>
+      <h1 class="hero">Puanlama.</h1>
+      <p class="sub">Skor = temel puan (CV eşleşmesi, şehir, sponsorluk, maaş, rol tipi) + puan matrisi + ağırlıklar. Değiştirdiğin an tüm ilanlar yeniden puanlanır.</p>
+      <div class="box pad" style="margin-bottom:22px" id="learn-summary"></div>
+      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px;gap:10px;flex-wrap:wrap">
+        <div><h3 class="sec">Puan matrisi</h3><div class="small muted">Koşula uyan her ilana puan ekler ya da çıkarır.</div></div>
+        <button class="btn primary" id="add-rule"><svg class="i"><use href="#i-plus"/></svg>Yeni kural</button>
+      </div>
+      <div class="rules" id="rules"></div>
+      <div style="display:flex;justify-content:space-between;align-items:end;margin:32px 0 12px;gap:10px;flex-wrap:wrap">
+        <div><h3 class="sec">Ağırlıklar</h3><div class="small muted">Otomatik olanlar kaydırmalarından öğrenildi. Değeri değiştirirsen seninki geçerli olur. Silersen bir daha öğrenilmez.</div></div>
+        <div class="seg" id="w-filter"><button data-wf="all" class="on">Hepsi</button><button data-wf="auto">Otomatik</button><button data-wf="manual">Manuel</button></div>
+      </div>
+      <div class="box pad">
+        <div class="add-row">
+          <select class="field" id="w-kind" style="flex:0 0 160px"><option value="t">Başlıkta kelime</option><option value="co">Şirket</option><option value="cotag">Şirket etiketi</option><option value="city">Şehir</option><option value="tag">Etiket</option><option value="role">Rol tipi</option></select>
+          <input class="field" id="w-val" list="w-suggest" placeholder="ör. marketing"><datalist id="w-suggest"></datalist>
+          <input class="field" id="w-pts" type="number" step="0.5" value="3" style="flex:0 0 84px">
+          <button class="btn primary" id="w-add">Ekle</button>
+        </div>
+        <div id="weights"></div>
+        <div class="small muted" style="margin-top:10px" id="hidden-info"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-settings">
+      <div class="eyebrow">Profil & tercihler</div>
+      <h1 class="hero">Ne istediğini bil.</h1>
+      <p class="sub">Değişiklikler anında uygulanır ve bu cihazda saklanır. Başka cihaza taşımak için en alttaki yedek kartını kullan.</p>
+      <div class="stack-v">
+        <div class="box pad">
+          <h3>Maaş beklentisi</h3>
+          <p class="hint">İstanbul'daki net maaşın, her şehirde aynı yaşam standardına çevrilir. Hedefleri şehir bazında da değiştirebilirsin.</p>
+          <div class="money">
+            <label>İstanbul net / ay (TL)<input class="field big-input" type="number" step="5000" id="s-try"></label>
+            <label style="flex:1;min-width:220px">İyi bir rol için kabul edeceğin düşüş: <b id="s-flex-val" style="color:var(--ink)"></b><input type="range" min="0" max="30" step="1" id="s-flex"></label>
+          </div>
+        </div>
+        <div class="box pad">
+          <h3>Şehirler & öncelik</h3>
+          <p class="hint">1 = en çok istediğin. Kapalı şehirlerin ilanları gizlenir. Hedef = brüt yıllık, € karşılığı.</p>
+          <div class="city head"><span></span><span>Şehir</span><span>Öncelik</span><span>Hedef (€/yıl)</span><span class="min">Min</span></div>
+          <div id="s-cities"></div>
+        </div>
+        <div class="grid-2">
+          <div class="box pad">
+            <h3>Rol yakınlığı</h3>
+            <p class="hint">Başlıkta geçen kelimeye göre rol “birebir yaptığım iş” ya da “alanıma yakın” sayılır.</p>
+            <span class="flabel">Birebir yaptığım işler</span><div class="chips" id="s-exact"></div>
+            <span class="flabel">Alanıma yakın işler</span><div class="chips" id="s-adjacent"></div>
+            <span class="flabel">Başlıkta görmek istemediklerim <span class="muted" style="font-weight:400">(gizlenir)</span></span><div class="chips" id="s-hide"></div>
+          </div>
+          <div class="box pad">
+            <h3>CV anahtar kelimeleri</h3>
+            <p class="hint">İlanda geçen kelimeler CV eşleşmesini artırır. Rozete tıklayınca ağırlık değişir (0.5 → 3).</p>
+            <div class="chips" id="s-cv"></div>
+            <span class="flabel">Eksik beceri uyarıları</span><div class="chips" id="s-gaps"></div>
+          </div>
+        </div>
+        <div class="box pad">
+          <h3>Yedek & cihazlar arası taşıma</h3>
+          <p class="hint">Kararların, kuralların, ağırlıkların, şirketlerin ve ayarların tek dosyada. Telefonda indirip bilgisayarda yükleyebilir ya da Claude Code'a paket hazırlatmak için verebilirsin.</p>
+          <div class="chips">
+            <button class="btn primary" id="dl-state"><svg class="i"><use href="#i-download"/></svg>Yedeği indir</button>
+            <label class="btn"><svg class="i"><use href="#i-upload"/></svg>Yedek yükle<input type="file" id="ul-state" accept=".json" hidden></label>
+            <button class="btn ghost" id="reset-settings">Ayarları varsayılana döndür</button>
+          </div>
         </div>
       </div>
-      <div class="card-box">
-        <h3>📍 Şehirler & öncelik</h3>
-        <p class="sub">1 = en çok istediğin. Kapalı şehirlerin ilanları gizlenir. Hedef = brüt yıllık, € karşılığı.</p>
-        <div class="city head"><span></span><span>Şehir</span><span>Öncelik</span><span>Hedef (€/yıl)</span><span class="min">Min</span></div>
-        <div id="s-cities"></div>
-      </div>
-      <div class="grid-2">
-        <div class="card-box">
-          <h3>🎯 Rol yakınlığı</h3>
-          <p class="sub">Başlıkta geçen kelimeye göre rol “birebir yaptığım iş” ya da “alanıma yakın” sayılır. Puan matrisinde kullanılır.</p>
-          <div class="small" style="margin-bottom:6px"><b>Birebir yaptığım işler</b></div>
-          <div class="chips" id="s-exact"></div>
-          <div class="small" style="margin:14px 0 6px"><b>Alanıma yakın işler</b></div>
-          <div class="chips" id="s-adjacent"></div>
-          <div class="small" style="margin:14px 0 6px"><b>Başlıkta görmek istemediklerim</b> <span class="muted">(bu ilanlar gizlenir)</span></div>
-          <div class="chips" id="s-hide"></div>
-        </div>
-        <div class="card-box">
-          <h3>🧩 CV anahtar kelimeleri</h3>
-          <p class="sub">İlan metninde geçen kelimeler CV eşleşmesini artırır. Rozete tıklayınca ağırlık değişir (0.5 → 3).</p>
-          <div class="chips" id="s-cv"></div>
-          <div class="small" style="margin:14px 0 6px"><b>Eksik beceri uyarıları</b> <span class="muted">(kartta kırmızı görünür)</span></div>
-          <div class="chips" id="s-gaps"></div>
-        </div>
-      </div>
-      <div class="card-box">
-        <h3>🏢 Şirketler</h3>
-        <p class="sub">Seviye ve itibar bilgisi, ilanda maaş yazmadığında puanı etkiler. Göz ikonu şirketi gizler. Yeni şirket için Claude Code'a “yeni şirket ekle X” yaz.</p>
-        <div class="comp head small muted"><span>Şirket</span><span>Seviye</span><span class="pay">Maaş itibarı</span><span>Sponsorluk</span><span></span></div>
-        <div id="s-companies"></div>
-      </div>
-      <div class="card-box">
-        <h3>💾 Yedek & cihazlar arası taşıma</h3>
-        <p class="sub">Kararların, kuralların, ağırlıkların ve ayarların tek dosyada. Telefonda indirip bilgisayarda yükleyebilir ya da Claude Code'a paket hazırlatmak için verebilirsin.</p>
-        <div class="chips">
-          <button class="btn primary" id="dl-state">⬇ Yedeği indir</button>
-          <label class="btn">⬆ Yedek yükle<input type="file" id="ul-state" accept=".json" hidden></label>
-          <button class="btn ghost" id="reset-settings">Ayarları varsayılana döndür</button>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </div>
+</div>
 
-<div class="modal" id="m-detail"><div class="sheet" id="detail"></div></div>
-<div class="modal" id="m-reason"><div class="sheet" style="max-width:520px">
-  <h2 style="font-size:18px;margin-top:0">Neden geçtin?</h2>
-  <p class="muted small" style="margin-top:-8px">Seçtiklerin sonraki sıralamayı etkiler. Birden fazla seçebilirsin.</p>
+<nav class="tabbar" id="tabbar">
+  <button data-v="discover" class="on"><svg class="i"><use href="#i-compass"/></svg>Keşfet</button>
+  <button data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Kısa liste</button>
+  <button data-v="companies"><svg class="i"><use href="#i-building"/></svg>Şirketler</button>
+  <button data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Puanlama</button>
+  <button data-v="more"><svg class="i"><use href="#i-more"/></svg>Daha fazla</button>
+</nav>
+
+<div class="modal drawer" id="m-detail"><div class="sheet" id="detail"></div></div>
+<div class="modal" id="m-reason"><div class="sheet" style="max-width:500px">
+  <h2>Neden geçtin?</h2>
+  <p class="small muted" style="margin:0 0 14px">Seçtiklerin sonraki sıralamayı etkiler. Birden fazla seçebilirsin.</p>
   <div class="chips" id="reasons"></div>
-  <input type="text" id="reason-note" placeholder="Not (isteğe bağlı)" style="margin-top:12px">
-  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px">
-    <button class="btn" id="r-cancel">Vazgeç</button><button class="btn primary" id="r-save">Geç</button>
+  <input class="field" id="reason-note" placeholder="Not (isteğe bağlı)" style="width:100%;margin-top:14px">
+  <div class="sheet-actions"><button class="btn" id="r-cancel">Vazgeç</button><button class="btn primary" id="r-save">Geç</button></div>
+</div></div>
+<div class="modal" id="m-more"><div class="sheet" style="max-width:420px">
+  <h2>Daha fazla</h2>
+  <div class="stack-v" style="gap:6px;margin-top:14px">
+    <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Elenenler</button>
+    <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profil & tercihler</button>
   </div>
 </div></div>
-<div class="modal" id="m-add"><div class="sheet" style="max-width:600px">
-  <h2 style="font-size:18px;margin-top:0">İlan ekle</h2>
-  <p class="muted small" style="margin-top:-8px">LinkedIn ya da takip listesindeki bir siteden ilan metnini yapıştır.</p>
-  <input type="text" id="a-company" placeholder="Şirket"><input type="text" id="a-title" placeholder="Pozisyon">
-  <input type="text" id="a-loc" placeholder="Lokasyon (örn. London)"><input type="url" id="a-url" placeholder="İlan linki">
-  <textarea id="a-desc" rows="10" placeholder="İlan metni"></textarea>
-  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px">
-    <button class="btn" data-close="m-add">Vazgeç</button><button class="btn primary" id="a-save">Ekle</button>
+<div class="modal" id="m-co"><div class="sheet" id="co-sheet"></div></div>
+<div class="modal" id="m-add"><div class="sheet">
+  <h2>İlan ekle</h2>
+  <p class="small muted" style="margin:0">LinkedIn ya da takip listesindeki bir siteden ilan metnini yapıştır.</p>
+  <div class="form">
+    <label>Şirket<input class="field" id="a-company"></label>
+    <label>Pozisyon<input class="field" id="a-title"></label>
+    <label>Lokasyon<input class="field" id="a-loc" placeholder="ör. London"></label>
+    <label>İlan linki<input class="field" id="a-url" type="url"></label>
+    <label>İlan metni<textarea class="field" id="a-desc" rows="8"></textarea></label>
   </div>
+  <div class="sheet-actions"><button class="btn" data-close="m-add">Vazgeç</button><button class="btn primary" id="a-save">Ekle</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v16l-6-4-6 4z"/></symbol>
+  <symbol id="i-xc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 20V6l8-3v17M12 9h8v11M7 9h2M7 13h2M7 17h2M15 13h2M15 17h2M3 20h18"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3l-5.5 2.9 1-6.2L3 9.6l6.2-.9z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 20V9M7 14l5-5 5 5M5 4h14"/></symbol>
+  <symbol id="i-later" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
 
 <script>
 const REPO = "nesibekeles/Job";
@@ -374,6 +547,9 @@ const REASON_KEYS = { "Sponsorluk / vize riski": "sponsor", "Maaş düşük olab
 const CITY_POINTS = { 1: 15, 2: 13, 3: 11, 4: 9, 5: 8, 6: 6, 7: 5, 8: 4, 9: 3 };
 const CURRENCY = { "United Kingdom": ["GBP", "£"], "New Zealand": ["NZD", "NZ$"], Denmark: ["DKK", "DKK "], Sweden: ["SEK", "SEK "], Norway: ["NOK", "NOK "], Czechia: ["CZK", "CZK "], Hungary: ["HUF", "HUF "] };
 const BASE_TRY = 200000; // city targets in config were set for this Istanbul salary
+// muted pastel tints for company avatars only: [background, letter]
+const PASTELS = [["#ece9f8", "#5b4fa0"], ["#e4f2eb", "#2f6f55"], ["#f5ebe5", "#8a5a43"], ["#f3efe0", "#6f5e2c"], ["#e6edf5", "#3d5f82"], ["#f2e8ec", "#86495a"]];
+const VIEW_NAMES = { discover: "Keşfet", short: "Kısa liste", rejected: "Elenenler", companies: "Şirketler", scoring: "Puanlama", settings: "Profil & tercihler" };
 
 const DEFAULT_RULES = [
   { name: "≤5 yıl tecrübe isteyen roller", all: [{ f: "years", op: "lte", v: 5 }], pts: 5 },
@@ -382,7 +558,7 @@ const DEFAULT_RULES = [
   { name: "Birebir yaptığım iş", all: [{ f: "family", op: "is", v: "birebir" }], pts: 6 },
   { name: "Birebir değil ama alanıma yakın", all: [{ f: "family", op: "is", v: "yakın" }], pts: 3 },
   { name: "Başlıkta “marketing”", all: [{ f: "title", op: "has", v: "marketing" }], pts: 4 },
-  { name: "Top-tier şirket", all: [{ f: "tier", op: "is", v: "top" }], pts: 4 },
+  { name: "Öncelikli şirket", all: [{ f: "priority", op: "is", v: "evet" }], pts: 5 },
   { name: "Türkçe artı", all: [{ f: "tag", op: "is", v: "Türkçe artı" }], pts: 3 },
 ];
 const SELECT_LABELS = {
@@ -393,6 +569,7 @@ const SELECT_LABELS = {
   workplace: { "Hibrit": "Hibrit", "Uzaktan": "Uzaktan", "Ofis": "Ofis", "?": "Bilinmiyor" },
   tier: { top: "Top-tier", big: "Büyük", scaleup: "Scale-up" },
   salary: { hedefte: "Hedefte", "hedef altı": "Hedef altı", "belirtilmemiş": "Belirtilmemiş" },
+  priority: { evet: "Evet", "hayır": "Hayır" },
 };
 const FIELDS = {
   title: { label: "Başlık", type: "text" }, desc: { label: "İlan metni", type: "text" },
@@ -400,25 +577,39 @@ const FIELDS = {
   family: { label: "Rol yakınlığı", type: "select" }, seniority: { label: "Seviye", type: "select" },
   role_type: { label: "Rol tipi", type: "select" }, sponsorship: { label: "Sponsorluk", type: "select" },
   workplace: { label: "Çalışma tipi", type: "select" }, tier: { label: "Şirket seviyesi", type: "select" },
+  priority: { label: "Öncelikli şirket", type: "select" }, cotag: { label: "Şirket etiketi", type: "select" },
   salary: { label: "Maaş durumu", type: "select" }, company: { label: "Şirket", type: "select" },
-  city: { label: "Şehir", type: "select" }, tag: { label: "Etiket", type: "select" },
+  city: { label: "Şehir", type: "select" }, tag: { label: "İlan etiketi", type: "select" },
 };
 const OPS = { text: [["has", "içerir"], ["not", "içermez"]], select: [["is", "="], ["isnt", "≠"]], number: [["gte", "≥"], ["lte", "≤"]] };
-const W_KIND = { t: "Başlıkta kelime", co: "Şirket", city: "Şehir", tag: "Etiket", role: "Rol tipi" };
+const W_KIND = { t: "Başlıkta kelime", co: "Şirket", cotag: "Şirket etiketi", city: "Şehir", tag: "Etiket", role: "Rol tipi" };
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const mod = (a, n) => ((a % n) + n) % n;
 const uid = () => Math.random().toString(36).slice(2, 9);
+const icon = (id) => `<svg class="i"><use href="#i-${id}"/></svg>`;
 const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("on"), 2400); };
 const eur = (n) => "€" + Math.round(n / 1000) + "k";
 const ago = (iso) => { if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 864e5; return d < 1 ? "bugün" : d < 2 ? "dün" : Math.floor(d) + " gün önce"; };
 const signed = (n) => (n > 0 ? "+" : "") + (Math.round(n * 10) / 10);
+const pastel = (name) => PASTELS[[...name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PASTELS.length];
+const avatar = (name, cls = "") => { const [bg, fg] = pastel(name); return `<div class="avatar ${cls}" style="background:${bg};color:${fg}">${esc(name[0])}</div>`; };
+const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
-const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all",
-  filters: { cities: new Set(), tags: new Set(), min: 0, sponsor: false, top: false, fresh: false } };
+const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all", cof: "all",
+  order: [], idx: 0, sinceOrder: 0, filters: { q: "", city: "", tag: "", min: 0, sponsor: false, top: false, fresh: false } };
 
 // ---------------- state ----------------
+function defaultCompanies(cfg) {
+  const out = {};
+  const careers = (c) => c.url || { greenhouse: `https://job-boards.greenhouse.io/${c.slug}`, lever: `https://jobs.lever.co/${c.slug}`, ashby: `https://jobs.ashbyhq.com/${c.slug}`,
+    smartrecruiters: `https://jobs.smartrecruiters.com/${c.slug}`, workday: `https://${c.host}/${c.site}`, amazon: "https://www.amazon.jobs/en/search?base_query=marketing" }[c.ats] || "";
+  for (const c of cfg.companies.companies) out[c.name] = { tier: c.tier, pay: c.pay, sponsor: c.sponsor, tags: c.tags || [], priority: !!c.priority, hidden: false, source: c.ats, url: careers(c) };
+  for (const w of cfg.companies.watchlist || []) out[w.name] = { tier: w.priority ? "top" : "big", pay: "high", sponsor: "known", tags: w.tags || [], priority: !!w.priority, hidden: false, source: "manual", url: w.url };
+  return out;
+}
 function defaultSettings(cfg) {
   const c = cfg.cities, p = cfg.profile;
   return {
@@ -427,9 +618,8 @@ function defaultSettings(cfg) {
     remote: { on: c.remote?.enabled ?? true, priority: c.remote?.priority ?? 6, target: c.remote?.gross_target_eur ?? 45000 },
     exact_kw: ["growth", "revenue", "go-to-market", "gtm", "commercial", "category", "expansion", "monetization", "monetisation", "market development"],
     adjacent_kw: ["product marketing", "lifecycle", "crm", "brand", "performance marketing", "marketing manager", "marketing lead", "partnership", "product manager", "product owner", "insights", "consumer", "b2c", "acquisition", "retention"],
-    hide_title_kw: [],
-    cv_keywords: { ...p.cv_keywords }, gap_keywords: [...(p.gap_keywords || [])],
-    companies: Object.fromEntries(cfg.companies.companies.map((x) => [x.name, { tier: x.tier, pay: x.pay, sponsor: x.sponsor, hidden: false }])),
+    hide_title_kw: [], cv_keywords: { ...p.cv_keywords }, gap_keywords: [...(p.gap_keywords || [])],
+    companies: defaultCompanies(cfg),
   };
 }
 function freshState() {
@@ -440,7 +630,9 @@ function hydrate(s) {
   const st = { ...freshState(), ...(s || {}) };
   const def = defaultSettings(APP.data.config);
   st.settings = { ...def, ...(st.settings || {}) };
-  st.settings.companies = { ...def.companies, ...st.settings.companies };
+  const saved = st.settings.companies || {};
+  st.settings.companies = { ...def.companies };
+  for (const [n, c] of Object.entries(saved)) st.settings.companies[n] = { ...(def.companies[n] || {}), ...c, url: c.url || def.companies[n]?.url || "" };
   for (const c of def.cities) if (!st.settings.cities.some((x) => x.name === c.name)) st.settings.cities.push(c);
   return st;
 }
@@ -450,13 +642,9 @@ function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(APP.state)); } catch { toast("Bu tarayıcı kayıt tutmuyor (gizli sekme?)"); }
   if (APP.server) { clearTimeout(saveTimer); saveTimer = setTimeout(() => post("/api/state", APP.state), 300); }
 }
-const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
 // ---------------- derive + score ----------------
-function cityCfg(name, remote) {
-  const s = APP.state.settings;
-  return remote ? { ...s.remote, name } : s.cities.find((c) => c.name === name);
-}
+function cityCfg(name, remote) { const s = APP.state.settings; return remote ? { ...s.remote, name } : s.cities.find((c) => c.name === name); }
 function targetsFor(cc) {
   if (!cc) return {};
   const s = APP.state.settings, t = Math.round((cc.target * s.istanbul_net_try) / BASE_TRY);
@@ -468,22 +656,22 @@ function family(title) {
   if (s.adjacent_kw.some((k) => k && t.includes(k.toLowerCase()))) return "yakın";
   return "diğer";
 }
+const companyOf = (j) => APP.state.settings.companies[j.company] || { tier: j.f.company_tier, pay: j.f.company_pay, sponsor: j.f.company_sponsor, tags: [], priority: false };
 function derive(j) {
   const s = APP.state.settings, f = j.f;
   const text = j._text || (j._text = (j.title + "\n" + (j.description || "")).toLowerCase());
-  const cc = cityCfg(f.city, f.remote), { target, min } = targetsFor(cc);
-  const co = s.companies[j.company] || { tier: f.company_tier, pay: f.company_pay, sponsor: f.company_sponsor };
+  const cc = cityCfg(f.city, f.remote), { target, min } = targetsFor(cc), co = companyOf(j);
   const hits = Object.entries(s.cv_keywords).filter(([k]) => k.trim() && text.includes(k.trim().toLowerCase())).sort((a, b) => b[1] - a[1]);
   const cv_match = Math.min(1, hits.reduce((a, [, w]) => a + w, 0) / 20);
   const gaps = s.gap_keywords.filter((g) => new RegExp("\\b" + g.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b").test(text)).slice(0, 5);
   const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "hedefte" : "hedef altı") : "belirtilmemiş";
   let filtered = f.filtered && !/^Maaş düşük/.test(f.filtered) ? f.filtered : null;
   if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Maaş düşük (€${f.salary.max_eur.toLocaleString("tr")} < min €${min.toLocaleString("tr")})`;
-  const hiddenWhy = (cc && cc.on === false) ? "şehir kapalı" : co.hidden ? "şirket gizli" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "başlık gizli" : null;
+  const hiddenWhy = cc && cc.on === false ? "şehir kapalı" : co.hidden ? "şirket gizli" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "başlık gizli" : null;
   const tags = f.tags.filter((t) => !/^Maaş hedef/.test(t.label));
   if (salaryStatus !== "belirtilmemiş") tags.push({ color: salaryStatus === "hedefte" ? "green" : "yellow", label: salaryStatus === "hedefte" ? "Maaş hedefte" : "Maaş hedef altı" });
-  return { city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor,
-    cv_match, cv5: Math.round(cv_match * 50) / 10, level: clamp(Math.ceil(cv_match * 5), 1, 5), matched: hits.slice(0, 6).map(([k]) => k.trim()),
+  return { city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor, cotags: co.tags || [], coPriority: !!co.priority,
+    cv_match, cv5: Math.round(cv_match * 50) / 10, matched: hits.slice(0, 6).map(([k]) => k.trim()),
     gaps, family: family(j.title), salaryStatus, filtered, hiddenWhy, tags, text };
 }
 function baseScore(j, d, rw) {
@@ -501,7 +689,7 @@ function baseScore(j, d, rw) {
 function fieldValue(j, d, f) {
   return { title: j.title.toLowerCase(), desc: d.text, cv: d.cv5, years: j.f.years_required, family: d.family, seniority: j.f.seniority,
     role_type: j.f.role_type, sponsorship: j.f.sponsorship, workplace: j.f.workplace, tier: d.tier, salary: d.salaryStatus,
-    company: j.company, city: d.city, tag: d.tags.map((t) => t.label) }[f];
+    priority: d.coPriority ? "evet" : "hayır", cotag: d.cotags, company: j.company, city: d.city, tag: d.tags.map((t) => t.label) }[f];
 }
 function condOk(c, j, d) {
   const v = fieldValue(j, d, c.f), type = FIELDS[c.f]?.type;
@@ -513,7 +701,7 @@ function condOk(c, j, d) {
 const ruleHits = (r, j, d) => r.on && r.all.length > 0 && r.all.every((c) => condOk(c, j, d));
 function features(j, d) {
   const toks = new Set((j.title.toLowerCase().match(/[a-zçğıöşü]+/g) || []).filter((w) => w.length > 2));
-  return [...[...toks].map((t) => "t:" + t), ...d.tags.map((t) => "tag:" + t.label), "co:" + j.company, "city:" + d.city, "role:" + j.f.role_type];
+  return [...[...toks].map((t) => "t:" + t), ...d.tags.map((t) => "tag:" + t.label), ...d.cotags.map((t) => "cotag:" + t), "co:" + j.company, "city:" + d.city, "role:" + j.f.role_type];
 }
 function learn(rowsById, decisions) {
   const likes = {}, dislikes = {}, rc = {};
@@ -525,7 +713,8 @@ function learn(rowsById, decisions) {
       rc[why] = (rc[why] || 0) + 1;
       if (why === "Şirket ilgimi çekmiyor") feats.push("co:" + r.j.company, "co:" + r.j.company);
       if (why === "Lokasyon") feats.push("city:" + r.d.city, "city:" + r.d.city);
-      if (why === "Sektör / ürün ilgimi çekmiyor" || why === "Rol içeriği uymuyor") feats = feats.concat(["co:" + r.j.company], feats.filter((x) => x.startsWith("t:")));
+      if (why === "Sektör / ürün ilgimi çekmiyor") feats = feats.concat(["co:" + r.j.company], r.d.cotags.map((t) => "cotag:" + t));
+      if (why === "Rol içeriği uymuyor") feats = feats.concat(feats.filter((x) => x.startsWith("t:")));
     }
     for (const x of feats) bucket[x] = (bucket[x] || 0) + 1;
   }
@@ -543,8 +732,7 @@ function compute() {
   const st = APP.state;
   const rows = APP.data.jobs.map((j) => ({ j, d: derive(j) }));
   APP.byId = Object.fromEntries(rows.map((r) => [r.j.id, r]));
-  const m = learn(APP.byId, st.decisions);
-  APP.model = m;
+  const m = (APP.model = learn(APP.byId, st.decisions));
   const hidden = new Set(st.hidden);
   for (const r of rows) {
     const base = baseScore(r.j, r.d, m.rw);
@@ -565,87 +753,140 @@ function compute() {
   APP.rows = rows.sort((a, b) => b.score - a.score);
 }
 
-// ---------------- discover ----------------
-function deckRows() {
-  const f = APP.filters;
-  return APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed)
-    .filter((r) => !f.cities.size || f.cities.has(r.d.city))
-    .filter((r) => r.score >= f.min)
-    .filter((r) => !f.sponsor || r.j.f.sponsorship === "yes")
-    .filter((r) => !f.top || r.d.tier === "top")
-    .filter((r) => !f.fresh || r.j.is_new)
-    .filter((r) => !f.tags.size || r.d.tags.some((t) => f.tags.has(t.label)));
+// ---------------- deck order (frozen while browsing so the position stays meaningful) ----------------
+function passesFilters(r) {
+  const f = APP.filters, q = f.q.trim().toLowerCase();
+  return !r.d.filtered && !r.d.hiddenWhy && !r.j.closed
+    && (!q || `${r.j.title} ${r.j.company} ${r.d.city}`.toLowerCase().includes(q))
+    && (!f.city || r.d.city === f.city) && r.score >= f.min
+    && (!f.sponsor || r.j.f.sponsorship === "yes") && (!f.top || r.d.coPriority) && (!f.fresh || r.j.is_new)
+    && (!f.tag || r.d.tags.some((t) => t.label === f.tag) || r.d.cotags.includes(f.tag));
 }
-function buildFilters() {
-  const open = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy);
-  const count = (arr) => arr.reduce((m, k) => ((m[k] = (m[k] || 0) + 1), m), {});
-  const cities = count(open.map((r) => r.d.city)), prio = Object.fromEntries(open.map((r) => [r.d.city, r.d.priority]));
-  $("#f-cities").innerHTML = Object.keys(cities).sort((a, b) => prio[a] - prio[b] || a.localeCompare(b))
-    .map((c) => `<span class="chip ${APP.filters.cities.has(c) ? "on" : ""}" data-city="${esc(c)}">${esc(c)} ${cities[c]}</span>`).join("");
-  const tags = count(open.flatMap((r) => r.d.tags.map((t) => t.color + "|" + t.label)));
-  $("#f-tags").innerHTML = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 18).map(([k, n]) => {
-    const [c, l] = k.split("|");
-    return `<span class="chip tag ${c} ${APP.filters.tags.has(l) ? "on" : ""}" data-tag="${esc(l)}">${esc(l)} ${n}</span>`;
-  }).join("");
+function buildOrder(keepCurrent) {
+  const cur = APP.order.length ? deckRows()[APP.idx]?.j.id : null;
+  APP.order = APP.rows.filter((r) => !r.decision && passesFilters(r)).map((r) => r.j.id);
+  APP.idx = keepCurrent && cur ? Math.max(0, APP.order.indexOf(cur)) : 0;
+  APP.sinceOrder = 0;
 }
-function facts({ j, d }) {
-  const f = j.f;
-  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)} ${d.salaryStatus === "hedefte" ? "✓" : "⚠︎"}`
-    : `Belirtilmemiş · ${{ top: "piyasa üstü", high: "iyi ödeyen", mid: "piyasa ortası" }[d.pay] || "?"}`;
-  const sp = { yes: "✓ Var / relocation", no: "✕ Yok", unknown: f.remote ? "Gerekmez (uzaktan)" : `Belirsiz · ${{ known: "şirket sponsor olur", sometimes: "bazen", rare: "nadiren" }[d.sponsor] || "?"}` }[f.sponsorship];
-  return `
-    <div class="fact"><span>📍 Lokasyon</span><b>${esc(d.city)}</b> <span class="muted small">#${d.priority} tercih</span></div>
-    <div class="fact"><span>💶 Maaş (brüt/yıl)</span><b>${esc(sal)}</b>${d.target ? `<span class="small muted">hedef ${eur(d.target)}</span>` : ""}</div>
-    <div class="fact"><span>🛂 Vize sponsorluğu</span><b>${esc(sp)}</b></div>
-    <div class="fact"><span>🏢 Çalışma tipi · Seviye</span><b>${esc(f.workplace + (f.office_days ? ` · ${f.office_days} gün ofis` : ""))} · ${esc(SELECT_LABELS.seniority[f.seniority])}</b></div>`;
+const deckRows = () => APP.order.map((id) => APP.byId[id]).filter((r) => r && !r.decision);
+const current = () => deckRows()[APP.idx];
+
+// ---------------- stack: vertical wallet carousel ----------------
+const STACK = { els: new Map(), lock: 0, acc: 0 };
+// neighbours peek out above/below the focused card; sized so ±2 cards stay inside the stack box
+const peek = () => (window.innerWidth <= 760 ? { base: 62, step: 16 } : { base: 96, step: 22 });
+function placement(o) {
+  const a = Math.abs(o), { base, step } = peek(), y = a ? Math.sign(o) * (base + (Math.min(a, 3) - 1) * step) : 0;
+  return { transform: `translateY(${y}px) scale(${1 - a * 0.065})`, opacity: a > 2 ? 0 : 1, z: 10 - a };
 }
-function cardHTML(r, behind) {
-  const { j, d } = r, f = j.f, extra = r.score - r.parts.base;
-  return `<div class="card ${behind ? "behind" : ""}" data-id="${esc(j.id)}">
-    <div class="stamp like">BEĞEN</div><div class="stamp nope">GEÇ</div>
-    <div class="co"><div class="logo">${esc(j.company[0])}</div>
-      <div><b>${esc(j.company)}</b>${d.tier === "top" ? '<span class="badge top">TOP</span>' : ""}${j.is_new ? '<span class="badge new">YENİ</span>' : ""}
-      <div class="small muted">${esc(ago(j.posted || j.first_seen))} · ${esc(SELECT_LABELS.family[d.family])}</div></div>
-      <div class="score"><b>${r.score}</b><span class="small muted">skor${extra ? ` (${signed(extra)} kural)` : ""}</span></div></div>
-    <h2>${esc(j.title)}</h2>
-    <div class="facts">${facts(r)}</div>
-    <div><span class="small muted">CV eşleşmesi </span><span class="dots">${"●".repeat(d.level)}${"○".repeat(5 - d.level)}</span> <span class="small muted">${d.cv5}/5 · ${esc(f.role_type)} rol${f.years_required ? ` · ${f.years_required}+ yıl` : ""}</span></div>
-    ${f.ai_summary ? `<div class="evidence">${esc(f.ai_summary)}</div>` : ""}
-    ${f.duties.length ? `<ul class="duties">${f.duties.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-    <div class="tags">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
-    <div class="kw">${d.matched.length ? `Eşleşen: <em>${esc(d.matched.join(", "))}</em>` : ""}${d.gaps.length ? ` · Eksik: <i>${esc(d.gaps.join(", "))}</i>` : ""}</div>
-  </div>`;
+function miniHTML(r) {
+  const { j, d } = r, f = j.f;
+  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)}` : { top: "Maaş: piyasa üstü", high: "Maaş: iyi", mid: "Maaş: orta" }[d.pay] || "";
+  return `<div class="stamp like">KISA LİSTE</div><div class="stamp nope">GEÇ</div>
+    <div class="row1">${avatar(j.company)}
+      <div class="co">${esc(j.company)}<span>${esc(d.city)}${j.is_new ? " · yeni" : ""}</span></div>
+      <div class="scorepill">${r.score}<small>SKOR</small></div></div>
+    <h3>${esc(j.title)}</h3>
+    <div class="meta">${f.workplace !== "?" ? `<span>${esc(f.workplace)}</span>` : ""}<span>${esc(sal)}</span><span class="${f.sponsorship === "yes" ? "ok" : ""}">${f.sponsorship === "yes" ? "Sponsorluk ✓" : f.sponsorship === "no" ? "Sponsorluk yok" : "Sponsorluk belirsiz"}</span></div>`;
 }
-function renderDeck() {
-  const list = deckRows();
-  $("#n-deck").textContent = list.length ? `(${list.length})` : "";
-  if (!list.length) { $("#deck").innerHTML = `<div class="empty">Bu filtrelerle bakılacak ilan kalmadı.<br><br>Filtreleri gevşet ya da ilanları güncelle.</div>`; return; }
-  $("#deck").innerHTML = (list[1] ? cardHTML(list[1], true) : "") + cardHTML(list[0], false);
-  bindDrag($("#deck .card:not(.behind)"));
+function visibleSlots(n) {
+  const slots = [[0, APP.idx]], used = new Set([APP.idx]);
+  for (const o of [-1, 1, -2, 2]) { const k = mod(APP.idx + o, n); if (!used.has(k)) { used.add(k); slots.push([o, k]); } }
+  return slots;
 }
-function bindDrag(card) {
-  let x0 = null, dx = 0;
-  const like = card.querySelector(".stamp.like"), nope = card.querySelector(".stamp.nope");
-  card.addEventListener("pointerdown", (e) => { x0 = e.clientX; card.setPointerCapture(e.pointerId); card.classList.add("dragging"); });
-  card.addEventListener("pointermove", (e) => {
-    if (x0 === null) return; dx = e.clientX - x0;
-    card.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`;
-    like.style.opacity = Math.max(0, dx / 110); nope.style.opacity = Math.max(0, -dx / 110);
+function renderStack(dir = 0) {
+  const list = deckRows(), n = list.length, stack = $("#stack");
+  $("#c-deck").textContent = n || "";
+  $("#st-deck").textContent = n;
+  if (!n) {
+    STACK.els.forEach((el) => el.remove()); STACK.els.clear();
+    stack.innerHTML = `<div class="empty">Bu filtrelerle bakılacak ilan kalmadı.<br>Filtreleri gevşet ya da ilanları güncelle.</div>`;
+    $("#pos").innerHTML = `0 <span>/ 0</span>`; $("#pos-bar").style.width = "0"; $("#panel").innerHTML = "";
+    return;
+  }
+  stack.querySelector(".empty")?.remove();
+  APP.idx = mod(APP.idx, n);
+  const want = new Map(visibleSlots(n).map(([o, k]) => [list[k].j.id, [o, list[k]]]));
+  for (const [id, el] of STACK.els) if (!want.has(id)) {
+    el.style.transform = placement(dir > 0 ? -3 : 3).transform; el.style.opacity = 0;
+    STACK.els.delete(id); setTimeout(() => el.remove(), 380);
+  }
+  for (const [id, [o, r]] of want) {
+    let el = STACK.els.get(id);
+    if (!el) {
+      el = document.createElement("div"); el.className = "mini"; el.dataset.id = id;
+      el.style.transform = placement(dir > 0 ? 3 : dir < 0 ? -3 : o).transform; el.style.opacity = 0;
+      stack.appendChild(el); STACK.els.set(id, el); el.getBoundingClientRect();
+    }
+    el.innerHTML = miniHTML(r);
+    const p = placement(o);
+    el.style.transform = p.transform; el.style.opacity = p.opacity; el.style.zIndex = p.z;
+    el.classList.toggle("center", o === 0); el.dataset.o = o;
+  }
+  $("#pos").innerHTML = `${APP.idx + 1} <span>/ ${n}</span>`;
+  $("#pos-bar").style.width = ((APP.idx + 1) / n) * 100 + "%";
+  $("#reorder").classList.toggle("on", APP.sinceOrder >= 3);
+  renderPanel(list[APP.idx]);
+}
+function go(delta) {
+  const n = deckRows().length; if (!n) return;
+  const next = APP.idx + delta;
+  if (next >= n) { APP.idx = 0; spin(); toast("Liste bitti, başa döndün ↺"); }
+  else if (next < 0) { APP.idx = n - 1; spin(); toast("Listenin sonuna geçtin"); }
+  else APP.idx = next;
+  renderStack(Math.sign(delta));
+}
+function spin() { $("#stack").animate([{ transform: "rotateX(0)" }, { transform: "rotateX(-360deg)" }], { duration: 650, easing: "cubic-bezier(.3,.7,.2,1)" }); }
+function bindStack() {
+  const stack = $("#stack");
+  stack.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    if (Date.now() < STACK.lock) return;
+    STACK.acc += e.deltaY;
+    if (Math.abs(STACK.acc) > 45) { go(STACK.acc > 0 ? 1 : -1); STACK.acc = 0; STACK.lock = Date.now() + 320; }
+  }, { passive: false });
+  let st = null;
+  stack.addEventListener("pointerdown", (e) => {
+    const card = e.target.closest(".mini"); if (!card) return;
+    st = { x: e.clientX, y: e.clientY, card, axis: null, dx: 0, dy: 0 };
+    stack.setPointerCapture(e.pointerId);
   });
-  card.addEventListener("pointerup", () => {
-    card.classList.remove("dragging"); x0 = null;
-    if (dx > 110) swipe("like"); else if (dx < -110) swipe("dislike");
-    else if (Math.abs(dx) < 6) openDetail(card.dataset.id);
-    else { card.style.transform = ""; like.style.opacity = nope.style.opacity = 0; }
-    dx = 0;
+  stack.addEventListener("pointermove", (e) => {
+    if (!st) return;
+    st.dx = e.clientX - st.x; st.dy = e.clientY - st.y;
+    if (!st.axis && Math.hypot(st.dx, st.dy) > 8) st.axis = Math.abs(st.dx) > Math.abs(st.dy) && st.card.classList.contains("center") ? "x" : "y";
+    if (st.axis === "x") {
+      st.card.classList.add("dragging");
+      st.card.style.transform = `translateX(${st.dx}px) rotate(${st.dx / 24}deg)`;
+      st.card.querySelector(".stamp.like").style.opacity = clamp(st.dx / 100, 0, 1);
+      st.card.querySelector(".stamp.nope").style.opacity = clamp(-st.dx / 100, 0, 1);
+    }
   });
+  stack.addEventListener("pointerup", () => {
+    if (!st) return;
+    const { axis, dx, dy, card } = st; st = null;
+    card.classList.remove("dragging");
+    if (axis === "x") {
+      if (dx > 100) return like();
+      if (dx < -100) return askReason();
+      return renderStack();
+    }
+    if (axis === "y") { if (Math.abs(dy) > 30) go(dy < 0 ? 1 : -1); return; }
+    const o = +card.dataset.o; // a tap: center opens the posting, a neighbour becomes current
+    if (o === 0) openDetail(card.dataset.id); else go(o);
+  });
+  stack.addEventListener("pointercancel", () => { st = null; renderStack(); });
 }
-const topRow = () => deckRows()[0];
-function flyOut(dir) { const c = $("#deck .card:not(.behind)"); if (c) { c.style.transform = `translateX(${dir * 700}px) rotate(${dir * 25}deg)`; c.style.opacity = 0; } }
+function flyOut(dir) {
+  const el = STACK.els.get(current()?.j.id); if (!el) return;
+  el.classList.remove("dragging");
+  el.style.transform = `translateX(${dir * 640}px) rotate(${dir * 18}deg)`; el.style.opacity = 0;
+  STACK.els.delete(el.dataset.id); setTimeout(() => el.remove(), 380);
+}
+function like() { const r = current(); if (!r) return; flyOut(1); decide(r.j.id, "like", []); }
 let pendingReject = null;
-function swipe(kind) {
-  const r = topRow(); if (!r) return;
-  if (kind === "like") { flyOut(1); decide(r.j.id, "like", []); return; }
+function askReason() {
+  const r = current(); if (!r) return;
   pendingReject = r.j.id;
   $("#reasons").innerHTML = REASONS.map((x) => `<span class="chip" data-r="${esc(x)}">${esc(x)}</span>`).join("");
   $("#reason-note").value = "";
@@ -653,71 +894,219 @@ function swipe(kind) {
 }
 function decide(id, decision, reasons, note) {
   const prev = APP.state.decisions[id];
-  APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(),
-    status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Kaydedildi") : null };
-  APP.history.push(id); save();
-  toast(decision === "like" ? `♥ Kısa listeye eklendi` : "Geçildi, sıralama güncellendi");
-  setTimeout(refresh, 250);
+  APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(), status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Kaydedildi") : null };
+  APP.history.push(id); APP.sinceOrder++; save();
+  toast(decision === "like" ? "Kısa listeye eklendi" : "Geçildi, tercihlerini öğreniyorum");
+  setTimeout(() => {
+    refresh(true);
+    const n = deckRows().length;
+    if (n && APP.idx >= n) { APP.idx = 0; spin(); toast("Liste bitti, başa döndün ↺"); renderStack(); }
+  }, 220);
 }
 function undo() {
-  const id = APP.history.pop(); if (!id) return toast("Geri alınacak bir şey yok");
-  delete APP.state.decisions[id]; save(); refresh();
+  const id = APP.history.pop(); if (!id) return toast("Geri alınacak bir karar yok");
+  delete APP.state.decisions[id]; save();
+  if (!APP.order.includes(id)) APP.order.splice(APP.idx, 0, id);
+  refresh(true);
+  APP.idx = Math.max(0, deckRows().findIndex((r) => r.j.id === id)); renderStack(-1);
+}
+
+// ---------------- panel + detail ----------------
+function facts({ j, d }) {
+  const f = j.f;
+  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)}` : "Belirtilmemiş";
+  const salNote = f.salary ? (d.salaryStatus === "hedefte" ? "hedefte ✓" : `hedef ${eur(d.target)}`) : `${{ top: "piyasa üstü", high: "iyi ödeyen", mid: "piyasa ortası" }[d.pay] || "?"} · hedef ${d.target ? eur(d.target) : "–"}`;
+  const sp = { yes: "Var ✓", no: "Yok", unknown: f.remote ? "Gerekmez" : "Belirsiz" }[f.sponsorship];
+  const spNote = f.sponsorship === "unknown" && !f.remote ? { known: "şirket sponsor olur", sometimes: "bazen", rare: "nadiren" }[d.sponsor] || "" : f.sponsorship === "yes" ? "relocation" : "";
+  return `<div class="fact"><span>Lokasyon</span><b>${esc(d.city)}</b><em>#${d.priority} tercih</em></div>
+    <div class="fact"><span>Maaş (brüt/yıl)</span><b>${esc(sal)}</b><em>${esc(salNote)}</em></div>
+    <div class="fact"><span>Vize sponsorluğu</span><b>${esc(sp)}</b><em>${esc(spNote)}</em></div>
+    <div class="fact"><span>Çalışma · seviye</span><b>${esc(f.workplace)}</b><em>${esc(SELECT_LABELS.seniority[f.seniority])}${f.office_days ? ` · ${f.office_days} gün ofis` : ""}</em></div>`;
+}
+function renderPanel(r) {
+  if (!r) { $("#panel").innerHTML = ""; return; }
+  const { j, d } = r, f = j.f;
+  $("#panel").innerHTML = `
+    <div class="head">${avatar(j.company)}
+      <div style="min-width:0"><div class="small muted">${esc(j.company)}${d.coPriority ? " · öncelikli" : ""} · ${esc(ago(j.posted || j.first_seen))}</div><h2>${esc(j.title)}</h2></div>
+      <div class="bigscore"><b>${r.score}</b><span>SKOR</span></div></div>
+    <div class="facts">${facts(r)}</div>
+    <div class="matchbar"><span class="muted">CV eşleşmesi</span><div class="bar"><i style="width:${d.cv5 * 20}%"></i></div><b>${d.cv5}/5</b><span class="muted">· ${esc(SELECT_LABELS.family[d.family])} · ${esc(f.role_type)}${f.years_required ? ` · ${f.years_required}+ yıl` : ""}</span></div>
+    ${f.ai_summary ? `<div class="evidence">${esc(f.ai_summary)}</div>` : ""}
+    ${f.duties.length ? `<ul class="duties">${f.duties.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+    <div class="tags">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}${d.cotags.map((t) => `<span class="tag line">${esc(t)}</span>`).join("")}</div>
+    <div class="kw">${d.matched.length ? `Eşleşen: <em>${esc(d.matched.join(", "))}</em>` : ""}${d.gaps.length ? ` · Eksik: <i>${esc(d.gaps.join(", "))}</i>` : ""}</div>
+    <div class="actions">
+      <button class="btn rose" data-act="nope">${icon("x")}Geç</button>
+      <button class="btn" data-act="later">${icon("later")}Sonra<span class="lg"> karar ver</span></button>
+      <button class="btn mint" data-act="like">${icon("heart")}Kısa listeye</button>
+      <button class="btn ghost" data-detail="${esc(j.id)}">${icon("ext")}Tüm ilan</button>
+    </div>`;
 }
 function openDetail(id) {
   const r = APP.byId[id]; if (!r) return;
   const { j, d } = r, f = j.f, p = r.parts;
-  const lbl = (k) => esc(prettyKey(k));
   $("#detail").innerHTML = `
     <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
-      <div><div class="muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2 style="margin:4px 0 12px">${esc(j.title)}</h2></div>
-      <button class="btn" data-close="m-detail">Kapat ✕</button></div>
-    <div class="facts" style="margin-bottom:12px">${facts(r)}</div>
-    ${f.sponsorship_evidence ? `<div class="small muted">Sponsorluk kanıtı:</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
-    <div class="tags" style="margin:10px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
-    <details style="margin:10px 0"><summary><b>Skor ${r.score}</b> <span class="muted small">nasıl hesaplandı?</span></summary>
+      <div style="display:flex;gap:12px">${avatar(j.company)}
+        <div><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2 style="margin:4px 0 0">${esc(j.title)}</h2></div></div>
+      <button class="icon-btn" data-close="m-detail">${icon("x")}</button></div>
+    <div class="facts">${facts(r)}</div>
+    ${f.sponsorship_evidence ? `<div class="small muted">Sponsorluk kanıtı</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
+    <div class="tags" style="margin:12px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
+    <details style="margin:12px 0"><summary style="cursor:pointer"><b>Skor ${r.score}</b> <span class="muted small">nasıl hesaplandı?</span></summary>
       <div class="breakdown" style="margin-top:8px">
         <div><span>Temel puan</span><b>${p.base}</b></div>
         ${p.rules.map(([n, pts]) => `<div><span>Kural: ${esc(n)}</span><b class="${pts > 0 ? "pos" : "neg"}">${signed(pts)}</b></div>`).join("")}
-        ${p.wparts.map(([k, v, src]) => `<div><span>${lbl(k)} <span class="muted small">(${src})</span></span><b class="${v > 0 ? "pos" : "neg"}">${signed(v)}</b></div>`).join("")}
-        ${p.wparts.some((x) => x[2] === "oto") ? `<div class="muted small"><span>Otomatik ağırlıkların toplamı ±15 ile sınırlı</span><span>${signed(p.auto)}</span></div>` : ""}
+        ${p.wparts.map(([k, v, src]) => `<div><span>${esc(prettyKey(k))} <span class="muted small">(${src})</span></span><b class="${v > 0 ? "pos" : "neg"}">${signed(v)}</b></div>`).join("")}
+        ${p.wparts.some((x) => x[2] === "oto") ? `<div class="muted small"><span>Otomatik ağırlıklar toplamı ±15 ile sınırlı</span><span>${signed(p.auto)}</span></div>` : ""}
       </div></details>
-    <p><a href="${esc(j.url)}" target="_blank" rel="noopener">İlanı aç ↗</a></p>
+    <a class="btn primary" href="${esc(j.url)}" target="_blank" rel="noopener">${icon("ext")}İlanı aç</a>
     <div class="desc">${esc(j.description)}</div>`;
   $("#m-detail").classList.add("on");
 }
 
+// ---------------- discover chrome ----------------
+function renderFilters() {
+  const open = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy);
+  const cities = {}, prio = {};
+  for (const r of open) { cities[r.d.city] = (cities[r.d.city] || 0) + 1; prio[r.d.city] = r.d.priority; }
+  $("#f-city").innerHTML = `<option value="">Tüm şehirler</option>` + Object.keys(cities).sort((a, b) => prio[a] - prio[b] || a.localeCompare(b))
+    .map((c) => `<option value="${esc(c)}" ${c === APP.filters.city ? "selected" : ""}>${esc(c)} (${cities[c]})</option>`).join("");
+  const tags = {};
+  for (const r of open) for (const t of [...r.d.tags.map((x) => x.label), ...r.d.cotags]) tags[t] = (tags[t] || 0) + 1;
+  $("#f-tag").innerHTML = `<option value="">Tüm personalar</option>` + Object.entries(tags).sort((a, b) => b[1] - a[1])
+    .map(([t, n]) => `<option value="${esc(t)}" ${t === APP.filters.tag ? "selected" : ""}>${esc(t)} (${n})</option>`).join("");
+  const top = APP.state.settings.cities.filter((c) => c.on).sort((a, b) => a.priority - b.priority).slice(0, 3).map((c) => c.name);
+  $("#hero-chips").innerHTML = [...top, "Sponsorluk gerekli", "Marketing & product"].map((x) => `<span class="tag">${esc(x)}</span>`).join("");
+}
+
 // ---------------- lists ----------------
-function rowHTML(r, acts) {
+function itemHTML(r, acts) {
   const { j, d } = r, packs = APP.packs?.[j.id] || [];
-  return `<div class="row-card"><div class="sc">${r.score}</div>
-    <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)}${j.closed ? " · <b>ilan kapandı</b>" : ""}${d.hiddenWhy ? ` · <b>${esc(d.hiddenWhy)}</b>` : ""}</div>
-    ${r.decision?.reasons?.length ? `<div style="margin-top:4px">${r.decision.reasons.map((x) => `<span class="tag red">${esc(x)}</span>`).join(" ")}</div>` : ""}
-    ${d.filtered && !r.decision ? `<div style="margin-top:4px"><span class="tag red">${esc(d.filtered)}</span></div>` : ""}
+  return `<div class="box item">${avatar(j.company)}
+    <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)} · skor <b style="color:var(--ink)">${r.score}</b>${j.closed ? " · <b>ilan kapandı</b>" : ""}${d.hiddenWhy ? ` · ${esc(d.hiddenWhy)}` : ""}</div>
+    ${r.decision?.reasons?.length ? `<div class="tags" style="margin-top:6px">${r.decision.reasons.map((x) => `<span class="tag red">${esc(x)}</span>`).join("")}</div>` : ""}
+    ${d.filtered && !r.decision ? `<div class="tags" style="margin-top:6px"><span class="tag red">${esc(d.filtered)}</span></div>` : ""}
     ${packs.length ? `<div class="small" style="margin-top:6px">📦 ${packs.map((p) => `<a href="/packs/${encodeURIComponent(j.id)}/${encodeURIComponent(p)}" target="_blank">${esc(p)}</a>`).join(" · ")}</div>` : ""}
     </div><div class="acts">${acts}</div></div>`;
 }
 function renderLists() {
-  const liked = APP.rows.filter((r) => r.decision?.decision === "like");
-  const order = Object.fromEntries(APP.data.statuses.map((s, i) => [s, i]));
+  const statuses = APP.data.statuses, liked = APP.rows.filter((r) => r.decision?.decision === "like");
+  const order = Object.fromEntries(statuses.map((s, i) => [s, i]));
   liked.sort((a, b) => (order[a.decision.status] ?? 0) - (order[b.decision.status] ?? 0) || b.score - a.score);
-  $("#n-short").textContent = liked.length ? `(${liked.length})` : "";
-  $("#short-list").innerHTML = liked.length ? liked.map((r) => rowHTML(r, `
-      <select class="field" data-status="${esc(r.j.id)}">${APP.data.statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
+  const counts = {}; for (const r of liked) counts[r.decision.status] = (counts[r.decision.status] || 0) + 1;
+  $("#c-short").textContent = liked.length || "";
+  $("#st-short").textContent = liked.length;
+  $("#st-applied").textContent = liked.filter((r) => ["Başvuruldu", "Mülakat", "Teklif"].includes(r.decision.status)).length;
+  $("#pipeline").innerHTML = statuses.map((s) => `<span class="tag ${counts[s] ? "green" : "gray"}">${esc(s)} · ${counts[s] || 0}</span>`).join("");
+  $("#short-list").innerHTML = liked.length ? liked.map((r) => itemHTML(r, `
+      <select class="field" data-status="${esc(r.j.id)}">${statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
       ${r.decision.status === "Kaydedildi" ? `<button class="btn primary sm" data-pack="${esc(r.j.id)}">Paket hazırla</button>` : ""}
       <button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button>
-      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">Başvuru ↗</a>`)).join("")
-    : `<div class="empty">Henüz beğendiğin ilan yok. Keşfet'te sağa kaydır.</div>`;
+      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Başvuru</a>`)).join("")
+    : `<div class="box empty">Henüz beğendiğin ilan yok. Keşfet'te kartı sağa kaydır.</div>`;
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
-  $("#n-rej").textContent = `(${mine.length + auto.length})`;
-  $("#rej-mine").innerHTML = mine.map((r) => rowHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm" data-unrej="${esc(r.j.id)}">Geri al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
-  $("#rej-auto").innerHTML = auto.map((r) => rowHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm" data-rescue="${esc(r.j.id)}">Kısa listeye al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
+  $("#c-rej").textContent = mine.length + auto.length || "";
+  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Geri al</button>`)).join("") || `<div class="muted small">Henüz yok.</div>`;
+  $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">Kısa listeye al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
   $("#pack-help").innerHTML = APP.server
-    ? `<b>Başvuru paketi:</b> <span class="muted">“Paket hazırla”ya bas, sonra Claude Code'a <code>paketleri hazırla</code> yaz. Role özel CV, cover letter ve form cevapları burada link olarak görünür. Kontrol et, başvur, durumu “Başvuruldu” yap.</span>`
-    : `<b>Başvuru paketi:</b> <span class="muted">“Paket hazırla”ya bas, sonra Ayarlar → “Yedeği indir” ile dosyayı Claude Code'a ver ve <code>paketleri hazırla</code> yaz. Paketler bilgisayarındaki <code>packs/</code> klasörüne gelir.</span>`;
+    ? `“Paket hazırla”ya bas, sonra Claude Code'a <b>paketleri hazırla</b> yaz. Role özel CV, cover letter ve form cevapları burada link olarak görünür. Kontrol et, başvur, durumu güncelle.`
+    : `“Paket hazırla”ya bas, sonra Profil & tercihler → “Yedeği indir” ile dosyayı Claude Code'a ver ve <b>paketleri hazırla</b> yaz.`;
 }
 
-// ---------------- scoring view ----------------
+// ---------------- companies ----------------
+function companyRoles() { const m = {}; for (const r of APP.rows) if (!r.d.filtered && !r.decision) m[r.j.company] = (m[r.j.company] || 0) + 1; return m; }
+function renderCompanies() {
+  const cs = APP.state.settings.companies, roles = companyRoles();
+  let list = Object.entries(cs);
+  const f = APP.cof;
+  list = list.filter(([, c]) => f === "hidden" ? c.hidden : !c.hidden && (f === "all" || (f === "priority" && c.priority) || (f === "feed" && c.source && c.source !== "manual") || (f === "manual" && c.source === "manual")));
+  list.sort((a, b) => (b[1].priority - a[1].priority) || (roles[b[0]] || 0) - (roles[a[0]] || 0) || a[0].localeCompare(b[0]));
+  $("#c-co").textContent = Object.values(cs).filter((c) => !c.hidden).length;
+  $("#co-grid").innerHTML = list.map(([n, c]) => {
+    const feed = c.source && c.source !== "manual";
+    return `<div class="box co-card ${c.hidden ? "hidden-co" : ""}" data-co="${esc(n)}">
+      <div class="top">${avatar(n)}
+        <div style="flex:1;min-width:0"><b>${esc(n)}</b><span>${c.priority ? "Öncelikli şirket" : "Keşfet"}${roles[n] ? ` · ${roles[n]} açık rol` : ""}</span></div>
+        <button class="icon-btn star ${c.priority ? "on" : ""}" data-costar title="Öncelikli">${icon("star")}</button>
+        <button class="icon-btn" data-coedit title="Düzenle">${icon("edit")}</button></div>
+      <div class="tags">${(c.tags || []).map((t) => `<span class="tag line">${esc(t)}</span>`).join("") || `<span class="small muted">Etiket yok</span>`}</div>
+      <div class="foot"><span class="src ${c.user_added ? "user" : feed ? "feed" : "manual"}">${c.user_added ? "senin eklediğin · " : ""}${esc(feed ? c.source + " feed" : "manuel takip")}</span>
+        ${c.url ? `<a class="small" href="${esc(c.url)}" target="_blank" rel="noopener" style="display:inline-flex;gap:4px;align-items:center">Kariyer ${icon("ext")}</a>` : ""}</div></div>`;
+  }).join("") || `<div class="muted">Bu filtrede şirket yok.</div>`;
+}
+function detectATS(raw) {
+  let url, m;
+  try { url = new URL(raw.trim()); } catch { return null; }
+  const h = url.hostname, p = url.pathname.split("/").filter(Boolean);
+  if (/(^|\.)greenhouse\.io$/.test(h) && p[0]) return { ats: "greenhouse", slug: p[0] === "embed" ? url.searchParams.get("for") : p[0] };
+  if (h === "jobs.lever.co" && p[0]) return { ats: "lever", slug: p[0] };
+  if (h === "jobs.ashbyhq.com" && p[0]) return { ats: "ashby", slug: p[0] };
+  if (/smartrecruiters\.com$/.test(h) && p[0]) return { ats: "smartrecruiters", slug: p[0] };
+  if ((m = h.match(/^([^.]+)\.(wd\d+)\.myworkdayjobs\.com$/))) { const site = p.find((x) => !/^[a-z]{2}-[A-Z]{2}$/.test(x)); if (site) return { ats: "workday", host: h, tenant: m[1], site }; }
+  return null;
+}
+function companySheet(name) {
+  const c = name ? APP.state.settings.companies[name] : { tier: "big", pay: "high", sponsor: "known", tags: [], priority: false, url: "" };
+  const opt = (map, v) => Object.entries(map).map(([k, l]) => `<option value="${k}" ${k === v ? "selected" : ""}>${l}</option>`).join("");
+  $("#co-sheet").innerHTML = `
+    <h2>${name ? esc(name) : "Şirket ekle"}</h2>
+    <p class="small muted" style="margin:0">${name ? "Etiketler, öncelik ve itibar bilgisi puanlamayı etkiler." : "Kariyer sayfası linkini yapıştır. Greenhouse, Lever, Ashby, SmartRecruiters ya da Workday ise ilanlar otomatik gelir."}</p>
+    <div class="form">
+      ${name ? "" : `<label>Şirket adı<input class="field" id="co-name" placeholder="ör. Bolt"></label>`}
+      <label>Kariyer sayfası<input class="field" id="co-url" value="${esc(c.url || "")}" placeholder="https://jobs.lever.co/..."></label>
+      <div id="co-detect"></div>
+      <label>Etiketler (persona)<div class="chips" id="co-tags"></div></label>
+      <div class="row2">
+        <label>Seviye<select class="field" id="co-tier">${opt(SELECT_LABELS.tier, c.tier)}</select></label>
+        <label>Maaş itibarı<select class="field" id="co-pay">${opt({ top: "Piyasa üstü", high: "İyi", mid: "Orta" }, c.pay)}</select></label>
+        <label>Sponsorluk<select class="field" id="co-sponsor">${opt({ known: "Sponsor olur", sometimes: "Bazen", rare: "Nadiren" }, c.sponsor)}</select></label>
+      </div>
+      <label style="flex-direction:row;align-items:center;gap:10px"><span class="switch"><input type="checkbox" id="co-priority" ${c.priority ? "checked" : ""}><span></span></span> Öncelikli şirket</label>
+      ${name ? `<label style="flex-direction:row;align-items:center;gap:10px"><span class="switch"><input type="checkbox" id="co-hidden" ${c.hidden ? "checked" : ""}><span></span></span> Bu şirketi ve ilanlarını gizle</label>` : ""}
+    </div>
+    <div class="sheet-actions">${name && c.user_added ? `<button class="btn ghost" id="co-del" style="margin-right:auto;color:var(--rose)">${icon("trash")}Sil</button>` : ""}
+      <button class="btn" data-close="m-co">Vazgeç</button><button class="btn primary" id="co-save">${name ? "Kaydet" : "Ekle"}</button></div>`;
+  const tags = [...(c.tags || [])];
+  const drawTags = () => {
+    const sugg = [...new Set(Object.values(APP.state.settings.companies).flatMap((x) => x.tags || []))].filter((t) => !tags.includes(t)).slice(0, 12);
+    $("#co-tags").innerHTML = tags.map((t) => `<span class="chip">${esc(t)}<button class="x" data-cotagrm="${esc(t)}">×</button></span>`).join("") +
+      `<input class="chip-add" id="co-tag-in" placeholder="+ etiket, Enter">` +
+      (sugg.length ? `<div class="chips" style="width:100%;margin-top:4px">${sugg.map((t) => `<span class="chip" data-cotagadd="${esc(t)}" style="color:var(--muted)">+ ${esc(t)}</span>`).join("")}</div>` : "");
+  };
+  drawTags();
+  const showDetect = () => { const v = $("#co-url").value, d = detectATS(v); $("#co-detect").innerHTML = v ? (d ? `<div class="detect ok">${esc(d.ats)} kaynağı bulundu, ilanlar otomatik çekilebilir.</div>` : `<div class="detect no">Otomatik kaynak bulunamadı. Şirket manuel takip listesine eklenir.</div>`) : ""; };
+  $("#co-url").oninput = showDetect; showDetect();
+  $("#co-sheet").onclick = (e) => {
+    const rm = e.target.closest("[data-cotagrm]"), add = e.target.closest("[data-cotagadd]");
+    if (rm) { tags.splice(tags.indexOf(rm.dataset.cotagrm), 1); drawTags(); }
+    if (add) { tags.push(add.dataset.cotagadd); drawTags(); }
+  };
+  $("#co-sheet").onkeydown = (e) => { if (e.target.id === "co-tag-in" && e.key === "Enter" && e.target.value.trim()) { e.preventDefault(); tags.push(e.target.value.trim()); drawTags(); $("#co-tag-in").focus(); } };
+  $("#co-save").onclick = async () => {
+    const nm = name || $("#co-name").value.trim();
+    if (!nm) return toast("Şirket adı gerekli");
+    const url = $("#co-url").value.trim(), det = detectATS(url);
+    const entry = { ...c, url, tags, tier: $("#co-tier").value, pay: $("#co-pay").value, sponsor: $("#co-sponsor").value, priority: $("#co-priority").checked, hidden: name ? $("#co-hidden").checked : false };
+    if (!name) { entry.user_added = true; entry.source = det ? det.ats : "manual"; }
+    APP.state.settings.companies[nm] = entry;
+    $("#m-co").classList.remove("on"); commit();
+    if (!name && det) {
+      if (APP.server) {
+        toast("Kaynak kontrol ediliyor…");
+        const r = await post("/api/company", { name: nm, ...det, tier: entry.tier, pay: entry.pay, sponsor: entry.sponsor, tags, priority: entry.priority }).catch(() => ({ ok: false, error: "Sunucuya ulaşılamadı" }));
+        toast(r.ok ? `${nm} eklendi · ${r.open_roles} açık ilan. “İlanları güncelle” ile çekebilirsin.` : r.error);
+        if (!r.ok) { entry.source = "manual"; commit(); }
+      } else toast(`${nm} eklendi. İlanların otomatik gelmesi için yedeği Claude Code'a ver.`);
+    } else toast(name ? "Kaydedildi" : `${nm} izleme listene eklendi`);
+  };
+  if ($("#co-del")) $("#co-del").onclick = () => { if (confirm(`${name} silinsin mi?`)) { delete APP.state.settings.companies[name]; $("#m-co").classList.remove("on"); commit(); } };
+  $("#m-co").classList.add("on");
+}
+
+// ---------------- scoring ----------------
 function prettyKey(k) {
   const [kind, ...rest] = k.split(":"), v = rest.join(":");
   return kind === "t" ? `Başlıkta “${v}”` : `${W_KIND[kind] || kind}: ${v}`;
@@ -727,26 +1116,27 @@ function selectOptions(f) {
   if (f === "company") return [...new Set(APP.data.jobs.map((j) => j.company))].sort().map((x) => [x, x]);
   if (f === "city") return [...new Set(APP.rows.map((r) => r.d.city))].sort().map((x) => [x, x]);
   if (f === "tag") return [...new Set(APP.rows.flatMap((r) => r.d.tags.map((t) => t.label)))].sort().map((x) => [x, x]);
+  if (f === "cotag") return [...new Set(Object.values(APP.state.settings.companies).flatMap((c) => c.tags || []))].sort().map((x) => [x, x]);
   return [];
 }
-function condHTML(rule, c, i) {
+function condHTML(c, i) {
   const type = FIELDS[c.f].type;
   const val = type === "select"
     ? `<select class="field val" data-cv="${i}">${selectOptions(c.f).map(([v, l]) => `<option value="${esc(v)}" ${v === c.v ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>`
     : `<input class="field val" data-cv="${i}" type="${type === "number" ? "number" : "text"}" ${type === "number" ? `step="${FIELDS[c.f].step}"` : ""} value="${esc(c.v)}" placeholder="değer">`;
   return `<div class="cond">
     <select class="field" data-cf="${i}">${Object.entries(FIELDS).map(([k, x]) => `<option value="${k}" ${k === c.f ? "selected" : ""}>${x.label}</option>`).join("")}</select>
-    <select class="field" data-co="${i}">${OPS[type].map(([k, l]) => `<option value="${k}" ${k === c.op ? "selected" : ""}>${l}</option>`).join("")}</select>
-    ${val}<button class="rm" data-crm="${i}" title="Koşulu sil">×</button></div>`;
+    <select class="field" data-cop="${i}">${OPS[type].map(([k, l]) => `<option value="${k}" ${k === c.op ? "selected" : ""}>${l}</option>`).join("")}</select>
+    ${val}<button class="icon-btn" data-crm="${i}" title="Koşulu sil">${icon("x")}</button></div>`;
 }
 function renderRules() {
   $("#rules").innerHTML = APP.state.rules.map((r) => {
     const n = APP.rows.filter((x) => !x.d.filtered && ruleHits(r, x.j, x.d)).length;
-    return `<div class="rule ${r.on ? "" : "off"}" data-rule="${r.id}">
+    return `<div class="box rule ${r.on ? "" : "off"}" data-rule="${r.id}">
       <div class="rule-head"><label class="switch"><input type="checkbox" data-ron ${r.on ? "checked" : ""}><span></span></label>
-        <input class="name" data-rname value="${esc(r.name)}"><button class="icon" data-rdel title="Kuralı sil">🗑</button></div>
-      ${r.all.map((c, i) => condHTML(r, c, i)).join("")}
-      <div><button class="btn ghost sm" data-cadd>+ koşul (VE)</button></div>
+        <input class="name" data-rname value="${esc(r.name)}"><button class="icon-btn" data-rdel title="Kuralı sil">${icon("trash")}</button></div>
+      ${r.all.map((c, i) => condHTML(c, i)).join("")}
+      <div><button class="btn ghost sm" data-cadd>${icon("plus")}koşul ekle (VE)</button></div>
       <div class="rule-foot"><span class="small muted">${n} ilan eşleşiyor</span>
         <div class="stepper"><button data-pts="-1">−</button><b class="${r.pts > 0 ? "pos" : r.pts < 0 ? "neg" : ""}">${signed(r.pts)}</b><button data-pts="1">+</button></div></div>
     </div>`;
@@ -755,31 +1145,33 @@ function renderRules() {
 function renderWeights() {
   const st = APP.state, m = APP.model, hidden = new Set(st.hidden);
   const keys = new Set([...Object.keys(m.weights), ...Object.keys(st.overrides)]);
-  let rows = [...keys].filter((k) => !hidden.has(k)).map((k) => ({ k, auto: m.weights[k], manual: st.overrides[k], eff: k in st.overrides ? st.overrides[k] : m.weights[k] }));
+  let rows = [...keys].filter((k) => !hidden.has(k)).map((k) => ({ k, auto: m.weights[k], eff: k in st.overrides ? st.overrides[k] : m.weights[k] }));
   if (APP.wf === "auto") rows = rows.filter((r) => !(r.k in st.overrides));
   if (APP.wf === "manual") rows = rows.filter((r) => r.k in st.overrides);
   rows.sort((a, b) => Math.abs(b.eff) - Math.abs(a.eff));
-  $("#weights").innerHTML = rows.length ? `<div class="wrow small muted" style="border:0"><span>Özellik</span><span class="auto">Öğrenilen</span><span>Geçerli puan</span><span></span></div>` +
+  $("#weights").innerHTML = rows.length ? `<div class="wrow small muted" style="border:0;padding-bottom:0"><span>Özellik</span><span class="auto">Öğrenilen</span><span>Geçerli puan</span><span></span></div>` +
     rows.map((r) => `<div class="wrow" data-wk="${esc(r.k)}">
       <span class="lbl">${esc(prettyKey(r.k))}<span class="kind">${r.k in st.overrides ? "✎ manuel" : "otomatik"}</span></span>
       <span class="auto">${r.auto != null ? signed(r.auto) : "–"}</span>
       <input class="field" type="number" step="0.5" value="${r.eff}" data-wset style="width:100%">
-      <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon" data-wreset title="Öğrenilene dön">↺</button>` : ""}<button class="icon" data-wdel title="Sil">🗑</button></span></div>`).join("")
-    : `<div class="muted small" style="padding:10px 0">Henüz ağırlık yok. Kaydırdıkça burada oluşur, ya da yukarıdan elle ekle.</div>`;
+      <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon-btn" data-wreset title="Öğrenilene dön">${icon("undo")}</button>` : ""}<button class="icon-btn" data-wdel title="Sil">${icon("trash")}</button></span></div>`).join("")
+    : `<div class="muted small" style="padding:12px 0">Henüz ağırlık yok. Kaydırdıkça burada oluşur, ya da yukarıdan elle ekle.</div>`;
   $("#hidden-info").innerHTML = st.hidden.length ? `${st.hidden.length} silinmiş ağırlık öğrenilmiyor. <a href="#" id="unhide">Geri getir</a>` : "";
   const kind = $("#w-kind").value;
   const sug = kind === "t" ? [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-zçğıöşü]+/g) || []).filter((w) => w.length > 2)))]
-    : selectOptions({ co: "company", city: "city", tag: "tag", role: "role_type" }[kind]).map(([v]) => v);
+    : selectOptions({ co: "company", cotag: "cotag", city: "city", tag: "tag", role: "role_type" }[kind]).map(([v]) => v);
   $("#w-suggest").innerHTML = sug.slice(0, 300).map((x) => `<option value="${esc(x)}">`).join("");
 }
 function renderLearnSummary() {
   const m = APP.model;
-  $("#learn-summary").innerHTML = `<b>${m.likes}</b> beğeni · <b>${m.dislikes}</b> geçiş
-    ${Object.keys(m.rc).length ? `<div style="margin-top:8px">${Object.entries(m.rc).sort((a, b) => b[1] - a[1]).map(([r, n]) => `<span class="tag yellow">${esc(r)} × ${n}</span>`).join(" ")}</div>
-      <div class="small muted" style="margin-top:6px">Sebepler ilgili cezaları da büyütür (ör. “Çok operasyonel” seçtikçe operasyonel roller daha çok düşer).</div>` : ""}`;
+  $("#learn-summary").innerHTML = `<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:center">
+    <div><div class="eyebrow">Beğeni</div><b style="font:800 26px var(--head)">${m.likes}</b></div>
+    <div><div class="eyebrow">Geçiş</div><b style="font:800 26px var(--head)">${m.dislikes}</b></div>
+    <div style="flex:1;min-width:240px">${Object.keys(m.rc).length ? `<div class="tags">${Object.entries(m.rc).sort((a, b) => b[1] - a[1]).map(([r, n]) => `<span class="tag gray">${esc(r)} × ${n}</span>`).join("")}</div>
+      <div class="small muted" style="margin-top:6px">Sebepler ilgili cezaları da büyütür (ör. “Çok operasyonel” seçtikçe operasyonel roller daha çok düşer).</div>` : `<span class="small muted">Her kararın tercihlerini biraz daha netleştirir.</span>`}</div></div>`;
 }
 
-// ---------------- settings view ----------------
+// ---------------- settings ----------------
 function chipEditor(el, list, key, weighted) {
   const items = weighted ? Object.entries(list) : list.map((x) => [x]);
   el.innerHTML = items.map(([k, w]) => `<span class="chip">${esc(k.trim())}${weighted ? `<span class="w" data-wcycle="${esc(k)}">${w}</span>` : ""}<button class="x" data-chrm="${esc(k)}">×</button></span>`).join("")
@@ -799,83 +1191,86 @@ function renderSettings() {
       <input class="field" type="number" step="1000" data-ctarget value="${target}" style="width:100%">
       <span class="min">min ${eur(min)}</span></div>`;
   };
-  $("#s-cities").innerHTML = s.cities.map((c, i) => [c, i]).sort((a, b) => a[0].priority - b[0].priority || a[0].name.localeCompare(b[0].name))
-    .map(([c, i]) => cityRow(c, i)).join("") + cityRow(s.remote, -1, true);
+  $("#s-cities").innerHTML = s.cities.map((c, i) => [c, i]).sort((a, b) => a[0].priority - b[0].priority || a[0].name.localeCompare(b[0].name)).map(([c, i]) => cityRow(c, i)).join("") + cityRow(s.remote, -1, true);
   chipEditor($("#s-exact"), s.exact_kw, "exact_kw");
   chipEditor($("#s-adjacent"), s.adjacent_kw, "adjacent_kw");
   chipEditor($("#s-hide"), s.hide_title_kw, "hide_title_kw");
   chipEditor($("#s-cv"), s.cv_keywords, "cv_keywords", true);
   chipEditor($("#s-gaps"), s.gap_keywords, "gap_keywords");
-  const opt = (map, v) => Object.entries(map).map(([k, l]) => `<option value="${k}" ${k === v ? "selected" : ""}>${l}</option>`).join("");
-  $("#s-companies").innerHTML = Object.entries(s.companies).sort((a, b) => a[0].localeCompare(b[0])).map(([n, c]) => `
-    <div class="comp ${c.hidden ? "hidden-co" : ""}" data-comp="${esc(n)}"><span class="nm"><b>${esc(n)}</b></span>
-      <select class="field" data-cof="tier">${opt(SELECT_LABELS.tier, c.tier)}</select>
-      <select class="field pay" data-cof="pay">${opt({ top: "Piyasa üstü", high: "İyi", mid: "Orta" }, c.pay)}</select>
-      <select class="field" data-cof="sponsor">${opt({ known: "Sponsor olur", sometimes: "Bazen", rare: "Nadiren" }, c.sponsor)}</select>
-      <button class="icon" data-cohide title="${c.hidden ? "Göster" : "Gizle"}">${c.hidden ? "🙈" : "👁"}</button></div>`).join("");
 }
 
 // ---------------- render ----------------
-function refresh() {
-  compute(); buildFilters(); renderDeck(); renderLists(); renderLearnSummary();
+function refresh(keepOrder) {
+  compute();
+  if (keepOrder) APP.order = APP.order.filter((id) => APP.byId[id]); else buildOrder(true);
+  renderFilters(); renderStack(); renderLists(); renderLearnSummary(); renderCompanies();
   const v = document.querySelector(".view.on").id;
   if (v === "v-scoring") { renderRules(); renderWeights(); }
   if (v === "v-settings") renderSettings();
 }
 function showView(v) {
-  document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b.dataset.v === v));
+  if (v === "more") return $("#m-more").classList.add("on");
+  document.querySelectorAll(".modal.on").forEach((m) => m.classList.remove("on"));
+  document.querySelectorAll("[data-v]").forEach((b) => b.classList.toggle("on", b.dataset.v === v));
   document.querySelectorAll(".view").forEach((x) => x.classList.toggle("on", x.id === "v-" + v));
+  $("#crumb").textContent = VIEW_NAMES[v];
+  if (v === "discover") { buildOrder(true); renderStack(); }
   if (v === "scoring") { renderRules(); renderWeights(); }
   if (v === "settings") renderSettings();
+  if (v === "companies") renderCompanies();
   window.scrollTo(0, 0);
 }
+const commit = () => { save(); refresh(); };
 
 // ---------------- events ----------------
 const ruleOf = (el) => APP.state.rules.find((r) => r.id === el.closest("[data-rule]")?.dataset.rule);
-const commit = () => { save(); refresh(); };
 document.addEventListener("click", (e) => {
   const t = e.target;
   if (t.classList.contains("modal")) return t.classList.remove("on");
-  const a = t.closest("button, [data-city], [data-tag], [data-r], [data-wcycle], [data-v], a#unhide");
-  if (!a) return;
+  const a = t.closest("button, [data-r], [data-ftoggle], [data-wcycle], [data-v], a#unhide, a#do-reorder");
+  if (!a || (a.closest("#co-sheet") && !a.dataset.close)) return;
   const ds = a.dataset;
   if (ds.v) return showView(ds.v);
-  if (ds.city) { const s = APP.filters.cities; s.has(ds.city) ? s.delete(ds.city) : s.add(ds.city); buildFilters(); return renderDeck(); }
-  if (ds.tag) { const s = APP.filters.tags; s.has(ds.tag) ? s.delete(ds.tag) : s.add(ds.tag); buildFilters(); return renderDeck(); }
   if (ds.r) return a.classList.toggle("on");
   if (ds.close) return $("#" + ds.close).classList.remove("on");
   if (ds.detail) return openDetail(ds.detail);
+  if (ds.act === "like") return like();
+  if (ds.act === "nope") return askReason();
+  if (ds.act === "later") return go(1);
+  if (ds.ftoggle) { APP.filters[ds.ftoggle] = !APP.filters[ds.ftoggle]; a.classList.toggle("on"); buildOrder(); return renderStack(); }
+  if (a.id === "do-reorder") { e.preventDefault(); buildOrder(); renderStack(); return toast("Sıralama güncellendi"); }
   if (ds.pack) { APP.state.decisions[ds.pack].status = "Paket istendi"; toast(APP.server ? "Sıraya alındı. Claude Code'a “paketleri hazırla” yaz." : "İşaretlendi. Yedeği indirip Claude Code'a ver."); return commit(); }
   if (ds.unrej) { delete APP.state.decisions[ds.unrej]; return commit(); }
   if (ds.rescue) { APP.state.decisions[ds.rescue] = { id: ds.rescue, decision: "like", reasons: [], status: "Kaydedildi", at: new Date().toISOString() }; toast("Kısa listeye alındı"); return commit(); }
-  // rules
+  if ("costar" in ds) { const c = APP.state.settings.companies[a.closest("[data-co]").dataset.co]; c.priority = !c.priority; return commit(); }
+  if ("coedit" in ds) return companySheet(a.closest("[data-co]").dataset.co);
+  if (ds.cof) { APP.cof = ds.cof; document.querySelectorAll("#co-filter button").forEach((b) => b.classList.toggle("on", b === a)); return renderCompanies(); }
   if ("rdel" in ds) { const r = ruleOf(a); if (confirm(`“${r.name}” kuralı silinsin mi?`)) { APP.state.rules = APP.state.rules.filter((x) => x !== r); commit(); } return; }
   if ("cadd" in ds) { ruleOf(a).all.push({ f: "title", op: "has", v: "" }); return commit(); }
   if (ds.crm != null) { ruleOf(a).all.splice(+ds.crm, 1); return commit(); }
   if (ds.pts) { const r = ruleOf(a); r.pts = clamp(r.pts + +ds.pts, -30, 30); return commit(); }
-  // weights
   if (ds.wf) { APP.wf = ds.wf; document.querySelectorAll("#w-filter button").forEach((b) => b.classList.toggle("on", b === a)); return renderWeights(); }
   if ("wreset" in ds) { delete APP.state.overrides[a.closest("[data-wk]").dataset.wk]; return commit(); }
   if ("wdel" in ds) { const k = a.closest("[data-wk]").dataset.wk; delete APP.state.overrides[k]; if (APP.model.weights[k] != null) APP.state.hidden.push(k); return commit(); }
   if (a.id === "unhide") { e.preventDefault(); APP.state.hidden = []; return commit(); }
-  // settings
   if (ds.chrm) { const el = a.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings;
     if (el.dataset.weighted) delete s[key][ds.chrm]; else s[key] = s[key].filter((x) => x !== ds.chrm); return commit(); }
-  if (ds.wcycle) { const steps = [0.5, 1, 1.5, 2, 3], s = APP.state.settings.cv_keywords, cur = s[ds.wcycle];
-    s[ds.wcycle] = steps[(steps.indexOf(cur) + 1) % steps.length] ?? 1; return commit(); }
-  if ("cohide" in ds) { const c = APP.state.settings.companies[a.closest("[data-comp]").dataset.comp]; c.hidden = !c.hidden; return commit(); }
+  if (ds.wcycle) { const steps = [0.5, 1, 1.5, 2, 3], s = APP.state.settings.cv_keywords; s[ds.wcycle] = steps[(steps.indexOf(s[ds.wcycle]) + 1) % steps.length] ?? 1; return commit(); }
 });
 document.addEventListener("change", (e) => {
   const t = e.target, ds = t.dataset;
+  if (t.closest("#co-sheet")) return;
+  if (t.id === "f-city") { APP.filters.city = t.value; buildOrder(); return renderStack(); }
+  if (t.id === "f-tag") { APP.filters.tag = t.value; buildOrder(); return renderStack(); }
+  if (t.id === "f-min") { APP.filters.min = +t.value; buildOrder(); return renderStack(); }
   if (ds.status) { APP.state.decisions[ds.status].status = t.value; toast("Durum güncellendi"); return commit(); }
   if ("ron" in ds) { ruleOf(t).on = t.checked; return commit(); }
   if ("rname" in ds) { ruleOf(t).name = t.value.trim() || "Adsız kural"; return commit(); }
   if (ds.cf != null) { const c = ruleOf(t).all[+ds.cf], type = FIELDS[t.value].type; c.f = t.value; c.op = OPS[type][0][0]; c.v = type === "select" ? selectOptions(t.value)[0]?.[0] ?? "" : ""; return commit(); }
-  if (ds.co != null) { ruleOf(t).all[+ds.co].op = t.value; return commit(); }
+  if (ds.cop != null) { ruleOf(t).all[+ds.cop].op = t.value; return commit(); }
   if (ds.cv != null) { const c = ruleOf(t).all[+ds.cv]; c.v = FIELDS[c.f].type === "number" ? (t.value === "" ? "" : +t.value) : t.value; return commit(); }
   if ("wset" in ds) { const k = t.closest("[data-wk]").dataset.wk; if (t.value !== "") APP.state.overrides[k] = +t.value; return commit(); }
-  const s = APP.state.settings;
-  const cityEl = t.closest("[data-ci]");
+  const s = APP.state.settings, cityEl = t.closest("[data-ci]");
   if (cityEl) {
     const c = cityEl.dataset.ci === "remote" ? s.remote : s.cities[+cityEl.dataset.ci];
     if ("con" in ds) c.on = t.checked;
@@ -883,14 +1278,17 @@ document.addEventListener("change", (e) => {
     if ("ctarget" in ds && t.value) c.target = Math.round((+t.value * BASE_TRY) / s.istanbul_net_try);
     return commit();
   }
-  if (ds.cof) { s.companies[t.closest("[data-comp]").dataset.comp][ds.cof] = t.value; return commit(); }
   if (t.id === "s-try" && +t.value > 0) { s.istanbul_net_try = +t.value; return commit(); }
   if (t.id === "s-flex") { s.flex_pct = +t.value; return commit(); }
 });
-document.addEventListener("input", (e) => { if (e.target.id === "s-flex") $("#s-flex-val").textContent = "%" + e.target.value; });
+let qTimer;
+document.addEventListener("input", (e) => {
+  if (e.target.id === "s-flex") $("#s-flex-val").textContent = "%" + e.target.value;
+  if (e.target.id === "f-q") { clearTimeout(qTimer); qTimer = setTimeout(() => { APP.filters.q = e.target.value; buildOrder(); renderStack(); }, 200); }
+});
 document.addEventListener("keydown", (e) => {
   const t = e.target;
-  if (t.classList.contains("chip-add") && e.key === "Enter" && t.value.trim()) {
+  if (t.classList.contains("chip-add") && t.closest("[data-key]") && e.key === "Enter" && t.value.trim()) {
     const el = t.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings, v = t.value.trim().toLowerCase();
     if (el.dataset.weighted) s[key][v] = s[key][v] ?? 1; else if (!s[key].includes(v)) s[key].push(v);
     commit(); setTimeout(() => document.querySelector(`[data-key="${key}"] .chip-add`)?.focus(), 0); return;
@@ -899,9 +1297,11 @@ document.addEventListener("keydown", (e) => {
   const modal = document.querySelector(".modal.on");
   if (e.key === "Escape" && modal) { modal.id === "m-reason" ? $("#r-cancel").click() : modal.classList.remove("on"); return; }
   if (modal || !$("#v-discover").classList.contains("on")) return;
-  if (e.key === "ArrowRight") swipe("like");
-  if (e.key === "ArrowLeft") swipe("dislike");
-  if (e.key.toLowerCase() === "d") $("#b-info").click();
+  if (e.key === "ArrowDown") { e.preventDefault(); go(1); }
+  if (e.key === "ArrowUp") { e.preventDefault(); go(-1); }
+  if (e.key === "ArrowRight") like();
+  if (e.key === "ArrowLeft") askReason();
+  if (e.key.toLowerCase() === "d" && current()) openDetail(current().j.id);
   if (e.key.toLowerCase() === "u") undo();
 });
 $("#r-save").onclick = () => {
@@ -909,17 +1309,12 @@ $("#r-save").onclick = () => {
   $("#m-reason").classList.remove("on"); flyOut(-1);
   decide(pendingReject, "dislike", reasons, $("#reason-note").value); pendingReject = null;
 };
-$("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingReject = null; renderDeck(); };
-$("#b-yes").onclick = () => swipe("like");
-$("#b-no").onclick = () => swipe("dislike");
+$("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingReject = null; renderStack(); };
+$("#b-prev").onclick = () => go(-1);
+$("#b-next").onclick = () => go(1);
 $("#b-undo").onclick = undo;
-$("#b-info").onclick = () => topRow() && openDetail(topRow().j.id);
-$("#f-min").oninput = (e) => { APP.filters.min = +e.target.value; $("#f-min-val").textContent = e.target.value; renderDeck(); };
-$("#f-sponsor").onchange = (e) => { APP.filters.sponsor = e.target.checked; renderDeck(); };
-$("#f-top").onchange = (e) => { APP.filters.top = e.target.checked; renderDeck(); };
-$("#f-new").onchange = (e) => { APP.filters.fresh = e.target.checked; renderDeck(); };
-$("#filter-toggle").onclick = () => $(".discover").classList.toggle("show-filters");
 $("#add-rule").onclick = () => { APP.state.rules.unshift({ id: uid(), on: true, name: "Yeni kural", all: [{ f: "title", op: "has", v: "" }], pts: 3 }); commit(); };
+$("#add-co").onclick = () => companySheet(null);
 $("#w-kind").onchange = renderWeights;
 $("#w-add").onclick = () => {
   const kind = $("#w-kind").value, v = $("#w-val").value.trim(), pts = +$("#w-pts").value;
@@ -937,8 +1332,9 @@ $("#ul-state").onchange = async (e) => {
   const file = e.target.files[0]; if (!file) return;
   try { APP.state = hydrate(JSON.parse(await file.text())); commit(); toast("Yedek yüklendi"); } catch { toast("Dosya okunamadı"); }
 };
-$("#reset-settings").onclick = () => { if (confirm("Ayarlar varsayılana dönsün mü? Kararların ve kuralların kalır.")) { APP.state.settings = null; APP.state = hydrate(APP.state); commit(); } };
-$("#add-btn").onclick = () => (APP.server ? $("#m-add").classList.add("on") : toast("İlan linkini Claude Code'a gönder, o eklesin"));
+$("#reset-settings").onclick = () => { if (confirm("Ayarlar varsayılana dönsün mü? Kararların, kuralların ve eklediğin şirketler kalır.")) {
+  const mine = Object.fromEntries(Object.entries(APP.state.settings.companies).filter(([, c]) => c.user_added));
+  APP.state.settings = null; APP.state = hydrate(APP.state); Object.assign(APP.state.settings.companies, mine); commit(); } };
 $("#a-save").onclick = async () => {
   const b = { company: $("#a-company").value.trim(), title: $("#a-title").value.trim(), location: $("#a-loc").value.trim(), url: $("#a-url").value.trim(), description: $("#a-desc").value };
   if (!b.company || !b.title) return toast("Şirket ve pozisyon gerekli");
@@ -953,10 +1349,11 @@ $("#fetch-btn").onclick = async () => {
 async function pollFetch(started) {
   const f = await fetch("/api/fetch").then((r) => r.json());
   $("#fetch-btn").disabled = f.running;
-  $("#fetch-btn").textContent = f.running ? `Çekiliyor… ${f.log.at(-1) || ""}` : "↻ İlanları güncelle";
+  $("#fetch-btn span").textContent = f.running ? `Çekiliyor… ${f.log.at(-1) || ""}` : "İlanları güncelle";
   if (f.running) setTimeout(() => pollFetch(true), 2000);
   else if (started) { toast(f.log.at(-1) || "Bitti"); await loadData(); refresh(); }
 }
+window.addEventListener("resize", () => renderStack());
 
 // ---------------- boot ----------------
 async function loadData() {
@@ -966,21 +1363,18 @@ async function loadData() {
   if (!APP.server) APP.data = await fetch("data/static.json", { cache: "no-cache" }).then((r) => r.json());
   if (APP.server) APP.packs = await fetch("/api/packs").then((r) => r.json()).catch(() => ({}));
   const m = APP.data.meta;
-  $("#fetch-info").textContent = m.last_fetch ? `Son güncelleme: ${ago(m.last_fetch)} · ${m.count} ilan` : "";
-  $("#watchlist").innerHTML = APP.data.watchlist.map((w) => `<a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)} ↗</a>`).join("");
+  $("#fetch-info").innerHTML = m.last_fetch ? `<span class="status-dot"></span>Güncellendi: ${ago(m.last_fetch)} · ${m.count} ilan` : "";
 }
 (async function boot() {
   await loadData();
   let saved = readLocal();
-  if (APP.server) { // the server copy wins when it is newer (e.g. Claude marked packs as ready)
+  if (APP.server) { // the server copy wins when newer (e.g. Claude marked packs as ready)
     const remote = await fetch("/api/state").then((r) => r.json()).catch(() => null);
     if (remote?.updated_at && (!saved?.updated_at || remote.updated_at > saved.updated_at)) saved = remote;
   }
-  if (!saved) { // carry over swipes from the first version
-    try { const old = JSON.parse(localStorage.getItem("radar.decisions")); if (old) saved = { decisions: old }; } catch {}
-  }
+  if (!saved) { try { const old = JSON.parse(localStorage.getItem("radar.decisions")); if (old) saved = { decisions: old }; } catch {} }
   APP.state = hydrate(saved);
-  save(); refresh();
+  save(); bindStack(); refresh();
   if (APP.server) pollFetch(false);
 })();
 </script>

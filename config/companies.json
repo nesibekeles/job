@@ -1,66 +1,704 @@
 {
   "_help": "ats: greenhouse | lever | ashby | smartrecruiters | workday | amazon. pay: top | high | mid (ilan maaş vermezse şirketin piyasa itibarı). sponsor: known (yurtdışından düzenli işe alır) | sometimes | rare. Yeni şirket eklemek için aynı kalıbı kopyala.",
   "companies": [
-    { "name": "Amazon",        "ats": "amazon",          "queries": ["marketing", "product marketing", "brand", "growth"], "countries": ["GBR", "IRL", "DEU", "NLD", "ESP", "FRA", "AUT", "ITA", "LUX", "NZL"], "tier": "top", "pay": "top", "sponsor": "known" },
-    { "name": "Stripe",        "ats": "greenhouse", "slug": "stripe",        "tier": "top",     "pay": "top",  "sponsor": "known" },
-    { "name": "Airbnb",        "ats": "greenhouse", "slug": "airbnb",        "tier": "top",     "pay": "top",  "sponsor": "known" },
-    { "name": "Figma",         "ats": "greenhouse", "slug": "figma",         "tier": "top",     "pay": "top",  "sponsor": "known" },
-    { "name": "Datadog",       "ats": "greenhouse", "slug": "datadog",       "tier": "top",     "pay": "top",  "sponsor": "known" },
-    { "name": "Duolingo",      "ats": "greenhouse", "slug": "duolingo",      "tier": "top",     "pay": "top",  "sponsor": "sometimes" },
-    { "name": "Dropbox",       "ats": "greenhouse", "slug": "dropbox",       "tier": "top",     "pay": "top",  "sponsor": "sometimes" },
-    { "name": "Spotify",       "ats": "lever",      "slug": "spotify",       "tier": "top",     "pay": "top",  "sponsor": "known" },
-    { "name": "Notion",        "ats": "ashby",      "slug": "notion",        "tier": "top",     "pay": "top",  "sponsor": "sometimes" },
-    { "name": "Salesforce",    "ats": "workday",    "host": "salesforce.wd12.myworkdayjobs.com", "tenant": "salesforce", "site": "External_Career_Site", "tier": "top", "pay": "top", "sponsor": "known" },
-    { "name": "Adobe",         "ats": "workday",    "host": "adobe.wd5.myworkdayjobs.com",       "tenant": "adobe",      "site": "external_experienced", "tier": "top", "pay": "top", "sponsor": "known" },
-    { "name": "P&G",           "ats": "workday",    "host": "pg.wd5.myworkdayjobs.com",          "tenant": "pg",         "site": "1000",                 "tier": "top", "pay": "high", "sponsor": "sometimes" },
-    { "name": "Nike",          "ats": "workday",    "host": "nike.wd1.myworkdayjobs.com",        "tenant": "nike",       "site": "nke",                  "tier": "top", "pay": "high", "sponsor": "known" },
-    { "name": "PayPal",        "ats": "workday",    "host": "paypal.wd1.myworkdayjobs.com",      "tenant": "paypal",     "site": "jobs",                 "tier": "top", "pay": "high", "sponsor": "known" },
-    { "name": "Mastercard",    "ats": "workday",    "host": "mastercard.wd1.myworkdayjobs.com",  "tenant": "mastercard", "site": "CorporateCareers",     "tier": "top", "pay": "high", "sponsor": "known" },
-    { "name": "Philips",       "ats": "workday",    "host": "philips.wd3.myworkdayjobs.com",     "tenant": "philips",    "site": "jobs-and-careers",     "tier": "big", "pay": "high", "sponsor": "known" },
-
-    { "name": "Adyen",         "ats": "greenhouse", "slug": "adyen",         "tier": "big",     "pay": "high", "sponsor": "known" },
-    { "name": "Intercom",      "ats": "greenhouse", "slug": "intercom",      "tier": "big",     "pay": "high", "sponsor": "known" },
-    { "name": "Squarespace",   "ats": "greenhouse", "slug": "squarespace",   "tier": "big",     "pay": "high", "sponsor": "sometimes" },
-    { "name": "Elastic",       "ats": "greenhouse", "slug": "elastic",       "tier": "big",     "pay": "high", "sponsor": "sometimes" },
-    { "name": "Celonis",       "ats": "greenhouse", "slug": "celonis",       "tier": "big",     "pay": "high", "sponsor": "known" },
-    { "name": "Wise",          "ats": "greenhouse", "slug": "wise",          "tier": "big",     "pay": "high", "sponsor": "known" },
-    { "name": "Monzo",         "ats": "greenhouse", "slug": "monzo",         "tier": "big",     "pay": "high", "sponsor": "known" },
-    { "name": "Delivery Hero", "ats": "smartrecruiters", "slug": "DeliveryHero", "tier": "big", "pay": "high", "sponsor": "known" },
-    { "name": "Canva",         "ats": "smartrecruiters", "slug": "Canva",    "tier": "big",     "pay": "high", "sponsor": "sometimes" },
-    { "name": "HelloFresh",    "ats": "greenhouse", "slug": "hellofresh",    "tier": "big",     "pay": "mid",  "sponsor": "known" },
-    { "name": "Wolt",          "ats": "greenhouse", "slug": "wolt",          "tier": "big",     "pay": "mid",  "sponsor": "known" },
-    { "name": "Doctolib",      "ats": "greenhouse", "slug": "doctolib",      "tier": "big",     "pay": "mid",  "sponsor": "sometimes" },
-
-    { "name": "GetYourGuide",  "ats": "greenhouse", "slug": "getyourguide",  "tier": "scaleup", "pay": "high", "sponsor": "known" },
-    { "name": "Bitpanda",      "ats": "greenhouse", "slug": "bitpanda",      "tier": "scaleup", "pay": "high", "sponsor": "known" },
-    { "name": "GoStudent",     "ats": "greenhouse", "slug": "gostudent",     "tier": "scaleup", "pay": "mid",  "sponsor": "sometimes" },
-    { "name": "N26",           "ats": "greenhouse", "slug": "n26",           "tier": "scaleup", "pay": "mid",  "sponsor": "known" },
-    { "name": "trivago",       "ats": "greenhouse", "slug": "trivago",       "tier": "scaleup", "pay": "mid",  "sponsor": "known" },
-    { "name": "Contentful",    "ats": "greenhouse", "slug": "contentful",    "tier": "scaleup", "pay": "high", "sponsor": "sometimes" },
-    { "name": "Mirakl",        "ats": "greenhouse", "slug": "mirakl",        "tier": "scaleup", "pay": "mid",  "sponsor": "sometimes" },
-    { "name": "Tide",          "ats": "greenhouse", "slug": "tide",          "tier": "scaleup", "pay": "mid",  "sponsor": "sometimes" },
-    { "name": "Cleo",          "ats": "greenhouse", "slug": "cleo",          "tier": "scaleup", "pay": "high", "sponsor": "sometimes" },
-    { "name": "BlaBlaCar",     "ats": "lever",      "slug": "blablacar",     "tier": "scaleup", "pay": "mid",  "sponsor": "sometimes" },
-    { "name": "n8n",           "ats": "ashby",      "slug": "n8n",           "tier": "scaleup", "pay": "high", "sponsor": "sometimes" }
+    {
+      "name": "Amazon",
+      "ats": "amazon",
+      "queries": [
+        "marketing",
+        "product marketing",
+        "brand",
+        "growth"
+      ],
+      "countries": [
+        "GBR",
+        "IRL",
+        "DEU",
+        "NLD",
+        "ESP",
+        "FRA",
+        "AUT",
+        "ITA",
+        "LUX",
+        "NZL"
+      ],
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Marketplace"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Stripe",
+      "ats": "greenhouse",
+      "slug": "stripe",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "Fintech"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Airbnb",
+      "ats": "greenhouse",
+      "slug": "airbnb",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Travel",
+        "Marketplace"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Figma",
+      "ats": "greenhouse",
+      "slug": "figma",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "SaaS",
+        "Design"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Datadog",
+      "ats": "greenhouse",
+      "slug": "datadog",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Duolingo",
+      "ats": "greenhouse",
+      "slug": "duolingo",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "sometimes",
+      "tags": [
+        "Consumer",
+        "EdTech"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Dropbox",
+      "ats": "greenhouse",
+      "slug": "dropbox",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "sometimes",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Spotify",
+      "ats": "lever",
+      "slug": "spotify",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Music"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Notion",
+      "ats": "ashby",
+      "slug": "notion",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "sometimes",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Salesforce",
+      "ats": "workday",
+      "host": "salesforce.wd12.myworkdayjobs.com",
+      "tenant": "salesforce",
+      "site": "External_Career_Site",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Adobe",
+      "ats": "workday",
+      "host": "adobe.wd5.myworkdayjobs.com",
+      "tenant": "adobe",
+      "site": "external_experienced",
+      "tier": "top",
+      "pay": "top",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "Creative"
+      ],
+      "priority": true
+    },
+    {
+      "name": "P&G",
+      "ats": "workday",
+      "host": "pg.wd5.myworkdayjobs.com",
+      "tenant": "pg",
+      "site": "1000",
+      "tier": "top",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "FMCG",
+        "Brand building"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Nike",
+      "ats": "workday",
+      "host": "nike.wd1.myworkdayjobs.com",
+      "tenant": "nike",
+      "site": "nke",
+      "tier": "top",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Brand building"
+      ],
+      "priority": true
+    },
+    {
+      "name": "PayPal",
+      "ats": "workday",
+      "host": "paypal.wd1.myworkdayjobs.com",
+      "tenant": "paypal",
+      "site": "jobs",
+      "tier": "top",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Fintech"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Mastercard",
+      "ats": "workday",
+      "host": "mastercard.wd1.myworkdayjobs.com",
+      "tenant": "mastercard",
+      "site": "CorporateCareers",
+      "tier": "top",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "Fintech"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Philips",
+      "ats": "workday",
+      "host": "philips.wd3.myworkdayjobs.com",
+      "tenant": "philips",
+      "site": "jobs-and-careers",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Health",
+        "Consumer"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Adyen",
+      "ats": "greenhouse",
+      "slug": "adyen",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Intercom",
+      "ats": "greenhouse",
+      "slug": "intercom",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "SaaS",
+        "AI"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Squarespace",
+      "ats": "greenhouse",
+      "slug": "squarespace",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "SaaS",
+        "SMB"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Elastic",
+      "ats": "greenhouse",
+      "slug": "elastic",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Celonis",
+      "ats": "greenhouse",
+      "slug": "celonis",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Wise",
+      "ats": "greenhouse",
+      "slug": "wise",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Monzo",
+      "ats": "greenhouse",
+      "slug": "monzo",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Delivery Hero",
+      "ats": "smartrecruiters",
+      "slug": "DeliveryHero",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Marketplace",
+        "Food"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Canva",
+      "ats": "smartrecruiters",
+      "slug": "Canva",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "Consumer",
+        "SaaS",
+        "Design"
+      ],
+      "priority": false
+    },
+    {
+      "name": "HelloFresh",
+      "ats": "greenhouse",
+      "slug": "hellofresh",
+      "tier": "big",
+      "pay": "mid",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Food"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Wolt",
+      "ats": "greenhouse",
+      "slug": "wolt",
+      "tier": "big",
+      "pay": "mid",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Marketplace",
+        "Food"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Doctolib",
+      "ats": "greenhouse",
+      "slug": "doctolib",
+      "tier": "big",
+      "pay": "mid",
+      "sponsor": "sometimes",
+      "tags": [
+        "Health",
+        "Marketplace"
+      ],
+      "priority": false
+    },
+    {
+      "name": "GetYourGuide",
+      "ats": "greenhouse",
+      "slug": "getyourguide",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Travel",
+        "Marketplace"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Bitpanda",
+      "ats": "greenhouse",
+      "slug": "bitpanda",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "GoStudent",
+      "ats": "greenhouse",
+      "slug": "gostudent",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "sometimes",
+      "tags": [
+        "Consumer",
+        "EdTech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "N26",
+      "ats": "greenhouse",
+      "slug": "n26",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "trivago",
+      "ats": "greenhouse",
+      "slug": "trivago",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "known",
+      "tags": [
+        "Consumer",
+        "Travel"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Contentful",
+      "ats": "greenhouse",
+      "slug": "contentful",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "B2B",
+        "SaaS"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Mirakl",
+      "ats": "greenhouse",
+      "slug": "mirakl",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "sometimes",
+      "tags": [
+        "B2B",
+        "Marketplace"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Tide",
+      "ats": "greenhouse",
+      "slug": "tide",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "sometimes",
+      "tags": [
+        "SMB",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Cleo",
+      "ats": "greenhouse",
+      "slug": "cleo",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "Consumer",
+        "Fintech",
+        "AI"
+      ],
+      "priority": false
+    },
+    {
+      "name": "BlaBlaCar",
+      "ats": "lever",
+      "slug": "blablacar",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "sometimes",
+      "tags": [
+        "Consumer",
+        "Marketplace",
+        "Mobility"
+      ],
+      "priority": false
+    },
+    {
+      "name": "n8n",
+      "ats": "ashby",
+      "slug": "n8n",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "sometimes",
+      "tags": [
+        "B2B",
+        "SaaS",
+        "AI"
+      ],
+      "priority": false
+    }
   ],
-
   "_watchlist_help": "Otomatik okunamayan kariyer siteleri. Uygulamada link olarak çıkar; beğendiğin ilanı '+ İlan ekle' ile ya da Claude Code'a linki vererek eklersin.",
   "watchlist": [
-    { "name": "Google",       "url": "https://www.google.com/about/careers/applications/jobs/results/?q=marketing&location=London" },
-    { "name": "Meta",         "url": "https://www.metacareers.com/jobs?q=marketing&offices[0]=London%2C%20UK&offices[1]=Dublin%2C%20Ireland" },
-    { "name": "Unilever",     "url": "https://careers.unilever.com/en/search-jobs?k=marketing" },
-    { "name": "Booking.com",  "url": "https://jobs.booking.com/booking/jobs?keywords=marketing" },
-    { "name": "Microsoft",    "url": "https://jobs.careers.microsoft.com/global/en/search?q=marketing&lc=United%20Kingdom" },
-    { "name": "Apple",        "url": "https://jobs.apple.com/en-gb/search?search=marketing&location=united-kingdom-GBR" },
-    { "name": "Uber",         "url": "https://www.uber.com/global/en/careers/list/?query=marketing&location=NLD-North%20Holland-Amsterdam" },
-    { "name": "Netflix",      "url": "https://explore.jobs.netflix.net/careers?query=marketing&location=Amsterdam" },
-    { "name": "TikTok",       "url": "https://lifeattiktok.com/search?keyword=marketing&location=CT_75" },
-    { "name": "Zalando",      "url": "https://jobs.zalando.com/en/jobs?search=marketing" },
-    { "name": "Revolut",      "url": "https://www.revolut.com/careers/?query=marketing" },
-    { "name": "Red Bull",     "url": "https://jobs.redbull.com/int-en?search=marketing" },
-    { "name": "L'Oréal",      "url": "https://careers.loreal.com/en_US/jobs/SearchJobs/marketing" },
-    { "name": "Heineken",     "url": "https://careers.theheinekencompany.com/Netherlands/search/?q=marketing" },
-    { "name": "Xero (NZ)",    "url": "https://jobs.lever.co/xero" },
-    { "name": "Air New Zealand", "url": "https://careers.airnewzealand.co.nz/" }
+    {
+      "name": "Google",
+      "url": "https://www.google.com/about/careers/applications/jobs/results/?q=marketing&location=London",
+      "tags": [
+        "Technology",
+        "Global scale"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Meta",
+      "url": "https://www.metacareers.com/jobs?q=marketing&offices[0]=London%2C%20UK&offices[1]=Dublin%2C%20Ireland",
+      "tags": [
+        "Consumer",
+        "Social"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Unilever",
+      "url": "https://careers.unilever.com/en/search-jobs?k=marketing",
+      "tags": [
+        "FMCG",
+        "Brand building"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Booking.com",
+      "url": "https://jobs.booking.com/booking/jobs?keywords=marketing",
+      "tags": [
+        "Consumer",
+        "Travel",
+        "Marketplace"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Microsoft",
+      "url": "https://jobs.careers.microsoft.com/global/en/search?q=marketing&lc=United%20Kingdom",
+      "tags": [
+        "B2B",
+        "Technology"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Apple",
+      "url": "https://jobs.apple.com/en-gb/search?search=marketing&location=united-kingdom-GBR",
+      "tags": [
+        "Consumer",
+        "Brand building"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Uber",
+      "url": "https://www.uber.com/global/en/careers/list/?query=marketing&location=NLD-North%20Holland-Amsterdam",
+      "tags": [
+        "Consumer",
+        "Marketplace",
+        "Mobility"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Netflix",
+      "url": "https://explore.jobs.netflix.net/careers?query=marketing&location=Amsterdam",
+      "tags": [
+        "Consumer",
+        "Entertainment"
+      ],
+      "priority": false
+    },
+    {
+      "name": "TikTok",
+      "url": "https://lifeattiktok.com/search?keyword=marketing&location=CT_75",
+      "tags": [
+        "Consumer",
+        "Social"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Zalando",
+      "url": "https://jobs.zalando.com/en/jobs?search=marketing",
+      "tags": [
+        "Consumer",
+        "Fashion"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Revolut",
+      "url": "https://www.revolut.com/careers/?query=marketing",
+      "tags": [
+        "Consumer",
+        "Fintech"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Red Bull",
+      "url": "https://jobs.redbull.com/int-en?search=marketing",
+      "tags": [
+        "FMCG",
+        "Brand building"
+      ],
+      "priority": false
+    },
+    {
+      "name": "L'Oréal",
+      "url": "https://careers.loreal.com/en_US/jobs/SearchJobs/marketing",
+      "tags": [
+        "FMCG",
+        "Beauty"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Heineken",
+      "url": "https://careers.theheinekencompany.com/Netherlands/search/?q=marketing",
+      "tags": [
+        "FMCG",
+        "Brand building"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Xero (NZ)",
+      "url": "https://jobs.lever.co/xero",
+      "tags": [
+        "B2B",
+        "SaaS",
+        "New Zealand"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Air New Zealand",
+      "url": "https://careers.airnewzealand.co.nz/",
+      "tags": [
+        "Consumer",
+        "Travel",
+        "New Zealand"
+      ],
+      "priority": false
+    }
   ]
 }

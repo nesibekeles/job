@@ -12,7 +12,7 @@
     "launch", "insights", "product manager", "product owner"
   ],
   "title_exclude": [
-    "engineer", "developer", "intern", "internship", "working student", "werkstudent", "trainee",
+    "engineer", "developer", "intern", "internship", "working student", "workingstudent", "werkstudent", "trainee",
     "graduate", "apprentice", "account executive", "sales development", "\\bsdr\\b", "\\bbdr\\b",
     "designer", "data scientist", "recruit", "legal", "counsel", "accountant", "payroll",
     "technical product", "software", "security", "infrastructure", "machine learning",
