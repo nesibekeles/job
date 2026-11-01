@@ -311,6 +311,20 @@
   .scoreboard { text-align: center; padding: 10px 0; }
   .scoreboard b { font: 800 40px var(--head); display: block; }
 
+  /* ---------- "added to shortlist" snack with take back ---------- */
+  .snack { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 12px); z-index: 70; display: flex; align-items: center; gap: 14px; max-width: calc(100vw - 32px);
+           background: var(--ink); color: #fff; border-radius: 12px; padding: 10px 10px 10px 16px; font-size: 13.5px; box-shadow: 0 14px 30px -12px rgba(30, 29, 38, .45);
+           opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; overflow: hidden; }
+  .snack.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  .snack span { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .snack span b { color: #b9e6d1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+  .snack button { border: 0; background: rgba(255, 255, 255, .14); color: #fff; font-weight: 700; padding: 7px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+  .snack button:hover { background: rgba(255, 255, 255, .24); }
+  .snack i { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: #9fd8bf; transform-origin: left; }
+  .snack.on i { animation: snackbar 3s linear forwards; }
+  .snack:hover i { animation-play-state: paused; }
+  @keyframes snackbar { to { transform: scaleX(0); } }
+
   /* ---------- card popup (Discover) ---------- */
   #m-card.on { align-items: center; justify-content: center; padding: 24px; }
   .card-pop { position: relative; width: min(680px, 100%); max-height: calc(100dvh - 48px); display: flex; flex-direction: column; background: var(--surface); border-radius: 18px;
@@ -415,6 +429,11 @@
     .tabbar .ping { position: absolute; top: 10px; right: calc(50% - 16px); width: 7px; height: 7px; border-radius: 50%; background: var(--mint); }
     .modal.on { align-items: flex-end; padding: 0; }
     #m-card.on { align-items: center; padding: 12px; }
+    .snack { left: 12px; right: 12px; bottom: 150px; transform: translateY(12px); max-width: none; justify-content: space-between; }
+    .snack.on { transform: none; }
+    .snack span { white-space: nowrap; overflow: hidden; }
+    .snack span b { max-width: 110px; flex-shrink: 0; }
+    .snack .long { display: none; }
     .card-pop { max-height: calc(100dvh - 24px); border-radius: 16px; }
     .cp-head { padding: 16px 16px 10px; } .cp-body { padding: 2px 16px 14px; } .cp-head h2 { font-size: 17px; }
     .cp-body .facts { grid-template-columns: 1fr 1fr; }
@@ -643,6 +662,7 @@
   <div class="sheet-actions"><button class="btn" data-close="m-add">Cancel</button><button class="btn primary" id="a-save">Add</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<div class="snack" id="snack" role="status" aria-live="polite"><span id="snack-text"></span><button id="snack-undo">Take back</button><i id="snack-bar"></i></div>
 
 <svg width="0" height="0" style="position:absolute">
   <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
@@ -1155,13 +1175,36 @@ function decide(id, decision, reasons, note) {
   const prev = APP.state.decisions[id];
   APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(), status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Saved") : null };
   APP.history.push(id); APP.sinceOrder++; save();
-  toast(decision === "like" ? "Added to your shortlist" : "Passed. Learning your preferences");
+  if (decision === "like") shortlistSnack(id); else toast("Passed. Learning your preferences");
   setTimeout(() => {
     refresh(true);
     const n = deckRows().length;
     if (n && APP.idx >= n) { APP.idx = 0; spin(); toast("End of the list, back to the start ↺"); renderStack(); }
   }, 220);
 }
+// 3-second "added to your shortlist" note with a Take back button
+const SNACK = { id: null, timer: null };
+function shortlistSnack(id) {
+  const el = $("#snack"), co = APP.byId[id]?.j.company || "";
+  SNACK.id = id;
+  $("#snack-text").innerHTML = `${icon("heart")}<span>Added${co ? ` <b>${esc(co)}</b>` : ""} to <span class="long">your </span>shortlist</span>`;
+  el.classList.remove("on"); void el.offsetWidth; el.classList.add("on"); // restart the countdown bar
+  clearTimeout(SNACK.timer); SNACK.timer = setTimeout(hideSnack, 3000);
+}
+function hideSnack() { $("#snack").classList.remove("on"); SNACK.id = null; }
+function takeBack(id) {
+  if (!APP.state.decisions[id]) return;
+  delete APP.state.decisions[id]; save();
+  APP.history = APP.history.filter((h) => h !== id);
+  if (!APP.order.includes(id)) APP.order.splice(APP.idx, 0, id);
+  refresh(true);
+  APP.idx = Math.max(0, deckRows().findIndex((r) => r.j.id === id)); renderStack(-1);
+  toast("Taken back. It's on your deck again");
+}
+$("#snack-undo").onclick = () => { const id = SNACK.id; hideSnack(); if (id) takeBack(id); };
+$("#snack").addEventListener("mouseenter", () => clearTimeout(SNACK.timer)); // hovering keeps it open
+$("#snack").addEventListener("mouseleave", () => { SNACK.timer = setTimeout(hideSnack, 1200); });
+
 function undo() {
   const id = APP.history.pop(); if (!id) return toast("Nothing to undo");
   delete APP.state.decisions[id]; save();
