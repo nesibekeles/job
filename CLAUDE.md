@@ -6,7 +6,7 @@ Kullanıcı Türkçe konuşur; sohbet Türkçe. Web arayüzü, etiketler ve baş
 ## Parçalar
 - `jobfinder.py`: kariyer sitelerinden (Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Amazon) ilan çeker, analiz eder → `data/jobs.json`
 - `server.py`: http://localhost:8765 yerel sunucu. Puanlama, kurallar, öğrenme ve ayarlar tarayıcıda (`web/index.html`); sunucu uygulama durumunu `data/state.json`'a yansıtır (kararlar, kurallar, ağırlıklar, ayarlar).
-- Canlı sürüm: GitHub Pages (https://nesibekeles.github.io/Job/), her gün `.github/workflows/update.yml` ile güncellenir. Orada durum sadece tarayıcıda; kullanıcı “Yedeği indir” ile `jobness-yedek-*.json` (eski adı `pusula-yedek-*.json`) verir, aynı formatta.
+- Canlı sürüm: GitHub Pages (https://nesibekeles.github.io/job/), her gün `.github/workflows/update.yml` ile güncellenir. Orada durum sadece tarayıcıda; kullanıcı “Yedeği indir” ile `jobness-yedek-*.json` (eski adı `pusula-yedek-*.json`) verir, aynı formatta.
 - `config/*.json`: profil, şehir/maaş hedefleri, şirket listesi (kullanıcı arayüzden de düzenler)
 - `voice.md`: yazı sesi ve CV uyarlama kuralları. **Paket hazırlamadan önce mutlaka oku.**
 - CV kaynağı: `private/resume_base.json` (yapılandırılmış, git'e girmez; telefon/e-posta içerir). Orijinali `../Nesibe Keles_Resume.pdf`.

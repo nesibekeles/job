@@ -27,7 +27,7 @@ Tarayıcıda http://localhost:8765 açılır. İlk seferde ya da her gün bir ke
 - `yeni şirket ekle <şirket>`
 
 ## Canlı sürüm (GitHub Pages)
-- Site: https://nesibekeles.github.io/Job/ (telefonda da çalışır; ana ekrana ekleyebilirsin)
+- Site: https://nesibekeles.github.io/job/ (telefonda da çalışır; ana ekrana ekleyebilirsin)
 - İlanlar her sabah 08:00'de (İstanbul) GitHub'da otomatik güncellenir. Elle güncellemek için sağ üstteki ↻ → “Run workflow”.
 - Kaydırmaların o cihazın tarayıcısında saklanır. Cihaz değiştirirken: Ayarlar → Yedeği indir / yükle.
 - Repo herkese açık (ücretsiz Pages için). CV, kararlar ve başvuru paketleri repoya **girmez** (.gitignore).
