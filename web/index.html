@@ -311,6 +311,22 @@
   .scoreboard { text-align: center; padding: 10px 0; }
   .scoreboard b { font: 800 40px var(--head); display: block; }
 
+  /* ---------- card popup (Discover) ---------- */
+  #m-card.on { align-items: center; justify-content: center; padding: 24px; }
+  .card-pop { position: relative; width: min(680px, 100%); max-height: calc(100dvh - 48px); display: flex; flex-direction: column; background: var(--surface); border-radius: 18px;
+              box-shadow: 0 30px 60px -20px rgba(30, 29, 38, .4); overflow: hidden; touch-action: pan-y; transition: transform .3s cubic-bezier(.2,.8,.2,1), opacity .3s; }
+  .card-pop.dragging { transition: none; }
+  .card-pop .stamp { top: 18px; z-index: 3; }
+  .cp-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; padding: 20px 22px 12px; border-bottom: 1px solid var(--line); }
+  .cp-head h2 { font: 800 19px/1.25 var(--head); letter-spacing: -.02em; margin: 4px 0 0; }
+  .cp-head .bigscore { text-align: center; border: 1px solid var(--line); border-radius: 12px; padding: 6px 12px; flex: none; }
+  .cp-head .bigscore b { font: 800 22px/1 var(--head); display: block; } .cp-head .bigscore span { font-size: 9.5px; font-weight: 700; letter-spacing: .1em; color: var(--muted); }
+  .cp-body { overflow: auto; padding: 4px 22px 18px; flex: 1; overscroll-behavior: contain; }
+  .cp-body .facts { margin-top: 14px; }
+  .cp-foot { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--surface); }
+  .cp-foot .btn { flex: 1; justify-content: center; padding: 10px 8px; }
+  .cp-hint { text-align: center; font-size: 11.5px; color: var(--muted); padding: 0 0 10px; background: var(--surface); }
+
   /* ---------- application pack ---------- */
   .modal.drawer .sheet.pack-sheet { max-width: 900px; padding: 0; display: flex; flex-direction: column; }
   .pack-head { padding: 22px 28px 0; border-bottom: 1px solid var(--line); }
@@ -398,6 +414,10 @@
     .tabbar button.on { color: var(--lav); }
     .tabbar .ping { position: absolute; top: 10px; right: calc(50% - 16px); width: 7px; height: 7px; border-radius: 50%; background: var(--mint); }
     .modal.on { align-items: flex-end; padding: 0; }
+    #m-card.on { align-items: center; padding: 12px; }
+    .card-pop { max-height: calc(100dvh - 24px); border-radius: 16px; }
+    .cp-head { padding: 16px 16px 10px; } .cp-body { padding: 2px 16px 14px; } .cp-head h2 { font-size: 17px; }
+    .cp-body .facts { grid-template-columns: 1fr 1fr; }
     .sheet { border-radius: 18px 18px 0 0; max-height: 92dvh; padding: 20px 16px; }
     .modal.drawer .sheet { border-radius: 18px 18px 0 0; height: 92dvh; padding: 20px 16px; }
     .sheet .form .row2 { grid-template-columns: 1fr; }
@@ -591,6 +611,7 @@
 </nav>
 
 <div class="modal drawer" id="m-detail"><div class="sheet" id="detail"></div></div>
+<div class="modal" id="m-card"><div class="card-pop" id="card-pop"></div></div>
 <div class="modal drawer" id="m-pack"><div class="sheet pack-sheet" id="pack"></div></div>
 <div class="modal" id="m-reason"><div class="sheet" style="max-width:500px">
   <h2>Why are you passing?</h2>
@@ -1111,7 +1132,7 @@ function bindStack() {
     }
     if (axis === "y") { if (Math.abs(dy) > 30) go(dy < 0 ? 1 : -1); return; }
     const o = +card.dataset.o; // a tap: the focused card opens the post, a neighbour becomes current
-    if (o === 0) openDetail(card.dataset.id); else go(o);
+    if (o === 0) openCard(card.dataset.id); else go(o);
   });
   stack.addEventListener("pointercancel", () => { st = null; renderStack(); });
 }
@@ -1123,8 +1144,8 @@ function flyOut(dir) {
 }
 function like() { const r = current(); if (!r) return; flyOut(1); decide(r.j.id, "like", []); }
 let pendingReject = null;
-function askReason() {
-  const r = current(); if (!r) return;
+function askReason(id) {
+  const r = id ? APP.byId[id] : current(); if (!r) return;
   pendingReject = r.j.id;
   $("#reasons").innerHTML = REASONS.map((x) => `<span class="chip" data-r="${esc(x)}">${esc(x)}</span>`).join("");
   $("#reason-note").value = "";
@@ -1179,17 +1200,23 @@ function renderPanel(r) {
       <button class="btn rose" data-act="nope">${icon("x")}Pass</button>
       <button class="btn" data-act="later">${icon("later")}Later<span class="lg">, decide later</span></button>
       <button class="btn mint" data-act="like">${icon("heart")}Shortlist</button>
-      <button class="btn ghost" data-detail="${esc(j.id)}">${icon("ext")}Full post</button>
+      <button class="btn ghost" data-opencard="${esc(j.id)}">${icon("ext")}Full post</button>
     </div>`;
 }
 function openDetail(id) {
   const r = APP.byId[id]; if (!r) return;
-  const { j, d } = r, f = j.f, p = r.parts;
+  const { j } = r;
   $("#detail").innerHTML = `
     <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
       <div style="display:flex;gap:12px">${avatar(j.company)}
         <div><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2 style="margin:4px 0 0">${esc(j.title)}</h2></div></div>
       <button class="icon-btn" data-close="m-detail">${icon("x")}</button></div>
+    ${detailBody(r)}`;
+  $("#m-detail").classList.add("on");
+}
+function detailBody(r) {
+  const { j, d } = r, f = j.f, p = r.parts;
+  return `
     <div class="facts">${facts(r)}</div>
     ${f.sponsorship_evidence ? `<div class="small muted">Sponsorship evidence</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
     <div class="tags" style="margin:12px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
@@ -1205,7 +1232,72 @@ function openDetail(id) {
       </div></details>
     <a class="btn primary" href="${esc(j.url)}" target="_blank" rel="noopener">${icon("ext")}Open the post</a>
     <div class="desc">${esc(j.description)}</div>`;
-  $("#m-detail").classList.add("on");
+}
+
+// ---- card popup: the full post in a screen-sized card you can still swipe ----
+const CARD = { id: null };
+function openCard(id) {
+  const r = APP.byId[id]; if (!r) return;
+  const { j } = r; CARD.id = id;
+  const pop = $("#card-pop");
+  pop.style.transform = ""; pop.style.opacity = "";
+  pop.innerHTML = `<div class="stamp like">SHORTLIST</div><div class="stamp nope">PASS</div>
+    <div class="cp-head"><div style="display:flex;gap:12px;min-width:0">${avatar(j.company)}
+        <div style="min-width:0"><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2>${esc(j.title)}</h2></div></div>
+      <div style="display:flex;gap:6px;align-items:start"><div class="bigscore"><b>${r.score}</b><span>SCORE</span></div><button class="icon-btn" data-close="m-card" title="Close (Esc)">${icon("x")}</button></div></div>
+    <div class="cp-body">${detailBody(r)}</div>
+    <div class="cp-foot">
+      <button class="btn rose" data-cpact="nope">${icon("x")}Pass</button>
+      <button class="btn" data-cpact="later">${icon("later")}Later</button>
+      <button class="btn mint" data-cpact="like">${icon("heart")}Shortlist</button>
+    </div>
+    <div class="cp-hint">Swipe right to shortlist · left to pass · close to decide later</div>`;
+  $("#m-card").classList.add("on");
+  pop.querySelector(".cp-body").scrollTop = 0;
+}
+function closeCard() { $("#m-card").classList.remove("on"); CARD.id = null; }
+function cardAct(kind) {
+  const id = CARD.id; if (!id) return;
+  const pop = $("#card-pop"), dir = kind === "like" ? 1 : kind === "nope" ? -1 : 0;
+  if (dir) { pop.style.transform = `translateX(${dir * 700}px) rotate(${dir * 12}deg)`; pop.style.opacity = 0; }
+  setTimeout(() => {
+    closeCard();
+    const isCurrent = current()?.j.id === id;
+    if (kind === "like") { if (isCurrent) flyOut(1); decide(id, "like", []); }
+    else if (kind === "nope") askReason(id);
+    else if (isCurrent) go(1);
+  }, dir ? 260 : 0);
+}
+function bindCardPop() {
+  const pop = $("#card-pop"); let st = null;
+  pop.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("button, a, summary, input, textarea, select")) return;
+    st = { x: e.clientX, y: e.clientY, axis: null, dx: 0, id: e.pointerId };
+  });
+  pop.addEventListener("pointermove", (e) => {
+    if (!st) return;
+    const dx = e.clientX - st.x, dy = e.clientY - st.y;
+    if (!st.axis && Math.hypot(dx, dy) > 10) {
+      st.axis = Math.abs(dx) > Math.abs(dy) * 1.2 ? "x" : "y";
+      if (st.axis === "x") { pop.setPointerCapture(st.id); pop.classList.add("dragging"); }
+    }
+    if (st.axis !== "x") return;
+    st.dx = dx;
+    pop.style.transform = `translateX(${dx}px) rotate(${dx / 30}deg)`;
+    pop.querySelector(".stamp.like").style.opacity = clamp(dx / 100, 0, 1);
+    pop.querySelector(".stamp.nope").style.opacity = clamp(-dx / 100, 0, 1);
+  });
+  const end = () => {
+    if (!st) return;
+    const { axis, dx } = st; st = null;
+    pop.classList.remove("dragging");
+    if (axis !== "x") return;
+    if (dx > 110) return cardAct("like");
+    if (dx < -110) return cardAct("nope");
+    pop.style.transform = ""; pop.querySelectorAll(".stamp").forEach((x) => (x.style.opacity = 0));
+  };
+  pop.addEventListener("pointerup", end);
+  pop.addEventListener("pointercancel", end);
 }
 
 // ---------------- discover chrome ----------------
@@ -1846,6 +1938,8 @@ document.addEventListener("click", (e) => {
   if ("wordcheck" in ds) { const v = $("#word-in").value.trim().toUpperCase(); if (v) answerChallenge(v); return; }
   if ("cnext" in ds) { QUIZ.step++; QUIZ.picked = null; if (QUIZ.step >= 3) finishChallenge(); return renderChallenge(); }
   if (ds.detail) return openDetail(ds.detail);
+  if (ds.opencard) return openCard(ds.opencard);
+  if (ds.cpact) return cardAct(ds.cpact);
   if (ds.openpack) return openPack(ds.openpack, "overview");
   if (ds.ptab) return openPack(PACKVIEW.id, ds.ptab);
   if ("pcopy" in ds) return copyText(packCoverText(PACKVIEW.id), "Cover letter copied");
@@ -1918,18 +2012,19 @@ document.addEventListener("keydown", (e) => {
   }
   if (["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName)) return;
   const modal = document.querySelector(".modal.on");
-  if (e.key === "Escape" && modal) { modal.id === "m-reason" ? $("#r-cancel").click() : modal.classList.remove("on"); return; }
+  if (e.key === "Escape" && modal) { modal.id === "m-reason" ? $("#r-cancel").click() : modal.id === "m-card" ? closeCard() : modal.classList.remove("on"); return; }
+  if (modal?.id === "m-card" && (e.key === "ArrowRight" || e.key === "ArrowLeft")) return cardAct(e.key === "ArrowRight" ? "like" : "nope");
   if (modal || !$("#v-discover").classList.contains("on")) return;
   if (e.key === "ArrowDown") { e.preventDefault(); go(1); }
   if (e.key === "ArrowUp") { e.preventDefault(); go(-1); }
   if (e.key === "ArrowRight") like();
   if (e.key === "ArrowLeft") askReason();
-  if (e.key.toLowerCase() === "d" && current()) openDetail(current().j.id);
+  if (e.key.toLowerCase() === "d" && current()) openCard(current().j.id);
   if (e.key.toLowerCase() === "u") undo();
 });
 $("#r-save").onclick = () => {
   const reasons = [...document.querySelectorAll("#reasons .chip.on")].map((c) => c.dataset.r);
-  $("#m-reason").classList.remove("on"); flyOut(-1);
+  $("#m-reason").classList.remove("on"); if (current()?.j.id === pendingReject) flyOut(-1);
   decide(pendingReject, "dislike", reasons, $("#reason-note").value); pendingReject = null;
 };
 $("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingReject = null; renderStack(); };
@@ -2014,7 +2109,7 @@ async function loadData() {
     $("#shared-banner").innerHTML = `${icon("info")}<div>You're seeing <b>Nesibe's view</b>, synced ${ago(shared.published_at)}. Changes made here stay on this device and are replaced by her next update.</div>`;
   }
   APP.state = hydrate(saved);
-  save(); bindStack(); refresh(); renderPromo(); startPromo();
+  save(); bindStack(); bindCardPop(); refresh(); renderPromo(); startPromo();
   if (APP.server) { pollFetch(false); pollPublish(); }
 })();
 </script>
