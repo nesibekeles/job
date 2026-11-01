@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&family=Chakra+Petch:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f7f7fa; --surface: #ffffff; --ink: #1e1d26; --ink-2: #474457; --muted: #7a7789; --line: #e7e6ee; --soft: #f3f2f7;
@@ -522,10 +522,13 @@
   [data-theme="business"] .snack span b { color: #7a5b20; }
   [data-theme="business"] .hero-art, [data-theme="business"] .doodle { filter: invert(.88) hue-rotate(180deg) saturate(.75); }
   [data-theme="business"] .avatar { filter: saturate(.6) brightness(.92); }
+  /* business: the sharpest lines (chamfered Chakra Petch everywhere), no handwriting */
+  html[data-theme="business"] { --head: "Chakra Petch", "Inter", sans-serif; }
+  [data-theme="business"] body { font-family: "Chakra Petch", "Inter", sans-serif; }
   [data-theme="business"] h1.hero, [data-theme="business"] .home-hero h1, [data-theme="business"] .hhead h3, [data-theme="business"] .bignum,
-  [data-theme="business"] .brand span, [data-theme="business"] .m-brand span, [data-theme="business"] .panel .head h2, [data-theme="business"] .mini h3 {
-    font-family: "Playfair Display", Georgia, serif; letter-spacing: -.005em; }
-  [data-theme="business"] .hand { color: #a39a86; }
+  [data-theme="business"] .panel .head h2, [data-theme="business"] .mini h3, [data-theme="business"] .cp-head h2 { letter-spacing: -.01em; }
+  [data-theme="business"] .hand { font-family: "Chakra Petch", sans-serif; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: #a39a86; }
+  [data-theme="business"] .hhead h3::after { height: 2px; bottom: -4px; background: linear-gradient(90deg, #cdae74, rgba(205, 174, 116, 0)); }
   [data-theme="business"] .assess.warn, [data-theme="business"] .answer.empty-a textarea { border-color: #4a3f22; }
 
   html[data-theme="private"] {
@@ -536,6 +539,12 @@
   [data-theme="private"] .hero-art, [data-theme="private"] .doodle, [data-theme="private"] .avatar, [data-theme="private"] .brand img,
   [data-theme="private"] .m-brand img, [data-theme="private"] .star.on { filter: grayscale(1); }
   [data-theme="private"] .hcard { box-shadow: 4px 4px 0 #e6e6e2; border-color: #d9d9d5; }
+  /* private: soft, rounded Nunito everywhere, no handwriting */
+  html[data-theme="private"] { --head: "Nunito", "Inter", sans-serif; }
+  [data-theme="private"] body { font-family: "Nunito", "Inter", sans-serif; }
+  [data-theme="private"] .hand { font-family: "Nunito", sans-serif; font-size: 13px; font-weight: 600; color: var(--muted); }
+  [data-theme="private"] .hhead h3::after { height: 3px; bottom: -4px; border-radius: 99px; background: #cfd0cc; }
+  [data-theme="private"] .theme-fb .hand { font-size: 14px; }
 
   /* theme picker */
   .themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
