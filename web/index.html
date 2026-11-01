@@ -172,6 +172,11 @@
                background: var(--ink); color: #fff; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 99px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
   .edge-hint.on { opacity: 1; transform: translate(-50%, 0); }
   .edge-hint svg { width: 14px; height: 14px; }
+  .swipe-hint { position: absolute; left: 50%; bottom: 2px; transform: translate(-50%, 6px); z-index: 30; display: flex; align-items: center; gap: 10px; white-space: nowrap;
+                background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 99px;
+                opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+  .swipe-hint.on { opacity: 1; transform: translate(-50%, 0); }
+  .swipe-hint i { width: 1px; height: 12px; background: var(--line); }
   .reorder { margin-top: 12px; display: none; }
   .reorder.on { display: flex; }
 
@@ -495,7 +500,7 @@
       </div>
       <div class="discover">
         <div class="stack-col">
-          <div class="stack-wrap"><div class="edge-hint" id="edge-hint"><svg class="i"><use href="#i-up"/></svg><span>You're at the top. Go up once more to jump to the end.</span></div><div class="stack" id="stack" tabindex="0"><div class="empty">Loading jobs…</div></div></div>
+          <div class="stack-wrap"><div class="edge-hint" id="edge-hint"><svg class="i"><use href="#i-up"/></svg><span>You're at the top. Go up once more to jump to the end.</span></div><div class="stack" id="stack" tabindex="0"><div class="empty">Loading jobs…</div></div><div class="swipe-hint" id="swipe-hint"><span class="neg">← Pass</span><i></i><span class="pos">Shortlist →</span></div></div>
           <div class="position">
             <div class="count" id="pos">0 <span>/ 0</span></div>
             <div class="bar"><i id="pos-bar" style="width:0"></i></div>
@@ -1126,6 +1131,7 @@ function bindStack() {
   }, { passive: false });
   let st = null;
   stack.addEventListener("pointerdown", (e) => {
+    stopWiggle();
     const card = e.target.closest(".mini"); if (!card) return;
     st = { x: e.clientX, y: e.clientY, card, axis: null, dx: 0, dy: 0 };
     stack.setPointerCapture(e.pointerId);
@@ -1156,6 +1162,27 @@ function bindStack() {
   });
   stack.addEventListener("pointercancel", () => { st = null; renderStack(); });
 }
+// ---- swipe tutorial: the card leans right (shortlist) then left (pass) until she has made a few decisions ----
+const HINT = { anim: [], timer: null, key: "jobness.swipes", needed: 3 };
+const swipesMade = () => { try { return +localStorage.getItem(HINT.key) || 0; } catch { return 0; } };
+const countSwipe = () => { try { localStorage.setItem(HINT.key, swipesMade() + 1); } catch {} };
+function wiggle(el, showPill) {
+  if (!el || swipesMade() >= HINT.needed || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  stopWiggle();
+  const base = el.style.transform || "", like = el.querySelector(".stamp.like"), nope = el.querySelector(".stamp.nope");
+  const t = (x, r) => `${base} translateX(${x}px) rotate(${r}deg)`;
+  const opts = { duration: 2200, easing: "ease-in-out" };
+  HINT.anim = [
+    el.animate([{ transform: t(0, 0) }, { transform: t(56, 4), offset: .22 }, { transform: t(56, 4), offset: .32 }, { transform: t(0, 0), offset: .5 },
+                { transform: t(-56, -4), offset: .72 }, { transform: t(-56, -4), offset: .82 }, { transform: t(0, 0) }], opts),
+    like && like.animate([{ opacity: 0 }, { opacity: .95, offset: .22 }, { opacity: .95, offset: .32 }, { opacity: 0, offset: .45 }, { opacity: 0 }], opts),
+    nope && nope.animate([{ opacity: 0 }, { opacity: 0, offset: .55 }, { opacity: .95, offset: .72 }, { opacity: .95, offset: .82 }, { opacity: 0 }], opts),
+  ].filter(Boolean);
+  if (showPill) { $("#swipe-hint").classList.add("on"); clearTimeout(HINT.timer); HINT.timer = setTimeout(() => $("#swipe-hint").classList.remove("on"), 2600); }
+}
+function stopWiggle() { HINT.anim.forEach((a) => a.cancel()); HINT.anim = []; }
+const centerCard = () => [...STACK.els.values()].find((e) => e.classList.contains("center"));
+
 function flyOut(dir) {
   const el = STACK.els.get(current()?.j.id); if (!el) return;
   el.classList.remove("dragging");
@@ -1174,7 +1201,7 @@ function askReason(id) {
 function decide(id, decision, reasons, note) {
   const prev = APP.state.decisions[id];
   APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(), status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Saved") : null };
-  APP.history.push(id); APP.sinceOrder++; save();
+  APP.history.push(id); APP.sinceOrder++; save(); countSwipe(); stopWiggle();
   if (decision === "like") shortlistSnack(id); else toast("Passed. Learning your preferences");
   setTimeout(() => {
     refresh(true);
@@ -1296,6 +1323,7 @@ function openCard(id) {
     </div>
     <div class="cp-hint">Swipe right to shortlist · left to pass · close to decide later</div>`;
   $("#m-card").classList.add("on");
+  setTimeout(() => $("#m-card").classList.contains("on") && wiggle(pop, false), 450);
   pop.querySelector(".cp-body").scrollTop = 0;
 }
 function closeCard() { $("#m-card").classList.remove("on"); CARD.id = null; }
@@ -1314,6 +1342,7 @@ function cardAct(kind) {
 function bindCardPop() {
   const pop = $("#card-pop"); let st = null;
   pop.addEventListener("pointerdown", (e) => {
+    stopWiggle();
     if (e.target.closest("button, a, summary, input, textarea, select")) return;
     st = { x: e.clientX, y: e.clientY, axis: null, dx: 0, id: e.pointerId };
   });
@@ -2153,6 +2182,7 @@ async function loadData() {
   }
   APP.state = hydrate(saved);
   save(); bindStack(); bindCardPop(); refresh(); renderPromo(); startPromo();
+  setTimeout(() => { if ($("#v-discover").classList.contains("on") && !document.querySelector(".modal.on")) wiggle(centerCard(), true); }, 1100);
   if (APP.server) { pollFetch(false); pollPublish(); }
 })();
 </script>
