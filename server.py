@@ -45,7 +45,7 @@ def run_fetch():
 # ---- shared view: the live site (GitHub Pages) shows Nesibe's state as she left it here ----
 GH = jf.ROOT / "private" / "gh"
 SHARED_API = "https://api.github.com/repos/nesibekeles/job/contents/data/shared_state.json"
-PUBLISH = {"timer": None, "at": None, "error": None}
+PUBLISH = {"timer": None, "at": None, "error": None, "tries": 0}
 PUBLISH_DELAY = 90  # seconds of quiet after the last change, so a swiping session becomes one commit
 
 
@@ -58,11 +58,12 @@ def shared_view(state):
 
 def publish_state():
     PUBLISH["timer"] = None
+    PUBLISH["tries"] += 1
     try:
         token = subprocess.run([str(GH), "auth", "token"], capture_output=True, text=True, timeout=30).stdout.strip()
         headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "jobness"}
         try:
-            with urllib.request.urlopen(urllib.request.Request(SHARED_API, headers=headers), timeout=30) as r:
+            with urllib.request.urlopen(urllib.request.Request(SHARED_API, headers=headers), timeout=90) as r:
                 sha = json.load(r)["sha"]
         except urllib.error.HTTPError as e:
             if e.code != 404:
@@ -74,18 +75,22 @@ def publish_state():
             body["sha"] = sha
         req = urllib.request.Request(SHARED_API, data=json.dumps(body).encode(), method="PUT",
                                      headers=dict(headers, **{"Content-Type": "application/json"}))
-        urllib.request.urlopen(req, timeout=30).close()
-        PUBLISH.update(at=now(), error=None)
-    except Exception as e:
+        urllib.request.urlopen(req, timeout=90).close()
+        PUBLISH.update(at=now(), error=None, tries=0)
+    except Exception as e:  # slow or flaky connection: try again a few times before giving up
         PUBLISH["error"] = str(e)[:200]
+        if PUBLISH["tries"] < 5:
+            schedule_publish(delay=120, retry=True)
 
 
-def schedule_publish():
+def schedule_publish(delay=PUBLISH_DELAY, retry=False):
     if not GH.exists():
         return
+    if not retry:
+        PUBLISH["tries"] = 0
     if PUBLISH["timer"]:
         PUBLISH["timer"].cancel()
-    PUBLISH["timer"] = threading.Timer(PUBLISH_DELAY, publish_state)
+    PUBLISH["timer"] = threading.Timer(delay, publish_state)
     PUBLISH["timer"].daemon = True
     PUBLISH["timer"].start()
 
