@@ -168,6 +168,10 @@
   .navbtns button:hover { border-color: #d3d1de; color: var(--ink); }
   .keys { margin-top: 10px; font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
   kbd { font: 600 11px var(--head); background: var(--surface); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; }
+  .edge-hint { position: absolute; left: 50%; top: 4px; transform: translate(-50%, -6px); z-index: 30; display: flex; align-items: center; gap: 6px; white-space: nowrap;
+               background: var(--ink); color: #fff; font-size: 12px; font-weight: 500; padding: 6px 12px; border-radius: 99px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+  .edge-hint.on { opacity: 1; transform: translate(-50%, 0); }
+  .edge-hint svg { width: 14px; height: 14px; }
   .reorder { margin-top: 12px; display: none; }
   .reorder.on { display: flex; }
 
@@ -336,6 +340,7 @@
     .modal.drawer .sheet { border-radius: 18px 18px 0 0; height: 92dvh; padding: 20px 16px; }
     .sheet .form .row2 { grid-template-columns: 1fr; }
     .promo-track { height: 196px; }
+    .edge-hint { white-space: normal; text-align: center; width: max-content; max-width: 88%; }
   }
 </style>
 </head>
@@ -383,7 +388,7 @@
       </div>
       <div class="discover">
         <div class="stack-col">
-          <div class="stack-wrap"><div class="stack" id="stack" tabindex="0"></div></div>
+          <div class="stack-wrap"><div class="edge-hint" id="edge-hint"><svg class="i"><use href="#i-up"/></svg><span>You're at the top. Go up once more to jump to the end.</span></div><div class="stack" id="stack" tabindex="0"></div></div>
           <div class="position">
             <div class="count" id="pos">0 <span>/ 0</span></div>
             <div class="bar"><i id="pos-bar" style="width:0"></i></div>
@@ -894,14 +899,29 @@ function renderStack(dir = 0) {
   $("#reorder").classList.toggle("on", APP.sinceOrder >= 3);
   renderPanel(list[APP.idx]);
 }
+// first "up" on the first card only bounces; a second, deliberate one (not the same flick) jumps to the end
+const TOP = { armedAt: 0, minGap: 450, window: 2200 };
 function go(delta) {
   const n = deckRows().length; if (!n) return;
   const next = APP.idx + delta;
-  if (next >= n) { APP.idx = 0; spin(); toast("End of the list, back to the start ↺"); }
-  else if (next < 0) { APP.idx = n - 1; spin(); toast("Jumped to the end of the list"); }
+  if (next < 0) {
+    const since = Date.now() - TOP.armedAt;
+    if (since < TOP.minGap) return;
+    if (since > TOP.window) { TOP.armedAt = Date.now(); return bounceTop(); }
+    TOP.armedAt = 0; hideEdgeHint();
+    APP.idx = n - 1; spin(); toast("Jumped to the end of the list");
+  } else if (next >= n) { APP.idx = 0; spin(); toast("End of the list, back to the start ↺"); }
   else APP.idx = next;
+  TOP.armedAt = 0; hideEdgeHint();
   renderStack(Math.sign(delta));
 }
+function bounceTop() {
+  $("#stack").animate([{ transform: "translateY(0)" }, { transform: "translateY(16px)" }, { transform: "translateY(0)" }], { duration: 420, easing: "cubic-bezier(.3,.7,.2,1)" });
+  const h = $("#edge-hint"); h.classList.add("on");
+  clearTimeout(h._t); h._t = setTimeout(hideEdgeHint, TOP.window);
+  STACK.lock = Date.now() + TOP.minGap; STACK.acc = 0; // swallow the rest of this flick's inertia
+}
+function hideEdgeHint() { $("#edge-hint").classList.remove("on"); }
 function spin() { $("#stack").animate([{ transform: "rotateX(0)" }, { transform: "rotateX(-360deg)" }], { duration: 650, easing: "cubic-bezier(.3,.7,.2,1)" }); }
 function bindStack() {
   const stack = $("#stack");
