@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f7f7fa">
+<script>try { document.documentElement.dataset.theme = localStorage.getItem("jobness.theme") || "casual"; } catch (e) { document.documentElement.dataset.theme = "casual"; }</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Jobness">
 <title>Jobness</title>
@@ -11,7 +12,7 @@
 <link rel="apple-touch-icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f7f7fa; --surface: #ffffff; --ink: #1e1d26; --ink-2: #474457; --muted: #7a7789; --line: #e7e6ee; --soft: #f3f2f7;
@@ -449,6 +450,71 @@
   .pack-sec:first-child { margin-top: 0; }
   .pack-pill { display: inline-flex; gap: 6px; align-items: center; font-size: 11.5px; font-weight: 600; color: var(--mint); background: var(--mint-50); padding: 2px 9px; border-radius: 6px; }
 
+
+  /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
+  html[data-theme="business"] {
+    --bg: #0b0c0f; --surface: #16171b; --ink: #f1efe9; --ink-2: #c8c5bd; --muted: #8e8b84; --line: #2a2b31; --soft: #1e1f24;
+    --lav: #cdae74; --lav-50: #211e17; --lav-100: #2d281e; --lav-200: #4b3f2b;
+    --mint: #82c6a6; --mint-50: #142219; --butter: #d9b75e; --butter-50: #272113; --sky: #86aad6; --sky-50: #151e29; --rose: #e48a9a; --rose-50: #2a161b;
+    --shadow-sm: 0 1px 0 rgba(255, 255, 255, .04); --shadow: 0 22px 44px -18px rgba(0, 0, 0, .85); color-scheme: dark;
+  }
+  html[data-theme="business"] body { background: radial-gradient(1100px 520px at 75% -8%, #1d1e24 0%, #0b0c0f 62%) fixed var(--bg); }
+  [data-theme="business"] .box, [data-theme="business"] .hcard, [data-theme="business"] .mini, [data-theme="business"] .sheet, [data-theme="business"] .card-pop,
+  [data-theme="business"] .side, [data-theme="business"] .pick, [data-theme="business"] .rule, [data-theme="business"] .answer, [data-theme="business"] .check {
+    background-image: linear-gradient(155deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, 0) 38%); }
+  [data-theme="business"] .box, [data-theme="business"] .hcard, [data-theme="business"] .card-pop, [data-theme="business"] .sheet {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 20px 40px -22px rgba(0, 0, 0, .9); }
+  [data-theme="business"] .topbar { background: rgba(11, 12, 15, .82); }
+  [data-theme="business"] .tabbar { background: rgba(14, 15, 18, .96); }
+  [data-theme="business"] .mini { background-color: #131418; border-color: #26272c; }
+  [data-theme="business"] .mini.center { background-color: #1b1c21; border-color: #3a3b42; }
+  [data-theme="business"] .hcard { border-color: #2c2d33; box-shadow: 4px 4px 0 #050506, inset 0 1px 0 rgba(255, 255, 255, .07); }
+  [data-theme="business"] .pick { background-color: #18191e; border-color: #2a2b31; }
+  [data-theme="business"] .alist, [data-theme="business"] .alist li button, [data-theme="business"] .todo { border-color: #2c2d33; }
+  [data-theme="business"] .btn.primary { background: linear-gradient(180deg, #dcc08b, #b8955a); border-color: #b8955a; color: #141414; }
+  [data-theme="business"] .btn.primary:hover { background: linear-gradient(180deg, #e6cc98, #c4a165); color: #141414; }
+  [data-theme="business"] .btn:hover, [data-theme="business"] .chip:hover { border-color: #3d3e45; }
+  [data-theme="business"] .chip-add { border-color: #3d3e45; }
+  [data-theme="business"] .switch span { background: #34353b; }
+  [data-theme="business"] .field { background: #111216; }
+  [data-theme="business"] .toast, [data-theme="business"] .snack { background: #f1efe9; color: #141414; }
+  [data-theme="business"] .snack button { background: rgba(0, 0, 0, .08); color: #141414; }
+  [data-theme="business"] .snack span b { color: #7a5b20; }
+  [data-theme="business"] .hero-art, [data-theme="business"] .doodle { filter: invert(.88) hue-rotate(180deg) saturate(.75); }
+  [data-theme="business"] .avatar { filter: saturate(.6) brightness(.92); }
+  [data-theme="business"] h1.hero, [data-theme="business"] .home-hero h1, [data-theme="business"] .hhead h3, [data-theme="business"] .bignum,
+  [data-theme="business"] .brand span, [data-theme="business"] .m-brand span, [data-theme="business"] .panel .head h2, [data-theme="business"] .mini h3 {
+    font-family: "Playfair Display", Georgia, serif; letter-spacing: -.005em; }
+  [data-theme="business"] .hand { color: #a39a86; }
+  [data-theme="business"] .assess.warn, [data-theme="business"] .answer.empty-a textarea { border-color: #4a3f22; }
+
+  html[data-theme="private"] {
+    --bg: #f3f3f1; --surface: #ffffff; --ink: #26272b; --ink-2: #4a4c52; --muted: #86888e; --line: #e3e3e0; --soft: #efefec;
+    --lav: #5b6068; --lav-50: #f1f1ef; --lav-100: #e6e6e3; --lav-200: #cfd0cc;
+    --mint: #5d6b65; --mint-50: #eef0ee; --butter: #6d6859; --butter-50: #f1f0ec; --sky: #5a6470; --sky-50: #eff0f1; --rose: #6f5c60; --rose-50: #f2eeef;
+  }
+  [data-theme="private"] .hero-art, [data-theme="private"] .doodle, [data-theme="private"] .avatar, [data-theme="private"] .brand img,
+  [data-theme="private"] .m-brand img, [data-theme="private"] .star.on { filter: grayscale(1); }
+  [data-theme="private"] .hcard { box-shadow: 4px 4px 0 #e6e6e2; border-color: #d9d9d5; }
+
+  /* theme picker */
+  .themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .theme-opt { text-align: left; border: 1.5px solid var(--line); background: var(--surface); border-radius: 14px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; color: var(--ink); }
+  .theme-opt:hover { border-color: var(--lav-200); }
+  .theme-opt.on { border-color: var(--lav); box-shadow: 0 0 0 3px var(--lav-100); }
+  .theme-opt b { font: 700 14px var(--head); }
+  .theme-opt span { font-size: 12px; color: var(--muted); }
+  .theme-prev { height: 64px; border-radius: 9px; padding: 8px; display: flex; flex-direction: column; gap: 5px; border: 1px solid rgba(0, 0, 0, .06); }
+  .theme-prev i { display: block; height: 9px; border-radius: 4px; }
+  .theme-prev .row { display: flex; gap: 5px; }
+  .tp-casual { background: #f7f7fa; } .tp-casual i:nth-child(1) { background: #6655c4; width: 40%; } .tp-casual .row i { background: #fff; border: 1px solid #e7e6ee; height: 26px; flex: 1; } .tp-casual .row i:first-child { background: #e4f2eb; }
+  .tp-business { background: radial-gradient(120px 60px at 80% 0, #26272d, #0b0c0f); } .tp-business i:nth-child(1) { background: linear-gradient(90deg, #dcc08b, #b8955a); width: 40%; }
+  .tp-business .row i { background: linear-gradient(155deg, #2a2b31, #16171b); border: 1px solid #2f3036; height: 26px; flex: 1; }
+  .tp-private { background: #f3f3f1; } .tp-private i:nth-child(1) { background: #5b6068; width: 40%; } .tp-private .row i { background: #fff; border: 1px solid #e3e3e0; height: 26px; flex: 1; }
+  .theme-fb { margin-top: 14px; padding: 14px; border-radius: 12px; background: var(--soft); border: 1px dashed var(--lav-200); }
+  .theme-fb textarea { width: 100%; margin: 8px 0; border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px; font: inherit; background: var(--surface); color: var(--ink); resize: vertical; }
+  @media (max-width: 560px) { .themes { grid-template-columns: 1fr; } .theme-opt { flex-direction: row; align-items: center; } .theme-prev { width: 96px; flex: none; } }
+
   /* ---------- responsive ---------- */
   @media (max-width: 1100px) {
     .discover { grid-template-columns: 1fr; }
@@ -533,6 +599,7 @@
     <div class="crumb">Your workspace <svg class="i" style="width:14px;height:14px"><use href="#i-chev"/></svg> <b id="crumb">Home</b></div>
     <div class="spacer"></div>
     <span class="small muted" id="fetch-info"></span>
+    <button class="icon-btn" id="theme-btn" title="Theme" aria-label="Choose a theme"><svg class="i"><use href="#i-palette"/></svg></button>
     <button class="btn sm" id="fetch-btn"><svg class="i"><use href="#i-refresh"/></svg><span>Refresh jobs</span></button>
   </div>
 
@@ -674,6 +741,11 @@
           </div>
         </div>
         <div class="box pad">
+          <h3>Theme</h3>
+          <p class="hint">Saved on this device only, so whoever you share the link with can pick their own.</p>
+          <div class="theme-pick"></div>
+        </div>
+        <div class="box pad">
           <h3>Backup & moving between devices</h3>
           <p class="hint">Your decisions, rules, weights, companies and settings in one file. Download on your phone and upload on your laptop, or hand it to Claude Code to prepare application packs.</p>
           <div class="chips">
@@ -715,6 +787,11 @@
   <div class="promo" id="promo-more"></div>
 </div></div>
 <div class="modal" id="m-co"><div class="sheet" id="co-sheet"></div></div>
+<div class="modal" id="m-theme"><div class="sheet" style="max-width:640px">
+  <div class="sheet-head"><h2>Pick a theme</h2><button class="icon-btn" data-close="m-theme"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <p class="small muted" style="margin:0 0 14px">Saved on this device only.</p>
+  <div class="theme-pick"></div>
+</div></div>
 <div class="modal" id="m-quiz"><div class="sheet" id="quiz" style="max-width:520px"></div></div>
 <div class="modal" id="m-add"><div class="sheet">
   <h2>Add a job</h2>
@@ -732,6 +809,7 @@
 <div class="snack" id="snack" role="status" aria-live="polite"><span id="snack-text"></span><button id="snack-undo">Take back</button><i id="snack-bar"></i></div>
 
 <svg width="0" height="0" style="position:absolute">
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18c1.4 0 2-1 2-2 0-1.5-1.2-1.6-1.2-3 0-1.1.9-2 2-2H17a4 4 0 0 0 4-4c0-4-4-7-9-7z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="14.5" cy="7" r="1.2"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/></symbol>
   <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
   <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v16l-6-4-6 4z"/></symbol>
@@ -2189,6 +2267,44 @@ document.addEventListener("change", (e) => {
   save(); renderHome();
 });
 
+// ---------------- themes ----------------
+const THEMES = [
+  { id: "casual", name: "Casual", tag: "It's all of us, and one of us." },
+  { id: "business", name: "Businessman", tag: "Dark mode, black ceramic. He is a real man." },
+  { id: "private", name: "Prefer not to disclose", tag: "Liberal ones, ugh. Give us some feedback at least." },
+];
+const currentTheme = () => document.documentElement.dataset.theme || "casual";
+function renderThemePickers(showFeedback) {
+  const t = currentTheme(), fb = APP.state?.feedback || [];
+  const html = `<div class="themes">${THEMES.map((x) => `<button class="theme-opt ${x.id === t ? "on" : ""}" data-theme-pick="${x.id}">
+      <div class="theme-prev tp-${x.id}"><i></i><div class="row"><i></i><i></i></div></div>
+      <div><b>${esc(x.name)}</b><br><span>${esc(x.tag)}</span></div></button>`).join("")}</div>
+    ${t === "private" ? `<div class="theme-fb"><div class="hand" style="font-size:20px">fine, no labels. ugh.</div>
+      <div class="small">But give us some feedback at least: what would make Jobness better for you?</div>
+      <textarea rows="3" class="fb-text" placeholder="Anything: a feature, a bug, a feeling…"></textarea>
+      <button class="btn primary sm" data-fb-send>Send feedback</button>
+      ${fb.length ? `<div class="small muted" style="margin-top:10px">${fb.length} note${fb.length > 1 ? "s" : ""} saved so far. Thank you!</div>` : ""}</div>` : ""}`;
+  document.querySelectorAll(".theme-pick").forEach((el) => (el.innerHTML = html));
+  if (showFeedback) setTimeout(() => document.querySelector(".modal.on .fb-text, #v-settings.on .fb-text")?.focus(), 50);
+}
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem("jobness.theme", t); } catch {}
+  document.querySelector('meta[name="theme-color"]').content = t === "business" ? "#0b0c0f" : t === "private" ? "#f3f3f1" : "#f7f7fa";
+  renderThemePickers(t === "private");
+}
+$("#theme-btn").onclick = () => { renderThemePickers(false); $("#m-theme").classList.add("on"); };
+document.addEventListener("click", (e) => {
+  const opt = e.target.closest("[data-theme-pick]");
+  if (opt) return setTheme(opt.dataset.themePick);
+  if (e.target.closest("[data-fb-send]")) {
+    const box = e.target.closest(".theme-fb").querySelector(".fb-text"), text = box.value.trim();
+    if (!text) return toast("Write something first, even a word");
+    (APP.state.feedback = APP.state.feedback || []).push({ at: new Date().toISOString(), text });
+    save(); toast("Thank you! Feedback saved"); renderThemePickers(false);
+  }
+});
+
 // ---------------- render ----------------
 function refresh(keepOrder) {
   compute();
@@ -2207,7 +2323,7 @@ function showView(v) {
   if (v === "home") renderHome();
   if (v === "discover") { buildOrder(true); renderStack(); setTimeout(() => $("#v-discover").classList.contains("on") && !document.querySelector(".modal.on") && wiggle(centerCard(), true), 600); }
   if (v === "scoring") { renderScene(); renderRules(); renderWeights(); }
-  if (v === "settings") renderSettings();
+  if (v === "settings") { renderSettings(); renderThemePickers(false); }
   if (v === "companies") renderCompanies();
   window.scrollTo(0, 0);
 }
