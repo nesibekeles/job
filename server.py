@@ -5,10 +5,14 @@ The browser does scoring, rules and learning; this server only adds what a stati
 fetching jobs, mirroring the app state to data/state.json (so Claude Code can read decisions),
 manual job entry and serving generated application packs.
 """
+import base64
 import json
 import re
+import subprocess
 import sys
 import threading
+import urllib.error
+import urllib.request
 import webbrowser
 from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -36,6 +40,54 @@ def run_fetch():
         FETCH["log"].append(f"ERROR: {e}")
     finally:
         FETCH["running"] = False
+
+
+# ---- shared view: the live site (GitHub Pages) shows Nesibe's state as she left it here ----
+GH = jf.ROOT / "private" / "gh"
+SHARED_API = "https://api.github.com/repos/nesibekeles/job/contents/data/shared_state.json"
+PUBLISH = {"timer": None, "at": None, "error": None}
+PUBLISH_DELAY = 90  # seconds of quiet after the last change, so a swiping session becomes one commit
+
+
+def shared_view(state):
+    """Everything except pack edits: cover letter drafts and form answers never leave this computer."""
+    view = {k: v for k, v in state.items() if k != "packs"}
+    view["published_at"] = now()
+    return view
+
+
+def publish_state():
+    PUBLISH["timer"] = None
+    try:
+        token = subprocess.run([str(GH), "auth", "token"], capture_output=True, text=True, timeout=30).stdout.strip()
+        headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "jobness"}
+        try:
+            with urllib.request.urlopen(urllib.request.Request(SHARED_API, headers=headers), timeout=30) as r:
+                sha = json.load(r)["sha"]
+        except urllib.error.HTTPError as e:
+            if e.code != 404:
+                raise
+            sha = None
+        content = json.dumps(shared_view(jf.load_json(STATE, {})), ensure_ascii=False, indent=1).encode()
+        body = {"message": "Update shared view", "content": base64.b64encode(content).decode()}
+        if sha:
+            body["sha"] = sha
+        req = urllib.request.Request(SHARED_API, data=json.dumps(body).encode(), method="PUT",
+                                     headers=dict(headers, **{"Content-Type": "application/json"}))
+        urllib.request.urlopen(req, timeout=30).close()
+        PUBLISH.update(at=now(), error=None)
+    except Exception as e:
+        PUBLISH["error"] = str(e)[:200]
+
+
+def schedule_publish():
+    if not GH.exists():
+        return
+    if PUBLISH["timer"]:
+        PUBLISH["timer"].cancel()
+    PUBLISH["timer"] = threading.Timer(PUBLISH_DELAY, publish_state)
+    PUBLISH["timer"].daemon = True
+    PUBLISH["timer"].start()
 
 
 def packs_index():
@@ -99,6 +151,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(jf.load_json(STATE, {}))
         if path == "/api/fetch":
             return self.send_json(FETCH)
+        if path == "/api/publish":
+            return self.send_json({"at": PUBLISH["at"], "error": PUBLISH["error"], "pending": bool(PUBLISH["timer"])})
         if path == "/api/packs":
             return self.send_json(packs_index())
         if path.startswith("/packs/"):
@@ -120,6 +174,7 @@ class Handler(SimpleHTTPRequestHandler):
                 jf.save_json(STATE, b)
                 queue = [d["id"] for d in b.get("decisions", {}).values() if d.get("status") == "Pack requested"]
                 jf.save_json(jf.DATA / "pack_queue.json", queue)
+            schedule_publish()
             return self.send_json({"ok": True})
         if path == "/api/company":
             return self.send_json(*add_company(b))

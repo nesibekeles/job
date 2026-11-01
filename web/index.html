@@ -333,6 +333,13 @@
   .doc-page:focus { box-shadow: 0 0 0 3px var(--lav-100), 0 8px 24px -12px rgba(30, 29, 38, .18); }
   .doc-page p { margin: 0 0 14px; }
   .edited { font-size: 11.5px; color: var(--lav); font-weight: 600; }
+  .tone { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; max-width: 720px; margin-inline: auto; }
+  .tone.off { opacity: .6; }
+  .tone-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; }
+  .tone-row { display: grid; grid-template-columns: 150px 1fr 44px; gap: 10px; align-items: center; font-size: 13px; color: var(--ink-2); padding: 3px 0; }
+  .tone-row b { text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .tone .chips { margin-top: 8px; }
+  @media (max-width: 560px) { .tone-row { grid-template-columns: 1fr 44px; } .tone-row input { grid-column: 1 / -1; grid-row: 2; } }
   .answer { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
   .answer .q { font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
   .answer textarea { width: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px; font: inherit; resize: vertical; min-height: 44px; background: var(--soft); }
@@ -426,6 +433,7 @@
   </div>
 
   <div class="page">
+    <div class="note" id="shared-banner" hidden style="margin-bottom:16px"></div>
     <section class="view on" id="v-discover">
       <div class="eyebrow">Welcome to the jungle</div>
       <h1 class="hero">The right role, in the right city.</h1>
@@ -791,7 +799,8 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 const icon = (id) => `<svg class="i"><use href="#i-${id}"/></svg>`;
 const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("on"), 2400); };
 const eur = (n) => "€" + Math.round(n / 1000) + "k";
-const ago = (iso) => { if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 864e5; return d < 1 ? "today" : d < 2 ? "yesterday" : Math.floor(d) + " days ago"; };
+const ago = (iso) => { if (!iso) return ""; const m = (Date.now() - new Date(iso)) / 6e4, d = m / 1440;
+  return m < 1 ? "just now" : m < 60 ? Math.floor(m) + " min ago" : d < 1 ? Math.floor(m / 60) + " h ago" : d < 2 ? "yesterday" : Math.floor(d) + " days ago"; };
 const signed = (n) => (n > 0 ? "+" : "") + (Math.round(n * 10) / 10);
 const pastel = (name) => PASTELS[[...name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PASTELS.length];
 const avatar = (name) => { const [bg, fg] = pastel(name); return `<div class="avatar" style="background:${bg};color:${fg}">${esc(name[0])}</div>`; };
@@ -1675,10 +1684,43 @@ function packProgress(id) {
   const n = pk.checklist.length, done = pk.checklist.filter((_, i) => e?.checks?.[i]).length;
   return done === n ? "all steps done ✓" : `${done}/${n} steps done`;
 }
+// Tone mix: pack.json cover_letter.tone = {default: [personal, creative, professional], slots: [{id, variants: [{mix, text}]}]}.
+// Each slot shows the variant whose mix is closest to the sliders ("" drops the paragraph); the default mix reproduces the letter as written.
+const TONE_KEYS = ["Personal", "Creative but sincere", "Professional"];
+const TONE_PRESETS = [["As written", null], ["More professional", [10, 10, 80]], ["Warmer", [45, 20, 35]], ["Playful", [35, 50, 15]]];
+const packMix = (id) => APP.state.packs?.[id]?.mix || APP.packs[id].cover_letter.tone.default;
+const sameMix = (a, b) => a.every((x, i) => x === b[i]);
+function composeCover(c, mix) {
+  if (!c.tone) return c.paragraphs;
+  const dist = (v) => v.mix.reduce((s, x, i) => s + (x - mix[i]) ** 2, 0);
+  return c.tone.slots.map((s) => s.variants.reduce((a, b) => (dist(b) < dist(a) ? b : a)).text).filter(Boolean);
+}
+function rebalance(mix, i, v) {
+  const [a, b] = [0, 1, 2].filter((k) => k !== i), sum = mix[a] + mix[b], out = [...mix];
+  out[i] = v; out[a] = Math.round(((sum ? mix[a] / sum : 0.5) * (100 - v)) / 5) * 5; out[b] = 100 - v - out[a];
+  return out;
+}
+function toneHTML(id, edited) {
+  const mix = packMix(id), def = APP.packs[id].cover_letter.tone.default;
+  return `<div class="tone ${edited ? "off" : ""}"><div class="tone-head"><b>Tone mix</b><span class="small muted">${edited
+      ? "You've edited this letter by hand. Reset to original to use the tone mix again."
+      : "Move a slider and the letter switches between versions written in your voice."}</span></div>
+    ${TONE_KEYS.map((l, i) => `<div class="tone-row"><span>${l}</span><input type="range" min="0" max="100" step="5" value="${mix[i]}" data-tone="${i}" ${edited ? "disabled" : ""}><b data-tonev="${i}">${mix[i]}%</b></div>`).join("")}
+    <div class="chips">${TONE_PRESETS.map(([l, m]) => `<button class="chip ${sameMix(m || def, mix) ? "on" : ""}" data-tpreset="${l}" ${edited ? "disabled" : ""}>${l}</button>`).join("")}</div></div>`;
+}
+function setMix(id, mix) {
+  packEdits(id).mix = mix;
+  const def = APP.packs[id].cover_letter.tone.default;
+  document.querySelectorAll("[data-tone]").forEach((r) => { r.value = mix[r.dataset.tone]; });
+  document.querySelectorAll("[data-tonev]").forEach((b) => { b.textContent = mix[b.dataset.tonev] + "%"; });
+  document.querySelectorAll("[data-tpreset]").forEach((c) => c.classList.toggle("on", sameMix(TONE_PRESETS.find(([l]) => l === c.dataset.tpreset)[1] || def, mix)));
+  $("#cover-doc").innerHTML = coverParasHTML(id);
+}
 function packCoverText(id) {
   const e = APP.state.packs?.[id], c = APP.packs[id].cover_letter;
-  return e?.cover ?? [c.greeting, ...c.paragraphs, c.signoff, c.name].join("\n\n");
+  return e?.cover ?? [c.greeting, ...composeCover(c, c.tone && packMix(id)), c.signoff, c.name].join("\n\n");
 }
+const coverParasHTML = (id) => packCoverText(id).split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
 const packAnswer = (id, i) => APP.state.packs?.[id]?.answers?.[i] ?? APP.packs[id].answers[i].a;
 function copyText(text, msg) { navigator.clipboard.writeText(text).then(() => toast(msg), () => toast("Couldn't copy. Select the text and copy it manually")); }
 function downloadCoverDoc(id) {
@@ -1703,8 +1745,8 @@ function openPack(id, tab) {
       <span class="small muted">Tailored for this role. Only real experience, reordered and reworded.</span></div>
       <iframe class="pdf-frame" src="${pdf}#view=FitH" title="Resume"></iframe>`;
   } else if (tab === "cover") {
-    const paras = packCoverText(id).split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
-    body = `<div class="doc-tools"><button class="btn primary sm" data-pcopy>${icon("copy")}Copy text</button><button class="btn sm" data-pword>${icon("download")}Download for Word</button>
+    const paras = coverParasHTML(id);
+    body = `${pk.cover_letter.tone ? toneHTML(id, e.cover != null) : ""}<div class="doc-tools"><button class="btn primary sm" data-pcopy>${icon("copy")}Copy text</button><button class="btn sm" data-pword>${icon("download")}Download for Word</button>
       ${e.cover != null ? `<span class="edited">Edited by you · saved</span><button class="btn ghost sm" data-preset>Reset to original</button>` : `<span class="small muted">Click anywhere on the page to edit. Changes save automatically.</span>`}</div>
       <div class="doc-page" contenteditable="true" spellcheck="true" id="cover-doc">${paras}</div>`;
   } else if (tab === "answers") {
@@ -1740,6 +1782,12 @@ document.addEventListener("change", (e) => {
 let packTimer;
 document.addEventListener("input", (e) => {
   const t = e.target;
+  if (t.dataset.tone != null) {
+    if (packEdits(PACKVIEW.id).cover != null) return openPack(PACKVIEW.id, "cover");
+    setMix(PACKVIEW.id, rebalance(packMix(PACKVIEW.id), +t.dataset.tone, +t.value));
+    clearTimeout(packTimer); packTimer = setTimeout(save, 400);
+    return;
+  }
   if (t.id === "cover-doc" || t.dataset.aedit != null) {
     clearTimeout(packTimer);
     packTimer = setTimeout(() => {
@@ -1803,6 +1851,7 @@ document.addEventListener("click", (e) => {
   if ("pcopy" in ds) return copyText(packCoverText(PACKVIEW.id), "Cover letter copied");
   if (ds.acopy != null) return copyText(packAnswer(PACKVIEW.id, +ds.acopy), "Answer copied");
   if ("pword" in ds) return downloadCoverDoc(PACKVIEW.id);
+  if (ds.tpreset) { const id = PACKVIEW.id; if (packEdits(id).cover != null) return openPack(id, "cover"); setMix(id, TONE_PRESETS.find(([l]) => l === ds.tpreset)[1] || APP.packs[id].cover_letter.tone.default); return save(); }
   if ("preset" in ds) { if (confirm("Throw away your edits and go back to the original cover letter?")) { delete packEdits(PACKVIEW.id).cover; save(); openPack(PACKVIEW.id, "cover"); } return; }
   if (ds.act === "like") return like();
   if (ds.act === "nope") return askReason();
@@ -1930,6 +1979,13 @@ async function pollFetch(started) {
 window.addEventListener("resize", () => renderStack());
 
 // ---------------- boot ----------------
+// local app: show when the live site last received this view (server.py publishes ~90 s after the last change)
+async function pollPublish() {
+  const p = await fetch("/api/publish").then((r) => r.json()).catch(() => null);
+  const el = $("#publish-info");
+  if (p && el) el.textContent = p.error ? "· live site sync failed" : p.pending ? "· syncing live site soon" : p.at ? `· live site synced ${ago(p.at)}` : "";
+  setTimeout(pollPublish, 20000);
+}
 async function loadData() {
   if (!location.hostname.endsWith("github.io")) { // only the local Python server has /api
     try { const d = await fetch("/api/data").then((r) => r.json()); if (d.jobs) { APP.data = d; APP.server = true; } } catch {}
@@ -1937,7 +1993,7 @@ async function loadData() {
   if (!APP.server) APP.data = await fetch("data/static.json", { cache: "no-cache" }).then((r) => r.json());
   if (APP.server) APP.packs = await fetch("/api/packs").then((r) => r.json()).catch(() => ({}));
   const m = APP.data.meta;
-  $("#fetch-info").innerHTML = m.last_fetch ? `<span class="status-dot"></span>Updated ${ago(m.last_fetch)} · ${m.count} jobs` : "";
+  $("#fetch-info").innerHTML = (m.last_fetch ? `<span class="status-dot"></span>Updated ${ago(m.last_fetch)} · ${m.count} jobs ` : "") + `<span id="publish-info"></span>`;
 }
 (async function boot() {
   await loadData();
@@ -1947,9 +2003,19 @@ async function loadData() {
     if (remote?.updated_at && (!saved?.updated_at || remote.updated_at > saved.updated_at)) saved = remote;
   }
   if (!saved) { try { const old = JSON.parse(localStorage.getItem("radar.decisions")); if (old) saved = { decisions: old }; } catch {} }
+  const shared = APP.data.shared_state;
+  if (!APP.server && shared?.published_at) { // live site: mirror Nesibe's published view whenever she publishes a new one
+    let seen = null; try { seen = localStorage.getItem("jobness.shared_seen"); } catch {}
+    if (!saved || seen !== shared.published_at) {
+      saved = shared;
+      try { localStorage.setItem("jobness.shared_seen", shared.published_at); } catch {}
+    }
+    $("#shared-banner").hidden = false;
+    $("#shared-banner").innerHTML = `${icon("info")}<div>You're seeing <b>Nesibe's view</b>, synced ${ago(shared.published_at)}. Changes made here stay on this device and are replaced by her next update.</div>`;
+  }
   APP.state = hydrate(saved);
   save(); bindStack(); refresh(); renderPromo(); startPromo();
-  if (APP.server) pollFetch(false);
+  if (APP.server) { pollFetch(false); pollPublish(); }
 })();
 </script>
 </body>

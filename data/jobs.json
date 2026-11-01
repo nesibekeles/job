@@ -11214,5 +11214,84 @@
       "company_sponsor": "known",
       "filtered": null
     }
+  },
+  {
+    "id": "google-4476808972",
+    "company": "Google",
+    "title": "Program Manager, Strategy and Operations, Google Arts and Culture",
+    "locations": [
+      "London, England, United Kingdom"
+    ],
+    "url": "https://www.linkedin.com/jobs/view/4476808972/",
+    "apply_url": "https://www.google.com/about/careers/applications/apply?jobId=CiUAL2FckSxwnuvVkR3vsQstk0Eq9njNhE-hgR9Xi954dv_T-_NrEjsA9yzvguJPQNiSr83r_ivA_v8bkoveKe205BhkP2lgLOheDWOHofn6djY-wcwF89kYHM4EU2MMuUZ6XA%3D%3D_V2&loc=GB&title=Program+Manager",
+    "description": "Program Manager, Strategy and Operations, Google Arts and Culture (London, full-time, onsite).\n\nGoogle Arts and Culture (GAC) is a cross-functional product group whose mission is to preserve, promote, and democratize access to culture. The role bridges GAC leadership, product teams, cross-functional partners and external cultural organizations.\n\nMinimum qualifications:\n- Bachelor's degree in Business, Technology, Operations, or equivalent practical experience.\n- 2 years of experience in program management, business operations, or strategy and operations, with ownership of end-to-end program lifecycles.\n- Experience managing program budgets, financial tracking, and resource allocation (e.g., forecasting, tracking burn rates, agreement milestones).\n- Experience defining, tracking, and reporting operational and performance metrics (e.g., OKRs and KPIs) for executive leadership.\n- Experience driving cross-functional alignment across technical (engineering/product) and non-technical stakeholders (e.g., partnerships, content, or external institutions).\n\nPreferred qualifications:\n- Experience in BizOps, central PMO, or strategy and operations within a fast-paced technology company, leading cultural institution, or management consultancy.\n- Experience managing complex agreements and strategic external partnerships with global cultural or public institutions.\n- Strong analytical and financial modeling skills, with proficiency in advanced spreadsheet software, SQL, or dashboarding tools.\n- Experience working with emerging technologies (AI/ML, creative tech, digital innovation).\n- Exceptional communication skills, including C-level memos and weekly operational updates.\n\nResponsibilities:\n- Drive the strategic planning rhythms for GAC: goals, budget planning, allocation and tracking.\n- Partner with Product, Engineering, Content and Marketing to align priorities and unblock execution.\n- Act as the operational contact for external strategic partners (museums, artists, scientific institutions).\n- Prepare weekly status reports, budget updates and executive briefs.\n- Manage partnerships and program lifecycles, track program metrics, improve tools and processes.",
+    "posted": "2026-10-31",
+    "workplace": "onsite",
+    "salary_text": null,
+    "manual": true,
+    "first_seen": "2026-11-01T19:40:49.160782+00:00",
+    "is_new": true,
+    "f": {
+      "city": "London",
+      "city_priority": 2,
+      "remote": false,
+      "gross_target_eur": 83500,
+      "gross_min_eur": 71000,
+      "sponsorship": "unknown",
+      "sponsorship_evidence": null,
+      "languages_required": [],
+      "workplace": "Office",
+      "office_days": null,
+      "role_type": "strategic",
+      "op_count": 4,
+      "strategic_count": 14,
+      "seniority": "mid-senior",
+      "years_required": 2,
+      "cv_match": 0.35,
+      "match_level": 2,
+      "matched": [
+        "stakeholder",
+        "okr",
+        "lifecycle",
+        "kpi",
+        "dashboard",
+        "cross-functional"
+      ],
+      "gaps": [
+        "sql"
+      ],
+      "salary": null,
+      "duties": [
+        "Bachelor's degree in Business, Technology, Operations, or equivalent practical experience.",
+        "2 years of experience in program management, business operations, or strategy and operations, with ownership of end-to-end program lifecycles.",
+        "Experience managing program budgets, financial tracking, and resource allocation (e.g., forecasting, tracking burn rates, agreement milestones)."
+      ],
+      "tags": [
+        {
+          "color": "yellow",
+          "label": "Sponsorship unclear"
+        },
+        {
+          "color": "red",
+          "label": "Office-heavy"
+        },
+        {
+          "color": "green",
+          "label": "Strategic role"
+        },
+        {
+          "color": "green",
+          "label": "AI-focused"
+        },
+        {
+          "color": "red",
+          "label": "Fast pace / long hours"
+        }
+      ],
+      "company_tier": "?",
+      "company_pay": "mid",
+      "company_sponsor": "unknown",
+      "filtered": null
+    }
   }
 ]

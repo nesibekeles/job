@@ -452,7 +452,7 @@ def analyse_all(raw_jobs, profile, cities, companies):
     matcher = Matcher(profile, cities)
     comp = {c["name"]: c for c in companies["companies"]}
     notes = load_json(DATA / "ai_notes.json", {})
-    decided = load_json(DATA / "state.json", {}).get("decisions", {})
+    decided = decisions_any()
     out, seen = [], set()
     for j in raw_jobs:
         key = (j["company"], j["title"].lower(), tuple(sorted(j["locations"]))[:1])
@@ -503,7 +503,7 @@ def fetch_all(progress=print, only=None):
     raw += [j for j in old.values() if j["company"] not in fetched and not j.get("manual")]
     raw += load_json(DATA / "manual_jobs.json", [])
 
-    decisions = load_json(DATA / "state.json", {}).get("decisions", {})
+    decisions = decisions_any()
     now = datetime.now(timezone.utc).isoformat()
     by_id = {}
     for j in raw:
@@ -522,9 +522,19 @@ def fetch_all(progress=print, only=None):
     return meta
 
 
+def decisions_any():
+    """Local app state when it exists (laptop), otherwise the published view (GitHub Actions)."""
+    return load_json(DATA / "state.json", {}).get("decisions") or load_json(DATA / "shared_state.json", {}).get("decisions", {})
+
+
 def rescore():
     profile, cities, companies = configs()
-    jobs = analyse_all(load_json(DATA / "jobs.json", []), profile, cities, companies)
+    jobs = load_json(DATA / "jobs.json", [])
+    known, stamp = {j["id"] for j in jobs}, datetime.now(timezone.utc).isoformat()
+    for j in load_json(DATA / "manual_jobs.json", []):  # jobs added by hand since the last fetch
+        if j["id"] not in known:
+            jobs.append(dict(j, first_seen=j.get("first_seen", stamp), is_new=True))
+    jobs = analyse_all(jobs, profile, cities, companies)
     save_json(DATA / "jobs.json", jobs)
     return len(jobs)
 
@@ -537,7 +547,8 @@ def app_data():
     profile, cities, companies = configs()
     return {"jobs": load_json(DATA / "jobs.json", []), "meta": load_json(DATA / "meta.json", {}),
             "watchlist": companies.get("watchlist", []), "statuses": STATUSES,
-            "config": {"profile": profile, "cities": cities, "companies": companies}}
+            "config": {"profile": profile, "cities": cities, "companies": companies},
+            "shared_state": load_json(DATA / "shared_state.json")}  # Nesibe's published view, for the live site
 
 
 def export_static(path):
