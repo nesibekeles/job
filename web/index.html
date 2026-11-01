@@ -373,6 +373,12 @@
   .todo .btn { flex: none; }
   .soon { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
   .home-empty { text-align: center; padding: 18px 8px; color: var(--muted); }
+  /* the two top cards share one height (today's picks with four rows); extra content scrolls inside */
+  @media (min-width: 901px) {
+    .home-grid > .hcard:not(.home-wide) { height: 430px; display: flex; flex-direction: column; }
+    .hcard .hbody { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin-right: -10px; padding-right: 10px; scrollbar-width: thin; scrollbar-color: var(--lav-200) transparent; }
+    .hcard .hbody::-webkit-scrollbar { width: 6px; } .hcard .hbody::-webkit-scrollbar-thumb { background: var(--lav-200); border-radius: 99px; }
+  }
   @media (max-width: 900px) { .home-grid { grid-template-columns: 1fr; } .todos { grid-template-columns: 1fr; } .home-hero .hero-art { width: 46vw; } }
   @media (max-width: 760px) { .home-hero { flex-direction: column-reverse; align-items: stretch; } .home-hero .hero-art { width: 100%; max-height: 150px; } .home-hero h1 { font-size: 27px; } .hcard { padding: 16px; } .bignum { font-size: 40px; } }
 
@@ -2274,6 +2280,7 @@ function renderHome() {
     <div class="home-grid">
       <section class="hcard">
         <div class="hhead">${ART.cup}<div><div class="hand">today at a glance</div><h3>Your summary</h3></div></div>
+        <div class="hbody">
         <div class="bignum">${h.deck.length}<small>jobs match you today</small></div>
         <p class="muted" style="margin:6px 0 14px">${h.fresh.length ? `${h.fresh.length} of them are new. ` : ""}Want to respond?</p>
         <button class="btn primary" data-v="discover">Start swiping<svg class="i"><use href="#i-chev"/></svg></button>
@@ -2285,9 +2292,11 @@ function renderHome() {
           ${row("#3a6390", "Applications in motion", h.applied.length, 'data-v="short"')}
           ${row("#a8475b", "Looked at, still undecided", h.viewed.length, 'data-hgo="todo"')}
         </ul>
+        </div>
       </section>
       <section class="hcard">
         <div class="hhead">${ART.star}<div><div class="hand">quick &amp; worthy</div><h3>Today's picks</h3></div></div>
+        <div class="hbody">
         ${picks.length ? `<div class="picks">${picks.map((r) => `
           <button class="pick" data-opencard="${esc(r.j.id)}">${avatar(r.j.company)}
             <div style="min-width:0"><b>${esc(r.j.title)}</b><div class="meta">${esc(r.j.company)} · ${esc(r.d.city)}
@@ -2295,6 +2304,7 @@ function renderHome() {
             <div class="sc">${r.score}<small>SCORE</small></div></button>`).join("")}</div>
           <button class="btn ghost sm" style="margin-top:10px" data-v="discover">See everything in Discover<svg class="i"><use href="#i-chev"/></svg></button>`
         : `<div class="home-empty"><div class="hand">all quiet in the forest</div>No new or hot jobs today. Fresh ones arrive every morning.</div>`}
+        </div>
       </section>
       <section class="hcard home-wide" id="home-todo">
         <div class="hhead">${ART.note}<div><div class="hand">one step at a time</div><h3>Today's checklist</h3></div></div>
