@@ -9,7 +9,8 @@
     "marketing", "growth", "go[- ]to[- ]market", "\\bgtm\\b", "brand", "product marketing",
     "lifecycle", "\\bcrm\\b", "commercial", "revenue", "category manager", "category lead",
     "b2c", "consumer", "monetization", "monetisation", "partnership", "market expansion",
-    "launch", "insights", "product manager", "product owner"
+    "launch", "insights", "product manager", "product owner",
+    "strategist", "brand strateg", "creative strateg", "content strateg", "innovation", "new ventures", "concept"
   ],
   "title_exclude": [
     "engineer", "developer", "intern", "internship", "working student", "workingstudent", "werkstudent", "trainee",

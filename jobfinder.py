@@ -468,6 +468,9 @@ def analyse_all(raw_jobs, profile, cities, companies):
                 if k in n:
                     j["f"][k] = n[k]
             j["f"]["ai_summary"] = n.get("summary")
+            if n.get("scene"):  # 0–1 per scene key; the browser uses these instead of phrase matching
+                j["f"]["scene"] = n["scene"]
+                j["f"]["scene_note"] = n.get("scene_note")
             j["f"]["tags"] += [{"color": t.get("color", "yellow"), "label": t["label"]} for t in n.get("tags", [])]
         out.append(j)
     return out

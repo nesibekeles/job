@@ -194,6 +194,24 @@
   .kw { font-size: 12.5px; margin-top: 12px; color: var(--ink-2); }
   .kw em { font-style: normal; color: var(--mint); font-weight: 600; } .kw i { font-style: normal; color: var(--rose); font-weight: 600; }
   .evidence { background: var(--soft); padding: 9px 12px; border-left: 3px solid var(--lav-200); border-radius: 6px; font-size: 13px; margin: 10px 0; color: var(--ink-2); }
+  /* ---------- scene engine ---------- */
+  .scene-strip { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 0 14px; font-size: 13px; }
+  .scene-strip .lbl { color: var(--muted); margin-right: 4px; }
+  .scene-dot { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 99px; background: var(--soft); font-size: 12px; color: var(--muted); }
+  .scene-dot.l1 { background: var(--lav-50); color: var(--ink-2); } .scene-dot.l2 { background: var(--lav-100); color: var(--ink); } .scene-dot.l3 { background: var(--lav-200); color: var(--ink); font-weight: 600; }
+  .scene-dot.neg { background: var(--rose-50); color: var(--rose); }
+  .scene-fit { font: 800 13px var(--head); color: var(--lav); }
+  .mini .scenepill { font: 700 11px var(--head); color: var(--lav); background: var(--lav-50); padding: 2px 7px; border-radius: 6px; }
+  .scene-ev { margin: 8px 0 14px; }
+  .scene-ev .row { display: grid; grid-template-columns: 26px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13px; }
+  .scene-ev .row b { font-weight: 600; } .scene-ev .row q { display: block; color: var(--ink-2); font-size: 12.5px; margin-top: 3px; quotes: "“" "”"; }
+  .scene-ev .row q mark { background: var(--lav-100); color: inherit; border-radius: 3px; padding: 0 2px; }
+  .scene-ev .row q.neg mark { background: var(--rose-50); }
+  .scene-dim { padding: 14px 0; border-bottom: 1px solid var(--soft); }
+  .scene-dim:last-child { border-bottom: 0; }
+  .scene-dim .top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .scene-dim .top .nm { flex: 1; min-width: 200px; } .scene-dim .top .nm span { display: block; font-size: 12px; color: var(--muted); }
+  .chip .w.neg { color: var(--rose); }
   .actions { display: flex; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; }
   .actions .btn { flex: 1; justify-content: center; padding: 10px 14px; }
 
@@ -385,6 +403,7 @@
         <span class="chip" data-ftoggle="sponsor">Sponsorship ✓</span>
         <span class="chip" data-ftoggle="top">Priority company</span>
         <span class="chip" data-ftoggle="fresh">New</span>
+        <span class="chip" data-ftoggle="scene" title="Scene fit 40+">🎬 Feels like my movie</span>
       </div>
       <div class="discover">
         <div class="stack-col">
@@ -438,8 +457,13 @@
     <section class="view" id="v-scoring">
       <div class="eyebrow">Your rules</div>
       <h1 class="hero">Scoring.</h1>
-      <p class="sub">Score = base score (CV match, city, sponsorship, salary, role type) + scoring matrix + weights. Every change re-scores all jobs instantly.</p>
+      <p class="sub">Score = base score (CV match, city, sponsorship, salary, role type) + scene fit + scoring matrix + weights. Every change re-scores all jobs instantly.</p>
       <div class="box pad" style="margin-bottom:22px" id="learn-summary"></div>
+      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px;gap:10px;flex-wrap:wrap">
+        <div><h3 class="sec">🎬 Scene engine</h3><div class="small muted">Reads each post for the life inside the job: small crew, ideas built up from a seed, reviewing and giving feedback, new discoveries, rituals.</div></div>
+        <div class="stepper" title="Points a perfect scene fit adds to the score"><button data-scpts="-5">−</button><b id="scene-pts"></b><button data-scpts="5">+</button></div>
+      </div>
+      <div class="box pad" style="margin-bottom:32px" id="scene-engine"></div>
       <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px;gap:10px;flex-wrap:wrap">
         <div><h3 class="sec">Scoring matrix</h3><div class="small muted">Adds or removes points for every job that matches the condition.</div></div>
         <button class="btn primary" id="add-rule"><svg class="i"><use href="#i-plus"/></svg>New rule</button>
@@ -631,7 +655,7 @@ const SELECT_LABELS = {
 };
 const FIELDS = {
   title: { label: "Title", type: "text" }, desc: { label: "Job description", type: "text" },
-  cv: { label: "CV match (0–5)", type: "number", step: 0.5 }, years: { label: "Years required", type: "number", step: 1 },
+  cv: { label: "CV match (0–5)", type: "number", step: 0.5 }, scene: { label: "Scene fit (0–100)", type: "number", step: 5 }, years: { label: "Years required", type: "number", step: 1 },
   family: { label: "Role fit", type: "select" }, seniority: { label: "Level", type: "select" },
   role_type: { label: "Role type", type: "select" }, sponsorship: { label: "Sponsorship", type: "select" },
   workplace: { label: "Work setup", type: "select" }, tier: { label: "Company tier", type: "select" },
@@ -643,6 +667,78 @@ const OPS = { text: [["has", "contains"], ["not", "doesn't contain"]], select: [
 const W_KIND = { t: "Word in title", co: "Company", cotag: "Company tag", city: "City", tag: "Tag", role: "Role type" };
 const PAY = { top: "above market", high: "pays well", mid: "mid-market" };
 const SPONSOR_NOTE = { known: "company sponsors", sometimes: "sometimes", rare: "rarely" };
+
+// ---- scene engine: the job as a lifestyle. Each scene is scored from the post's own sentences. ----
+// Phrases match at a word start; a trailing * also matches longer words (celebrat* → celebrating). Negative weights pull a scene down.
+const SCENES = {
+  critic: { emoji: "🔍", name: "The critic's chair", text: "Reviewing outcomes and giving feedback" },
+  seed: { emoji: "💡", name: "From a seed", text: "Starting from a small or general idea and building on it" },
+  dig: { emoji: "⛏️", name: "Digging deeper", text: "Research, hypotheses, asking why" },
+  cast: { emoji: "🎬", name: "Small cast", text: "An intimate team, not a machine" },
+  crew: { emoji: "🌱", name: "Kind crew", text: "No show-offs, no bloodsuckers" },
+  novel: { emoji: "✨", name: "New episodes", text: "Always something new to discover" },
+  ritual: { emoji: "🎄", name: "Special episodes", text: "Traditions, offsites, rituals" },
+};
+const DEFAULT_SCENE_W = { critic: 1, seed: 1.5, dig: 1, cast: 1.5, crew: 1.5, novel: 1, ritual: 0.5 };
+const DEFAULT_SCENE_LEX = {
+  critic: { "review the results": 2, "creative review": 2, "feedback": 1, "give feedback": 2, "critique": 2, "post-mortem": 2, "retrospective*": 2, "learnings": 1.5, "what worked": 2,
+    "measure impact": 1.5, "analyse results": 1.5, "analyze results": 1.5, "evaluate": 0.5, "review": 0.5, "quality bar": 1.5, "raise the bar": 1, "coach*": 0.5, "mentor*": 0.5, "editorial": 1.5, "sparring partner": 2 },
+  seed: { "ideation": 2, "ideate": 2, "brainstorm*": 3, "new ideas": 2, "big ideas": 2, "concept*": 1, "creative": 0.5, "creativity": 1, "0 to 1": 3, "zero to one": 3, "from scratch": 2,
+    "blank page": 2, "incubat*": 2, "prototyp*": 1.5, "pilot*": 0.5, "invent*": 1, "white space": 2, "greenfield": 2, "imagin*": 1, "build on": 1, "iterate": 1, "iteration*": 1 },
+  dig: { "deep dive*": 2, "deep-dive*": 2, "hypothes*": 2, "test and learn": 3, "test-and-learn": 3, "experiment*": 1, "research": 0.5, "explor*": 1, "discover*": 0.5, "curious": 1.5,
+    "curiosity": 1.5, "insight*": 0.5, "root cause": 1.5, "first principles": 2, "investigat*": 1, "ask why": 2, "dig into": 2, "dig deeper": 3 },
+  cast: { "small team": 3, "tight-knit": 3, "tight knit": 3, "close-knit": 3, "close knit": 3, "intimate": 2, "founding": 2, "early-stage": 2, "early stage": 2, "boutique": 3, "studio": 1,
+    "flat structure": 2, "flat hierarchy": 2, "startup": 1, "start-up": 1, "series a": 1.5, "team of three": 2, "team of four": 2, "team of five": 2,
+    "matrix organi*": -2, "matrixed": -2, "global organi*": -1, "thousands of employees": -1.5, "large team": -1.5 },
+  crew: { "humble": 2, "humility": 2, "kindness": 2, "low ego": 3, "low-ego": 3, "no ego": 3, "no egos": 3, "ego-free": 3, "generous": 1, "psychological safety": 3, "supportive": 1, "empath*": 1,
+    "sustainable pace": 3, "work-life balance": 1, "care for each other": 2, "rockstar*": -3, "rock star*": -3, "ninja*": -3, "hustle": -2, "work hard, play hard": -3, "work hard play hard": -3,
+    "high-pressure": -2, "high pressure": -2, "thrive under pressure": -2, "relentless*": -1.5, "grind": -2, "aggressive targets": -2, "ruthless*": -2, "cut-throat": -3, "cutthroat": -3, "killer instinct": -3 },
+  novel: { "new market*": 1.5, "new categor*": 2, "emerging": 1, "never been done": 3, "pioneer*": 1.5, "frontier": 1.5, "new product*": 1, "new venture*": 2, "every day is different": 3,
+    "no two days": 3, "variety": 0.5, "diverse projects": 2, "uncharted": 2, "first-of-its-kind": 2, "reinvent*": 1.5, "new territor*": 2,
+    "business as usual": -1.5, "repetitive": -2, "routine": -1, "administrative": -1, "data entry": -2 },
+  ritual: { "offsite*": 3, "off-site*": 3, "retreat*": 3, "hackathon*": 2, "hack week": 3, "demo day*": 3, "ritual*": 3, "traditions": 3, "tradition": 2, "celebrat*": 0.5,
+    "team lunch*": 2, "team dinner*": 2, "summer party": 3, "christmas party": 2, "annual trip": 3, "show and tell": 3, "inspiration day*": 3, "learning day*": 2, "friday drinks": 2, "company trip": 3 },
+};
+const SCENE_GAIN = 1.8; // raw fits rarely pass 0.5 (no post says everything); this spreads them over 0–100
+const SCENE_BOILER = /equal opportunit|regardless of|accommodat|privacy|discriminat|protected (veteran|characteristic)|background check|e-verify|gdpr/;
+const SCENE = { sig: null, pats: null };
+function scenePatterns() {
+  const lex = APP.state.settings.scene_lex, sig = JSON.stringify(lex);
+  if (SCENE.sig !== sig) {
+    SCENE.sig = sig;
+    SCENE.pats = Object.fromEntries(Object.entries(lex).map(([k, ph]) => [k, Object.entries(ph).filter(([p]) => p.trim()).map(([p, w]) => {
+      const pre = p.trim().endsWith("*"), core = p.trim().replace(/\*+$/, "").toLowerCase();
+      return { p: core, w, rx: new RegExp("(?<![a-z0-9])" + core.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + (pre ? "" : "(?![a-z0-9])")) };
+    })]));
+  }
+  return SCENE.pats;
+}
+function sceneOf(j) {
+  const pats = scenePatterns();
+  if (j._scene && j._scene.sig === SCENE.sig) return j._scene;
+  const sents = j._sents || (j._sents = (j.title + "\n" + (j.description || "")).toLowerCase().split(/(?<=[.!?\n])\s+/).filter((s) => s.trim() && !SCENE_BOILER.test(s)));
+  const dims = {};
+  for (const [k, list] of Object.entries(pats)) {
+    let s = 0; const ev = [];
+    for (const { p, w, rx } of list) {
+      const hit = sents.find((x) => rx.test(x)); if (!hit) continue;
+      s += w; ev.push({ p, w, s: hit.trim() });
+    }
+    const ai = j.f.scene?.[k];
+    dims[k] = { v: ai != null ? ai : s > 0 ? 1 - Math.exp(-s / 3) : Math.max(-1, s / 4), ev: ev.sort((a, b) => Math.abs(b.w) - Math.abs(a.w)), ai: ai != null };
+  }
+  return (j._scene = { sig: SCENE.sig, dims });
+}
+function sceneFit(sc) {
+  const W = APP.state.settings.scene_w, tw = Object.keys(sc.dims).reduce((a, k) => a + (W[k] ?? 1), 0) || 1;
+  const raw = Object.entries(sc.dims).reduce((a, [k, x]) => a + (W[k] ?? 1) * x.v, 0) / tw;
+  return clamp(Math.round(raw * 100 * SCENE_GAIN), 0, 100);
+}
+const sceneLevel = (v) => v < -0.05 ? "neg" : v >= 0.6 ? "l3" : v >= 0.35 ? "l2" : v > 0.05 ? "l1" : "";
+function sceneStrip(d, withLabel) {
+  return `<div class="scene-strip">${withLabel ? `<span class="lbl">Scene fit</span><b class="scene-fit">${d.scene.fit}</b>` : ""}
+    ${Object.entries(SCENES).map(([k, s]) => { const v = d.scene.dims[k]?.v ?? 0; return `<span class="scene-dot ${sceneLevel(v)}" title="${esc(s.name)}: ${Math.round(v * 100)}">${s.emoji}</span>`; }).join("")}</div>`;
+}
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -659,7 +755,7 @@ const avatar = (name) => { const [bg, fg] = pastel(name); return `<div class="av
 const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
 const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all", cof: "all",
-  order: [], idx: 0, sinceOrder: 0, filters: { q: "", city: "", tag: "", min: 0, sponsor: false, top: false, fresh: false } };
+  order: [], idx: 0, sinceOrder: 0, filters: { q: "", city: "", tag: "", min: 0, sponsor: false, top: false, fresh: false, scene: false } };
 
 // ---------------- state ----------------
 function defaultCompanies(cfg) {
@@ -678,6 +774,7 @@ function defaultSettings(cfg) {
     remote: { on: c.remote?.enabled ?? true, priority: c.remote?.priority ?? 6, target: c.remote?.gross_target_eur ?? 45000 },
     exact_kw: ["growth", "revenue", "go-to-market", "gtm", "commercial", "category", "expansion", "monetization", "monetisation", "market development"],
     adjacent_kw: ["product marketing", "lifecycle", "crm", "brand", "performance marketing", "marketing manager", "marketing lead", "partnership", "product manager", "product owner", "insights", "consumer", "b2c", "acquisition", "retention"],
+    scene_pts: 20, scene_w: { ...DEFAULT_SCENE_W }, scene_lex: structuredClone(DEFAULT_SCENE_LEX),
     hide_title_kw: [], cv_keywords: { ...p.cv_keywords }, gap_keywords: [...(p.gap_keywords || [])],
     companies: defaultCompanies(cfg),
   };
@@ -741,7 +838,8 @@ function derive(j) {
   const hiddenWhy = cc && cc.on === false ? "city switched off" : co.hidden ? "company hidden" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "title hidden" : null;
   const tags = f.tags.filter((t) => !/^Salary (on|below) target/.test(t.label));
   if (salaryStatus !== "not stated") tags.push({ color: salaryStatus === "on target" ? "green" : "yellow", label: salaryStatus === "on target" ? "Salary on target" : "Salary below target" });
-  return { city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor, cotags: co.tags || [], coPriority: !!co.priority,
+  const scene = sceneOf(j); scene.fit = sceneFit(scene);
+  return { scene, city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor, cotags: co.tags || [], coPriority: !!co.priority,
     cv_match, cv5: Math.round(cv_match * 50) / 10, matched: hits.slice(0, 6).map(([k]) => k.trim()),
     gaps, family: family(j.title), salaryStatus, filtered, hiddenWhy, tags, text };
 }
@@ -758,7 +856,7 @@ function baseScore(j, d, rw) {
   return (s / 80) * 100;
 }
 function fieldValue(j, d, f) {
-  return { title: j.title.toLowerCase(), desc: d.text, cv: d.cv5, years: j.f.years_required, family: d.family, seniority: j.f.seniority,
+  return { title: j.title.toLowerCase(), desc: d.text, cv: d.cv5, scene: d.scene.fit, years: j.f.years_required, family: d.family, seniority: j.f.seniority,
     role_type: j.f.role_type, sponsorship: j.f.sponsorship, workplace: j.f.workplace, tier: d.tier, salary: d.salaryStatus,
     priority: d.coPriority ? "yes" : "no", cotag: d.cotags, company: j.company, city: d.city, tag: d.tags.map((t) => t.label) }[f];
 }
@@ -817,8 +915,10 @@ function compute() {
     }
     auto = clamp(auto, -15, 15);
     const rsum = rules.reduce((a, [, p]) => a + p, 0);
-    r.score = clamp(Math.round(base + rsum + manual + auto), 0, 100);
-    r.parts = { base: Math.round(base), rules, rsum, manual, auto, wparts };
+    // a quarter-fit is neutral; below it costs up to a third of the points, a perfect fit earns them all
+    const scene = Math.round((st.settings.scene_pts * (r.d.scene.fit - 25)) / 75 * 10) / 10;
+    r.score = clamp(Math.round(base + scene + rsum + manual + auto), 0, 100);
+    r.parts = { base: Math.round(base), scene, rules, rsum, manual, auto, wparts };
     r.decision = st.decisions[r.j.id] || null;
   }
   APP.rows = rows.sort((a, b) => b.score - a.score);
@@ -830,7 +930,7 @@ function passesFilters(r) {
   return !r.d.filtered && !r.d.hiddenWhy && !r.j.closed
     && (!q || `${r.j.title} ${r.j.company} ${r.d.city}`.toLowerCase().includes(q))
     && (!f.city || r.d.city === f.city) && r.score >= f.min
-    && (!f.sponsor || r.j.f.sponsorship === "yes") && (!f.top || r.d.coPriority) && (!f.fresh || r.j.is_new)
+    && (!f.sponsor || r.j.f.sponsorship === "yes") && (!f.top || r.d.coPriority) && (!f.fresh || r.j.is_new) && (!f.scene || r.d.scene.fit >= 40)
     && (!f.tag || r.d.tags.some((t) => t.label === f.tag) || r.d.cotags.includes(f.tag));
 }
 function buildOrder(keepCurrent) {
@@ -858,7 +958,7 @@ function miniHTML(r) {
       <div class="co">${esc(j.company)}<span>${esc(d.city)}${j.is_new ? " · new" : ""}</span></div>
       <div class="scorepill">${r.score}<small>SCORE</small></div></div>
     <h3>${esc(j.title)}</h3>
-    <div class="meta">${f.workplace !== "?" ? `<span>${esc(f.workplace)}</span>` : ""}<span>${esc(sal)}</span><span class="${f.sponsorship === "yes" ? "ok" : ""}">${f.sponsorship === "yes" ? "Sponsorship ✓" : f.sponsorship === "no" ? "No sponsorship" : "Sponsorship unclear"}</span></div>`;
+    <div class="meta">${f.workplace !== "?" ? `<span>${esc(f.workplace)}</span>` : ""}<span>${esc(sal)}</span><span class="${f.sponsorship === "yes" ? "ok" : ""}">${f.sponsorship === "yes" ? "Sponsorship ✓" : f.sponsorship === "no" ? "No sponsorship" : "Sponsorship unclear"}</span>${d.scene.fit >= 40 ? `<span class="scenepill" title="Scene fit">🎬 ${d.scene.fit}</span>` : ""}</div>`;
 }
 function visibleSlots(n) {
   const slots = [[0, APP.idx]], used = new Set([APP.idx]);
@@ -1018,6 +1118,7 @@ function renderPanel(r) {
       <div class="bigscore"><b>${r.score}</b><span>SCORE</span></div></div>
     <div class="facts">${facts(r)}</div>
     <div class="matchbar"><span class="muted">CV match</span><div class="bar"><i style="width:${d.cv5 * 20}%"></i></div><b>${d.cv5}/5</b><span class="muted">· ${esc(SELECT_LABELS.family[d.family])} · ${esc(f.role_type)}${f.years_required ? ` · ${f.years_required}+ yrs` : ""}</span></div>
+    ${sceneStrip(d, true)}
     ${f.ai_summary ? `<div class="evidence">${esc(f.ai_summary)}</div>` : ""}
     ${f.duties.length ? `<ul class="duties">${f.duties.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
     <div class="tags">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}${d.cotags.map((t) => `<span class="tag line">${esc(t)}</span>`).join("")}</div>
@@ -1040,9 +1141,12 @@ function openDetail(id) {
     <div class="facts">${facts(r)}</div>
     ${f.sponsorship_evidence ? `<div class="small muted">Sponsorship evidence</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
     <div class="tags" style="margin:12px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
+    <details style="margin:12px 0" open><summary style="cursor:pointer"><b>🎬 Scene fit ${d.scene.fit}</b> <span class="muted small">what would a day look like?</span></summary>
+      ${sceneEvidence(j, d)}</details>
     <details style="margin:12px 0"><summary style="cursor:pointer"><b>Score ${r.score}</b> <span class="muted small">how was it calculated?</span></summary>
       <div class="breakdown" style="margin-top:8px">
         <div><span>Base score</span><b>${p.base}</b></div>
+        <div><span>Scene fit ${d.scene.fit}</span><b class="${p.scene > 0 ? "pos" : p.scene < 0 ? "neg" : ""}">${signed(p.scene)}</b></div>
         ${p.rules.map(([n, pts]) => `<div><span>Rule: ${esc(n)}</span><b class="${pts > 0 ? "pos" : "neg"}">${signed(pts)}</b></div>`).join("")}
         ${p.wparts.map(([k, v, src]) => `<div><span>${esc(prettyKey(k))} <span class="muted small">(${src})</span></span><b class="${v > 0 ? "pos" : "neg"}">${signed(v)}</b></div>`).join("")}
         ${p.wparts.some((x) => x[2] === "auto") ? `<div class="muted small"><span>Auto weights are capped at ±15 in total</span><span>${signed(p.auto)}</span></div>` : ""}
@@ -1213,6 +1317,31 @@ function condHTML(c, i) {
     <select class="field" data-cop="${i}">${OPS[type].map(([k, l]) => `<option value="${k}" ${k === c.op ? "selected" : ""}>${l}</option>`).join("")}</select>
     ${val}<button class="icon-btn" data-crm="${i}" title="Remove condition">${icon("x")}</button></div>`;
 }
+function sceneEvidence(j, d) {
+  const mark = (sent, p) => { const i = sent.indexOf(p), a = Math.max(0, i - 70), b = Math.min(sent.length, i + p.length + 90);
+    return (a ? "…" : "") + esc(sent.slice(a, i)) + `<mark>${esc(sent.slice(i, i + p.length))}</mark>` + esc(sent.slice(i + p.length, b)) + (b < sent.length ? "…" : ""); };
+  const rows = Object.entries(SCENES).map(([k, s]) => {
+    const x = d.scene.dims[k]; if (!x || (!x.ev.length && !x.ai)) return "";
+    const top = x.ev.filter((e) => e.w >= 1 || e.w < 0).slice(0, 2);
+    return `<div class="row"><span>${s.emoji}</span><div><b>${esc(s.name)}</b> <span class="scene-dot ${sceneLevel(x.v)}">${Math.round(x.v * 100)}</span>${x.ai ? ` <span class="muted small">· Claude's read</span>` : ""}
+      <div class="small muted">${x.ev.map((e) => esc(e.p) + (e.w < 0 ? " (−)" : "")).join(" · ")}</div>
+      ${top.map((e) => `<q class="${e.w < 0 ? "neg" : ""}">${mark(e.s, e.p)}</q>`).join("")}</div></div>`;
+  }).join("");
+  return `<div class="scene-ev">${j.f.scene_note ? `<div class="evidence">${esc(j.f.scene_note)}</div>` : ""}${rows || `<div class="small muted" style="padding:8px 0">The post says nothing about how the work feels. Ask in the interview.</div>`}</div>`;
+}
+function renderScene() {
+  const s = APP.state.settings, live = APP.rows.filter((r) => !r.d.filtered && !r.d.hiddenWhy);
+  $("#scene-pts").textContent = "up to +" + s.scene_pts;
+  $("#scene-engine").innerHTML = `<div class="small muted" style="margin-bottom:4px">${live.filter((r) => r.d.scene.fit >= 40).length} of ${live.length} open jobs feel like your movie (scene fit 40+). Click a phrase's number to change its weight; negative numbers pull a scene down.</div>` +
+    Object.entries(SCENES).map(([k, sc]) => {
+      const strong = live.filter((r) => (r.d.scene.dims[k]?.v ?? 0) >= 0.35).length;
+      return `<div class="scene-dim"><div class="top"><span style="font-size:20px">${sc.emoji}</span>
+        <div class="nm"><b>${esc(sc.name)}</b><span>${esc(sc.text)} · strong in ${strong} jobs</span></div>
+        <div class="seg">${[0, 0.5, 1, 1.5, 2].map((w) => `<button data-scw="${k}:${w}" class="${(s.scene_w[k] ?? 1) === w ? "on" : ""}">${w === 0 ? "off" : "×" + w}</button>`).join("")}</div></div>
+        <div class="chips" id="scene-lex-${k}"></div></div>`;
+    }).join("");
+  for (const k of Object.keys(SCENES)) chipEditor($("#scene-lex-" + k), s.scene_lex[k] || {}, "scene_lex." + k, true);
+}
 function renderRules() {
   $("#rules").innerHTML = APP.state.rules.map((r) => {
     const n = APP.rows.filter((x) => !x.d.filtered && ruleHits(r, x.j, x.d)).length;
@@ -1257,9 +1386,11 @@ function renderLearnSummary() {
 }
 
 // ---------------- settings ----------------
+// "scene_lex.seed" → [settings.scene_lex, "seed"]
+function settingSlot(path) { const ks = path.split("."), last = ks.pop(); let o = APP.state.settings; for (const k of ks) o = o[k]; o[last] ??= {}; return [o, last]; }
 function chipEditor(el, list, key, weighted) {
   const items = weighted ? Object.entries(list) : list.map((x) => [x]);
-  el.innerHTML = items.map(([k, w]) => `<span class="chip">${esc(k.trim())}${weighted ? `<span class="w" data-wcycle="${esc(k)}">${w}</span>` : ""}<button class="x" data-chrm="${esc(k)}">×</button></span>`).join("")
+  el.innerHTML = items.map(([k, w]) => `<span class="chip">${esc(k.trim())}${weighted ? `<span class="w ${w < 0 ? "neg" : ""}" data-wcycle="${esc(k)}">${w}</span>` : ""}<button class="x" data-chrm="${esc(k)}">×</button></span>`).join("")
     + `<input class="chip-add" placeholder="+ add, Enter">`;
   el.dataset.key = key; el.dataset.weighted = weighted ? "1" : "";
 }
@@ -1290,22 +1421,22 @@ const PROMO = { i: 0, timer: null, paused: false };
 function renderPromo() {
   const t = APP.state.test, ch = APP.state.challenge, done = ch.last === today();
   const html = `<div class="promo-track">
-      <div class="promo-card test ${PROMO.i === 0 ? "on" : ""}">
-        <svg class="i" style="color:var(--lav)"><use href="#i-sparkle"/></svg>
-        <div class="meta">${t ? `You're ${esc(PERSONAS[t.persona].name)}` : "2 minutes · 7 questions"}</div>
-        <h4>Take a quick test to discover yourself.</h4>
-        <p>Find the work style that fits you and tune your scoring with one click.</p>
-        <button class="btn sm primary" data-open="test">${t ? "Retake the test" : "Start the test"}</button>
-      </div>
-      <div class="promo-card challenge ${PROMO.i === 1 ? "on" : ""}">
+      <div class="promo-card challenge ${PROMO.i === 0 ? "on" : ""}">
         <svg class="i" style="color:var(--mint)"><use href="#i-puzzle"/></svg>
         <div class="meta">${ch.streak ? `🔥 ${ch.streak}-day streak` : "3 quick questions a day"}</div>
         <h4>Accept today's challenge.</h4>
         <p>${done ? `Done for today: ${ch.results[today()]}/3. New one tomorrow.` : "Marketing trivia, a word puzzle and a city question."}</p>
         <button class="btn sm ${done ? "" : "primary"}" data-open="challenge">${done ? "See today's result" : "Play"}</button>
       </div>
+      <div class="promo-card test ${PROMO.i === 1 ? "on" : ""}">
+        <svg class="i" style="color:var(--lav)"><use href="#i-sparkle"/></svg>
+        <div class="meta">${t ? `You're ${esc(PERSONAS[t.persona].name)}` : "2 minutes · 7 questions"}</div>
+        <h4>Take a quick test to discover yourself.</h4>
+        <p>Find the work style that fits you and tune your scoring with one click.</p>
+        <button class="btn sm primary" data-open="test">${t ? "Retake the test" : "Start the test"}</button>
+      </div>
     </div>
-    <div class="promo-dots"><button data-dot="0" class="${PROMO.i === 0 ? "on" : ""}" aria-label="Test"></button><button data-dot="1" class="${PROMO.i === 1 ? "on" : ""}" aria-label="Challenge"></button></div>`;
+    <div class="promo-dots"><button data-dot="0" class="${PROMO.i === 0 ? "on" : ""}" aria-label="Challenge"></button><button data-dot="1" class="${PROMO.i === 1 ? "on" : ""}" aria-label="Test"></button></div>`;
   for (const el of document.querySelectorAll(".promo")) el.innerHTML = html;
   $("#more-ping").hidden = done;
 }
@@ -1330,6 +1461,7 @@ const PERSONAS = {
   builder: { emoji: "🧭", name: "The Market Builder", text: "You light up when there's ground to win: new regions, new supply, both sides of a marketplace. You like owning a number and building the machine that moves it." },
   strategist: { emoji: "♟️", name: "The Strategist", text: "You want to decide where to play before you play. Plans, priorities and clear trade-offs are your thing, and you like companies big enough to make them matter." },
   scientist: { emoji: "🧪", name: "The Growth Scientist", text: "Funnels, experiments and numbers are your playground. You'd rather test a hunch than argue about it, and you like roles where results show up in the data." },
+  showrunner: { emoji: "🎬", name: "The Showrunner", text: "You want a writers' room, not an org chart: a small crew, an idea that grows from a seed, reviewing what you made and pushing the next version further. Every week a new episode, with a few traditions you keep." },
   storyteller: { emoji: "🎙️", name: "The Brand Storyteller", text: "You care how a product lands in people's lives. Launches, positioning and the story behind the numbers are where you add the most." },
 };
 const R = (name, f, op, v, pts) => ({ name, all: [{ f, op, v }], pts });
@@ -1350,11 +1482,13 @@ const TEST = [
     { t: "Deciding where to play and setting the plan", ax: "strategist", rules: [R("Test: strategic roles", "role_type", "is", "strategic", 4)] },
     { t: "Experiments, funnels and numbers", ax: "scientist", rules: [R("Test: growth & experiments", "tag", "is", "Growth / Experiments", 4)] },
     { t: "Launches, positioning and the story", ax: "storyteller", rules: [R("Test: product marketing", "title", "has", "product marketing", 4)] },
-    { t: "Opening new markets and growing supply", ax: "builder", rules: [R("Test: exactly my kind of role", "family", "is", "exact", 3)] } ] },
+    { t: "Opening new markets and growing supply", ax: "builder", rules: [R("Test: exactly my kind of role", "family", "is", "exact", 3)] },
+    { t: "Reviewing what we made, then pushing the next idea further", ax: "showrunner", rules: [R("Test: feels like my movie", "scene", "gte", 40, 5)] } ] },
   { q: "Where would you rather make your mark?", opts: [
     { t: "A global giant with a famous name", ax: "strategist", rules: [R("Test: priority companies", "priority", "is", "yes", 4)] },
     { t: "A big brand that's still hungry", ax: "storyteller", rules: [R("Test: big brands", "tier", "is", "big", 4)] },
-    { t: "A scale-up where I can shape things", ax: "builder", rules: [R("Test: scale-ups (shape things)", "tier", "is", "scaleup", 4)] } ] },
+    { t: "A scale-up where I can shape things", ax: "builder", rules: [R("Test: scale-ups (shape things)", "tier", "is", "scaleup", 4)] },
+    { t: "A small crew where everyone knows each other", ax: "showrunner", rules: [R("Test: small, kind teams", "scene", "gte", 30, 3)] } ] },
   { q: "Which world pulls you most?", opts: [
     { t: "Travel", ax: null, rules: [R("Test: travel", "cotag", "is", "Travel", 4)] },
     { t: "Fintech", ax: null, rules: [R("Test: fintech", "cotag", "is", "Fintech", 4)] },
@@ -1494,7 +1628,7 @@ function refresh(keepOrder) {
   if (keepOrder) APP.order = APP.order.filter((id) => APP.byId[id]); else buildOrder(true);
   renderFilters(); renderStack(); renderLists(); renderLearnSummary(); renderCompanies();
   const v = document.querySelector(".view.on").id;
-  if (v === "v-scoring") { renderRules(); renderWeights(); }
+  if (v === "v-scoring") { renderScene(); renderRules(); renderWeights(); }
   if (v === "v-settings") renderSettings();
 }
 function showView(v) {
@@ -1504,7 +1638,7 @@ function showView(v) {
   document.querySelectorAll(".view").forEach((x) => x.classList.toggle("on", x.id === "v-" + v));
   $("#crumb").textContent = VIEW_NAMES[v];
   if (v === "discover") { buildOrder(true); renderStack(); }
-  if (v === "scoring") { renderRules(); renderWeights(); }
+  if (v === "scoring") { renderScene(); renderRules(); renderWeights(); }
   if (v === "settings") renderSettings();
   if (v === "companies") renderCompanies();
   window.scrollTo(0, 0);
@@ -1552,9 +1686,12 @@ document.addEventListener("click", (e) => {
   if ("wreset" in ds) { delete APP.state.overrides[a.closest("[data-wk]").dataset.wk]; return commit(); }
   if ("wdel" in ds) { const k = a.closest("[data-wk]").dataset.wk; delete APP.state.overrides[k]; if (APP.model.weights[k] != null) APP.state.hidden.push(k); return commit(); }
   if (a.id === "unhide") { e.preventDefault(); APP.state.hidden = []; return commit(); }
-  if (ds.chrm) { const el = a.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings;
-    if (el.dataset.weighted) delete s[key][ds.chrm]; else s[key] = s[key].filter((x) => x !== ds.chrm); return commit(); }
-  if (ds.wcycle) { const steps = [0.5, 1, 1.5, 2, 3], s = APP.state.settings.cv_keywords; s[ds.wcycle] = steps[(steps.indexOf(s[ds.wcycle]) + 1) % steps.length] ?? 1; return commit(); }
+  if (ds.chrm) { const el = a.closest("[data-key]"), [o, key] = settingSlot(el.dataset.key);
+    if (el.dataset.weighted) delete o[key][ds.chrm]; else o[key] = o[key].filter((x) => x !== ds.chrm); return commit(); }
+  if (ds.wcycle) { const sceneKw = a.closest("[data-key]").dataset.key.startsWith("scene_lex."), [o, key] = settingSlot(a.closest("[data-key]").dataset.key), m = o[key];
+    const steps = sceneKw ? [0.5, 1, 1.5, 2, 3, -3, -2, -1] : [0.5, 1, 1.5, 2, 3]; m[ds.wcycle] = steps[(steps.indexOf(m[ds.wcycle]) + 1) % steps.length] ?? 1; return commit(); }
+  if (ds.scw) { const [k, w] = ds.scw.split(":"); APP.state.settings.scene_w[k] = +w; return commit(); }
+  if (ds.scpts) { const s = APP.state.settings; s.scene_pts = clamp(s.scene_pts + +ds.scpts, 0, 40); return commit(); }
 });
 document.addEventListener("change", (e) => {
   const t = e.target, ds = t.dataset;
@@ -1589,9 +1726,9 @@ document.addEventListener("keydown", (e) => {
   const t = e.target;
   if (t.id === "word-in" && e.key === "Enter" && t.value.trim()) return answerChallenge(t.value.trim().toUpperCase());
   if (t.classList.contains("chip-add") && t.closest("[data-key]") && e.key === "Enter" && t.value.trim()) {
-    const el = t.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings, v = t.value.trim().toLowerCase();
-    if (el.dataset.weighted) s[key][v] = s[key][v] ?? 1; else if (!s[key].includes(v)) s[key].push(v);
-    commit(); setTimeout(() => document.querySelector(`[data-key="${key}"] .chip-add`)?.focus(), 0); return;
+    const el = t.closest("[data-key]"), [o, key] = settingSlot(el.dataset.key), v = t.value.trim().toLowerCase();
+    if (el.dataset.weighted) o[key][v] = o[key][v] ?? 1; else if (!o[key].includes(v)) o[key].push(v);
+    commit(); setTimeout(() => document.querySelector(`[data-key="${el.dataset.key}"] .chip-add`)?.focus(), 0); return;
   }
   if (["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName)) return;
   const modal = document.querySelector(".modal.on");

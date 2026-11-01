@@ -24,7 +24,10 @@ Kullanıcı Türkçe konuşur; sohbet Türkçe. Web arayüzü, etiketler ve baş
 Başvuruyu **asla otomatik gönderme**. Hesap açma ve şifre girme de yok. Kullanıcı paketi gözden geçirip kendisi başvurur.
 
 ## Komut: "ilanları AI ile değerlendir"
-Skoru en yüksek ~30 karar verilmemiş ilanı oku. Regex'in kaçırdığını düzelt: sponsorluk gerçekten var mı/yok mu, rol stratejik mi operasyonel mi, gizli dil şartı. Sonucu `data/ai_notes.json`'a yaz: `{ "<id>": {"sponsorship": "yes|no|unknown", "role_type": "strategic|mixed|operational", "filtered": null | "sebep", "summary": "1-2 sentence English summary", "tags": [{"color":"green|red|yellow","label":"..."}]} }`. Sonra `python3 jobfinder.py rescore`.
+Skoru en yüksek ~30 karar verilmemiş ilanı oku. Regex'in kaçırdığını düzelt: sponsorluk gerçekten var mı/yok mu, rol stratejik mi operasyonel mi, gizli dil şartı. Sonucu `data/ai_notes.json`'a yaz: `{ "<id>": {"sponsorship": "yes|no|unknown", "role_type": "strategic|mixed|operational", "filtered": null | "sebep", "summary": "1-2 sentence English summary", "tags": [{"color":"green|red|yellow","label":"..."}], "scene": {"critic":0-1, "seed":0-1, "dig":0-1, "cast":0-1, "crew":-1-1, "novel":-1-1, "ritual":0-1}, "scene_note": "Bir günün nasıl geçeceğine dair 1 cümle (English)"} }`. Sonra `python3 jobfinder.py rescore`.
+
+### Scene engine (sahne motoru)
+Nesibe'nin hayal ettiği iş bir yaşam tarzı: küçük, samimi, gösterişsiz ekip; küçük ya da genel bir fikirden başlayıp üstüne inşa etmek ve derinleşmek; sürekli beyin fırtınası; sonuçları gözden geçirip geri bildirim vermek; hep yeni keşifler; gelenekler için “özel bölümler”. Tarayıcı bunu 7 sahnede (critic, seed, dig, cast, crew, novel, ritual) ifade cümlelerinden puanlar (Puanlama → Scene engine'de düzenlenebilir). AI değerlendirmesinde `scene` değerlerini ilanı gerçekten okuyarak ver: kelime değil, işin günlük dokusu. Büyük matris şirket, “rockstar/hustle” dili, raporlama ağırlıklı iş → düşük ya da negatif. Kanıt yoksa o anahtarı hiç yazma (regex kalır).
 
 ## Komut: "şu ilanı ekle <link>"
 Linki Chrome'da (salt okuma) ya da web-fetch ile aç, metni al ve `data/manual_jobs.json`'a `jobfinder.job(...)` formatında ekle (`"manual": true`), sonra `python3 jobfinder.py rescore`. LinkedIn'de toplu tarama yapma; sadece kullanıcının verdiği tek ilanlar.
