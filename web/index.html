@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -39,9 +39,6 @@
   .navlink:hover { background: var(--soft); }
   .navlink.on { background: var(--lav-50); color: var(--lav); font-weight: 600; }
   .navlink .count { margin-left: auto; font-size: 11.5px; color: var(--muted); }
-  .side-card { margin-top: auto; background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: 18px 16px; }
-  .side-card h4 { font: 700 17px/1.3 var(--head); margin: 8px 0 6px; letter-spacing: -.02em; }
-  .side-card p { margin: 0; font-size: 12.5px; color: var(--muted); }
   .main { margin-left: var(--side); min-height: 100vh; }
   .topbar { height: 60px; display: flex; align-items: center; gap: 12px; padding: 0 32px; border-bottom: 1px solid var(--line); background: rgba(247, 247, 250, .88); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 8; }
   .crumb { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
@@ -53,6 +50,21 @@
   .tabbar { display: none; }
   .m-brand { display: none; }
 
+  /* ---------- promo slider (sidebar) ---------- */
+  .promo { margin-top: auto; position: relative; }
+  .promo-track { position: relative; height: 212px; }
+  .promo-card { position: absolute; inset: 0; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 6px; opacity: 0; transform: translateY(6px); transition: opacity .45s, transform .45s; pointer-events: none; border: 1px solid var(--line); }
+  .promo-card.on { opacity: 1; transform: none; pointer-events: auto; }
+  .promo-card.test { background: var(--lav-50); border-color: var(--lav-100); }
+  .promo-card.challenge { background: var(--mint-50); border-color: #d4ebe0; }
+  .promo-card h4 { font: 700 16px/1.3 var(--head); margin: 2px 0 0; letter-spacing: -.02em; }
+  .promo-card p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+  .promo-card .btn { margin-top: auto; align-self: flex-start; }
+  .promo-card .meta { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+  .promo-dots { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+  .promo-dots button { width: 7px; height: 7px; border-radius: 99px; border: 0; padding: 0; background: #d9d8e2; cursor: pointer; transition: width .3s, background .3s; }
+  .promo-dots button.on { width: 18px; background: var(--ink-2); }
+
   /* ---------- type & atoms ---------- */
   .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   h1.hero { font: 800 32px/1.15 var(--head); letter-spacing: -.035em; margin: 8px 0 6px; }
@@ -63,7 +75,6 @@
   .btn:hover { border-color: #d3d1de; color: var(--ink); }
   .btn.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
   .btn.primary:hover { background: #33313f; color: #fff; }
-  .btn.accent { background: var(--lav); border-color: var(--lav); color: #fff; }
   .btn.mint { background: var(--mint-50); border-color: #d4ebe0; color: var(--mint); }
   .btn.rose { background: var(--surface); border-color: var(--line); color: var(--rose); }
   .btn.rose:hover { background: var(--rose-50); }
@@ -247,11 +258,36 @@
   .sheet .form .field { width: 100%; }
   .sheet .form .row2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .sheet-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+  .sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
   .modal.drawer.on { justify-content: flex-end; align-items: stretch; padding: 0; }
   .modal.drawer .sheet { max-width: 720px; max-height: none; height: 100%; border-radius: 18px 0 0 18px; padding: 28px; }
   .desc { white-space: pre-wrap; font-size: 13.5px; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
   .detect { font-size: 12.5px; padding: 8px 11px; border-radius: 8px; }
   .detect.ok { background: var(--mint-50); color: var(--mint); } .detect.no { background: var(--butter-50); color: var(--butter); }
+
+  /* ---------- quiz (test + challenge) ---------- */
+  .quiz-progress { display: flex; gap: 4px; margin: 14px 0 18px; }
+  .quiz-progress i { flex: 1; height: 4px; border-radius: 99px; background: var(--line); }
+  .quiz-progress i.done { background: var(--lav); }
+  .quiz-q { font: 700 18px/1.35 var(--head); letter-spacing: -.02em; margin: 0 0 14px; }
+  .opts { display: flex; flex-direction: column; gap: 8px; }
+  .opt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 12px 14px; cursor: pointer; font-size: 14px; color: var(--ink-2); display: flex; gap: 10px; align-items: center; }
+  .opt:hover { border-color: var(--lav-200); background: var(--lav-50); }
+  .opt.picked { border-color: var(--lav); background: var(--lav-50); color: var(--ink); font-weight: 600; }
+  .opt.right { border-color: #b9dfcd; background: var(--mint-50); color: var(--mint); font-weight: 600; }
+  .opt.wrong { border-color: #ecc6cf; background: var(--rose-50); color: var(--rose); }
+  .opt:disabled { cursor: default; }
+  .opt .k { width: 24px; height: 24px; border-radius: 7px; background: var(--soft); display: grid; place-items: center; font: 700 12px var(--head); color: var(--muted); flex: none; }
+  .why { margin-top: 12px; font-size: 13px; color: var(--ink-2); background: var(--soft); border-radius: 10px; padding: 10px 12px; }
+  .letters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .letters span { width: 36px; height: 40px; border-radius: 9px; background: var(--mint-50); color: var(--mint); display: grid; place-items: center; font: 800 18px var(--head); }
+  .persona { text-align: center; padding: 6px 0 4px; }
+  .persona .emoji { font-size: 40px; }
+  .persona h3 { font: 800 24px var(--head); letter-spacing: -.03em; margin: 6px 0; }
+  .effects { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .effects li { display: flex; justify-content: space-between; font-size: 13px; padding: 7px 10px; background: var(--soft); border-radius: 8px; }
+  .scoreboard { text-align: center; padding: 10px 0; }
+  .scoreboard b { font: 800 40px var(--head); display: block; }
 
   /* ---------- responsive ---------- */
   @media (max-width: 1100px) {
@@ -280,8 +316,7 @@
     .panel { padding: 18px 16px; }
     .panel .head h2 { font-size: 18.5px; }
     .facts { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .actions { position: sticky; bottom: 68px; background: var(--surface); margin: 16px -16px -18px; padding: 12px 16px; border-radius: 0 0 14px 14px; }
-    .actions { flex-wrap: nowrap; gap: 8px; }
+    .actions { position: sticky; bottom: 68px; background: var(--surface); margin: 16px -16px -18px; padding: 12px 16px; border-radius: 0 0 14px 14px; flex-wrap: nowrap; gap: 8px; }
     .actions .btn { padding: 10px 8px; font-size: 13px; gap: 6px; }
     .actions .btn.ghost, .actions .lg { display: none; }
     .item { grid-template-columns: 36px 1fr; } .item .acts { grid-column: 1 / -1; justify-content: flex-start; }
@@ -293,61 +328,58 @@
     .city { grid-template-columns: 40px 1fr 64px 100px; } .city .min { display: none; }
     .co-grid { grid-template-columns: 1fr; }
     .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; height: 66px; padding-bottom: env(safe-area-inset-bottom); background: rgba(255,255,255,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line); z-index: 20; }
-    .tabbar button { flex: 1; border: 0; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10.5px; font-weight: 600; color: var(--muted); cursor: pointer; }
+    .tabbar button { flex: 1; border: 0; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10.5px; font-weight: 600; color: var(--muted); cursor: pointer; position: relative; }
     .tabbar button.on { color: var(--lav); }
+    .tabbar .ping { position: absolute; top: 10px; right: calc(50% - 16px); width: 7px; height: 7px; border-radius: 50%; background: var(--mint); }
     .modal.on { align-items: flex-end; padding: 0; }
     .sheet { border-radius: 18px 18px 0 0; max-height: 92dvh; padding: 20px 16px; }
     .modal.drawer .sheet { border-radius: 18px 18px 0 0; height: 92dvh; padding: 20px 16px; }
     .sheet .form .row2 { grid-template-columns: 1fr; }
+    .promo-track { height: 196px; }
   }
 </style>
 </head>
 <body>
 <aside class="side">
   <div class="brand"><img src="logo.svg" alt=""><div><span>jobness<b>.</b></span><small>Welcome to the jungle.</small></div></div>
-  <div class="eyebrow">Kariyer çalışma alanın</div>
-  <button class="navlink on" data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Keşfet<span class="count" id="c-deck"></span></button>
-  <button class="navlink" data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Kısa liste<span class="count" id="c-short"></span></button>
-  <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Elenenler<span class="count" id="c-rej"></span></button>
-  <button class="navlink" data-v="companies"><svg class="i"><use href="#i-building"/></svg>Şirketler<span class="count" id="c-co"></span></button>
-  <button class="navlink" data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Puanlama</button>
-  <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profil & tercihler</button>
-  <div class="side-card">
-    <svg class="i" style="color:var(--mint)"><use href="#i-leaf"/></svg>
-    <h4>Welcome to the jungle.</h4>
-    <p>Önce Avrupa. Yeni Zelanda her zaman ufukta.</p>
-    <div class="eyebrow" style="margin-top:12px;font-size:10px">İstanbul → sıradaki durak</div>
-  </div>
+  <div class="eyebrow">Your career workspace</div>
+  <button class="navlink on" data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Discover<span class="count" id="c-deck"></span></button>
+  <button class="navlink" data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Shortlist<span class="count" id="c-short"></span></button>
+  <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Passed<span class="count" id="c-rej"></span></button>
+  <button class="navlink" data-v="companies"><svg class="i"><use href="#i-building"/></svg>Companies<span class="count" id="c-co"></span></button>
+  <button class="navlink" data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Scoring</button>
+  <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profile & preferences</button>
+  <div class="promo" id="promo-side"></div>
 </aside>
 
 <div class="main">
   <div class="topbar">
     <div class="m-brand"><img src="logo.svg" alt=""><span>jobness<b>.</b></span></div>
-    <div class="crumb">Çalışma alanın <svg class="i" style="width:14px;height:14px"><use href="#i-chev"/></svg> <b id="crumb">Keşfet</b></div>
+    <div class="crumb">Your workspace <svg class="i" style="width:14px;height:14px"><use href="#i-chev"/></svg> <b id="crumb">Discover</b></div>
     <div class="spacer"></div>
     <span class="small muted" id="fetch-info"></span>
-    <button class="btn sm" id="fetch-btn"><svg class="i"><use href="#i-refresh"/></svg><span>İlanları güncelle</span></button>
+    <button class="btn sm" id="fetch-btn"><svg class="i"><use href="#i-refresh"/></svg><span>Refresh jobs</span></button>
   </div>
 
   <div class="page">
     <section class="view on" id="v-discover">
       <div class="eyebrow">Welcome to the jungle</div>
-      <h1 class="hero">Doğru rol, doğru şehir.</h1>
-      <p class="sub">Daha az arama, sana gerçekten uyan daha çok seçenek. Kartlar arasında yukarı-aşağı gez; karar vermek zorunda değilsin.</p>
+      <h1 class="hero">The right role, in the right city.</h1>
+      <p class="sub">Less searching, more options that actually fit. Move up and down through the cards; you don't have to decide right away.</p>
       <div class="stats">
-        <div class="box stat hero-stat"><div class="eyebrow">Aramanın özeti</div><h4>Sınır tanımayan hırs.</h4><div class="tags" id="hero-chips"></div></div>
-        <div class="box stat"><div class="eyebrow">Keşfedilecek</div><b id="st-deck">0</b><span class="small">sana uygun rol</span></div>
-        <div class="box stat"><div class="eyebrow">Kısa listen</div><b id="st-short">0</b><span class="small">tutmaya değer</span></div>
-        <div class="box stat"><div class="eyebrow">Başvurular</div><b id="st-applied">0</b><span class="small">yolda olanlar</span></div>
+        <div class="box stat hero-stat"><div class="eyebrow">Your search at a glance</div><h4>Ambition without borders.</h4><div class="tags" id="hero-chips"></div></div>
+        <div class="box stat"><div class="eyebrow">To explore</div><b id="st-deck">0</b><span class="small">roles that fit you</span></div>
+        <div class="box stat"><div class="eyebrow">Your shortlist</div><b id="st-short">0</b><span class="small">worth keeping</span></div>
+        <div class="box stat"><div class="eyebrow">Applications</div><b id="st-applied">0</b><span class="small">in motion</span></div>
       </div>
       <div class="filterbar">
-        <div class="search"><svg class="i"><use href="#i-search"/></svg><input class="field" id="f-q" placeholder="Rol, şirket ya da şehir ara"></div>
-        <select class="field" id="f-city"><option value="">Tüm şehirler</option></select>
-        <select class="field" id="f-tag"><option value="">Tüm personalar</option></select>
-        <select class="field" id="f-min"><option value="0">Tüm skorlar</option><option value="50">Skor 50+</option><option value="65">Skor 65+</option><option value="80">Skor 80+</option></select>
-        <span class="chip" data-ftoggle="sponsor">Sponsorluk ✓</span>
-        <span class="chip" data-ftoggle="top">Öncelikli şirket</span>
-        <span class="chip" data-ftoggle="fresh">Yeni</span>
+        <div class="search"><svg class="i"><use href="#i-search"/></svg><input class="field" id="f-q" placeholder="Search a role, company or city"></div>
+        <select class="field" id="f-city"><option value="">All cities</option></select>
+        <select class="field" id="f-tag"><option value="">All personas</option></select>
+        <select class="field" id="f-min"><option value="0">All scores</option><option value="50">Score 50+</option><option value="65">Score 65+</option><option value="80">Score 80+</option></select>
+        <span class="chip" data-ftoggle="sponsor">Sponsorship ✓</span>
+        <span class="chip" data-ftoggle="top">Priority company</span>
+        <span class="chip" data-ftoggle="fresh">New</span>
       </div>
       <div class="discover">
         <div class="stack-col">
@@ -356,68 +388,68 @@
             <div class="count" id="pos">0 <span>/ 0</span></div>
             <div class="bar"><i id="pos-bar" style="width:0"></i></div>
             <div class="navbtns">
-              <button id="b-prev" title="Önceki (↑)"><svg class="i"><use href="#i-up"/></svg></button>
-              <button id="b-next" title="Sonraki (↓)"><svg class="i"><use href="#i-down"/></svg></button>
-              <button id="b-undo" title="Son kararı geri al (U)"><svg class="i"><use href="#i-undo"/></svg></button>
+              <button id="b-prev" title="Previous (↑)"><svg class="i"><use href="#i-up"/></svg></button>
+              <button id="b-next" title="Next (↓)"><svg class="i"><use href="#i-down"/></svg></button>
+              <button id="b-undo" title="Undo last decision (U)"><svg class="i"><use href="#i-undo"/></svg></button>
             </div>
           </div>
-          <div class="keys"><span><kbd>↑</kbd><kbd>↓</kbd> gez</span><span><kbd>←</kbd> geç</span><span><kbd>→</kbd> kısa liste</span><span><kbd>D</kbd> tüm ilan</span></div>
-          <div class="note reorder" id="reorder"><svg class="i"><use href="#i-sparkle"/></svg><div>Kararlarından öğrendim; sıralamayı güncelleyebilirim. <a href="#" id="do-reorder">Yeniden sırala</a></div></div>
+          <div class="keys"><span><kbd>↑</kbd><kbd>↓</kbd> browse</span><span><kbd>←</kbd> pass</span><span><kbd>→</kbd> shortlist</span><span><kbd>D</kbd> full post</span></div>
+          <div class="note reorder" id="reorder"><svg class="i"><use href="#i-sparkle"/></svg><div>I've learned from your decisions and can update the order. <a href="#" id="do-reorder">Re-rank</a></div></div>
         </div>
         <div class="box panel" id="panel"></div>
       </div>
     </section>
 
     <section class="view" id="v-short">
-      <div class="eyebrow">Tutmaya değer</div>
-      <h1 class="hero">Kısa listen.</h1>
+      <div class="eyebrow">Worth keeping</div>
+      <h1 class="hero">Your shortlist.</h1>
       <p class="sub" id="pack-help"></p>
       <div class="pipeline" id="pipeline"></div>
       <div class="list" id="short-list"></div>
     </section>
 
     <section class="view" id="v-rejected">
-      <div class="eyebrow">Geride bıraktıkların</div>
-      <h1 class="hero">Elenenler.</h1>
-      <p class="sub">Senin geçtiklerin ve otomatik elenenler. Yanlış elenen bir şey varsa buradan geri alabilirsin.</p>
-      <h3 class="sec section-title">Senin geçtiklerin</h3>
+      <div class="eyebrow">Left behind</div>
+      <h1 class="hero">Passed.</h1>
+      <p class="sub">Roles you passed on and roles filtered out automatically. If something was filtered by mistake, you can bring it back from here.</p>
+      <h3 class="sec section-title">You passed</h3>
       <div class="list" id="rej-mine"></div>
-      <h3 class="sec section-title">Otomatik elenenler <span class="small muted" style="font-weight:500">· sponsorluk yok, dil şartı ya da düşük maaş</span></h3>
+      <h3 class="sec section-title">Filtered automatically <span class="small muted" style="font-weight:500">· no sponsorship, language requirement or salary too low</span></h3>
       <div class="list" id="rej-auto"></div>
     </section>
 
     <section class="view" id="v-companies">
-      <div class="eyebrow">İzleme listen</div>
-      <h1 class="hero">Sana uyan şirketleri seç.</h1>
-      <p class="sub">İzleme listen, ilan kaynakların ve düzenlenebilir şirket personaları.</p>
+      <div class="eyebrow">Your watchlist</div>
+      <h1 class="hero">Find your kind of company.</h1>
+      <p class="sub">Your watchlist, job sources and editable company personas.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
-        <button class="btn primary" id="add-co"><svg class="i"><use href="#i-plus"/></svg>Şirket ekle</button>
-        <div class="seg" id="co-filter"><button data-cof="all" class="on">Hepsi</button><button data-cof="priority">Öncelikli</button><button data-cof="feed">Otomatik</button><button data-cof="manual">Manuel</button><button data-cof="hidden">Gizli</button></div>
+        <button class="btn primary" id="add-co"><svg class="i"><use href="#i-plus"/></svg>Add company</button>
+        <div class="seg" id="co-filter"><button data-cof="all" class="on">All</button><button data-cof="priority">Priority</button><button data-cof="feed">Auto feed</button><button data-cof="manual">Manual</button><button data-cof="hidden">Hidden</button></div>
       </div>
-      <div class="note" style="margin-bottom:18px"><svg class="i"><use href="#i-info"/></svg><div>Greenhouse, Lever, Ashby, SmartRecruiters ve Workday kaynaklı şirketlerin ilanları otomatik gelir. Diğerleri kariyer sayfasına link verir. Etiketler senin tercihlerin, doğrulanmış kültür değerlendirmesi değil.</div></div>
+      <div class="note" style="margin-bottom:18px"><svg class="i"><use href="#i-info"/></svg><div>Jobs from companies on Greenhouse, Lever, Ashby, SmartRecruiters and Workday come in automatically. Others link to their careers page. Persona tags are your preferences, not verified culture assessments.</div></div>
       <div class="co-grid" id="co-grid"></div>
     </section>
 
     <section class="view" id="v-scoring">
-      <div class="eyebrow">Senin kuralların</div>
-      <h1 class="hero">Puanlama.</h1>
-      <p class="sub">Skor = temel puan (CV eşleşmesi, şehir, sponsorluk, maaş, rol tipi) + puan matrisi + ağırlıklar. Değiştirdiğin an tüm ilanlar yeniden puanlanır.</p>
+      <div class="eyebrow">Your rules</div>
+      <h1 class="hero">Scoring.</h1>
+      <p class="sub">Score = base score (CV match, city, sponsorship, salary, role type) + scoring matrix + weights. Every change re-scores all jobs instantly.</p>
       <div class="box pad" style="margin-bottom:22px" id="learn-summary"></div>
       <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px;gap:10px;flex-wrap:wrap">
-        <div><h3 class="sec">Puan matrisi</h3><div class="small muted">Koşula uyan her ilana puan ekler ya da çıkarır.</div></div>
-        <button class="btn primary" id="add-rule"><svg class="i"><use href="#i-plus"/></svg>Yeni kural</button>
+        <div><h3 class="sec">Scoring matrix</h3><div class="small muted">Adds or removes points for every job that matches the condition.</div></div>
+        <button class="btn primary" id="add-rule"><svg class="i"><use href="#i-plus"/></svg>New rule</button>
       </div>
       <div class="rules" id="rules"></div>
       <div style="display:flex;justify-content:space-between;align-items:end;margin:32px 0 12px;gap:10px;flex-wrap:wrap">
-        <div><h3 class="sec">Ağırlıklar</h3><div class="small muted">Otomatik olanlar kaydırmalarından öğrenildi. Değeri değiştirirsen seninki geçerli olur. Silersen bir daha öğrenilmez.</div></div>
-        <div class="seg" id="w-filter"><button data-wf="all" class="on">Hepsi</button><button data-wf="auto">Otomatik</button><button data-wf="manual">Manuel</button></div>
+        <div><h3 class="sec">Weights</h3><div class="small muted">Auto weights are learned from your swipes. Change a value and yours wins. Delete one and it won't be learned again.</div></div>
+        <div class="seg" id="w-filter"><button data-wf="all" class="on">All</button><button data-wf="auto">Auto</button><button data-wf="manual">Manual</button></div>
       </div>
       <div class="box pad">
         <div class="add-row">
-          <select class="field" id="w-kind" style="flex:0 0 160px"><option value="t">Başlıkta kelime</option><option value="co">Şirket</option><option value="cotag">Şirket etiketi</option><option value="city">Şehir</option><option value="tag">Etiket</option><option value="role">Rol tipi</option></select>
-          <input class="field" id="w-val" list="w-suggest" placeholder="ör. marketing"><datalist id="w-suggest"></datalist>
+          <select class="field" id="w-kind" style="flex:0 0 160px"><option value="t">Word in title</option><option value="co">Company</option><option value="cotag">Company tag</option><option value="city">City</option><option value="tag">Tag</option><option value="role">Role type</option></select>
+          <input class="field" id="w-val" list="w-suggest" placeholder="e.g. marketing"><datalist id="w-suggest"></datalist>
           <input class="field" id="w-pts" type="number" step="0.5" value="3" style="flex:0 0 84px">
-          <button class="btn primary" id="w-add">Ekle</button>
+          <button class="btn primary" id="w-add">Add</button>
         </div>
         <div id="weights"></div>
         <div class="small muted" style="margin-top:10px" id="hidden-info"></div>
@@ -425,46 +457,46 @@
     </section>
 
     <section class="view" id="v-settings">
-      <div class="eyebrow">Profil & tercihler</div>
-      <h1 class="hero">Ne istediğini bil.</h1>
-      <p class="sub">Değişiklikler anında uygulanır ve bu cihazda saklanır. Başka cihaza taşımak için en alttaki yedek kartını kullan.</p>
+      <div class="eyebrow">Profile & preferences</div>
+      <h1 class="hero">Know what you want.</h1>
+      <p class="sub">Changes apply instantly and are saved on this device. To move them to another device, use the backup card at the bottom.</p>
       <div class="stack-v">
         <div class="box pad">
-          <h3>Maaş beklentisi</h3>
-          <p class="hint">İstanbul'daki net maaşın, her şehirde aynı yaşam standardına çevrilir. Hedefleri şehir bazında da değiştirebilirsin.</p>
+          <h3>Salary expectation</h3>
+          <p class="hint">Your net salary in Istanbul, translated into the same standard of living in each city. You can also adjust each city's target.</p>
           <div class="money">
-            <label>İstanbul net / ay (TL)<input class="field big-input" type="number" step="5000" id="s-try"></label>
-            <label style="flex:1;min-width:220px">İyi bir rol için kabul edeceğin düşüş: <b id="s-flex-val" style="color:var(--ink)"></b><input type="range" min="0" max="30" step="1" id="s-flex"></label>
+            <label>Istanbul net / month (TRY)<input class="field big-input" type="number" step="5000" id="s-try"></label>
+            <label style="flex:1;min-width:220px">How far below target you'd go for a great role: <b id="s-flex-val" style="color:var(--ink)"></b><input type="range" min="0" max="30" step="1" id="s-flex"></label>
           </div>
         </div>
         <div class="box pad">
-          <h3>Şehirler & öncelik</h3>
-          <p class="hint">1 = en çok istediğin. Kapalı şehirlerin ilanları gizlenir. Hedef = brüt yıllık, € karşılığı.</p>
-          <div class="city head"><span></span><span>Şehir</span><span>Öncelik</span><span>Hedef (€/yıl)</span><span class="min">Min</span></div>
+          <h3>Cities & priority</h3>
+          <p class="hint">1 = most wanted. Jobs in switched-off cities are hidden. Target = gross per year, in € equivalent.</p>
+          <div class="city head"><span></span><span>City</span><span>Priority</span><span>Target (€/yr)</span><span class="min">Min</span></div>
           <div id="s-cities"></div>
         </div>
         <div class="grid-2">
           <div class="box pad">
-            <h3>Rol yakınlığı</h3>
-            <p class="hint">Başlıkta geçen kelimeye göre rol “birebir yaptığım iş” ya da “alanıma yakın” sayılır.</p>
-            <span class="flabel">Birebir yaptığım işler</span><div class="chips" id="s-exact"></div>
-            <span class="flabel">Alanıma yakın işler</span><div class="chips" id="s-adjacent"></div>
-            <span class="flabel">Başlıkta görmek istemediklerim <span class="muted" style="font-weight:400">(gizlenir)</span></span><div class="chips" id="s-hide"></div>
+            <h3>Role fit</h3>
+            <p class="hint">A word in the title decides whether a role counts as "exactly what I do" or "close to my field".</p>
+            <span class="flabel">Exactly what I do</span><div class="chips" id="s-exact"></div>
+            <span class="flabel">Close to my field</span><div class="chips" id="s-adjacent"></div>
+            <span class="flabel">Titles I don't want to see <span class="muted" style="font-weight:400">(hidden)</span></span><div class="chips" id="s-hide"></div>
           </div>
           <div class="box pad">
-            <h3>CV anahtar kelimeleri</h3>
-            <p class="hint">İlanda geçen kelimeler CV eşleşmesini artırır. Rozete tıklayınca ağırlık değişir (0.5 → 3).</p>
+            <h3>CV keywords</h3>
+            <p class="hint">Keywords found in a post raise the CV match. Click the badge to change its weight (0.5 → 3).</p>
             <div class="chips" id="s-cv"></div>
-            <span class="flabel">Eksik beceri uyarıları</span><div class="chips" id="s-gaps"></div>
+            <span class="flabel">Skill gap alerts</span><div class="chips" id="s-gaps"></div>
           </div>
         </div>
         <div class="box pad">
-          <h3>Yedek & cihazlar arası taşıma</h3>
-          <p class="hint">Kararların, kuralların, ağırlıkların, şirketlerin ve ayarların tek dosyada. Telefonda indirip bilgisayarda yükleyebilir ya da Claude Code'a paket hazırlatmak için verebilirsin.</p>
+          <h3>Backup & moving between devices</h3>
+          <p class="hint">Your decisions, rules, weights, companies and settings in one file. Download on your phone and upload on your laptop, or hand it to Claude Code to prepare application packs.</p>
           <div class="chips">
-            <button class="btn primary" id="dl-state"><svg class="i"><use href="#i-download"/></svg>Yedeği indir</button>
-            <label class="btn"><svg class="i"><use href="#i-upload"/></svg>Yedek yükle<input type="file" id="ul-state" accept=".json" hidden></label>
-            <button class="btn ghost" id="reset-settings">Ayarları varsayılana döndür</button>
+            <button class="btn primary" id="dl-state"><svg class="i"><use href="#i-download"/></svg>Download backup</button>
+            <label class="btn"><svg class="i"><use href="#i-upload"/></svg>Upload backup<input type="file" id="ul-state" accept=".json" hidden></label>
+            <button class="btn ghost" id="reset-settings">Reset settings to default</button>
           </div>
         </div>
       </div>
@@ -473,40 +505,42 @@
 </div>
 
 <nav class="tabbar" id="tabbar">
-  <button data-v="discover" class="on"><svg class="i"><use href="#i-compass"/></svg>Keşfet</button>
-  <button data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Kısa liste</button>
-  <button data-v="companies"><svg class="i"><use href="#i-building"/></svg>Şirketler</button>
-  <button data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Puanlama</button>
-  <button data-v="more"><svg class="i"><use href="#i-more"/></svg>Daha fazla</button>
+  <button data-v="discover" class="on"><svg class="i"><use href="#i-compass"/></svg>Discover</button>
+  <button data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Shortlist</button>
+  <button data-v="companies"><svg class="i"><use href="#i-building"/></svg>Companies</button>
+  <button data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Scoring</button>
+  <button data-v="more"><svg class="i"><use href="#i-more"/></svg>More<span class="ping" id="more-ping" hidden></span></button>
 </nav>
 
 <div class="modal drawer" id="m-detail"><div class="sheet" id="detail"></div></div>
 <div class="modal" id="m-reason"><div class="sheet" style="max-width:500px">
-  <h2>Neden geçtin?</h2>
-  <p class="small muted" style="margin:0 0 14px">Seçtiklerin sonraki sıralamayı etkiler. Birden fazla seçebilirsin.</p>
+  <h2>Why are you passing?</h2>
+  <p class="small muted" style="margin:0 0 14px">Your reasons shape the next ranking. Pick as many as you like.</p>
   <div class="chips" id="reasons"></div>
-  <input class="field" id="reason-note" placeholder="Not (isteğe bağlı)" style="width:100%;margin-top:14px">
-  <div class="sheet-actions"><button class="btn" id="r-cancel">Vazgeç</button><button class="btn primary" id="r-save">Geç</button></div>
+  <input class="field" id="reason-note" placeholder="Note (optional)" style="width:100%;margin-top:14px">
+  <div class="sheet-actions"><button class="btn" id="r-cancel">Cancel</button><button class="btn primary" id="r-save">Pass</button></div>
 </div></div>
 <div class="modal" id="m-more"><div class="sheet" style="max-width:420px">
-  <h2>Daha fazla</h2>
-  <div class="stack-v" style="gap:6px;margin-top:14px">
-    <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Elenenler</button>
-    <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profil & tercihler</button>
+  <h2>More</h2>
+  <div class="stack-v" style="gap:6px;margin:14px 0 16px">
+    <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Passed</button>
+    <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profile & preferences</button>
   </div>
+  <div class="promo" id="promo-more"></div>
 </div></div>
 <div class="modal" id="m-co"><div class="sheet" id="co-sheet"></div></div>
+<div class="modal" id="m-quiz"><div class="sheet" id="quiz" style="max-width:520px"></div></div>
 <div class="modal" id="m-add"><div class="sheet">
-  <h2>İlan ekle</h2>
-  <p class="small muted" style="margin:0">LinkedIn ya da takip listesindeki bir siteden ilan metnini yapıştır.</p>
+  <h2>Add a job</h2>
+  <p class="small muted" style="margin:0">Paste a post from LinkedIn or a company on your watchlist.</p>
   <div class="form">
-    <label>Şirket<input class="field" id="a-company"></label>
-    <label>Pozisyon<input class="field" id="a-title"></label>
-    <label>Lokasyon<input class="field" id="a-loc" placeholder="ör. London"></label>
-    <label>İlan linki<input class="field" id="a-url" type="url"></label>
-    <label>İlan metni<textarea class="field" id="a-desc" rows="8"></textarea></label>
+    <label>Company<input class="field" id="a-company"></label>
+    <label>Role<input class="field" id="a-title"></label>
+    <label>Location<input class="field" id="a-loc" placeholder="e.g. London"></label>
+    <label>Link<input class="field" id="a-url" type="url"></label>
+    <label>Job description<textarea class="field" id="a-desc" rows="8"></textarea></label>
   </div>
-  <div class="sheet-actions"><button class="btn" data-close="m-add">Vazgeç</button><button class="btn primary" id="a-save">Ekle</button></div>
+  <div class="sheet-actions"><button class="btn" data-close="m-add">Cancel</button><button class="btn primary" id="a-save">Add</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
 
@@ -518,7 +552,7 @@
   <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
   <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8"/></symbol>
-  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M10 4h4v3a2 2 0 1 0 4 0V7h2v5h-3a2 2 0 1 0 0 4h3v4h-6v-3a2 2 0 1 0-4 0v3H4v-6h3a2 2 0 1 0 0-4H4V4h6z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
@@ -543,48 +577,67 @@
 <script>
 const REPO = "nesibekeles/Job";
 const STORE_KEY = "pusula.state.v1"; // pre-rename key, kept so saved swipes survive
-const REASONS = ["Sponsorluk / vize riski", "Çok operasyonel", "Rol içeriği uymuyor", "Fazla junior", "Fazla senior",
-  "Maaş düşük olabilir", "Şirket ilgimi çekmiyor", "Sektör / ürün ilgimi çekmiyor", "Lokasyon", "Ofis / çalışma şekli", "Diğer"];
-const REASON_KEYS = { "Sponsorluk / vize riski": "sponsor", "Maaş düşük olabilir": "salary", "Çok operasyonel": "operational", "Fazla junior": "junior", "Fazla senior": "senior", "Ofis / çalışma şekli": "office" };
+const REASONS = ["Sponsorship / visa risk", "Too operational", "Role content doesn't fit", "Too junior", "Too senior",
+  "Salary may be low", "Not interested in the company", "Not interested in the industry / product", "Location", "Office / work setup", "Other"];
+const REASON_KEYS = { "Sponsorship / visa risk": "sponsor", "Salary may be low": "salary", "Too operational": "operational", "Too junior": "junior", "Too senior": "senior", "Office / work setup": "office" };
 const CITY_POINTS = { 1: 15, 2: 13, 3: 11, 4: 9, 5: 8, 6: 6, 7: 5, 8: 4, 9: 3 };
 const CURRENCY = { "United Kingdom": ["GBP", "£"], "New Zealand": ["NZD", "NZ$"], Denmark: ["DKK", "DKK "], Sweden: ["SEK", "SEK "], Norway: ["NOK", "NOK "], Czechia: ["CZK", "CZK "], Hungary: ["HUF", "HUF "] };
 const BASE_TRY = 200000; // city targets in config were set for this Istanbul salary
 // muted pastel tints for company avatars only: [background, letter]
 const PASTELS = [["#ece9f8", "#5b4fa0"], ["#e4f2eb", "#2f6f55"], ["#f5ebe5", "#8a5a43"], ["#f3efe0", "#6f5e2c"], ["#e6edf5", "#3d5f82"], ["#f2e8ec", "#86495a"]];
-const VIEW_NAMES = { discover: "Keşfet", short: "Kısa liste", rejected: "Elenenler", companies: "Şirketler", scoring: "Puanlama", settings: "Profil & tercihler" };
+const VIEW_NAMES = { discover: "Discover", short: "Shortlist", rejected: "Passed", companies: "Companies", scoring: "Scoring", settings: "Profile & preferences" };
 
 const DEFAULT_RULES = [
-  { name: "≤5 yıl tecrübe isteyen roller", all: [{ f: "years", op: "lte", v: 5 }], pts: 5 },
-  { name: "8+ yıl tecrübe isteyen roller", all: [{ f: "years", op: "gte", v: 9 }], pts: -6 },
-  { name: "CV ile 4.5+ eşleşen roller", all: [{ f: "cv", op: "gte", v: 4.5 }], pts: 8 },
-  { name: "Birebir yaptığım iş", all: [{ f: "family", op: "is", v: "birebir" }], pts: 6 },
-  { name: "Birebir değil ama alanıma yakın", all: [{ f: "family", op: "is", v: "yakın" }], pts: 3 },
-  { name: "Başlıkta “marketing”", all: [{ f: "title", op: "has", v: "marketing" }], pts: 4 },
-  { name: "Öncelikli şirket", all: [{ f: "priority", op: "is", v: "evet" }], pts: 5 },
-  { name: "Türkçe artı", all: [{ f: "tag", op: "is", v: "Türkçe artı" }], pts: 3 },
+  { name: "Roles asking ≤5 years", all: [{ f: "years", op: "lte", v: 5 }], pts: 5 },
+  { name: "Roles asking 8+ years", all: [{ f: "years", op: "gte", v: 9 }], pts: -6 },
+  { name: "CV match 4.5+", all: [{ f: "cv", op: "gte", v: 4.5 }], pts: 8 },
+  { name: "Exactly what I do", all: [{ f: "family", op: "is", v: "exact" }], pts: 6 },
+  { name: "Not exactly mine, but close to my field", all: [{ f: "family", op: "is", v: "adjacent" }], pts: 3 },
+  { name: "“Marketing” in the title", all: [{ f: "title", op: "has", v: "marketing" }], pts: 4 },
+  { name: "Priority company", all: [{ f: "priority", op: "is", v: "yes" }], pts: 5 },
+  { name: "Turkish a plus", all: [{ f: "tag", op: "is", v: "Turkish a plus" }], pts: 3 },
 ];
+// the first version of the app stored Turkish labels; translate saved state once on load
+const MIGRATE = {
+  "Sponsorluk / vize riski": "Sponsorship / visa risk", "Çok operasyonel": "Too operational", "Rol içeriği uymuyor": "Role content doesn't fit",
+  "Fazla junior": "Too junior", "Fazla senior": "Too senior", "Maaş düşük olabilir": "Salary may be low", "Şirket ilgimi çekmiyor": "Not interested in the company",
+  "Sektör / ürün ilgimi çekmiyor": "Not interested in the industry / product", "Lokasyon": "Location", "Ofis / çalışma şekli": "Office / work setup", "Diğer": "Other",
+  "Kaydedildi": "Saved", "Paket istendi": "Pack requested", "Paket hazır": "Pack ready", "Başvuruldu": "Applied", "Mülakat": "Interview", "Teklif": "Offer", "Red": "Rejected",
+  "≤5 yıl tecrübe isteyen roller": "Roles asking ≤5 years", "8+ yıl tecrübe isteyen roller": "Roles asking 8+ years", "CV ile 4.5+ eşleşen roller": "CV match 4.5+",
+  "Birebir yaptığım iş": "Exactly what I do", "Birebir değil ama alanıma yakın": "Not exactly mine, but close to my field", "Başlıkta “marketing”": "“Marketing” in the title",
+  "Öncelikli şirket": "Priority company", "Türkçe artı": "Turkish a plus", "Top-tier şirket": "Top-tier company", "Yeni kural": "New rule", "Adsız kural": "Untitled rule",
+  "birebir": "exact", "yakın": "adjacent", "diğer": "other", "evet": "yes", "hayır": "no", "hedefte": "on target", "hedef altı": "below target", "belirtilmemiş": "not stated",
+  "stratejik": "strategic", "karma": "mixed", "operasyonel": "operational", "Hibrit": "Hybrid", "Uzaktan": "Remote", "Ofis": "Office", "Remote (TR'den)": "Remote (from TR)",
+  "Sponsorluk / relocation ✓": "Sponsorship / relocation ✓", "Sponsorluk belirsiz": "Sponsorship unclear", "Ofis ağırlıklı": "Office-heavy", "Operasyonel ağırlık": "Operational focus",
+  "Stratejik rol": "Strategic role", "Junior seviye": "Junior level", "B2C / Tüketici": "B2C / Consumer", "Genç & sosyal kitle": "Young & social audience",
+  "AI odaklı": "AI-focused", "Growth / Deney": "Growth / Experiments", "Hızlı tempo / uzun saat": "Fast pace / long hours", "Seyahat": "Travel",
+  "Maaş hedefte": "Salary on target", "Maaş hedef altı": "Salary below target",
+};
+const mig = (v) => typeof v !== "string" ? v : MIGRATE[v] ?? v.replace(/ şart$/, " required").replace(/ artı$/, " a plus").replace(/^(\d+)\+ yıl istiyor$/, "Asks $1+ yrs");
 const SELECT_LABELS = {
-  family: { birebir: "Birebir yaptığım iş", "yakın": "Alanıma yakın", "diğer": "Diğer" },
-  seniority: { junior: "Junior", "mid-senior": "Mid/Senior", exec: "Direktör+" },
-  role_type: { stratejik: "Stratejik", karma: "Karma", operasyonel: "Operasyonel" },
-  sponsorship: { yes: "Var", unknown: "Belirsiz", no: "Yok" },
-  workplace: { "Hibrit": "Hibrit", "Uzaktan": "Uzaktan", "Ofis": "Ofis", "?": "Bilinmiyor" },
-  tier: { top: "Top-tier", big: "Büyük", scaleup: "Scale-up" },
-  salary: { hedefte: "Hedefte", "hedef altı": "Hedef altı", "belirtilmemiş": "Belirtilmemiş" },
-  priority: { evet: "Evet", "hayır": "Hayır" },
+  family: { exact: "Exactly what I do", adjacent: "Close to my field", other: "Other" },
+  seniority: { junior: "Junior", "mid-senior": "Mid/Senior", exec: "Director+" },
+  role_type: { strategic: "Strategic", mixed: "Mixed", operational: "Operational" },
+  sponsorship: { yes: "Yes", unknown: "Unclear", no: "No" },
+  workplace: { Hybrid: "Hybrid", Remote: "Remote", Office: "Office", "?": "Unknown" },
+  tier: { top: "Top-tier", big: "Big brand", scaleup: "Scale-up" },
+  salary: { "on target": "On target", "below target": "Below target", "not stated": "Not stated" },
+  priority: { yes: "Yes", no: "No" },
 };
 const FIELDS = {
-  title: { label: "Başlık", type: "text" }, desc: { label: "İlan metni", type: "text" },
-  cv: { label: "CV eşleşmesi (0–5)", type: "number", step: 0.5 }, years: { label: "İstenen tecrübe (yıl)", type: "number", step: 1 },
-  family: { label: "Rol yakınlığı", type: "select" }, seniority: { label: "Seviye", type: "select" },
-  role_type: { label: "Rol tipi", type: "select" }, sponsorship: { label: "Sponsorluk", type: "select" },
-  workplace: { label: "Çalışma tipi", type: "select" }, tier: { label: "Şirket seviyesi", type: "select" },
-  priority: { label: "Öncelikli şirket", type: "select" }, cotag: { label: "Şirket etiketi", type: "select" },
-  salary: { label: "Maaş durumu", type: "select" }, company: { label: "Şirket", type: "select" },
-  city: { label: "Şehir", type: "select" }, tag: { label: "İlan etiketi", type: "select" },
+  title: { label: "Title", type: "text" }, desc: { label: "Job description", type: "text" },
+  cv: { label: "CV match (0–5)", type: "number", step: 0.5 }, years: { label: "Years required", type: "number", step: 1 },
+  family: { label: "Role fit", type: "select" }, seniority: { label: "Level", type: "select" },
+  role_type: { label: "Role type", type: "select" }, sponsorship: { label: "Sponsorship", type: "select" },
+  workplace: { label: "Work setup", type: "select" }, tier: { label: "Company tier", type: "select" },
+  priority: { label: "Priority company", type: "select" }, cotag: { label: "Company tag", type: "select" },
+  salary: { label: "Salary status", type: "select" }, company: { label: "Company", type: "select" },
+  city: { label: "City", type: "select" }, tag: { label: "Job tag", type: "select" },
 };
-const OPS = { text: [["has", "içerir"], ["not", "içermez"]], select: [["is", "="], ["isnt", "≠"]], number: [["gte", "≥"], ["lte", "≤"]] };
-const W_KIND = { t: "Başlıkta kelime", co: "Şirket", cotag: "Şirket etiketi", city: "Şehir", tag: "Etiket", role: "Rol tipi" };
+const OPS = { text: [["has", "contains"], ["not", "doesn't contain"]], select: [["is", "="], ["isnt", "≠"]], number: [["gte", "≥"], ["lte", "≤"]] };
+const W_KIND = { t: "Word in title", co: "Company", cotag: "Company tag", city: "City", tag: "Tag", role: "Role type" };
+const PAY = { top: "above market", high: "pays well", mid: "mid-market" };
+const SPONSOR_NOTE = { known: "company sponsors", sometimes: "sometimes", rare: "rarely" };
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -594,10 +647,10 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 const icon = (id) => `<svg class="i"><use href="#i-${id}"/></svg>`;
 const toast = (m) => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("on"), 2400); };
 const eur = (n) => "€" + Math.round(n / 1000) + "k";
-const ago = (iso) => { if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 864e5; return d < 1 ? "bugün" : d < 2 ? "dün" : Math.floor(d) + " gün önce"; };
+const ago = (iso) => { if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 864e5; return d < 1 ? "today" : d < 2 ? "yesterday" : Math.floor(d) + " days ago"; };
 const signed = (n) => (n > 0 ? "+" : "") + (Math.round(n * 10) / 10);
 const pastel = (name) => PASTELS[[...name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PASTELS.length];
-const avatar = (name, cls = "") => { const [bg, fg] = pastel(name); return `<div class="avatar ${cls}" style="background:${bg};color:${fg}">${esc(name[0])}</div>`; };
+const avatar = (name) => { const [bg, fg] = pastel(name); return `<div class="avatar" style="background:${bg};color:${fg}">${esc(name[0])}</div>`; };
 const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
 const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all", cof: "all",
@@ -625,23 +678,34 @@ function defaultSettings(cfg) {
   };
 }
 function freshState() {
-  return { v: 1, decisions: {}, rules: DEFAULT_RULES.map((r) => ({ id: uid(), on: true, ...structuredClone(r) })), overrides: {}, hidden: [], settings: null };
+  return { v: 2, decisions: {}, rules: DEFAULT_RULES.map((r) => ({ id: uid(), on: true, ...structuredClone(r) })), overrides: {}, hidden: [], settings: null, test: null, challenge: { streak: 0, best: 0, last: null, results: {} } };
+}
+function migrate(st) {
+  if ((st.v || 1) >= 2) return st;
+  for (const d of Object.values(st.decisions || {})) { d.reasons = (d.reasons || []).map(mig); if (d.status) d.status = mig(d.status); }
+  for (const r of st.rules || []) { r.name = mig(r.name); for (const c of r.all) c.v = mig(c.v); }
+  const mk = (k) => { const i = k.indexOf(":"); return k.slice(0, i + 1) + mig(k.slice(i + 1)); };
+  st.overrides = Object.fromEntries(Object.entries(st.overrides || {}).map(([k, v]) => [mk(k), v]));
+  st.hidden = (st.hidden || []).map(mk);
+  st.v = 2;
+  return st;
 }
 function readLocal() { try { return JSON.parse(localStorage.getItem(STORE_KEY)); } catch { return null; } }
 function hydrate(s) {
-  const st = { ...freshState(), ...(s || {}) };
+  const st = migrate({ ...freshState(), ...(s || {}), v: s?.v || (s ? 1 : 2) });
   const def = defaultSettings(APP.data.config);
   st.settings = { ...def, ...(st.settings || {}) };
   const saved = st.settings.companies || {};
   st.settings.companies = { ...def.companies };
   for (const [n, c] of Object.entries(saved)) st.settings.companies[n] = { ...(def.companies[n] || {}), ...c, url: c.url || def.companies[n]?.url || "" };
   for (const c of def.cities) if (!st.settings.cities.some((x) => x.name === c.name)) st.settings.cities.push(c);
+  st.challenge = { streak: 0, best: 0, last: null, results: {}, ...(st.challenge || {}) };
   return st;
 }
 let saveTimer;
 function save() {
   APP.state.updated_at = new Date().toISOString();
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(APP.state)); } catch { toast("Bu tarayıcı kayıt tutmuyor (gizli sekme?)"); }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(APP.state)); } catch { toast("This browser isn't saving data (private window?)"); }
   if (APP.server) { clearTimeout(saveTimer); saveTimer = setTimeout(() => post("/api/state", APP.state), 300); }
 }
 
@@ -654,9 +718,9 @@ function targetsFor(cc) {
 }
 function family(title) {
   const t = title.toLowerCase(), s = APP.state.settings;
-  if (s.exact_kw.some((k) => k && t.includes(k.toLowerCase()))) return "birebir";
-  if (s.adjacent_kw.some((k) => k && t.includes(k.toLowerCase()))) return "yakın";
-  return "diğer";
+  if (s.exact_kw.some((k) => k && t.includes(k.toLowerCase()))) return "exact";
+  if (s.adjacent_kw.some((k) => k && t.includes(k.toLowerCase()))) return "adjacent";
+  return "other";
 }
 const companyOf = (j) => APP.state.settings.companies[j.company] || { tier: j.f.company_tier, pay: j.f.company_pay, sponsor: j.f.company_sponsor, tags: [], priority: false };
 function derive(j) {
@@ -666,12 +730,12 @@ function derive(j) {
   const hits = Object.entries(s.cv_keywords).filter(([k]) => k.trim() && text.includes(k.trim().toLowerCase())).sort((a, b) => b[1] - a[1]);
   const cv_match = Math.min(1, hits.reduce((a, [, w]) => a + w, 0) / 20);
   const gaps = s.gap_keywords.filter((g) => new RegExp("\\b" + g.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b").test(text)).slice(0, 5);
-  const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "hedefte" : "hedef altı") : "belirtilmemiş";
-  let filtered = f.filtered && !/^Maaş düşük/.test(f.filtered) ? f.filtered : null;
-  if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Maaş düşük (€${f.salary.max_eur.toLocaleString("tr")} < min €${min.toLocaleString("tr")})`;
-  const hiddenWhy = cc && cc.on === false ? "şehir kapalı" : co.hidden ? "şirket gizli" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "başlık gizli" : null;
-  const tags = f.tags.filter((t) => !/^Maaş hedef/.test(t.label));
-  if (salaryStatus !== "belirtilmemiş") tags.push({ color: salaryStatus === "hedefte" ? "green" : "yellow", label: salaryStatus === "hedefte" ? "Maaş hedefte" : "Maaş hedef altı" });
+  const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "on target" : "below target") : "not stated";
+  let filtered = f.filtered && !/^Salary too low/.test(f.filtered) ? f.filtered : null;
+  if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Salary too low (€${f.salary.max_eur.toLocaleString("en")} < min €${min.toLocaleString("en")})`;
+  const hiddenWhy = cc && cc.on === false ? "city switched off" : co.hidden ? "company hidden" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "title hidden" : null;
+  const tags = f.tags.filter((t) => !/^Salary (on|below) target/.test(t.label));
+  if (salaryStatus !== "not stated") tags.push({ color: salaryStatus === "on target" ? "green" : "yellow", label: salaryStatus === "on target" ? "Salary on target" : "Salary below target" });
   return { city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor, cotags: co.tags || [], coPriority: !!co.priority,
     cv_match, cv5: Math.round(cv_match * 50) / 10, matched: hits.slice(0, 6).map(([k]) => k.trim()),
     gaps, family: family(j.title), salaryStatus, filtered, hiddenWhy, tags, text };
@@ -681,17 +745,17 @@ function baseScore(j, d, rw) {
   let s = d.cv_match * 30 + (CITY_POINTS[d.priority] ?? 3);
   if (f.sponsorship === "yes") s += 15;
   else if (f.sponsorship === "unknown" && !f.remote) s += ({ known: 8, sometimes: 3 }[d.sponsor] || 0) - (rw.sponsor || 0);
-  if (d.salaryStatus === "hedefte") s += 10; else if (d.salaryStatus === "hedef altı") s += f.salary.max_eur >= d.min ? 4 : -10;
+  if (d.salaryStatus === "on target") s += 10; else if (d.salaryStatus === "below target") s += f.salary.max_eur >= d.min ? 4 : -10;
   else s += ({ top: 8, high: 5, mid: 2 }[d.pay] ?? 2) - (d.pay === "mid" ? rw.salary || 0 : 0);
-  s += { stratejik: 8, karma: 2, operasyonel: -8 - (rw.operational || 0) }[f.role_type] ?? 0;
+  s += { strategic: 8, mixed: 2, operational: -8 - (rw.operational || 0) }[f.role_type] ?? 0;
   s += { junior: -10 - (rw.junior || 0), exec: -3 - (rw.senior || 0), "mid-senior": 2 }[f.seniority] ?? 0;
-  if (f.workplace === "Ofis") s -= rw.office || 0;
+  if (f.workplace === "Office") s -= rw.office || 0;
   return (s / 80) * 100;
 }
 function fieldValue(j, d, f) {
   return { title: j.title.toLowerCase(), desc: d.text, cv: d.cv5, years: j.f.years_required, family: d.family, seniority: j.f.seniority,
     role_type: j.f.role_type, sponsorship: j.f.sponsorship, workplace: j.f.workplace, tier: d.tier, salary: d.salaryStatus,
-    priority: d.coPriority ? "evet" : "hayır", cotag: d.cotags, company: j.company, city: d.city, tag: d.tags.map((t) => t.label) }[f];
+    priority: d.coPriority ? "yes" : "no", cotag: d.cotags, company: j.company, city: d.city, tag: d.tags.map((t) => t.label) }[f];
 }
 function condOk(c, j, d) {
   const v = fieldValue(j, d, c.f), type = FIELDS[c.f]?.type;
@@ -702,7 +766,7 @@ function condOk(c, j, d) {
 }
 const ruleHits = (r, j, d) => r.on && r.all.length > 0 && r.all.every((c) => condOk(c, j, d));
 function features(j, d) {
-  const toks = new Set((j.title.toLowerCase().match(/[a-zçğıöşü]+/g) || []).filter((w) => w.length > 2));
+  const toks = new Set((j.title.toLowerCase().match(/[a-z]+/g) || []).filter((w) => w.length > 2));
   return [...[...toks].map((t) => "t:" + t), ...d.tags.map((t) => "tag:" + t.label), ...d.cotags.map((t) => "cotag:" + t), "co:" + j.company, "city:" + d.city, "role:" + j.f.role_type];
 }
 function learn(rowsById, decisions) {
@@ -713,10 +777,10 @@ function learn(rowsById, decisions) {
     let feats = features(r.j, r.d);
     for (const why of dec.reasons || []) {
       rc[why] = (rc[why] || 0) + 1;
-      if (why === "Şirket ilgimi çekmiyor") feats.push("co:" + r.j.company, "co:" + r.j.company);
-      if (why === "Lokasyon") feats.push("city:" + r.d.city, "city:" + r.d.city);
-      if (why === "Sektör / ürün ilgimi çekmiyor") feats = feats.concat(["co:" + r.j.company], r.d.cotags.map((t) => "cotag:" + t));
-      if (why === "Rol içeriği uymuyor") feats = feats.concat(feats.filter((x) => x.startsWith("t:")));
+      if (why === "Not interested in the company") feats.push("co:" + r.j.company, "co:" + r.j.company);
+      if (why === "Location") feats.push("city:" + r.d.city, "city:" + r.d.city);
+      if (why === "Not interested in the industry / product") feats = feats.concat(["co:" + r.j.company], r.d.cotags.map((t) => "cotag:" + t));
+      if (why === "Role content doesn't fit") feats = feats.concat(feats.filter((x) => x.startsWith("t:")));
     }
     for (const x of feats) bucket[x] = (bucket[x] || 0) + 1;
   }
@@ -743,8 +807,8 @@ function compute() {
     const wparts = [];
     for (const k of features(r.j, r.d)) {
       if (hidden.has(k)) continue;
-      if (k in st.overrides) { manual += st.overrides[k]; wparts.push([k, st.overrides[k], "manuel"]); }
-      else if (m.weights[k]) { auto += m.weights[k]; wparts.push([k, m.weights[k], "oto"]); }
+      if (k in st.overrides) { manual += st.overrides[k]; wparts.push([k, st.overrides[k], "manual"]); }
+      else if (m.weights[k]) { auto += m.weights[k]; wparts.push([k, m.weights[k], "auto"]); }
     }
     auto = clamp(auto, -15, 15);
     const rsum = rules.reduce((a, [, p]) => a + p, 0);
@@ -783,13 +847,13 @@ function placement(o) {
 }
 function miniHTML(r) {
   const { j, d } = r, f = j.f;
-  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)}` : { top: "Maaş: piyasa üstü", high: "Maaş: iyi", mid: "Maaş: orta" }[d.pay] || "";
-  return `<div class="stamp like">KISA LİSTE</div><div class="stamp nope">GEÇ</div>
+  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)}` : `Salary: ${PAY[d.pay] || "?"}`;
+  return `<div class="stamp like">SHORTLIST</div><div class="stamp nope">PASS</div>
     <div class="row1">${avatar(j.company)}
-      <div class="co">${esc(j.company)}<span>${esc(d.city)}${j.is_new ? " · yeni" : ""}</span></div>
-      <div class="scorepill">${r.score}<small>SKOR</small></div></div>
+      <div class="co">${esc(j.company)}<span>${esc(d.city)}${j.is_new ? " · new" : ""}</span></div>
+      <div class="scorepill">${r.score}<small>SCORE</small></div></div>
     <h3>${esc(j.title)}</h3>
-    <div class="meta">${f.workplace !== "?" ? `<span>${esc(f.workplace)}</span>` : ""}<span>${esc(sal)}</span><span class="${f.sponsorship === "yes" ? "ok" : ""}">${f.sponsorship === "yes" ? "Sponsorluk ✓" : f.sponsorship === "no" ? "Sponsorluk yok" : "Sponsorluk belirsiz"}</span></div>`;
+    <div class="meta">${f.workplace !== "?" ? `<span>${esc(f.workplace)}</span>` : ""}<span>${esc(sal)}</span><span class="${f.sponsorship === "yes" ? "ok" : ""}">${f.sponsorship === "yes" ? "Sponsorship ✓" : f.sponsorship === "no" ? "No sponsorship" : "Sponsorship unclear"}</span></div>`;
 }
 function visibleSlots(n) {
   const slots = [[0, APP.idx]], used = new Set([APP.idx]);
@@ -802,7 +866,7 @@ function renderStack(dir = 0) {
   $("#st-deck").textContent = n;
   if (!n) {
     STACK.els.forEach((el) => el.remove()); STACK.els.clear();
-    stack.innerHTML = `<div class="empty">Bu filtrelerle bakılacak ilan kalmadı.<br>Filtreleri gevşet ya da ilanları güncelle.</div>`;
+    stack.innerHTML = `<div class="empty">No roles left with these filters.<br>Loosen the filters or refresh jobs.</div>`;
     $("#pos").innerHTML = `0 <span>/ 0</span>`; $("#pos-bar").style.width = "0"; $("#panel").innerHTML = "";
     return;
   }
@@ -833,8 +897,8 @@ function renderStack(dir = 0) {
 function go(delta) {
   const n = deckRows().length; if (!n) return;
   const next = APP.idx + delta;
-  if (next >= n) { APP.idx = 0; spin(); toast("Liste bitti, başa döndün ↺"); }
-  else if (next < 0) { APP.idx = n - 1; spin(); toast("Listenin sonuna geçtin"); }
+  if (next >= n) { APP.idx = 0; spin(); toast("End of the list, back to the start ↺"); }
+  else if (next < 0) { APP.idx = n - 1; spin(); toast("Jumped to the end of the list"); }
   else APP.idx = next;
   renderStack(Math.sign(delta));
 }
@@ -874,7 +938,7 @@ function bindStack() {
       return renderStack();
     }
     if (axis === "y") { if (Math.abs(dy) > 30) go(dy < 0 ? 1 : -1); return; }
-    const o = +card.dataset.o; // a tap: center opens the posting, a neighbour becomes current
+    const o = +card.dataset.o; // a tap: the focused card opens the post, a neighbour becomes current
     if (o === 0) openDetail(card.dataset.id); else go(o);
   });
   stack.addEventListener("pointercancel", () => { st = null; renderStack(); });
@@ -896,17 +960,17 @@ function askReason() {
 }
 function decide(id, decision, reasons, note) {
   const prev = APP.state.decisions[id];
-  APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(), status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Kaydedildi") : null };
+  APP.state.decisions[id] = { id, decision, reasons, note: note || "", at: new Date().toISOString(), status: decision === "like" ? (prev?.decision === "like" ? prev.status : "Saved") : null };
   APP.history.push(id); APP.sinceOrder++; save();
-  toast(decision === "like" ? "Kısa listeye eklendi" : "Geçildi, tercihlerini öğreniyorum");
+  toast(decision === "like" ? "Added to your shortlist" : "Passed. Learning your preferences");
   setTimeout(() => {
     refresh(true);
     const n = deckRows().length;
-    if (n && APP.idx >= n) { APP.idx = 0; spin(); toast("Liste bitti, başa döndün ↺"); renderStack(); }
+    if (n && APP.idx >= n) { APP.idx = 0; spin(); toast("End of the list, back to the start ↺"); renderStack(); }
   }, 220);
 }
 function undo() {
-  const id = APP.history.pop(); if (!id) return toast("Geri alınacak bir karar yok");
+  const id = APP.history.pop(); if (!id) return toast("Nothing to undo");
   delete APP.state.decisions[id]; save();
   if (!APP.order.includes(id)) APP.order.splice(APP.idx, 0, id);
   refresh(true);
@@ -916,33 +980,33 @@ function undo() {
 // ---------------- panel + detail ----------------
 function facts({ j, d }) {
   const f = j.f;
-  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)}` : "Belirtilmemiş";
-  const salNote = f.salary ? (d.salaryStatus === "hedefte" ? "hedefte ✓" : `hedef ${eur(d.target)}`) : `${{ top: "piyasa üstü", high: "iyi ödeyen", mid: "piyasa ortası" }[d.pay] || "?"} · hedef ${d.target ? eur(d.target) : "–"}`;
-  const sp = { yes: "Var ✓", no: "Yok", unknown: f.remote ? "Gerekmez" : "Belirsiz" }[f.sponsorship];
-  const spNote = f.sponsorship === "unknown" && !f.remote ? { known: "şirket sponsor olur", sometimes: "bazen", rare: "nadiren" }[d.sponsor] || "" : f.sponsorship === "yes" ? "relocation" : "";
-  return `<div class="fact"><span>Lokasyon</span><b>${esc(d.city)}</b><em>#${d.priority} tercih</em></div>
-    <div class="fact"><span>Maaş (brüt/yıl)</span><b>${esc(sal)}</b><em>${esc(salNote)}</em></div>
-    <div class="fact"><span>Vize sponsorluğu</span><b>${esc(sp)}</b><em>${esc(spNote)}</em></div>
-    <div class="fact"><span>Çalışma · seviye</span><b>${esc(f.workplace)}</b><em>${esc(SELECT_LABELS.seniority[f.seniority])}${f.office_days ? ` · ${f.office_days} gün ofis` : ""}</em></div>`;
+  const sal = f.salary ? `${eur(f.salary.min_eur)}–${eur(f.salary.max_eur)}` : "Not stated";
+  const salNote = f.salary ? (d.salaryStatus === "on target" ? "on target ✓" : `target ${eur(d.target)}`) : `${PAY[d.pay] || "?"} · target ${d.target ? eur(d.target) : "–"}`;
+  const sp = { yes: "Yes ✓", no: "No", unknown: f.remote ? "Not needed" : "Unclear" }[f.sponsorship];
+  const spNote = f.sponsorship === "unknown" && !f.remote ? SPONSOR_NOTE[d.sponsor] || "" : f.sponsorship === "yes" ? "relocation" : "";
+  return `<div class="fact"><span>Location</span><b>${esc(d.city)}</b><em>#${d.priority} choice</em></div>
+    <div class="fact"><span>Salary (gross/yr)</span><b>${esc(sal)}</b><em>${esc(salNote)}</em></div>
+    <div class="fact"><span>Visa sponsorship</span><b>${esc(sp)}</b><em>${esc(spNote)}</em></div>
+    <div class="fact"><span>Work setup · level</span><b>${esc(SELECT_LABELS.workplace[f.workplace] || f.workplace)}</b><em>${esc(SELECT_LABELS.seniority[f.seniority])}${f.office_days ? ` · ${f.office_days} office days` : ""}</em></div>`;
 }
 function renderPanel(r) {
   if (!r) { $("#panel").innerHTML = ""; return; }
   const { j, d } = r, f = j.f;
   $("#panel").innerHTML = `
     <div class="head">${avatar(j.company)}
-      <div style="min-width:0"><div class="small muted">${esc(j.company)}${d.coPriority ? " · öncelikli" : ""} · ${esc(ago(j.posted || j.first_seen))}</div><h2>${esc(j.title)}</h2></div>
-      <div class="bigscore"><b>${r.score}</b><span>SKOR</span></div></div>
+      <div style="min-width:0"><div class="small muted">${esc(j.company)}${d.coPriority ? " · priority" : ""} · ${esc(ago(j.posted || j.first_seen))}</div><h2>${esc(j.title)}</h2></div>
+      <div class="bigscore"><b>${r.score}</b><span>SCORE</span></div></div>
     <div class="facts">${facts(r)}</div>
-    <div class="matchbar"><span class="muted">CV eşleşmesi</span><div class="bar"><i style="width:${d.cv5 * 20}%"></i></div><b>${d.cv5}/5</b><span class="muted">· ${esc(SELECT_LABELS.family[d.family])} · ${esc(f.role_type)}${f.years_required ? ` · ${f.years_required}+ yıl` : ""}</span></div>
+    <div class="matchbar"><span class="muted">CV match</span><div class="bar"><i style="width:${d.cv5 * 20}%"></i></div><b>${d.cv5}/5</b><span class="muted">· ${esc(SELECT_LABELS.family[d.family])} · ${esc(f.role_type)}${f.years_required ? ` · ${f.years_required}+ yrs` : ""}</span></div>
     ${f.ai_summary ? `<div class="evidence">${esc(f.ai_summary)}</div>` : ""}
     ${f.duties.length ? `<ul class="duties">${f.duties.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
     <div class="tags">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}${d.cotags.map((t) => `<span class="tag line">${esc(t)}</span>`).join("")}</div>
-    <div class="kw">${d.matched.length ? `Eşleşen: <em>${esc(d.matched.join(", "))}</em>` : ""}${d.gaps.length ? ` · Eksik: <i>${esc(d.gaps.join(", "))}</i>` : ""}</div>
+    <div class="kw">${d.matched.length ? `Matches: <em>${esc(d.matched.join(", "))}</em>` : ""}${d.gaps.length ? ` · Gaps: <i>${esc(d.gaps.join(", "))}</i>` : ""}</div>
     <div class="actions">
-      <button class="btn rose" data-act="nope">${icon("x")}Geç</button>
-      <button class="btn" data-act="later">${icon("later")}Sonra<span class="lg"> karar ver</span></button>
-      <button class="btn mint" data-act="like">${icon("heart")}Kısa listeye</button>
-      <button class="btn ghost" data-detail="${esc(j.id)}">${icon("ext")}Tüm ilan</button>
+      <button class="btn rose" data-act="nope">${icon("x")}Pass</button>
+      <button class="btn" data-act="later">${icon("later")}Later<span class="lg">, decide later</span></button>
+      <button class="btn mint" data-act="like">${icon("heart")}Shortlist</button>
+      <button class="btn ghost" data-detail="${esc(j.id)}">${icon("ext")}Full post</button>
     </div>`;
 }
 function openDetail(id) {
@@ -954,16 +1018,16 @@ function openDetail(id) {
         <div><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2 style="margin:4px 0 0">${esc(j.title)}</h2></div></div>
       <button class="icon-btn" data-close="m-detail">${icon("x")}</button></div>
     <div class="facts">${facts(r)}</div>
-    ${f.sponsorship_evidence ? `<div class="small muted">Sponsorluk kanıtı</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
+    ${f.sponsorship_evidence ? `<div class="small muted">Sponsorship evidence</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
     <div class="tags" style="margin:12px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
-    <details style="margin:12px 0"><summary style="cursor:pointer"><b>Skor ${r.score}</b> <span class="muted small">nasıl hesaplandı?</span></summary>
+    <details style="margin:12px 0"><summary style="cursor:pointer"><b>Score ${r.score}</b> <span class="muted small">how was it calculated?</span></summary>
       <div class="breakdown" style="margin-top:8px">
-        <div><span>Temel puan</span><b>${p.base}</b></div>
-        ${p.rules.map(([n, pts]) => `<div><span>Kural: ${esc(n)}</span><b class="${pts > 0 ? "pos" : "neg"}">${signed(pts)}</b></div>`).join("")}
+        <div><span>Base score</span><b>${p.base}</b></div>
+        ${p.rules.map(([n, pts]) => `<div><span>Rule: ${esc(n)}</span><b class="${pts > 0 ? "pos" : "neg"}">${signed(pts)}</b></div>`).join("")}
         ${p.wparts.map(([k, v, src]) => `<div><span>${esc(prettyKey(k))} <span class="muted small">(${src})</span></span><b class="${v > 0 ? "pos" : "neg"}">${signed(v)}</b></div>`).join("")}
-        ${p.wparts.some((x) => x[2] === "oto") ? `<div class="muted small"><span>Otomatik ağırlıklar toplamı ±15 ile sınırlı</span><span>${signed(p.auto)}</span></div>` : ""}
+        ${p.wparts.some((x) => x[2] === "auto") ? `<div class="muted small"><span>Auto weights are capped at ±15 in total</span><span>${signed(p.auto)}</span></div>` : ""}
       </div></details>
-    <a class="btn primary" href="${esc(j.url)}" target="_blank" rel="noopener">${icon("ext")}İlanı aç</a>
+    <a class="btn primary" href="${esc(j.url)}" target="_blank" rel="noopener">${icon("ext")}Open the post</a>
     <div class="desc">${esc(j.description)}</div>`;
   $("#m-detail").classList.add("on");
 }
@@ -973,21 +1037,21 @@ function renderFilters() {
   const open = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy);
   const cities = {}, prio = {};
   for (const r of open) { cities[r.d.city] = (cities[r.d.city] || 0) + 1; prio[r.d.city] = r.d.priority; }
-  $("#f-city").innerHTML = `<option value="">Tüm şehirler</option>` + Object.keys(cities).sort((a, b) => prio[a] - prio[b] || a.localeCompare(b))
+  $("#f-city").innerHTML = `<option value="">All cities</option>` + Object.keys(cities).sort((a, b) => prio[a] - prio[b] || a.localeCompare(b))
     .map((c) => `<option value="${esc(c)}" ${c === APP.filters.city ? "selected" : ""}>${esc(c)} (${cities[c]})</option>`).join("");
   const tags = {};
   for (const r of open) for (const t of [...r.d.tags.map((x) => x.label), ...r.d.cotags]) tags[t] = (tags[t] || 0) + 1;
-  $("#f-tag").innerHTML = `<option value="">Tüm personalar</option>` + Object.entries(tags).sort((a, b) => b[1] - a[1])
+  $("#f-tag").innerHTML = `<option value="">All personas</option>` + Object.entries(tags).sort((a, b) => b[1] - a[1])
     .map(([t, n]) => `<option value="${esc(t)}" ${t === APP.filters.tag ? "selected" : ""}>${esc(t)} (${n})</option>`).join("");
   const top = APP.state.settings.cities.filter((c) => c.on).sort((a, b) => a.priority - b.priority).slice(0, 3).map((c) => c.name);
-  $("#hero-chips").innerHTML = [...top, "Sponsorluk gerekli", "Marketing & product"].map((x) => `<span class="tag">${esc(x)}</span>`).join("");
+  $("#hero-chips").innerHTML = [...top, "Sponsorship needed", "Marketing & product"].map((x) => `<span class="tag">${esc(x)}</span>`).join("");
 }
 
 // ---------------- lists ----------------
 function itemHTML(r, acts) {
   const { j, d } = r, packs = APP.packs?.[j.id] || [];
   return `<div class="box item">${avatar(j.company)}
-    <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)} · skor <b style="color:var(--ink)">${r.score}</b>${j.closed ? " · <b>ilan kapandı</b>" : ""}${d.hiddenWhy ? ` · ${esc(d.hiddenWhy)}` : ""}</div>
+    <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)} · score <b style="color:var(--ink)">${r.score}</b>${j.closed ? " · <b>post closed</b>" : ""}${d.hiddenWhy ? ` · ${esc(d.hiddenWhy)}` : ""}</div>
     ${r.decision?.reasons?.length ? `<div class="tags" style="margin-top:6px">${r.decision.reasons.map((x) => `<span class="tag red">${esc(x)}</span>`).join("")}</div>` : ""}
     ${d.filtered && !r.decision ? `<div class="tags" style="margin-top:6px"><span class="tag red">${esc(d.filtered)}</span></div>` : ""}
     ${packs.length ? `<div class="small" style="margin-top:6px">📦 ${packs.map((p) => `<a href="/packs/${encodeURIComponent(j.id)}/${encodeURIComponent(p)}" target="_blank">${esc(p)}</a>`).join(" · ")}</div>` : ""}
@@ -1000,44 +1064,42 @@ function renderLists() {
   const counts = {}; for (const r of liked) counts[r.decision.status] = (counts[r.decision.status] || 0) + 1;
   $("#c-short").textContent = liked.length || "";
   $("#st-short").textContent = liked.length;
-  $("#st-applied").textContent = liked.filter((r) => ["Başvuruldu", "Mülakat", "Teklif"].includes(r.decision.status)).length;
+  $("#st-applied").textContent = liked.filter((r) => ["Applied", "Interview", "Offer"].includes(r.decision.status)).length;
   $("#pipeline").innerHTML = statuses.map((s) => `<span class="tag ${counts[s] ? "green" : "gray"}">${esc(s)} · ${counts[s] || 0}</span>`).join("");
   $("#short-list").innerHTML = liked.length ? liked.map((r) => itemHTML(r, `
       <select class="field" data-status="${esc(r.j.id)}">${statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-      ${r.decision.status === "Kaydedildi" ? `<button class="btn primary sm" data-pack="${esc(r.j.id)}">Paket hazırla</button>` : ""}
-      <button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button>
-      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Başvuru</a>`)).join("")
-    : `<div class="box empty">Henüz beğendiğin ilan yok. Keşfet'te kartı sağa kaydır.</div>`;
+      ${r.decision.status === "Saved" ? `<button class="btn primary sm" data-pack="${esc(r.j.id)}">Prepare pack</button>` : ""}
+      <button class="btn sm" data-detail="${esc(r.j.id)}">Details</button>
+      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`)).join("")
+    : `<div class="box empty">Nothing shortlisted yet. Swipe a card right on Discover.</div>`;
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#c-rej").textContent = mine.length + auto.length || "";
-  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Geri al</button>`)).join("") || `<div class="muted small">Henüz yok.</div>`;
-  $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Detay</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">Kısa listeye al</button>`)).join("") || `<div class="muted small">Yok.</div>`;
+  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Undo</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
+  $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
   $("#pack-help").innerHTML = APP.server
-    ? `“Paket hazırla”ya bas, sonra Claude Code'a <b>paketleri hazırla</b> yaz. Role özel CV, cover letter ve form cevapları burada link olarak görünür. Kontrol et, başvur, durumu güncelle.`
-    : `“Paket hazırla”ya bas, sonra Profil & tercihler → “Yedeği indir” ile dosyayı Claude Code'a ver ve <b>paketleri hazırla</b> yaz.`;
+    ? `Press “Prepare pack”, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here as links. Review, apply, then update the status.`
+    : `Press “Prepare pack”, then download your backup (Profile & preferences) and give it to Claude Code with <b>paketleri hazırla</b>.`;
 }
 
 // ---------------- companies ----------------
 function companyRoles() { const m = {}; for (const r of APP.rows) if (!r.d.filtered && !r.decision) m[r.j.company] = (m[r.j.company] || 0) + 1; return m; }
 function renderCompanies() {
-  const cs = APP.state.settings.companies, roles = companyRoles();
-  let list = Object.entries(cs);
-  const f = APP.cof;
-  list = list.filter(([, c]) => f === "hidden" ? c.hidden : !c.hidden && (f === "all" || (f === "priority" && c.priority) || (f === "feed" && c.source && c.source !== "manual") || (f === "manual" && c.source === "manual")));
+  const cs = APP.state.settings.companies, roles = companyRoles(), f = APP.cof;
+  const list = Object.entries(cs).filter(([, c]) => f === "hidden" ? c.hidden : !c.hidden && (f === "all" || (f === "priority" && c.priority) || (f === "feed" && c.source && c.source !== "manual") || (f === "manual" && c.source === "manual")));
   list.sort((a, b) => (b[1].priority - a[1].priority) || (roles[b[0]] || 0) - (roles[a[0]] || 0) || a[0].localeCompare(b[0]));
   $("#c-co").textContent = Object.values(cs).filter((c) => !c.hidden).length;
   $("#co-grid").innerHTML = list.map(([n, c]) => {
     const feed = c.source && c.source !== "manual";
     return `<div class="box co-card ${c.hidden ? "hidden-co" : ""}" data-co="${esc(n)}">
       <div class="top">${avatar(n)}
-        <div style="flex:1;min-width:0"><b>${esc(n)}</b><span>${c.priority ? "Öncelikli şirket" : "Keşfet"}${roles[n] ? ` · ${roles[n]} açık rol` : ""}</span></div>
-        <button class="icon-btn star ${c.priority ? "on" : ""}" data-costar title="Öncelikli">${icon("star")}</button>
-        <button class="icon-btn" data-coedit title="Düzenle">${icon("edit")}</button></div>
-      <div class="tags">${(c.tags || []).map((t) => `<span class="tag line">${esc(t)}</span>`).join("") || `<span class="small muted">Etiket yok</span>`}</div>
-      <div class="foot"><span class="src ${c.user_added ? "user" : feed ? "feed" : "manual"}">${c.user_added ? "senin eklediğin · " : ""}${esc(feed ? c.source + " feed" : "manuel takip")}</span>
-        ${c.url ? `<a class="small" href="${esc(c.url)}" target="_blank" rel="noopener" style="display:inline-flex;gap:4px;align-items:center">Kariyer ${icon("ext")}</a>` : ""}</div></div>`;
-  }).join("") || `<div class="muted">Bu filtrede şirket yok.</div>`;
+        <div style="flex:1;min-width:0"><b>${esc(n)}</b><span>${c.priority ? "Priority company" : "Explore"}${roles[n] ? ` · ${roles[n]} open roles` : ""}</span></div>
+        <button class="icon-btn star ${c.priority ? "on" : ""}" data-costar title="Priority">${icon("star")}</button>
+        <button class="icon-btn" data-coedit title="Edit">${icon("edit")}</button></div>
+      <div class="tags">${(c.tags || []).map((t) => `<span class="tag line">${esc(t)}</span>`).join("") || `<span class="small muted">No tags</span>`}</div>
+      <div class="foot"><span class="src ${c.user_added ? "user" : feed ? "feed" : "manual"}">${c.user_added ? "added by you · " : ""}${esc(feed ? c.source + " feed" : "manual import")}</span>
+        ${c.url ? `<a class="small" href="${esc(c.url)}" target="_blank" rel="noopener" style="display:inline-flex;gap:4px;align-items:center">Careers ${icon("ext")}</a>` : ""}</div></div>`;
+  }).join("") || `<div class="muted">No companies in this view.</div>`;
 }
 function detectATS(raw) {
   let url, m;
@@ -1054,32 +1116,32 @@ function companySheet(name) {
   const c = name ? APP.state.settings.companies[name] : { tier: "big", pay: "high", sponsor: "known", tags: [], priority: false, url: "" };
   const opt = (map, v) => Object.entries(map).map(([k, l]) => `<option value="${k}" ${k === v ? "selected" : ""}>${l}</option>`).join("");
   $("#co-sheet").innerHTML = `
-    <h2>${name ? esc(name) : "Şirket ekle"}</h2>
-    <p class="small muted" style="margin:0">${name ? "Etiketler, öncelik ve itibar bilgisi puanlamayı etkiler." : "Kariyer sayfası linkini yapıştır. Greenhouse, Lever, Ashby, SmartRecruiters ya da Workday ise ilanlar otomatik gelir."}</p>
+    <h2>${name ? esc(name) : "Add a company"}</h2>
+    <p class="small muted" style="margin:0">${name ? "Tags, priority and reputation feed into the scoring." : "Paste the careers page link. If it's on Greenhouse, Lever, Ashby, SmartRecruiters or Workday, jobs come in automatically."}</p>
     <div class="form">
-      ${name ? "" : `<label>Şirket adı<input class="field" id="co-name" placeholder="ör. Bolt"></label>`}
-      <label>Kariyer sayfası<input class="field" id="co-url" value="${esc(c.url || "")}" placeholder="https://jobs.lever.co/..."></label>
+      ${name ? "" : `<label>Company name<input class="field" id="co-name" placeholder="e.g. Bolt"></label>`}
+      <label>Careers page<input class="field" id="co-url" value="${esc(c.url || "")}" placeholder="https://jobs.lever.co/..."></label>
       <div id="co-detect"></div>
-      <label>Etiketler (persona)<div class="chips" id="co-tags"></div></label>
+      <label>Tags (persona)<div class="chips" id="co-tags"></div></label>
       <div class="row2">
-        <label>Seviye<select class="field" id="co-tier">${opt(SELECT_LABELS.tier, c.tier)}</select></label>
-        <label>Maaş itibarı<select class="field" id="co-pay">${opt({ top: "Piyasa üstü", high: "İyi", mid: "Orta" }, c.pay)}</select></label>
-        <label>Sponsorluk<select class="field" id="co-sponsor">${opt({ known: "Sponsor olur", sometimes: "Bazen", rare: "Nadiren" }, c.sponsor)}</select></label>
+        <label>Tier<select class="field" id="co-tier">${opt(SELECT_LABELS.tier, c.tier)}</select></label>
+        <label>Pay reputation<select class="field" id="co-pay">${opt({ top: "Above market", high: "Good", mid: "Mid-market" }, c.pay)}</select></label>
+        <label>Sponsorship<select class="field" id="co-sponsor">${opt({ known: "Sponsors", sometimes: "Sometimes", rare: "Rarely" }, c.sponsor)}</select></label>
       </div>
-      <label style="flex-direction:row;align-items:center;gap:10px"><span class="switch"><input type="checkbox" id="co-priority" ${c.priority ? "checked" : ""}><span></span></span> Öncelikli şirket</label>
-      ${name ? `<label style="flex-direction:row;align-items:center;gap:10px"><span class="switch"><input type="checkbox" id="co-hidden" ${c.hidden ? "checked" : ""}><span></span></span> Bu şirketi ve ilanlarını gizle</label>` : ""}
+      <label style="flex-direction:row;align-items:center;gap:10px"><span class="switch"><input type="checkbox" id="co-priority" ${c.priority ? "checked" : ""}><span></span></span> Priority company</label>
+      ${name ? `<label style="flex-direction:row;align-items:center;gap:10px"><span class="switch"><input type="checkbox" id="co-hidden" ${c.hidden ? "checked" : ""}><span></span></span> Hide this company and its jobs</label>` : ""}
     </div>
-    <div class="sheet-actions">${name && c.user_added ? `<button class="btn ghost" id="co-del" style="margin-right:auto;color:var(--rose)">${icon("trash")}Sil</button>` : ""}
-      <button class="btn" data-close="m-co">Vazgeç</button><button class="btn primary" id="co-save">${name ? "Kaydet" : "Ekle"}</button></div>`;
+    <div class="sheet-actions">${name && c.user_added ? `<button class="btn ghost" id="co-del" style="margin-right:auto;color:var(--rose)">${icon("trash")}Delete</button>` : ""}
+      <button class="btn" data-close="m-co">Cancel</button><button class="btn primary" id="co-save">${name ? "Save" : "Add"}</button></div>`;
   const tags = [...(c.tags || [])];
   const drawTags = () => {
     const sugg = [...new Set(Object.values(APP.state.settings.companies).flatMap((x) => x.tags || []))].filter((t) => !tags.includes(t)).slice(0, 12);
     $("#co-tags").innerHTML = tags.map((t) => `<span class="chip">${esc(t)}<button class="x" data-cotagrm="${esc(t)}">×</button></span>`).join("") +
-      `<input class="chip-add" id="co-tag-in" placeholder="+ etiket, Enter">` +
+      `<input class="chip-add" id="co-tag-in" placeholder="+ tag, Enter">` +
       (sugg.length ? `<div class="chips" style="width:100%;margin-top:4px">${sugg.map((t) => `<span class="chip" data-cotagadd="${esc(t)}" style="color:var(--muted)">+ ${esc(t)}</span>`).join("")}</div>` : "");
   };
   drawTags();
-  const showDetect = () => { const v = $("#co-url").value, d = detectATS(v); $("#co-detect").innerHTML = v ? (d ? `<div class="detect ok">${esc(d.ats)} kaynağı bulundu, ilanlar otomatik çekilebilir.</div>` : `<div class="detect no">Otomatik kaynak bulunamadı. Şirket manuel takip listesine eklenir.</div>`) : ""; };
+  const showDetect = () => { const v = $("#co-url").value, d = detectATS(v); $("#co-detect").innerHTML = v ? (d ? `<div class="detect ok">${esc(d.ats)} feed found. Jobs can come in automatically.</div>` : `<div class="detect no">No automatic feed found. The company goes on your manual watchlist.</div>`) : ""; };
   $("#co-url").oninput = showDetect; showDetect();
   $("#co-sheet").onclick = (e) => {
     const rm = e.target.closest("[data-cotagrm]"), add = e.target.closest("[data-cotagadd]");
@@ -1089,7 +1151,7 @@ function companySheet(name) {
   $("#co-sheet").onkeydown = (e) => { if (e.target.id === "co-tag-in" && e.key === "Enter" && e.target.value.trim()) { e.preventDefault(); tags.push(e.target.value.trim()); drawTags(); $("#co-tag-in").focus(); } };
   $("#co-save").onclick = async () => {
     const nm = name || $("#co-name").value.trim();
-    if (!nm) return toast("Şirket adı gerekli");
+    if (!nm) return toast("Company name is required");
     const url = $("#co-url").value.trim(), det = detectATS(url);
     const entry = { ...c, url, tags, tier: $("#co-tier").value, pay: $("#co-pay").value, sponsor: $("#co-sponsor").value, priority: $("#co-priority").checked, hidden: name ? $("#co-hidden").checked : false };
     if (!name) { entry.user_added = true; entry.source = det ? det.ats : "manual"; }
@@ -1097,21 +1159,21 @@ function companySheet(name) {
     $("#m-co").classList.remove("on"); commit();
     if (!name && det) {
       if (APP.server) {
-        toast("Kaynak kontrol ediliyor…");
-        const r = await post("/api/company", { name: nm, ...det, tier: entry.tier, pay: entry.pay, sponsor: entry.sponsor, tags, priority: entry.priority }).catch(() => ({ ok: false, error: "Sunucuya ulaşılamadı" }));
-        toast(r.ok ? `${nm} eklendi · ${r.open_roles} açık ilan. “İlanları güncelle” ile çekebilirsin.` : r.error);
+        toast("Checking the feed…");
+        const r = await post("/api/company", { name: nm, ...det, tier: entry.tier, pay: entry.pay, sponsor: entry.sponsor, tags, priority: entry.priority }).catch(() => ({ ok: false, error: "Can't reach the local server" }));
+        toast(r.ok ? `${nm} added · ${r.open_roles} open jobs. Press “Refresh jobs” to pull them in.` : r.error);
         if (!r.ok) { entry.source = "manual"; commit(); }
-      } else toast(`${nm} eklendi. İlanların otomatik gelmesi için yedeği Claude Code'a ver.`);
-    } else toast(name ? "Kaydedildi" : `${nm} izleme listene eklendi`);
+      } else toast(`${nm} added. Give your backup to Claude Code to pull its jobs in automatically.`);
+    } else toast(name ? "Saved" : `${nm} added to your watchlist`);
   };
-  if ($("#co-del")) $("#co-del").onclick = () => { if (confirm(`${name} silinsin mi?`)) { delete APP.state.settings.companies[name]; $("#m-co").classList.remove("on"); commit(); } };
+  if ($("#co-del")) $("#co-del").onclick = () => { if (confirm(`Delete ${name}?`)) { delete APP.state.settings.companies[name]; $("#m-co").classList.remove("on"); commit(); } };
   $("#m-co").classList.add("on");
 }
 
 // ---------------- scoring ----------------
 function prettyKey(k) {
   const [kind, ...rest] = k.split(":"), v = rest.join(":");
-  return kind === "t" ? `Başlıkta “${v}”` : `${W_KIND[kind] || kind}: ${v}`;
+  return kind === "t" ? `“${v}” in title` : `${W_KIND[kind] || kind}: ${v}`;
 }
 function selectOptions(f) {
   if (SELECT_LABELS[f]) return Object.entries(SELECT_LABELS[f]);
@@ -1125,21 +1187,21 @@ function condHTML(c, i) {
   const type = FIELDS[c.f].type;
   const val = type === "select"
     ? `<select class="field val" data-cv="${i}">${selectOptions(c.f).map(([v, l]) => `<option value="${esc(v)}" ${v === c.v ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>`
-    : `<input class="field val" data-cv="${i}" type="${type === "number" ? "number" : "text"}" ${type === "number" ? `step="${FIELDS[c.f].step}"` : ""} value="${esc(c.v)}" placeholder="değer">`;
+    : `<input class="field val" data-cv="${i}" type="${type === "number" ? "number" : "text"}" ${type === "number" ? `step="${FIELDS[c.f].step}"` : ""} value="${esc(c.v)}" placeholder="value">`;
   return `<div class="cond">
     <select class="field" data-cf="${i}">${Object.entries(FIELDS).map(([k, x]) => `<option value="${k}" ${k === c.f ? "selected" : ""}>${x.label}</option>`).join("")}</select>
     <select class="field" data-cop="${i}">${OPS[type].map(([k, l]) => `<option value="${k}" ${k === c.op ? "selected" : ""}>${l}</option>`).join("")}</select>
-    ${val}<button class="icon-btn" data-crm="${i}" title="Koşulu sil">${icon("x")}</button></div>`;
+    ${val}<button class="icon-btn" data-crm="${i}" title="Remove condition">${icon("x")}</button></div>`;
 }
 function renderRules() {
   $("#rules").innerHTML = APP.state.rules.map((r) => {
     const n = APP.rows.filter((x) => !x.d.filtered && ruleHits(r, x.j, x.d)).length;
     return `<div class="box rule ${r.on ? "" : "off"}" data-rule="${r.id}">
       <div class="rule-head"><label class="switch"><input type="checkbox" data-ron ${r.on ? "checked" : ""}><span></span></label>
-        <input class="name" data-rname value="${esc(r.name)}"><button class="icon-btn" data-rdel title="Kuralı sil">${icon("trash")}</button></div>
+        <input class="name" data-rname value="${esc(r.name)}"><button class="icon-btn" data-rdel title="Delete rule">${icon("trash")}</button></div>
       ${r.all.map((c, i) => condHTML(c, i)).join("")}
-      <div><button class="btn ghost sm" data-cadd>${icon("plus")}koşul ekle (VE)</button></div>
-      <div class="rule-foot"><span class="small muted">${n} ilan eşleşiyor</span>
+      <div><button class="btn ghost sm" data-cadd>${icon("plus")}add condition (AND)</button></div>
+      <div class="rule-foot"><span class="small muted">${n} jobs match${r.source === "test" ? " · from your test" : ""}</span>
         <div class="stepper"><button data-pts="-1">−</button><b class="${r.pts > 0 ? "pos" : r.pts < 0 ? "neg" : ""}">${signed(r.pts)}</b><button data-pts="1">+</button></div></div>
     </div>`;
   }).join("");
@@ -1151,44 +1213,45 @@ function renderWeights() {
   if (APP.wf === "auto") rows = rows.filter((r) => !(r.k in st.overrides));
   if (APP.wf === "manual") rows = rows.filter((r) => r.k in st.overrides);
   rows.sort((a, b) => Math.abs(b.eff) - Math.abs(a.eff));
-  $("#weights").innerHTML = rows.length ? `<div class="wrow small muted" style="border:0;padding-bottom:0"><span>Özellik</span><span class="auto">Öğrenilen</span><span>Geçerli puan</span><span></span></div>` +
+  $("#weights").innerHTML = rows.length ? `<div class="wrow small muted" style="border:0;padding-bottom:0"><span>Feature</span><span class="auto">Learned</span><span>Points</span><span></span></div>` +
     rows.map((r) => `<div class="wrow" data-wk="${esc(r.k)}">
-      <span class="lbl">${esc(prettyKey(r.k))}<span class="kind">${r.k in st.overrides ? "✎ manuel" : "otomatik"}</span></span>
+      <span class="lbl">${esc(prettyKey(r.k))}<span class="kind">${r.k in st.overrides ? "✎ manual" : "auto"}</span></span>
       <span class="auto">${r.auto != null ? signed(r.auto) : "–"}</span>
       <input class="field" type="number" step="0.5" value="${r.eff}" data-wset style="width:100%">
-      <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon-btn" data-wreset title="Öğrenilene dön">${icon("undo")}</button>` : ""}<button class="icon-btn" data-wdel title="Sil">${icon("trash")}</button></span></div>`).join("")
-    : `<div class="muted small" style="padding:12px 0">Henüz ağırlık yok. Kaydırdıkça burada oluşur, ya da yukarıdan elle ekle.</div>`;
-  $("#hidden-info").innerHTML = st.hidden.length ? `${st.hidden.length} silinmiş ağırlık öğrenilmiyor. <a href="#" id="unhide">Geri getir</a>` : "";
+      <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon-btn" data-wreset title="Back to learned value">${icon("undo")}</button>` : ""}<button class="icon-btn" data-wdel title="Delete">${icon("trash")}</button></span></div>`).join("")
+    : `<div class="muted small" style="padding:12px 0">No weights yet. They appear as you swipe, or add your own above.</div>`;
+  $("#hidden-info").innerHTML = st.hidden.length ? `${st.hidden.length} deleted weights are no longer learned. <a href="#" id="unhide">Restore</a>` : "";
   const kind = $("#w-kind").value;
-  const sug = kind === "t" ? [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-zçğıöşü]+/g) || []).filter((w) => w.length > 2)))]
+  const sug = kind === "t" ? [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-z]+/g) || []).filter((w) => w.length > 2)))]
     : selectOptions({ co: "company", cotag: "cotag", city: "city", tag: "tag", role: "role_type" }[kind]).map(([v]) => v);
   $("#w-suggest").innerHTML = sug.slice(0, 300).map((x) => `<option value="${esc(x)}">`).join("");
 }
 function renderLearnSummary() {
-  const m = APP.model;
+  const m = APP.model, t = APP.state.test;
   $("#learn-summary").innerHTML = `<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:center">
-    <div><div class="eyebrow">Beğeni</div><b style="font:800 26px var(--head)">${m.likes}</b></div>
-    <div><div class="eyebrow">Geçiş</div><b style="font:800 26px var(--head)">${m.dislikes}</b></div>
+    <div><div class="eyebrow">Shortlisted</div><b style="font:800 26px var(--head)">${m.likes}</b></div>
+    <div><div class="eyebrow">Passed</div><b style="font:800 26px var(--head)">${m.dislikes}</b></div>
+    ${t ? `<div><div class="eyebrow">Your type</div><b style="font:700 15px var(--head)">${esc(PERSONAS[t.persona].emoji + " " + PERSONAS[t.persona].name)}</b></div>` : ""}
     <div style="flex:1;min-width:240px">${Object.keys(m.rc).length ? `<div class="tags">${Object.entries(m.rc).sort((a, b) => b[1] - a[1]).map(([r, n]) => `<span class="tag gray">${esc(r)} × ${n}</span>`).join("")}</div>
-      <div class="small muted" style="margin-top:6px">Sebepler ilgili cezaları da büyütür (ör. “Çok operasyonel” seçtikçe operasyonel roller daha çok düşer).</div>` : `<span class="small muted">Her kararın tercihlerini biraz daha netleştirir.</span>`}</div></div>`;
+      <div class="small muted" style="margin-top:6px">Reasons also grow their matching penalties (e.g. the more you pick “Too operational”, the further operational roles drop).</div>` : `<span class="small muted">Every decision makes your preferences a little clearer.</span>`}</div></div>`;
 }
 
 // ---------------- settings ----------------
 function chipEditor(el, list, key, weighted) {
   const items = weighted ? Object.entries(list) : list.map((x) => [x]);
   el.innerHTML = items.map(([k, w]) => `<span class="chip">${esc(k.trim())}${weighted ? `<span class="w" data-wcycle="${esc(k)}">${w}</span>` : ""}<button class="x" data-chrm="${esc(k)}">×</button></span>`).join("")
-    + `<input class="chip-add" placeholder="+ ekle, Enter">`;
+    + `<input class="chip-add" placeholder="+ add, Enter">`;
   el.dataset.key = key; el.dataset.weighted = weighted ? "1" : "";
 }
 function renderSettings() {
   const s = APP.state.settings, fx = APP.data.config.cities.fx_to_eur;
   $("#s-try").value = s.istanbul_net_try;
-  $("#s-flex").value = s.flex_pct; $("#s-flex-val").textContent = "%" + s.flex_pct;
+  $("#s-flex").value = s.flex_pct; $("#s-flex-val").textContent = s.flex_pct + "%";
   const cityRow = (c, i, remote) => {
     const { target, min } = targetsFor(c), cur = CURRENCY[c.country];
     return `<div class="city" data-ci="${remote ? "remote" : i}">
       <label class="switch"><input type="checkbox" data-con ${c.on ? "checked" : ""}><span></span></label>
-      <span class="nm"><b>${esc(remote ? "Uzaktan (TR'den)" : c.name)}</b><span>${esc(remote ? "vize gerekmez" : c.country)}${cur ? ` · ≈ ${cur[1]}${Math.round(target / fx[cur[0]] / 1000)}k` : ""}</span></span>
+      <span class="nm"><b>${esc(remote ? "Remote (from TR)" : c.name)}</b><span>${esc(remote ? "no visa needed" : c.country)}${cur ? ` · ≈ ${cur[1]}${Math.round(target / fx[cur[0]] / 1000)}k` : ""}</span></span>
       <select class="field" data-cprio>${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option ${n === c.priority ? "selected" : ""}>${n}</option>`).join("")}</select>
       <input class="field" type="number" step="1000" data-ctarget value="${target}" style="width:100%">
       <span class="min">min ${eur(min)}</span></div>`;
@@ -1199,6 +1262,210 @@ function renderSettings() {
   chipEditor($("#s-hide"), s.hide_title_kw, "hide_title_kw");
   chipEditor($("#s-cv"), s.cv_keywords, "cv_keywords", true);
   chipEditor($("#s-gaps"), s.gap_keywords, "gap_keywords");
+}
+
+// ---------------- promo slider: self-discovery test + daily challenge ----------------
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const PROMO = { i: 0, timer: null, paused: false };
+function renderPromo() {
+  const t = APP.state.test, ch = APP.state.challenge, done = ch.last === today();
+  const html = `<div class="promo-track">
+      <div class="promo-card test ${PROMO.i === 0 ? "on" : ""}">
+        <svg class="i" style="color:var(--lav)"><use href="#i-sparkle"/></svg>
+        <div class="meta">${t ? `You're ${esc(PERSONAS[t.persona].name)}` : "2 minutes · 7 questions"}</div>
+        <h4>Take a quick test to discover yourself.</h4>
+        <p>Find the work style that fits you and tune your scoring with one click.</p>
+        <button class="btn sm primary" data-open="test">${t ? "Retake the test" : "Start the test"}</button>
+      </div>
+      <div class="promo-card challenge ${PROMO.i === 1 ? "on" : ""}">
+        <svg class="i" style="color:var(--mint)"><use href="#i-puzzle"/></svg>
+        <div class="meta">${ch.streak ? `🔥 ${ch.streak}-day streak` : "3 quick questions a day"}</div>
+        <h4>Accept today's challenge.</h4>
+        <p>${done ? `Done for today: ${ch.results[today()]}/3. New one tomorrow.` : "Marketing trivia, a word puzzle and a city question."}</p>
+        <button class="btn sm ${done ? "" : "primary"}" data-open="challenge">${done ? "See today's result" : "Play"}</button>
+      </div>
+    </div>
+    <div class="promo-dots"><button data-dot="0" class="${PROMO.i === 0 ? "on" : ""}" aria-label="Test"></button><button data-dot="1" class="${PROMO.i === 1 ? "on" : ""}" aria-label="Challenge"></button></div>`;
+  for (const el of document.querySelectorAll(".promo")) el.innerHTML = html;
+  $("#more-ping").hidden = done;
+}
+function promoGo(i) {
+  PROMO.i = i;
+  for (const el of document.querySelectorAll(".promo")) {
+    el.querySelectorAll(".promo-card").forEach((c, k) => c.classList.toggle("on", k === i));
+    el.querySelectorAll("[data-dot]").forEach((d, k) => d.classList.toggle("on", k === i));
+  }
+}
+function startPromo() {
+  clearInterval(PROMO.timer);
+  PROMO.timer = setInterval(() => { if (!PROMO.paused && !document.querySelector(".modal.on:not(#m-more)")) promoGo((PROMO.i + 1) % 2); }, 3000);
+  for (const el of document.querySelectorAll(".promo")) {
+    el.addEventListener("mouseenter", () => (PROMO.paused = true));
+    el.addEventListener("mouseleave", () => (PROMO.paused = false));
+  }
+}
+
+// ---- self-discovery test: answers become scoring rules the user can apply ----
+const PERSONAS = {
+  builder: { emoji: "🧭", name: "The Market Builder", text: "You light up when there's ground to win: new regions, new supply, both sides of a marketplace. You like owning a number and building the machine that moves it." },
+  strategist: { emoji: "♟️", name: "The Strategist", text: "You want to decide where to play before you play. Plans, priorities and clear trade-offs are your thing, and you like companies big enough to make them matter." },
+  scientist: { emoji: "🧪", name: "The Growth Scientist", text: "Funnels, experiments and numbers are your playground. You'd rather test a hunch than argue about it, and you like roles where results show up in the data." },
+  storyteller: { emoji: "🎙️", name: "The Brand Storyteller", text: "You care how a product lands in people's lives. Launches, positioning and the story behind the numbers are where you add the most." },
+};
+const R = (name, f, op, v, pts) => ({ name, all: [{ f, op, v }], pts });
+const TEST = [
+  { q: "What pace do you do your best work at?", opts: [
+    { t: "Fast and scrappy: build it while it flies", ax: "builder", rules: [R("Test: scale-ups", "tier", "is", "scaleup", 4)] },
+    { t: "Steady and structured, with room to plan", ax: "strategist", rules: [R("Test: top-tier companies", "tier", "is", "top", 4), R("Test: avoid long hours", "tag", "is", "Fast pace / long hours", -4)] },
+    { t: "A mix: momentum without chaos", ax: null, rules: [R("Test: less of the hustle", "tag", "is", "Fast pace / long hours", -2)] } ] },
+  { q: "Who do you want to build for?", opts: [
+    { t: "Consumers I can picture using it", ax: "storyteller", rules: [R("Test: consumer companies", "cotag", "is", "Consumer", 4)] },
+    { t: "Businesses with a clear ROI", ax: "strategist", rules: [R("Test: B2B companies", "cotag", "is", "B2B", 4)] },
+    { t: "Both sides of a marketplace", ax: "builder", rules: [R("Test: marketplaces", "tag", "is", "Marketplace", 5)] } ] },
+  { q: "Your ideal week looks like…", opts: [
+    { t: "Mostly in the office, with the team", ax: null, rules: [] },
+    { t: "Hybrid: a few days in, a few at home", ax: null, rules: [R("Test: not office-only", "workplace", "is", "Office", -3)] },
+    { t: "Mostly remote", ax: null, rules: [R("Test: remote roles", "workplace", "is", "Remote", 4), R("Test: no office-only", "workplace", "is", "Office", -5)] } ] },
+  { q: "Which part of the work lights you up?", opts: [
+    { t: "Deciding where to play and setting the plan", ax: "strategist", rules: [R("Test: strategic roles", "role_type", "is", "strategic", 4)] },
+    { t: "Experiments, funnels and numbers", ax: "scientist", rules: [R("Test: growth & experiments", "tag", "is", "Growth / Experiments", 4)] },
+    { t: "Launches, positioning and the story", ax: "storyteller", rules: [R("Test: product marketing", "title", "has", "product marketing", 4)] },
+    { t: "Opening new markets and growing supply", ax: "builder", rules: [R("Test: exactly my kind of role", "family", "is", "exact", 3)] } ] },
+  { q: "Where would you rather make your mark?", opts: [
+    { t: "A global giant with a famous name", ax: "strategist", rules: [R("Test: priority companies", "priority", "is", "yes", 4)] },
+    { t: "A big brand that's still hungry", ax: "storyteller", rules: [R("Test: big brands", "tier", "is", "big", 4)] },
+    { t: "A scale-up where I can shape things", ax: "builder", rules: [R("Test: scale-ups (shape things)", "tier", "is", "scaleup", 4)] } ] },
+  { q: "Which world pulls you most?", opts: [
+    { t: "Travel", ax: null, rules: [R("Test: travel", "cotag", "is", "Travel", 4)] },
+    { t: "Fintech", ax: null, rules: [R("Test: fintech", "cotag", "is", "Fintech", 4)] },
+    { t: "Food & delivery", ax: null, rules: [R("Test: food & delivery", "cotag", "is", "Food", 4)] },
+    { t: "SaaS & AI", ax: "scientist", rules: [R("Test: SaaS", "cotag", "is", "SaaS", 4)] },
+    { t: "Brands & FMCG", ax: "storyteller", rules: [R("Test: FMCG & brands", "cotag", "is", "FMCG", 4)] } ] },
+  { q: "Stretch roles or a strong fit?", opts: [
+    { t: "Give me the stretch", ax: null, rules: [R("Test: open to stretch roles", "years", "gte", 9, 4)] },
+    { t: "Roles I can nail from day one", ax: null, rules: [R("Test: strong CV fit", "cv", "gte", 4.5, 4), R("Test: experience I have", "years", "lte", 5, 3)] },
+    { t: "A bit of both", ax: null, rules: [] } ] },
+];
+const QUIZ = { kind: null, step: 0, answers: [], items: [], score: 0, picked: null };
+function openTest() { Object.assign(QUIZ, { kind: "test", step: 0, answers: [], picked: null }); renderTest(); $("#m-quiz").classList.add("on"); }
+function testResult() {
+  const ax = {};
+  QUIZ.answers.forEach((a, i) => { const o = TEST[i].opts[a]; if (o.ax) ax[o.ax] = (ax[o.ax] || 0) + (i === 3 ? 1.5 : 1); });
+  const persona = Object.entries(ax).sort((a, b) => b[1] - a[1])[0]?.[0] || "builder";
+  const rules = QUIZ.answers.flatMap((a, i) => TEST[i].opts[a].rules);
+  return { persona, rules };
+}
+function renderTest() {
+  const progress = `<div class="quiz-progress">${TEST.map((_, i) => `<i class="${i < QUIZ.step ? "done" : ""}"></i>`).join("")}</div>`;
+  const head = `<div class="sheet-head"><h2>Discover yourself</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
+  if (QUIZ.step < TEST.length) {
+    const q = TEST[QUIZ.step];
+    $("#quiz").innerHTML = `${head}${progress}
+      <div class="small muted">Question ${QUIZ.step + 1} of ${TEST.length}</div>
+      <p class="quiz-q">${esc(q.q)}</p>
+      <div class="opts">${q.opts.map((o, i) => `<button class="opt ${QUIZ.answers[QUIZ.step] === i ? "picked" : ""}" data-tpick="${i}"><span class="k">${"ABCDE"[i]}</span>${esc(o.t)}</button>`).join("")}</div>
+      <div class="sheet-actions">${QUIZ.step ? `<button class="btn ghost" data-tback style="margin-right:auto">Back</button>` : ""}</div>`;
+    return;
+  }
+  const { persona, rules } = testResult(), p = PERSONAS[persona];
+  $("#quiz").innerHTML = `${head}${progress}
+    <div class="persona"><div class="emoji">${p.emoji}</div><div class="eyebrow">You're</div><h3>${esc(p.name)}</h3><p class="muted" style="margin:0">${esc(p.text)}</p></div>
+    ${rules.length ? `<div class="small" style="margin-top:16px;font-weight:600">These rules will be added to your scoring</div>
+      <ul class="effects">${rules.map((r) => `<li><span>${esc(r.name.replace(/^Test: /, ""))}</span><b class="${r.pts > 0 ? "pos" : "neg"}">${signed(r.pts)}</b></li>`).join("")}</ul>
+      <div class="small muted" style="margin-top:8px">You can change or switch them off anytime in Scoring.</div>` : ""}
+    <div class="sheet-actions"><button class="btn ghost" data-tretake style="margin-right:auto">Retake</button><button class="btn" data-close="m-quiz">Not now</button><button class="btn primary" data-tapply>Apply to my scoring</button></div>`;
+}
+function applyTest() {
+  const { persona, rules } = testResult();
+  APP.state.rules = APP.state.rules.filter((r) => r.source !== "test").concat(rules.map((r) => ({ id: uid(), on: true, source: "test", ...structuredClone(r) })));
+  APP.state.test = { persona, answers: [...QUIZ.answers], at: new Date().toISOString() };
+  $("#m-quiz").classList.remove("on");
+  toast(`${PERSONAS[persona].name}: ${rules.length} rules added to your scoring`);
+  commit(); renderPromo();
+}
+
+// ---- daily challenge: same three questions for everyone on a given day ----
+const TRIVIA = [
+  { q: "What does CAC stand for?", o: ["Customer Acquisition Cost", "Cost After Conversion", "Campaign Audience Coverage", "Customer Average Contribution"], why: "The total cost of winning one new customer." },
+  { q: "ROAS is calculated as…", o: ["Revenue from ads ÷ ad spend", "Ad spend ÷ revenue", "Profit ÷ customers", "Clicks ÷ impressions"], why: "Return on ad spend: how much revenue each unit of ad spend brings back." },
+  { q: "The “pirate metrics” framework is…", o: ["AARRR", "SMART", "RACE", "AIDA"], why: "Acquisition, Activation, Retention, Referral, Revenue. Coined by Dave McClure." },
+  { q: "Net Promoter Score can range from…", o: ["-100 to 100", "0 to 10", "0 to 100", "1 to 5"], why: "% promoters minus % detractors, so it can go negative." },
+  { q: "A common rule of thumb for a healthy LTV:CAC ratio is…", o: ["3:1", "1:1", "1:3", "10:1"], why: "Lifetime value about three times the cost to acquire a customer." },
+  { q: "The “chicken-and-egg problem” in marketplaces means…", o: ["You need supply to attract demand, and demand to attract supply", "Prices rise faster than costs", "Customers churn after one order", "Ads stop working at scale"], why: "Neither side shows up until the other one is there." },
+  { q: "What does GTM stand for?", o: ["Go-to-market", "Growth tracking model", "Gross target margin", "Global trade marketing"], why: "The plan for bringing a product to its customers." },
+  { q: "Churn rate measures…", o: ["The share of customers lost in a period", "New customers per month", "Average order value", "Ad click-through rate"], why: "Lost customers ÷ customers at the start of the period." },
+  { q: "In an A/B test, the “control” is…", o: ["The version without the change", "The winning version", "The newest version", "The version with the most traffic"], why: "The baseline you compare the change against." },
+  { q: "What is the capital of New Zealand?", o: ["Wellington", "Auckland", "Christchurch", "Queenstown"], why: "Auckland is the largest city; Wellington is the capital." },
+  { q: "Aotearoa is the Māori name for…", o: ["New Zealand", "Australia", "Hawaii", "Tasmania"], why: "Often translated as “land of the long white cloud”." },
+  { q: "Which river runs through Dublin?", o: ["Liffey", "Shannon", "Thames", "Danube"], why: "The Liffey splits Dublin into north and south side." },
+  { q: "Lisbon's famous vintage tram line is number…", o: ["28", "12", "5", "101"], why: "Tram 28 winds through Alfama, Baixa and Graça." },
+  { q: "Munich's Oktoberfest usually starts in…", o: ["September", "October", "August", "November"], why: "It opens in late September and ends in early October." },
+  { q: "Barcelona's Sagrada Família was designed by…", o: ["Antoni Gaudí", "Le Corbusier", "Santiago Calatrava", "Frank Gehry"], why: "Construction began in 1882 and is still going." },
+  { q: "London's first Underground line opened in…", o: ["1863", "1901", "1825", "1923"], why: "The Metropolitan Railway, the world's first underground line." },
+  { q: "Which currency does Denmark use?", o: ["Danish krone", "Euro", "Swedish krona", "Danish mark"], why: "Denmark is in the EU but kept its own currency." },
+  { q: "Vienna sits on which river?", o: ["Danube", "Rhine", "Elbe", "Vltava"], why: "The Danube flows through Vienna on its way to the Black Sea." },
+];
+const WORDS = [["FUNNEL", "Where leads become customers"], ["CHURN", "Customers who leave"], ["PRICING", "What you charge, and how"], ["LAUNCH", "Day one of a product"],
+  ["RETENTION", "Keeping the customers you won"], ["MARKETPLACE", "Two sides, one platform"], ["GROWTH", "Up and to the right"], ["BRAND", "What people say when you're not in the room"],
+  ["PIVOT", "A change of direction"], ["UPSELL", "Selling more to the same customer"], ["AUCKLAND", "The City of Sails"], ["VIENNA", "Coffee houses and waltzes"], ["SPONSOR", "What your visa needs"], ["OFFER", "The email you're waiting for"]];
+function seeded(seed) { let a = [...seed].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 2654435761) >>> 0, 1779033703); return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function shuffle(arr, rnd) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const k = Math.floor(rnd() * (i + 1)); [a[i], a[k]] = [a[k], a[i]]; } return a; }
+function todaysChallenge() {
+  const rnd = seeded("jobness-" + today());
+  const marketing = shuffle(TRIVIA.slice(0, 9), rnd)[0], place = shuffle(TRIVIA.slice(9), rnd)[0];
+  const [word, hint] = shuffle(WORDS, rnd)[0];
+  let letters = shuffle([...word], rnd);
+  if (letters.join("") === word) letters = letters.reverse();
+  const mc = (t) => { const order = shuffle(t.o.map((_, i) => i), rnd); return { type: "mc", q: t.q, o: order.map((i) => t.o[i]), a: order.indexOf(0), why: t.why }; };
+  return [mc(marketing), { type: "word", q: "Unscramble the word", hint, letters, a: word }, mc(place)];
+}
+function openChallenge() {
+  Object.assign(QUIZ, { kind: "challenge", step: 0, items: todaysChallenge(), score: 0, picked: null });
+  if (APP.state.challenge.last === today()) QUIZ.step = 3;
+  renderChallenge(); $("#m-quiz").classList.add("on");
+}
+function renderChallenge() {
+  const ch = APP.state.challenge, items = QUIZ.items;
+  const progress = `<div class="quiz-progress">${items.map((_, i) => `<i class="${i < QUIZ.step || (i === QUIZ.step && QUIZ.picked != null) ? "done" : ""}"></i>`).join("")}</div>`;
+  const head = `<div class="sheet-head"><h2>Today's challenge</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
+  if (QUIZ.step >= items.length) {
+    const s = ch.results[today()] ?? QUIZ.score;
+    $("#quiz").innerHTML = `${head}${progress}<div class="scoreboard"><b>${s}/3</b><div class="muted">${s === 3 ? "Perfect. The jungle is yours." : s === 2 ? "Nicely done." : "Tomorrow's another round."}</div>
+      <div style="margin-top:14px" class="tags" ><span class="tag green">🔥 ${ch.streak}-day streak</span><span class="tag gray">Best: ${ch.best} ${ch.best === 1 ? "day" : "days"}</span></div></div>
+      <div class="sheet-actions"><button class="btn primary" data-close="m-quiz">See you tomorrow</button></div>`;
+    return;
+  }
+  const it = items[QUIZ.step], answered = QUIZ.picked != null;
+  let body;
+  if (it.type === "mc") {
+    body = `<p class="quiz-q">${esc(it.q)}</p><div class="opts">${it.o.map((o, i) => {
+      const cls = answered ? (i === it.a ? "right" : i === QUIZ.picked ? "wrong" : "") : "";
+      return `<button class="opt ${cls}" data-cpick="${i}" ${answered ? "disabled" : ""}><span class="k">${"ABCD"[i]}</span>${esc(o)}</button>`;
+    }).join("")}</div>${answered ? `<div class="why">${esc(it.why)}</div>` : ""}`;
+  } else {
+    const ok = answered && QUIZ.picked === it.a;
+    body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 12px">Hint: ${esc(it.hint)}</div>
+      <div class="letters">${it.letters.map((l) => `<span>${l}</span>`).join("")}</div>
+      <div style="display:flex;gap:8px"><input class="field" id="word-in" style="flex:1;text-transform:uppercase" placeholder="Your answer" ${answered ? "disabled" : ""} value="${answered ? esc(QUIZ.picked) : ""}" autocomplete="off">
+      ${answered ? "" : `<button class="btn primary" data-wordcheck>Check</button>`}</div>
+      ${answered ? `<div class="why">${ok ? "Correct!" : `The word was <b>${it.a}</b>.`}</div>` : ""}`;
+  }
+  $("#quiz").innerHTML = `${head}${progress}<div class="small muted">Question ${QUIZ.step + 1} of 3</div>${body}
+    <div class="sheet-actions">${answered ? `<button class="btn primary" data-cnext>${QUIZ.step === 2 ? "See my score" : "Next"}</button>` : ""}</div>`;
+  if (it.type === "word" && !answered) setTimeout(() => $("#word-in")?.focus(), 30);
+}
+function answerChallenge(val) {
+  const it = QUIZ.items[QUIZ.step];
+  QUIZ.picked = val;
+  if (it.type === "mc" ? val === it.a : val === it.a) QUIZ.score++;
+  renderChallenge();
+}
+function finishChallenge() {
+  const ch = APP.state.challenge, t = today();
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yesterday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, "0")}-${String(y.getDate()).padStart(2, "0")}`;
+  if (ch.last !== t) { ch.streak = ch.last === yesterday ? ch.streak + 1 : 1; ch.best = Math.max(ch.best, ch.streak); ch.last = t; ch.results[t] = QUIZ.score; save(); }
+  renderPromo();
 }
 
 // ---------------- render ----------------
@@ -1235,19 +1502,29 @@ document.addEventListener("click", (e) => {
   if (ds.v) return showView(ds.v);
   if (ds.r) return a.classList.toggle("on");
   if (ds.close) return $("#" + ds.close).classList.remove("on");
+  if (ds.open === "test") { $("#m-more").classList.remove("on"); return openTest(); }
+  if (ds.open === "challenge") { $("#m-more").classList.remove("on"); return openChallenge(); }
+  if (ds.dot != null) { promoGo(+ds.dot); return; }
+  if (ds.tpick != null) { QUIZ.answers[QUIZ.step] = +ds.tpick; QUIZ.step++; return renderTest(); }
+  if ("tback" in ds) { QUIZ.step--; return renderTest(); }
+  if ("tretake" in ds) { QUIZ.step = 0; QUIZ.answers = []; return renderTest(); }
+  if ("tapply" in ds) return applyTest();
+  if (ds.cpick != null) return answerChallenge(+ds.cpick);
+  if ("wordcheck" in ds) { const v = $("#word-in").value.trim().toUpperCase(); if (v) answerChallenge(v); return; }
+  if ("cnext" in ds) { QUIZ.step++; QUIZ.picked = null; if (QUIZ.step >= 3) finishChallenge(); return renderChallenge(); }
   if (ds.detail) return openDetail(ds.detail);
   if (ds.act === "like") return like();
   if (ds.act === "nope") return askReason();
   if (ds.act === "later") return go(1);
   if (ds.ftoggle) { APP.filters[ds.ftoggle] = !APP.filters[ds.ftoggle]; a.classList.toggle("on"); buildOrder(); return renderStack(); }
-  if (a.id === "do-reorder") { e.preventDefault(); buildOrder(); renderStack(); return toast("Sıralama güncellendi"); }
-  if (ds.pack) { APP.state.decisions[ds.pack].status = "Paket istendi"; toast(APP.server ? "Sıraya alındı. Claude Code'a “paketleri hazırla” yaz." : "İşaretlendi. Yedeği indirip Claude Code'a ver."); return commit(); }
+  if (a.id === "do-reorder") { e.preventDefault(); buildOrder(); renderStack(); return toast("Order updated"); }
+  if (ds.pack) { APP.state.decisions[ds.pack].status = "Pack requested"; toast(APP.server ? "Queued. Type “paketleri hazırla” in Claude Code." : "Marked. Download your backup and give it to Claude Code."); return commit(); }
   if (ds.unrej) { delete APP.state.decisions[ds.unrej]; return commit(); }
-  if (ds.rescue) { APP.state.decisions[ds.rescue] = { id: ds.rescue, decision: "like", reasons: [], status: "Kaydedildi", at: new Date().toISOString() }; toast("Kısa listeye alındı"); return commit(); }
+  if (ds.rescue) { APP.state.decisions[ds.rescue] = { id: ds.rescue, decision: "like", reasons: [], status: "Saved", at: new Date().toISOString() }; toast("Added to your shortlist"); return commit(); }
   if ("costar" in ds) { const c = APP.state.settings.companies[a.closest("[data-co]").dataset.co]; c.priority = !c.priority; return commit(); }
   if ("coedit" in ds) return companySheet(a.closest("[data-co]").dataset.co);
   if (ds.cof) { APP.cof = ds.cof; document.querySelectorAll("#co-filter button").forEach((b) => b.classList.toggle("on", b === a)); return renderCompanies(); }
-  if ("rdel" in ds) { const r = ruleOf(a); if (confirm(`“${r.name}” kuralı silinsin mi?`)) { APP.state.rules = APP.state.rules.filter((x) => x !== r); commit(); } return; }
+  if ("rdel" in ds) { const r = ruleOf(a); if (confirm(`Delete the rule “${r.name}”?`)) { APP.state.rules = APP.state.rules.filter((x) => x !== r); commit(); } return; }
   if ("cadd" in ds) { ruleOf(a).all.push({ f: "title", op: "has", v: "" }); return commit(); }
   if (ds.crm != null) { ruleOf(a).all.splice(+ds.crm, 1); return commit(); }
   if (ds.pts) { const r = ruleOf(a); r.pts = clamp(r.pts + +ds.pts, -30, 30); return commit(); }
@@ -1265,9 +1542,9 @@ document.addEventListener("change", (e) => {
   if (t.id === "f-city") { APP.filters.city = t.value; buildOrder(); return renderStack(); }
   if (t.id === "f-tag") { APP.filters.tag = t.value; buildOrder(); return renderStack(); }
   if (t.id === "f-min") { APP.filters.min = +t.value; buildOrder(); return renderStack(); }
-  if (ds.status) { APP.state.decisions[ds.status].status = t.value; toast("Durum güncellendi"); return commit(); }
+  if (ds.status) { APP.state.decisions[ds.status].status = t.value; toast("Status updated"); return commit(); }
   if ("ron" in ds) { ruleOf(t).on = t.checked; return commit(); }
-  if ("rname" in ds) { ruleOf(t).name = t.value.trim() || "Adsız kural"; return commit(); }
+  if ("rname" in ds) { ruleOf(t).name = t.value.trim() || "Untitled rule"; return commit(); }
   if (ds.cf != null) { const c = ruleOf(t).all[+ds.cf], type = FIELDS[t.value].type; c.f = t.value; c.op = OPS[type][0][0]; c.v = type === "select" ? selectOptions(t.value)[0]?.[0] ?? "" : ""; return commit(); }
   if (ds.cop != null) { ruleOf(t).all[+ds.cop].op = t.value; return commit(); }
   if (ds.cv != null) { const c = ruleOf(t).all[+ds.cv]; c.v = FIELDS[c.f].type === "number" ? (t.value === "" ? "" : +t.value) : t.value; return commit(); }
@@ -1285,11 +1562,12 @@ document.addEventListener("change", (e) => {
 });
 let qTimer;
 document.addEventListener("input", (e) => {
-  if (e.target.id === "s-flex") $("#s-flex-val").textContent = "%" + e.target.value;
+  if (e.target.id === "s-flex") $("#s-flex-val").textContent = e.target.value + "%";
   if (e.target.id === "f-q") { clearTimeout(qTimer); qTimer = setTimeout(() => { APP.filters.q = e.target.value; buildOrder(); renderStack(); }, 200); }
 });
 document.addEventListener("keydown", (e) => {
   const t = e.target;
+  if (t.id === "word-in" && e.key === "Enter" && t.value.trim()) return answerChallenge(t.value.trim().toUpperCase());
   if (t.classList.contains("chip-add") && t.closest("[data-key]") && e.key === "Enter" && t.value.trim()) {
     const el = t.closest("[data-key]"), key = el.dataset.key, s = APP.state.settings, v = t.value.trim().toLowerCase();
     if (el.dataset.weighted) s[key][v] = s[key][v] ?? 1; else if (!s[key].includes(v)) s[key].push(v);
@@ -1315,45 +1593,45 @@ $("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingR
 $("#b-prev").onclick = () => go(-1);
 $("#b-next").onclick = () => go(1);
 $("#b-undo").onclick = undo;
-$("#add-rule").onclick = () => { APP.state.rules.unshift({ id: uid(), on: true, name: "Yeni kural", all: [{ f: "title", op: "has", v: "" }], pts: 3 }); commit(); };
+$("#add-rule").onclick = () => { APP.state.rules.unshift({ id: uid(), on: true, name: "New rule", all: [{ f: "title", op: "has", v: "" }], pts: 3 }); commit(); };
 $("#add-co").onclick = () => companySheet(null);
 $("#w-kind").onchange = renderWeights;
 $("#w-add").onclick = () => {
   const kind = $("#w-kind").value, v = $("#w-val").value.trim(), pts = +$("#w-pts").value;
-  if (!v) return toast("Bir değer yaz");
+  if (!v) return toast("Type a value first");
   const k = `${kind}:${kind === "t" ? v.toLowerCase() : v}`;
   APP.state.overrides[k] = pts; APP.state.hidden = APP.state.hidden.filter((x) => x !== k);
   $("#w-val").value = ""; toast(`${prettyKey(k)} → ${signed(pts)}`); commit();
 };
 $("#dl-state").onclick = () => {
   const blob = new Blob([JSON.stringify(APP.state, null, 2)], { type: "application/json" });
-  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `jobness-yedek-${new Date().toISOString().slice(0, 10)}.json` });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `jobness-backup-${today()}.json` });
   a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
 $("#ul-state").onchange = async (e) => {
   const file = e.target.files[0]; if (!file) return;
-  try { APP.state = hydrate(JSON.parse(await file.text())); commit(); toast("Yedek yüklendi"); } catch { toast("Dosya okunamadı"); }
+  try { APP.state = hydrate(JSON.parse(await file.text())); commit(); renderPromo(); toast("Backup loaded"); } catch { toast("Couldn't read that file"); }
 };
-$("#reset-settings").onclick = () => { if (confirm("Ayarlar varsayılana dönsün mü? Kararların, kuralların ve eklediğin şirketler kalır.")) {
+$("#reset-settings").onclick = () => { if (confirm("Reset settings to default? Your decisions, rules and added companies stay.")) {
   const mine = Object.fromEntries(Object.entries(APP.state.settings.companies).filter(([, c]) => c.user_added));
   APP.state.settings = null; APP.state = hydrate(APP.state); Object.assign(APP.state.settings.companies, mine); commit(); } };
 $("#a-save").onclick = async () => {
   const b = { company: $("#a-company").value.trim(), title: $("#a-title").value.trim(), location: $("#a-loc").value.trim(), url: $("#a-url").value.trim(), description: $("#a-desc").value };
-  if (!b.company || !b.title) return toast("Şirket ve pozisyon gerekli");
+  if (!b.company || !b.title) return toast("Company and role are required");
   const r = await post("/api/manual", b);
   $("#m-add").classList.remove("on"); document.querySelectorAll("#m-add input, #m-add textarea").forEach((i) => (i.value = ""));
-  toast(r.location_matched ? "Eklendi" : "Eklendi (lokasyon şehir listende yok)"); await loadData(); refresh();
+  toast(r.location_matched ? "Added" : "Added (location isn't on your city list)"); await loadData(); refresh();
 };
 $("#fetch-btn").onclick = async () => {
-  if (!APP.server) { window.open(`https://github.com/${REPO}/actions/workflows/update.yml`, "_blank", "noopener"); return toast("“Run workflow”a bas; birkaç dakika sonra sayfayı yenile"); }
+  if (!APP.server) { window.open(`https://github.com/${REPO}/actions/workflows/update.yml`, "_blank", "noopener"); return toast("Press “Run workflow”, then reload in a few minutes"); }
   await post("/api/fetch", {}); pollFetch(true);
 };
 async function pollFetch(started) {
   const f = await fetch("/api/fetch").then((r) => r.json());
   $("#fetch-btn").disabled = f.running;
-  $("#fetch-btn span").textContent = f.running ? `Çekiliyor… ${f.log.at(-1) || ""}` : "İlanları güncelle";
+  $("#fetch-btn span").textContent = f.running ? `Fetching… ${f.log.at(-1) || ""}` : "Refresh jobs";
   if (f.running) setTimeout(() => pollFetch(true), 2000);
-  else if (started) { toast(f.log.at(-1) || "Bitti"); await loadData(); refresh(); }
+  else if (started) { toast(f.log.at(-1) || "Done"); await loadData(); refresh(); }
 }
 window.addEventListener("resize", () => renderStack());
 
@@ -1365,7 +1643,7 @@ async function loadData() {
   if (!APP.server) APP.data = await fetch("data/static.json", { cache: "no-cache" }).then((r) => r.json());
   if (APP.server) APP.packs = await fetch("/api/packs").then((r) => r.json()).catch(() => ({}));
   const m = APP.data.meta;
-  $("#fetch-info").innerHTML = m.last_fetch ? `<span class="status-dot"></span>Güncellendi: ${ago(m.last_fetch)} · ${m.count} ilan` : "";
+  $("#fetch-info").innerHTML = m.last_fetch ? `<span class="status-dot"></span>Updated ${ago(m.last_fetch)} · ${m.count} jobs` : "";
 }
 (async function boot() {
   await loadData();
@@ -1376,7 +1654,7 @@ async function loadData() {
   }
   if (!saved) { try { const old = JSON.parse(localStorage.getItem("radar.decisions")); if (old) saved = { decisions: old }; } catch {} }
   APP.state = hydrate(saved);
-  save(); bindStack(); refresh();
+  save(); bindStack(); refresh(); renderPromo(); startPromo();
   if (APP.server) pollFetch(false);
 })();
 </script>

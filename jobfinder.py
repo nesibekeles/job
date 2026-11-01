@@ -95,7 +95,7 @@ class Matcher:
         if best:
             return {"city": best["name"], "priority": best["priority"], "remote": False}
         if self.remote.get("enabled") and any(p in text for p in self.remote.get("patterns", [])):
-            return {"city": "Remote (TR'den)", "priority": self.remote.get("priority", 6), "remote": True}
+            return {"city": "Remote (from TR)", "priority": self.remote.get("priority", 6), "remote": True}
         return None
 
 
@@ -273,14 +273,14 @@ STRATEGIC = ["strategy", "strategic", "own ", "ownership", "lead ", "roadmap", "
              "positioning", "launch", "experiment", "insight", "pricing", "forecast", "budget", "vision",
              "prioriti", "define", "shape", "drive "]
 TAG_RULES = [
-    ("green", "B2C / Tüketici", r"\bb2c\b|consumer|millions of (users|customers|people)"),
+    ("green", "B2C / Consumer", r"\bb2c\b|consumer|millions of (users|customers|people)"),
     ("green", "Marketplace", r"marketplace|two-sided"),
-    ("green", "Genç & sosyal kitle", r"gen ?z|young audience|creator|tiktok|instagram|social[- ]first|community-led"),
+    ("green", "Young & social audience", r"gen ?z|young audience|creator|tiktok|instagram|social[- ]first|community-led"),
     ("green", "Work-life balance", r"work[- ]life balance|flexible (working|hours)|4[- ]day week|wellbeing"),
-    ("green", "AI odaklı", r"\bai\b|generative|llm|machine learning"),
-    ("green", "Growth / Deney", r"experimentation|a/b test|growth loop|funnel optimi"),
-    ("red", "Hızlı tempo / uzun saat", r"fast[- ]paced|high[- ]pressure|long hours|weekends|hustle|intense|demanding environment"),
-    ("yellow", "Seyahat", r"travel(ling)? (up to )?\d+ ?%|frequent travel|extensive travel"),
+    ("green", "AI-focused", r"\bai\b|generative|llm|machine learning"),
+    ("green", "Growth / Experiments", r"experimentation|a/b test|growth loop|funnel optimi"),
+    ("red", "Fast pace / long hours", r"fast[- ]paced|high[- ]pressure|long hours|weekends|hustle|intense|demanding environment"),
+    ("yellow", "Travel", r"travel(ling)? (up to )?\d+ ?%|frequent travel|extensive travel"),
 ]
 
 
@@ -351,11 +351,11 @@ def analyze(j, profile, cities, company, matcher):
 
     wp = (j.get("workplace") or "").lower()
     if re.search(r"fully remote|remote[- ]first|100% remote", text) or "remote" in wp or loc["remote"]:
-        workplace = "Uzaktan"
+        workplace = "Remote"
     elif "hybrid" in wp or "hybrid" in text:
-        workplace = "Hibrit"
+        workplace = "Hybrid"
     elif re.search(r"office[- ]based|on[- ]?site|in[- ]office|five days a week in|5 days (a|per) week in", text) or "onsite" in wp:
-        workplace = "Ofis"
+        workplace = "Office"
     else:
         workplace = "?"
     m = re.search(r"\b(\d|two|three|four|five)\s+days\s+(a|per)\s+week\s+(in|at|from)\s+(the|our)?\s*office", text)
@@ -365,7 +365,7 @@ def analyze(j, profile, cities, company, matcher):
 
     op = sum(text.count(w) for w in OPERATIONAL)
     st = sum(text.count(w) for w in STRATEGIC)
-    role_type = "operasyonel" if op >= 5 and op > st * 0.8 else ("stratejik" if st >= 2 * max(op, 1) else "karma")
+    role_type = "operational" if op >= 5 and op > st * 0.8 else ("strategic" if st >= 2 * max(op, 1) else "mixed")
 
     t = j["title"].lower()
     seniority = ("junior" if re.search(r"junior|associate|coordinator|assistant|entry|specialist i\b", t)
@@ -383,42 +383,42 @@ def analyze(j, profile, cities, company, matcher):
 
     tags = []
     if sponsorship == "yes":
-        tags.append(("green", "Sponsorluk / relocation ✓"))
+        tags.append(("green", "Sponsorship / relocation ✓"))
     elif sponsorship == "unknown" and not loc["remote"]:
-        tags.append(("yellow", "Sponsorluk belirsiz"))
+        tags.append(("yellow", "Sponsorship unclear"))
     for lang in lang_req:
-        tags.append(("red", f"{lang} şart"))
+        tags.append(("red", f"{lang} required"))
     for lang in lang_plus:
-        tags.append(("yellow", f"{lang} artı"))
+        tags.append(("yellow", f"{lang} a plus"))
     if "turkish" in text:
-        tags.append(("green", "Türkçe artı"))
-    if workplace == "Ofis" or (office_days or 0) >= 4:
-        tags.append(("red", "Ofis ağırlıklı"))
-    elif workplace in ("Hibrit", "Uzaktan"):
+        tags.append(("green", "Turkish a plus"))
+    if workplace == "Office" or (office_days or 0) >= 4:
+        tags.append(("red", "Office-heavy"))
+    elif workplace in ("Hybrid", "Remote"):
         tags.append(("green", workplace))
-    if role_type == "operasyonel":
-        tags.append(("red", "Operasyonel ağırlık"))
-    elif role_type == "stratejik":
-        tags.append(("green", "Stratejik rol"))
+    if role_type == "operational":
+        tags.append(("red", "Operational focus"))
+    elif role_type == "strategic":
+        tags.append(("green", "Strategic role"))
     if seniority == "junior":
-        tags.append(("red", "Junior seviye"))
+        tags.append(("red", "Junior level"))
     if years and years > profile.get("max_years_ok", 8):
-        tags.append(("red", f"{years}+ yıl istiyor"))
+        tags.append(("red", f"Asks {years}+ yrs"))
     for color, label, pat in TAG_RULES:
         if re.search(pat, text):
             tags.append((color, label))
 
     filtered = None
     if sponsorship == "no" and not loc["remote"]:
-        filtered = "Sponsorluk yok / çalışma izni şart"
+        filtered = "No sponsorship / work permit required"
     elif lang_req:
-        filtered = "Dil şartı: " + ", ".join(lang_req)
+        filtered = "Language required: " + ", ".join(lang_req)
     elif sal and city.get("gross_min_eur") and sal["max_eur"] < city["gross_min_eur"]:
-        filtered = f"Maaş düşük (€{sal['max_eur']:,} < min €{city['gross_min_eur']:,})"
+        filtered = f"Salary too low (€{sal['max_eur']:,} < min €{city['gross_min_eur']:,})"
 
     if sal and city.get("gross_target_eur"):
         tags.append(("green" if sal["max_eur"] >= city["gross_target_eur"] else "yellow",
-                     "Maaş hedefte" if sal["max_eur"] >= city["gross_target_eur"] else "Maaş hedef altı"))
+                     "Salary on target" if sal["max_eur"] >= city["gross_target_eur"] else "Salary below target"))
 
     return {
         "city": loc["city"], "city_priority": loc["priority"], "remote": loc["remote"],
@@ -490,12 +490,12 @@ def fetch_all(progress=print, only=None):
             c = futs[fu]
             try:
                 raw += fu.result()[1]
-                progress(f"{c['name']}: {len(fu.result()[1])} uygun ilan")
+                progress(f"{c['name']}: {len(fu.result()[1])} matching jobs")
             except Exception as e:
                 errors[c["name"]] = str(e)[:120]
                 # a failed board keeps its previous jobs instead of wiping them
                 raw += [j for j in old.values() if j["company"] == c["name"] and not j.get("manual")]
-                progress(f"{c['name']}: HATA {str(e)[:80]} (eski ilanlar korunuyor)")
+                progress(f"{c['name']}: ERROR {str(e)[:80]} (keeping previous jobs)")
     fetched = {c["name"] for c in companies["companies"]}
     raw += [j for j in old.values() if j["company"] not in fetched and not j.get("manual")]
     raw += load_json(DATA / "manual_jobs.json", [])
@@ -515,7 +515,7 @@ def fetch_all(progress=print, only=None):
     save_json(DATA / "jobs.json", jobs)
     meta = {"last_fetch": now, "errors": errors, "count": len(jobs)}
     save_json(DATA / "meta.json", meta)
-    progress(f"Bitti: {len(jobs)} ilan, {len(errors)} hata")
+    progress(f"Done: {len(jobs)} jobs, {len(errors)} errors")
     return meta
 
 
@@ -526,7 +526,7 @@ def rescore():
     return len(jobs)
 
 
-STATUSES = ["Kaydedildi", "Paket istendi", "Paket hazır", "Başvuruldu", "Mülakat", "Teklif", "Red"]
+STATUSES = ["Saved", "Pack requested", "Pack ready", "Applied", "Interview", "Offer", "Rejected"]
 
 
 def app_data():
@@ -546,6 +546,6 @@ if __name__ == "__main__":
     if cmd == "fetch":
         fetch_all(only=sys.argv[2:] or None)
     elif cmd == "rescore":
-        print(rescore(), "ilan yeniden puanlandı")
+        print(rescore(), "jobs rescored")
     elif cmd == "export":
         export_static(sys.argv[2])

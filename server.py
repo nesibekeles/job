@@ -33,7 +33,7 @@ def run_fetch():
     try:
         jf.fetch_all(progress=lambda m: FETCH["log"].append(m))
     except Exception as e:
-        FETCH["log"].append(f"HATA: {e}")
+        FETCH["log"].append(f"ERROR: {e}")
     finally:
         FETCH["running"] = False
 
@@ -57,11 +57,11 @@ FEED_TEST = {
 def add_company(b):
     """Adds a company with a readable job feed to config/companies.json so the next fetch includes it."""
     if b.get("ats") not in FEED_TEST:
-        return {"ok": False, "error": "Otomatik ilan kaynağı bulunamadı"}, 400
+        return {"ok": False, "error": "No automatic job feed found"}, 400
     try:
         n = FEED_TEST[b["ats"]](b)
     except Exception as e:
-        return {"ok": False, "error": f"Kaynak okunamadı: {str(e)[:80]}"}, 400
+        return {"ok": False, "error": f"Could not read the feed: {str(e)[:80]}"}, 400
     keys = ("name", "ats", "slug", "host", "tenant", "site", "tier", "pay", "sponsor", "tags", "priority")
     entry = {k: b[k] for k in keys if b.get(k) not in (None, "")}
     with LOCK:
@@ -117,7 +117,7 @@ class Handler(SimpleHTTPRequestHandler):
         if path == "/api/state":
             with LOCK:
                 jf.save_json(STATE, b)
-                queue = [d["id"] for d in b.get("decisions", {}).values() if d.get("status") == "Paket istendi"]
+                queue = [d["id"] for d in b.get("decisions", {}).values() if d.get("status") == "Pack requested"]
                 jf.save_json(jf.DATA / "pack_queue.json", queue)
             return self.send_json({"ok": True})
         if path == "/api/company":
@@ -145,7 +145,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    print(f"Jobness çalışıyor: http://localhost:{PORT}  (durdurmak için Ctrl+C)")
+    print(f"Jobness is running: http://localhost:{PORT}  (Ctrl+C to stop)")
     if "--no-browser" not in sys.argv:
         threading.Timer(0.8, lambda: webbrowser.open(f"http://localhost:{PORT}")).start()
     srv.serve_forever()

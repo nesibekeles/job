@@ -26,7 +26,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 33,
       "seniority": "mid-senior",
@@ -55,19 +55,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "12+ yıl istiyor"
+          "label": "Asks 12+ yrs"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -75,11 +75,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "top",
@@ -116,7 +116,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 20,
       "seniority": "exec",
@@ -147,23 +147,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "top",
@@ -199,9 +199,9 @@
       "languages_required": [
         "German"
       ],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 5,
       "seniority": "mid-senior",
@@ -226,33 +226,33 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "German şart"
+          "label": "German required"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
       "company_pay": "top",
       "company_sponsor": "known",
-      "filtered": "Dil şartı: German"
+      "filtered": "Language required: German"
     }
   },
   {
@@ -280,9 +280,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 12,
       "seniority": "mid-senior",
@@ -307,23 +307,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -358,9 +358,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 10,
       "seniority": "exec",
@@ -383,23 +383,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         }
       ],
       "company_tier": "top",
@@ -434,9 +434,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 18,
       "seniority": "exec",
@@ -461,23 +461,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -512,9 +512,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 9,
       "seniority": "exec",
@@ -538,27 +538,27 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -593,9 +593,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 18,
       "seniority": "exec",
@@ -620,35 +620,35 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -683,9 +683,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 17,
       "seniority": "exec",
@@ -707,23 +707,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -758,9 +758,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 18,
       "seniority": "exec",
@@ -785,23 +785,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -835,9 +835,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 15,
       "seniority": "mid-senior",
@@ -862,15 +862,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -878,11 +878,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -916,9 +916,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 16,
       "seniority": "mid-senior",
@@ -943,23 +943,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -994,9 +994,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -1021,31 +1021,31 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -1080,9 +1080,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -1105,19 +1105,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         }
       ],
       "company_tier": "top",
@@ -1152,9 +1152,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -1179,19 +1179,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -1199,11 +1199,11 @@
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -1238,9 +1238,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 19,
       "seniority": "mid-senior",
@@ -1263,23 +1263,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         }
       ],
       "company_tier": "top",
@@ -1313,9 +1313,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 17,
       "seniority": "mid-senior",
@@ -1340,15 +1340,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -1356,7 +1356,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -1390,9 +1390,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -1417,19 +1417,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -1437,7 +1437,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -1471,9 +1471,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -1498,19 +1498,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -1518,7 +1518,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -1553,9 +1553,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -1580,19 +1580,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -1600,7 +1600,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -1634,9 +1634,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 36,
       "seniority": "mid-senior",
@@ -1662,15 +1662,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -1678,11 +1678,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -1717,9 +1717,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 25,
       "seniority": "mid-senior",
@@ -1745,15 +1745,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -1761,7 +1761,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -1797,7 +1797,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 16,
       "seniority": "mid-senior",
@@ -1825,15 +1825,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -1869,7 +1869,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 9,
       "seniority": "junior",
@@ -1894,15 +1894,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "Junior seviye"
+          "label": "Junior level"
         }
       ],
       "company_tier": "top",
@@ -1938,7 +1938,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 6,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -1963,15 +1963,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -2008,7 +2008,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -2033,11 +2033,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "top",
@@ -2073,7 +2073,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 8,
       "strategic_count": 30,
       "seniority": "mid-senior",
@@ -2098,11 +2098,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -2110,7 +2110,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -2146,7 +2146,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 2,
       "strategic_count": 3,
       "seniority": "mid-senior",
@@ -2169,15 +2169,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -2213,7 +2213,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 7,
       "strategic_count": 30,
       "seniority": "mid-senior",
@@ -2241,19 +2241,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "top",
@@ -2289,7 +2289,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 13,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -2314,11 +2314,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -2354,7 +2354,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -2379,15 +2379,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         }
       ],
       "company_tier": "top",
@@ -2423,7 +2423,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "operasyonel",
+      "role_type": "operational",
       "op_count": 10,
       "strategic_count": 7,
       "seniority": "mid-senior",
@@ -2446,15 +2446,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Operasyonel ağırlık"
+          "label": "Operational focus"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         }
       ],
       "company_tier": "top",
@@ -2490,7 +2490,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 7,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -2515,15 +2515,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -2559,7 +2559,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 7,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -2584,15 +2584,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -2628,7 +2628,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 16,
       "seniority": "mid-senior",
@@ -2653,11 +2653,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -2698,7 +2698,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 15,
       "seniority": "mid-senior",
@@ -2723,11 +2723,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -2735,7 +2735,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -2773,7 +2773,7 @@
       ],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 6,
       "seniority": "mid-senior",
@@ -2800,25 +2800,25 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Swedish şart"
+          "label": "Swedish required"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
       "company_pay": "high",
       "company_sponsor": "known",
-      "filtered": "Dil şartı: Swedish"
+      "filtered": "Language required: Swedish"
     }
   },
   {
@@ -2848,7 +2848,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -2871,11 +2871,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "big",
@@ -2911,7 +2911,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 22,
       "seniority": "mid-senior",
@@ -2939,15 +2939,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -2983,7 +2983,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 10,
       "seniority": "mid-senior",
@@ -3003,11 +3003,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "big",
@@ -3043,7 +3043,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "operasyonel",
+      "role_type": "operational",
       "op_count": 11,
       "strategic_count": 4,
       "seniority": "mid-senior",
@@ -3068,11 +3068,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Operasyonel ağırlık"
+          "label": "Operational focus"
         },
         {
           "color": "green",
@@ -3113,7 +3113,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -3140,15 +3140,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -3184,7 +3184,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 27,
       "seniority": "mid-senior",
@@ -3209,19 +3209,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "12+ yıl istiyor"
+          "label": "Asks 12+ yrs"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -3257,7 +3257,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 23,
       "seniority": "mid-senior",
@@ -3281,11 +3281,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "big",
@@ -3321,7 +3321,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -3343,15 +3343,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -3387,7 +3387,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -3409,15 +3409,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -3453,7 +3453,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 20,
       "seniority": "mid-senior",
@@ -3476,15 +3476,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -3520,7 +3520,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 25,
       "seniority": "mid-senior",
@@ -3545,15 +3545,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "12+ yıl istiyor"
+          "label": "Asks 12+ yrs"
         },
         {
           "color": "green",
@@ -3561,7 +3561,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -3597,7 +3597,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 8,
       "strategic_count": 12,
       "seniority": "mid-senior",
@@ -3624,11 +3624,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -3664,9 +3664,9 @@
       "languages_required": [
         "French"
       ],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -3693,29 +3693,29 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "French şart"
+          "label": "French required"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
       "company_pay": "high",
       "company_sponsor": "sometimes",
-      "filtered": "Dil şartı: French"
+      "filtered": "Language required: French"
     }
   },
   {
@@ -3743,9 +3743,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 14,
       "seniority": "exec",
@@ -3774,31 +3774,31 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -3832,9 +3832,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 23,
       "seniority": "exec",
@@ -3863,23 +3863,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -3915,7 +3915,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -3944,11 +3944,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -3956,11 +3956,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -3994,9 +3994,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "✅ we can sponsor your visa",
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 27,
       "seniority": "mid-senior",
@@ -4024,23 +4024,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -4048,15 +4048,15 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -4090,9 +4090,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 36,
       "seniority": "mid-senior",
@@ -4121,23 +4121,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -4145,11 +4145,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -4183,9 +4183,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 8,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -4214,19 +4214,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
@@ -4234,17 +4234,17 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "yellow",
-          "label": "Maaş hedef altı"
+          "label": "Salary below target"
         }
       ],
       "company_tier": "big",
       "company_pay": "high",
       "company_sponsor": "known",
-      "filtered": "Maaş düşük (€64,380 < min €71,000)"
+      "filtered": "Salary too low (€64,380 < min €71,000)"
     }
   },
   {
@@ -4272,9 +4272,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "✅ we can sponsor your visa",
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 19,
       "seniority": "mid-senior",
@@ -4303,23 +4303,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -4327,15 +4327,15 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -4369,9 +4369,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 39,
       "seniority": "mid-senior",
@@ -4400,23 +4400,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -4424,15 +4424,15 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -4466,9 +4466,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 61,
       "seniority": "mid-senior",
@@ -4497,19 +4497,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "10+ yıl istiyor"
+          "label": "Asks 10+ yrs"
         },
         {
           "color": "green",
@@ -4517,11 +4517,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "big",
@@ -4555,9 +4555,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 3,
       "seniority": "exec",
@@ -4579,15 +4579,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "big",
@@ -4623,7 +4623,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 8,
       "seniority": "mid-senior",
@@ -4654,15 +4654,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -4696,9 +4696,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "• relocation support in case of international mobility",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 10,
       "seniority": "mid-senior",
@@ -4720,23 +4720,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -4770,9 +4770,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 4,
       "seniority": "mid-senior",
@@ -4797,15 +4797,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -4813,7 +4813,7 @@
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         }
       ],
       "company_tier": "big",
@@ -4847,9 +4847,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -4873,19 +4873,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         }
       ],
       "company_tier": "big",
@@ -4919,9 +4919,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -4945,19 +4945,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         }
       ],
       "company_tier": "big",
@@ -4994,7 +4994,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 19,
       "seniority": "mid-senior",
@@ -5019,15 +5019,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -5061,9 +5061,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 2,
       "seniority": "mid-senior",
@@ -5086,19 +5086,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         }
       ],
       "company_tier": "big",
@@ -5132,9 +5132,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 1,
       "strategic_count": 0,
       "seniority": "mid-senior",
@@ -5158,19 +5158,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         }
       ],
       "company_tier": "big",
@@ -5204,9 +5204,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 13,
       "seniority": "mid-senior",
@@ -5229,19 +5229,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5279,9 +5279,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 30,
       "seniority": "mid-senior",
@@ -5306,19 +5306,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5326,7 +5326,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -5360,9 +5360,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 28,
       "seniority": "mid-senior",
@@ -5390,19 +5390,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5410,7 +5410,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -5444,9 +5444,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "we offer a competitive relocation package to support your move—successful candidates will be expected to be based in berl",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 24,
       "seniority": "exec",
@@ -5471,19 +5471,19 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "15+ yıl istiyor"
+          "label": "Asks 15+ yrs"
         },
         {
           "color": "green",
@@ -5521,9 +5521,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 31,
       "seniority": "exec",
@@ -5548,19 +5548,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5568,11 +5568,11 @@
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -5606,9 +5606,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 9,
       "strategic_count": 35,
       "seniority": "exec",
@@ -5633,15 +5633,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -5649,7 +5649,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -5683,9 +5683,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 28,
       "seniority": "mid-senior",
@@ -5712,15 +5712,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -5728,7 +5728,7 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -5762,9 +5762,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 36,
       "seniority": "mid-senior",
@@ -5789,19 +5789,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5809,7 +5809,7 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -5843,9 +5843,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 29,
       "seniority": "mid-senior",
@@ -5870,19 +5870,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5890,11 +5890,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -5928,9 +5928,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 39,
       "seniority": "mid-senior",
@@ -5957,19 +5957,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -5977,7 +5977,7 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -6011,9 +6011,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -6041,15 +6041,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -6057,11 +6057,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "scaleup",
@@ -6095,9 +6095,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 31,
       "seniority": "mid-senior",
@@ -6124,23 +6124,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -6176,7 +6176,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 21,
       "seniority": "junior",
@@ -6201,15 +6201,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "Junior seviye"
+          "label": "Junior level"
         },
         {
           "color": "green",
@@ -6217,15 +6217,15 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -6261,9 +6261,9 @@
       "languages_required": [
         "French"
       ],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "operasyonel",
+      "role_type": "operational",
       "op_count": 5,
       "strategic_count": 3,
       "seniority": "mid-senior",
@@ -6291,29 +6291,29 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "French şart"
+          "label": "French required"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "red",
-          "label": "Operasyonel ağırlık"
+          "label": "Operational focus"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         }
       ],
       "company_tier": "big",
       "company_pay": "mid",
       "company_sponsor": "known",
-      "filtered": "Dil şartı: French"
+      "filtered": "Language required: French"
     }
   },
   {
@@ -6343,9 +6343,9 @@
       "languages_required": [
         "French"
       ],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 9,
       "seniority": "mid-senior",
@@ -6372,29 +6372,29 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "French şart"
+          "label": "French required"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         }
       ],
       "company_tier": "big",
       "company_pay": "mid",
       "company_sponsor": "known",
-      "filtered": "Dil şartı: French"
+      "filtered": "Language required: French"
     }
   },
   {
@@ -6422,9 +6422,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -6449,19 +6449,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -6469,7 +6469,7 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -6503,9 +6503,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -6530,15 +6530,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -6576,9 +6576,9 @@
       "sponsorship": "no",
       "sponsorship_evidence": "to be considered for this role, you’ll need to have the independent right to work in the uk, as we're unfortunately unable to provide sponsorship at this time",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 17,
       "seniority": "junior",
@@ -6603,25 +6603,25 @@
       "tags": [
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "red",
-          "label": "Junior seviye"
+          "label": "Junior level"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
       "company_pay": "mid",
       "company_sponsor": "known",
-      "filtered": "Sponsorluk yok / çalışma izni şart"
+      "filtered": "No sponsorship / work permit required"
     }
   },
   {
@@ -6649,9 +6649,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 16,
       "seniority": "mid-senior",
@@ -6676,15 +6676,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -6692,11 +6692,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -6730,9 +6730,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 9,
       "seniority": "mid-senior",
@@ -6759,39 +6759,39 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "yellow",
-          "label": "German artı"
+          "label": "German a plus"
         },
         {
           "color": "yellow",
-          "label": "Dutch artı"
+          "label": "Dutch a plus"
         },
         {
           "color": "yellow",
-          "label": "French artı"
+          "label": "French a plus"
         },
         {
           "color": "yellow",
-          "label": "Swedish artı"
+          "label": "Swedish a plus"
         },
         {
           "color": "yellow",
-          "label": "Danish artı"
+          "label": "Danish a plus"
         },
         {
           "color": "yellow",
-          "label": "Norwegian artı"
+          "label": "Norwegian a plus"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -6829,9 +6829,9 @@
       "sponsorship": "no",
       "sponsorship_evidence": "you must have the right to work full-time in australia/new zealand",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -6859,15 +6859,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -6875,13 +6875,13 @@
         },
         {
           "color": "yellow",
-          "label": "Seyahat"
+          "label": "Travel"
         }
       ],
       "company_tier": "big",
       "company_pay": "mid",
       "company_sponsor": "known",
-      "filtered": "Sponsorluk yok / çalışma izni şart"
+      "filtered": "No sponsorship / work permit required"
     }
   },
   {
@@ -6909,9 +6909,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -6936,15 +6936,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -6982,9 +6982,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 10,
       "seniority": "mid-senior",
@@ -7008,15 +7008,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7024,7 +7024,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -7058,9 +7058,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 17,
       "seniority": "mid-senior",
@@ -7088,15 +7088,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7104,11 +7104,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -7142,9 +7142,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -7169,15 +7169,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7185,7 +7185,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -7219,9 +7219,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -7246,15 +7246,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7292,9 +7292,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 9,
       "seniority": "mid-senior",
@@ -7321,39 +7321,39 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "yellow",
-          "label": "German artı"
+          "label": "German a plus"
         },
         {
           "color": "yellow",
-          "label": "Dutch artı"
+          "label": "Dutch a plus"
         },
         {
           "color": "yellow",
-          "label": "French artı"
+          "label": "French a plus"
         },
         {
           "color": "yellow",
-          "label": "Swedish artı"
+          "label": "Swedish a plus"
         },
         {
           "color": "yellow",
-          "label": "Danish artı"
+          "label": "Danish a plus"
         },
         {
           "color": "yellow",
-          "label": "Norwegian artı"
+          "label": "Norwegian a plus"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7391,9 +7391,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -7418,15 +7418,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7464,9 +7464,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "petitive compensation package that goes beyond the norm, with perks like a hellofresh-subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 28,
       "seniority": "mid-senior",
@@ -7497,19 +7497,19 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -7517,15 +7517,15 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -7559,9 +7559,9 @@
       "sponsorship": "no",
       "sponsorship_evidence": "to be considered for this role, you’ll need to have the independent right to work in roi, as we're unfortunately unable to provide sponsorship at this time",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -7588,17 +7588,17 @@
       "tags": [
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "big",
       "company_pay": "mid",
       "company_sponsor": "known",
-      "filtered": "Sponsorluk yok / çalışma izni şart"
+      "filtered": "No sponsorship / work permit required"
     }
   },
   {
@@ -7626,9 +7626,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 11,
       "seniority": "mid-senior",
@@ -7652,23 +7652,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "yellow",
-          "label": "German artı"
+          "label": "German a plus"
         },
         {
           "color": "yellow",
-          "label": "French artı"
+          "label": "French a plus"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7706,9 +7706,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "etitive compensation package that goes beyond the norm, with perks like a hellofresh- subsidized pension scheme, berlin relocation support, and a hybrid working model",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 8,
       "strategic_count": 36,
       "seniority": "mid-senior",
@@ -7733,15 +7733,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -7749,7 +7749,7 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -7783,9 +7783,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "operasyonel",
+      "role_type": "operational",
       "op_count": 5,
       "strategic_count": 5,
       "seniority": "mid-senior",
@@ -7812,19 +7812,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "red",
-          "label": "Operasyonel ağırlık"
+          "label": "Operational focus"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -7832,7 +7832,7 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -7894,9 +7894,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "we can sponsor visas to germany; for any other country, you need to have existing right to wor",
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -7927,23 +7927,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "scaleup",
@@ -7994,9 +7994,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "we can sponsor visas to germany; for any other country, you need to have existing right to wor",
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 15,
       "seniority": "exec",
@@ -8021,27 +8021,27 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -8081,9 +8081,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "we can sponsor visas to germany; for any other country, you need to have existing right to wor",
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 17,
       "seniority": "mid-senior",
@@ -8110,19 +8110,19 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -8162,9 +8162,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "we can sponsor visas to germany; for any other country, you need to have existing right to wor",
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -8189,19 +8189,19 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "scaleup",
@@ -8238,7 +8238,7 @@
       ],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 17,
       "seniority": "mid-senior",
@@ -8263,19 +8263,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "French şart"
+          "label": "French required"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -8285,7 +8285,7 @@
       "company_tier": "top",
       "company_pay": "high",
       "company_sponsor": "known",
-      "filtered": "Dil şartı: French"
+      "filtered": "Language required: French"
     }
   },
   {
@@ -8314,7 +8314,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 7,
       "strategic_count": 22,
       "seniority": "mid-senior",
@@ -8339,15 +8339,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -8355,7 +8355,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -8390,7 +8390,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 8,
       "seniority": "mid-senior",
@@ -8417,19 +8417,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -8454,7 +8454,7 @@
     "first_seen": "2026-11-01T14:13:10.805271+00:00",
     "is_new": false,
     "f": {
-      "city": "Remote (TR'den)",
+      "city": "Remote (from TR)",
       "city_priority": 6,
       "remote": true,
       "gross_target_eur": 45000,
@@ -8462,9 +8462,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 13,
       "seniority": "mid-senior",
@@ -8488,15 +8488,15 @@
       "tags": [
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -8533,9 +8533,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 4,
       "strategic_count": 4,
       "seniority": "mid-senior",
@@ -8558,19 +8558,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -8605,7 +8605,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 4,
       "strategic_count": 4,
       "seniority": "mid-senior",
@@ -8628,15 +8628,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -8675,9 +8675,9 @@
         "Hungarian",
         "Greek"
       ],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 16,
       "seniority": "mid-senior",
@@ -8708,53 +8708,53 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Italian şart"
+          "label": "Italian required"
         },
         {
           "color": "red",
-          "label": "Polish şart"
+          "label": "Polish required"
         },
         {
           "color": "red",
-          "label": "Czech şart"
+          "label": "Czech required"
         },
         {
           "color": "red",
-          "label": "Hungarian şart"
+          "label": "Hungarian required"
         },
         {
           "color": "red",
-          "label": "Greek şart"
+          "label": "Greek required"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         },
         {
           "color": "green",
-          "label": "Maaş hedefte"
+          "label": "Salary on target"
         }
       ],
       "company_tier": "top",
       "company_pay": "top",
       "company_sponsor": "known",
-      "filtered": "Dil şartı: Italian, Polish, Czech, Hungarian, Greek"
+      "filtered": "Language required: Italian, Polish, Czech, Hungarian, Greek"
     }
   },
   {
@@ -8783,7 +8783,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "operasyonel",
+      "role_type": "operational",
       "op_count": 18,
       "strategic_count": 14,
       "seniority": "mid-senior",
@@ -8811,15 +8811,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Operasyonel ağırlık"
+          "label": "Operational focus"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "top",
@@ -8844,7 +8844,7 @@
     "first_seen": "2026-11-01T14:13:10.805271+00:00",
     "is_new": false,
     "f": {
-      "city": "Remote (TR'den)",
+      "city": "Remote (from TR)",
       "city_priority": 6,
       "remote": true,
       "gross_target_eur": 45000,
@@ -8852,9 +8852,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 6,
       "strategic_count": 10,
       "seniority": "mid-senior",
@@ -8882,27 +8882,27 @@
       "tags": [
         {
           "color": "green",
-          "label": "Türkçe artı"
+          "label": "Turkish a plus"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         },
         {
           "color": "yellow",
-          "label": "Seyahat"
+          "label": "Travel"
         }
       ],
       "company_tier": "top",
@@ -8937,7 +8937,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 1,
       "strategic_count": 1,
       "seniority": "mid-senior",
@@ -8959,7 +8959,7 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         }
       ],
       "company_tier": "top",
@@ -8994,7 +8994,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 2,
       "seniority": "mid-senior",
@@ -9014,11 +9014,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         }
       ],
       "company_tier": "top",
@@ -9053,7 +9053,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 2,
       "strategic_count": 1,
       "seniority": "mid-senior",
@@ -9076,7 +9076,7 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         }
       ],
       "company_tier": "top",
@@ -9113,7 +9113,7 @@
       ],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 7,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -9138,37 +9138,37 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "red",
-          "label": "Portuguese şart"
+          "label": "Portuguese required"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
       "company_pay": "high",
       "company_sponsor": "sometimes",
-      "filtered": "Dil şartı: Portuguese"
+      "filtered": "Language required: Portuguese"
     }
   },
   {
@@ -9197,9 +9197,9 @@
       "languages_required": [
         "Hungarian"
       ],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "operasyonel",
+      "role_type": "operational",
       "op_count": 17,
       "strategic_count": 3,
       "seniority": "junior",
@@ -9223,27 +9223,27 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Hungarian şart"
+          "label": "Hungarian required"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "red",
-          "label": "Operasyonel ağırlık"
+          "label": "Operational focus"
         },
         {
           "color": "red",
-          "label": "Junior seviye"
+          "label": "Junior level"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -9253,7 +9253,7 @@
       "company_tier": "top",
       "company_pay": "high",
       "company_sponsor": "sometimes",
-      "filtered": "Dil şartı: Hungarian"
+      "filtered": "Language required: Hungarian"
     }
   },
   {
@@ -9280,9 +9280,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 11,
       "strategic_count": 47,
       "seniority": "exec",
@@ -9307,19 +9307,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -9360,9 +9360,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 6,
       "strategic_count": 33,
       "seniority": "mid-senior",
@@ -9389,19 +9389,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -9413,7 +9413,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "top",
@@ -9446,9 +9446,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 15,
       "strategic_count": 36,
       "seniority": "mid-senior",
@@ -9473,19 +9473,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -9526,9 +9526,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 15,
       "strategic_count": 36,
       "seniority": "mid-senior",
@@ -9553,19 +9553,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -9609,7 +9609,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 29,
       "seniority": "mid-senior",
@@ -9634,15 +9634,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -9650,11 +9650,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -9688,9 +9688,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -9717,23 +9717,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -9759,7 +9759,7 @@
     "first_seen": "2026-11-01T14:13:10.805271+00:00",
     "is_new": false,
     "f": {
-      "city": "Remote (TR'den)",
+      "city": "Remote (from TR)",
       "city_priority": 6,
       "remote": true,
       "gross_target_eur": 45000,
@@ -9767,9 +9767,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 26,
       "seniority": "mid-senior",
@@ -9796,23 +9796,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Türkçe artı"
+          "label": "Turkish a plus"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -9846,9 +9846,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 22,
       "seniority": "mid-senior",
@@ -9876,19 +9876,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -9896,7 +9896,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -9930,9 +9930,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 10,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -9957,11 +9957,11 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
@@ -9969,11 +9969,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "big",
@@ -10007,9 +10007,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 5,
       "strategic_count": 15,
       "seniority": "mid-senior",
@@ -10036,23 +10036,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         }
       ],
       "company_tier": "big",
@@ -10086,9 +10086,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 12,
       "seniority": "mid-senior",
@@ -10113,23 +10113,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10137,11 +10137,11 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -10175,9 +10175,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 0,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -10202,23 +10202,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10226,7 +10226,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -10260,9 +10260,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 19,
       "seniority": "exec",
@@ -10290,19 +10290,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         }
       ],
       "company_tier": "big",
@@ -10336,9 +10336,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 28,
       "seniority": "exec",
@@ -10365,15 +10365,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -10381,7 +10381,7 @@
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10419,9 +10419,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 13,
       "seniority": "mid-senior",
@@ -10450,19 +10450,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10470,11 +10470,11 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -10508,9 +10508,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 2,
       "strategic_count": 13,
       "seniority": "mid-senior",
@@ -10539,19 +10539,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10559,11 +10559,11 @@
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -10597,9 +10597,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 17,
       "seniority": "mid-senior",
@@ -10628,15 +10628,15 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
@@ -10674,9 +10674,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 9,
       "strategic_count": 21,
       "seniority": "mid-senior",
@@ -10707,19 +10707,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -10727,7 +10727,7 @@
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10735,15 +10735,15 @@
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -10777,9 +10777,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 13,
       "seniority": "exec",
@@ -10806,19 +10806,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
@@ -10826,7 +10826,7 @@
         },
         {
           "color": "red",
-          "label": "Hızlı tempo / uzun saat"
+          "label": "Fast pace / long hours"
         }
       ],
       "company_tier": "big",
@@ -10860,9 +10860,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Ofis",
+      "workplace": "Office",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 3,
       "strategic_count": 19,
       "seniority": "exec",
@@ -10891,19 +10891,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "red",
-          "label": "Ofis ağırlıklı"
+          "label": "Office-heavy"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "Genç & sosyal kitle"
+          "label": "Young & social audience"
         },
         {
           "color": "green",
@@ -10941,9 +10941,9 @@
       "sponsorship": "unknown",
       "sponsorship_evidence": null,
       "languages_required": [],
-      "workplace": "Uzaktan",
+      "workplace": "Remote",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 1,
       "strategic_count": 20,
       "seniority": "mid-senior",
@@ -10970,23 +10970,23 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Uzaktan"
+          "label": "Remote"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -11022,7 +11022,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 4,
       "strategic_count": 18,
       "seniority": "mid-senior",
@@ -11049,19 +11049,19 @@
       "tags": [
         {
           "color": "yellow",
-          "label": "Sponsorluk belirsiz"
+          "label": "Sponsorship unclear"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "AI odaklı"
+          "label": "AI-focused"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -11095,9 +11095,9 @@
       "sponsorship": "yes",
       "sponsorship_evidence": "• a relocation package with visa support for those who need it",
       "languages_required": [],
-      "workplace": "Hibrit",
+      "workplace": "Hybrid",
       "office_days": null,
-      "role_type": "stratejik",
+      "role_type": "strategic",
       "op_count": 9,
       "strategic_count": 20,
       "seniority": "mid-senior",
@@ -11125,23 +11125,23 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Hibrit"
+          "label": "Hybrid"
         },
         {
           "color": "green",
-          "label": "Stratejik rol"
+          "label": "Strategic role"
         },
         {
           "color": "green",
-          "label": "B2C / Tüketici"
+          "label": "B2C / Consumer"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
@@ -11177,7 +11177,7 @@
       "languages_required": [],
       "workplace": "?",
       "office_days": null,
-      "role_type": "karma",
+      "role_type": "mixed",
       "op_count": 12,
       "strategic_count": 17,
       "seniority": "mid-senior",
@@ -11202,11 +11202,11 @@
       "tags": [
         {
           "color": "green",
-          "label": "Sponsorluk / relocation ✓"
+          "label": "Sponsorship / relocation ✓"
         },
         {
           "color": "green",
-          "label": "Growth / Deney"
+          "label": "Growth / Experiments"
         }
       ],
       "company_tier": "scaleup",
