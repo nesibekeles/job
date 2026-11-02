@@ -58,6 +58,97 @@ def http_json(url, body=None, tries=3):
             time.sleep(3 * (i + 1))
 
 
+def http_text(url, tries=2):
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(url, headers=dict(UA, **{"Accept": "text/html,application/xhtml+xml", "Accept-Language": "en,tr;q=0.8"}))
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return r.read().decode("utf-8", "replace")
+        except Exception:
+            if i == tries - 1:
+                raise
+            time.sleep(3)
+
+
+def _first(rx, text):
+    m = re.search(rx, text, re.S | re.I)
+    return strip_html(m.group(1)).strip() if m else ""
+
+
+def read_posting(url):
+    """A single job the user chose to add (never a crawl): returns (company, ext_id, title, locations, description)."""
+    li = re.search(r"linkedin\.com/.*?(?:jobs/view/(?:[^/?]*-)?|currentJobId=)(\d{6,})", url)
+    if li:  # LinkedIn's public (logged-out) view of one posting
+        h = http_text(f"https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{li.group(1)}")
+        title = _first(r'<h2[^>]*top-card-layout__title[^>]*>(.*?)</h2>', h)
+        company = _first(r'<a[^>]*topcard__org-name-link[^>]*>(.*?)</a>', h) or _first(r'topcard__flavor">(.*?)</span>', h)
+        loc = _first(r'topcard__flavor topcard__flavor--bullet[^>]*>(.*?)</span>', h)
+        desc = _first(r'<div[^>]*show-more-less-html__markup[^>]*>(.*?)</div>', h)
+        if not title:
+            raise ValueError("LinkedIn didn't show this posting without a login")
+        return company or "Unknown company", "li-" + li.group(1), title, [loc], desc
+    names = {c.get("slug", "").lower(): c["name"] for c in load_json(CONFIG / "companies.json")["companies"] if c.get("slug")}
+    co = lambda slug: names.get(slug.lower()) or slug.replace("-", " ").title()
+    gh = re.search(r"greenhouse\.io/(?:embed/job_app\?for=)?([\w-]+)/jobs/(\d+)", url)
+    if gh:  # Greenhouse job board API
+        d = http_json(f"https://boards-api.greenhouse.io/v1/boards/{gh.group(1)}/jobs/{gh.group(2)}")
+        return co(gh.group(1)), d["id"], d["title"], [(d.get("location") or {}).get("name", "")], strip_html(d.get("content", ""))
+    lv = re.search(r"jobs\.lever\.co/([\w-]+)/([0-9a-f-]{36})", url)
+    if lv:
+        d = http_json(f"https://api.lever.co/v0/postings/{lv.group(1)}/{lv.group(2)}")
+        return co(lv.group(1)), d["id"], d["text"], [(d.get("categories") or {}).get("location", "")], d.get("descriptionPlain") or strip_html(d.get("description", ""))
+    ab = re.search(r"jobs\.ashbyhq\.com/([\w.-]+)/([0-9a-f-]{36})", url)
+    if ab:
+        d = next(x for x in http_json(f"https://api.ashbyhq.com/posting-api/job-board/{ab.group(1)}")["jobs"] if x["id"] == ab.group(2))
+        return co(ab.group(1)), d["id"], d["title"], [d.get("location", "")], strip_html(d.get("descriptionHtml", ""))
+    h = http_text(url)
+    for block in re.findall(r'<script[^>]*application/ld\+json[^>]*>(.*?)</script>', h, re.S | re.I):
+        try:
+            data = json.loads(block.strip())
+        except Exception:
+            continue
+        items = data if isinstance(data, list) else data.get("@graph", [data]) if isinstance(data, dict) else []
+        for d in items:
+            if isinstance(d, dict) and "JobPosting" in str(d.get("@type")):
+                org = d.get("hiringOrganization") or {}
+                locs = d.get("jobLocation") or []
+                locs = locs if isinstance(locs, list) else [locs]
+                places = []
+                for l in locs:
+                    a = (l or {}).get("address") or {}
+                    a = a if isinstance(a, dict) else {"addressLocality": str(a)}
+                    places.append(", ".join(x for x in (a.get("addressLocality"), a.get("addressCountry") if isinstance(a.get("addressCountry"), str) else (a.get("addressCountry") or {}).get("name")) if x))
+                if d.get("jobLocationType") == "TELECOMMUTE":
+                    places.append("Remote")
+                return (org.get("name") if isinstance(org, dict) else str(org)) or urllib.parse.urlparse(url).hostname, \
+                    re.sub(r"\W+", "-", url.split("?")[0][-60:]), d.get("title", ""), places, strip_html(d.get("description", ""))
+    title = _first(r'<meta[^>]*property="og:title"[^>]*content="([^"]*)"', h) or _first(r"<title>(.*?)</title>", h)
+    if not title:
+        raise ValueError("No job details found on that page")
+    site = _first(r'<meta[^>]*property="og:site_name"[^>]*content="([^"]*)"', h)
+    return site or urllib.parse.urlparse(url).hostname.replace("www.", ""), re.sub(r"\W+", "-", url.split("?")[0][-60:]), title, [], strip_html(h)[:8000]
+
+
+def add_url(url, pasted=""):
+    """Adds one posting to manual_jobs.json and rescores. Pasted text (the job description copied by hand) fills gaps."""
+    try:
+        company, ext, title, locs, desc = read_posting(url)
+    except Exception as e:
+        if not pasted.strip():
+            raise
+        lines = [l.strip() for l in pasted.strip().splitlines() if l.strip()]
+        company, ext, title, locs, desc = "Unknown company", re.sub(r"\W+", "-", url[-40:]), lines[0][:120], [], pasted
+    if len(desc) < 200 and pasted.strip():
+        desc = pasted
+    j = job(company, ext, title, locs, url, desc)
+    j["manual"] = True
+    manual = [m for m in load_json(DATA / "manual_jobs.json", []) if m["id"] != j["id"]] + [j]
+    save_json(DATA / "manual_jobs.json", manual)
+    rescore()
+    added = next((x for x in load_json(DATA / "jobs.json", []) if x["id"] == j["id"]), j)
+    return added
+
+
 def strip_html(s):
     if not s:
         return ""
@@ -93,7 +184,7 @@ class Matcher:
                 if best is None or c["priority"] < best["priority"]:
                     best = c
         if best:
-            return {"city": best["name"], "priority": best["priority"], "remote": False}
+            return {"city": best["name"], "priority": best["priority"], "remote": False, "home": bool(best.get("home"))}
         if self.remote.get("enabled") and any(p in text for p in self.remote.get("patterns", [])):
             return {"city": "Remote (from TR)", "priority": self.remote.get("priority", 6), "remote": True}
         return None
@@ -324,6 +415,7 @@ def analyze(j, profile, cities, company, matcher):
     text = (j["title"] + "\n" + j["description"]).lower()
     fx = cities["fx_to_eur"]
     loc = matcher.location(*j["locations"], j.get("workplace") or "") or {"city": "?", "priority": 9, "remote": False}
+    no_visa = loc["remote"] or loc.get("home")  # remote from Türkiye, or a job in Türkiye itself
     city = next((c for c in cities["cities"] if c["name"] == loc["city"]), None) or (
         cities.get("remote", {}) if loc["remote"] else {})
 
@@ -384,7 +476,7 @@ def analyze(j, profile, cities, company, matcher):
     tags = []
     if sponsorship == "yes":
         tags.append(("green", "Sponsorship / relocation ✓"))
-    elif sponsorship == "unknown" and not loc["remote"]:
+    elif sponsorship == "unknown" and not no_visa:
         tags.append(("yellow", "Sponsorship unclear"))
     for lang in lang_req:
         tags.append(("red", f"{lang} required"))
@@ -409,7 +501,7 @@ def analyze(j, profile, cities, company, matcher):
             tags.append((color, label))
 
     filtered = None
-    if sponsorship == "no" and not loc["remote"]:
+    if sponsorship == "no" and not no_visa:
         filtered = "No sponsorship / work permit required"
     elif lang_req:
         filtered = "Language required: " + ", ".join(lang_req)
@@ -421,7 +513,7 @@ def analyze(j, profile, cities, company, matcher):
                      "Salary on target" if sal["max_eur"] >= city["gross_target_eur"] else "Salary below target"))
 
     return {
-        "city": loc["city"], "city_priority": loc["priority"], "remote": loc["remote"],
+        "city": loc["city"], "city_priority": loc["priority"], "remote": loc["remote"], "home": bool(loc.get("home")),
         "gross_target_eur": city.get("gross_target_eur"), "gross_min_eur": city.get("gross_min_eur"),
         "sponsorship": sponsorship, "sponsorship_evidence": evidence,
         "languages_required": lang_req, "workplace": workplace, "office_days": office_days,
@@ -563,3 +655,9 @@ if __name__ == "__main__":
         print(rescore(), "jobs rescored")
     elif cmd == "export":
         export_static(sys.argv[2])
+    elif cmd == "add-url":  # add-url <link> [file with pasted text]; prints a one-line summary (used by the add-job workflow)
+        pasted = open(sys.argv[3]).read() if len(sys.argv) > 3 else ""
+        j = add_url(sys.argv[2], pasted)
+        f = j.get("f", {})
+        print(json.dumps({"id": j["id"], "company": j["company"], "title": j["title"], "city": f.get("city"),
+                          "filtered": f.get("filtered"), "sponsorship": f.get("sponsorship")}, ensure_ascii=False))

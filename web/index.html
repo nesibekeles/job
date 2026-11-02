@@ -1217,6 +1217,7 @@
       <div class="filterbar">
         <div class="search"><svg class="i"><use href="#i-search"/></svg><input class="field" id="f-q" placeholder="Search a role, company or city"></div>
         <button class="btn" id="f-open"><svg class="i"><use href="#i-filter"/></svg>Filters<span class="fcount" id="f-count" hidden></span></button>
+        <button class="icon-btn round-ico" data-open="add-job" title="Add a job from a link" aria-label="Add a job from a link"><svg class="i"><use href="#i-plus"/></svg></button>
       </div>
       <div class="discover">
         <div class="stack-col">
@@ -1402,15 +1403,12 @@
   <div class="sheet-actions"><button class="btn" onclick="location.reload()">Reload now</button><button class="btn primary" data-close="m-update">Got it</button></div>
 </div></div>
 <div class="modal" id="m-quiz"><div class="sheet" id="quiz" style="max-width:520px"></div></div>
-<div class="modal" id="m-add"><div class="sheet">
-  <h2>Add a job</h2>
-  <p class="small muted" style="margin:0">Paste a post from LinkedIn or a company on your watchlist.</p>
+<div class="modal" id="m-add"><div class="sheet" style="max-width:520px">
+  <div class="sheet-head"><h2>Add a job</h2><button class="icon-btn" data-close="m-add"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <p class="small muted" style="margin:0 0 4px" id="a-help"></p>
   <div class="form">
-    <label>Company<input class="field" id="a-company"></label>
-    <label>Role<input class="field" id="a-title"></label>
-    <label>Location<input class="field" id="a-loc" placeholder="e.g. London"></label>
-    <label>Link<input class="field" id="a-url" type="url"></label>
-    <label>Job description<textarea class="field" id="a-desc" rows="8"></textarea></label>
+    <label>Link to the job<input class="field" id="a-url" type="url" inputmode="url" placeholder="https://www.linkedin.com/jobs/view/…"></label>
+    <label>Job description <span class="muted" style="font-weight:400">(optional; paste it if the link can't be read)</span><textarea class="field" id="a-desc" rows="5" placeholder="Copy the whole post here"></textarea></label>
   </div>
   <div class="sheet-actions"><button class="btn" data-close="m-add">Cancel</button><button class="btn primary" id="a-save">Add</button></div>
 </div></div>
@@ -1736,7 +1734,7 @@ function derive(j) {
   const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "on target" : "below target") : "not stated";
   let filtered = f.filtered && !/^Salary too low/.test(f.filtered) ? f.filtered : null;
   if (!filtered && f.years_required >= 8) filtered = `Asks ${f.years_required}+ years of experience`;
-  if (!filtered && f.sponsorship === "no" && !f.remote) filtered = "No visa sponsorship for an on-site role abroad";
+  if (!filtered && f.sponsorship === "no" && !f.remote && !f.home) filtered = "No visa sponsorship for an on-site role abroad";
   if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Salary too low (€${f.salary.max_eur.toLocaleString("en")} < min €${min.toLocaleString("en")})`;
   const hiddenWhy = cc && cc.on === false ? "city switched off" : co.hidden ? "company hidden" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "title hidden" : null;
   const tags = f.tags.filter((t) => !/^Salary (on|below) target/.test(t.label));
@@ -1750,7 +1748,7 @@ function baseScore(j, d, rw) {
   const f = j.f;
   let s = d.cv_match * 30 + (CITY_POINTS[d.priority] ?? 3);
   if (f.sponsorship === "yes") s += 15;
-  else if (f.sponsorship === "unknown" && !f.remote) s += ({ known: 8, sometimes: 3 }[d.sponsor] || 0) - (rw.sponsor || 0);
+  else if (f.sponsorship === "unknown" && !f.remote && !f.home) s += ({ known: 8, sometimes: 3 }[d.sponsor] || 0) - (rw.sponsor || 0);
   if (d.salaryStatus === "on target") s += 10; else if (d.salaryStatus === "below target") s += f.salary.max_eur >= d.min ? 4 : -10;
   else s += ({ top: 8, high: 5, mid: 2 }[d.pay] ?? 2) - (d.pay === "mid" ? rw.salary || 0 : 0);
   s += { strategic: 8, mixed: 2, operational: -8 - (rw.operational || 0) }[f.role_type] ?? 0;
@@ -2126,6 +2124,7 @@ function undo() {
 function sponsorView(f, d) {
   if (f.sponsorship === "yes") return ["Yes ✓", "the post offers sponsorship / relocation", "ok"];
   if (f.sponsorship === "no") return ["No", "the post rules it out", "bad"];
+  if (f.home) return ["Not needed", "the job is in Türkiye", "ok"];
   if (f.remote) return ["Not needed", "remote from Türkiye", "ok"];
   if (d.sponsor === "known") return ["Likely", "not in the post, but this company sponsors", ""];
   if (d.sponsor === "sometimes") return ["Maybe", "not in the post; this company sponsors sometimes", ""];
@@ -3713,6 +3712,7 @@ function renderProfile() {
       ${rowB("sliders", "sky", "Scoring", 'data-v="scoring"', "scene engine, rules, weights")}
       ${rowB("building", "mint", "Companies", 'data-v="companies"', "your watchlist")}
       ${rowB("xc", "rose", "Passed", 'data-v="rejected"', "roles you left behind")}
+      ${rowB("plus", "mint", "Add a job", 'data-open="add-job"', "from LinkedIn or any careers page")}
       ${rowB("home", "peach", "Look & feel", 'data-open="home-custom"', "theme, home cards, own to-dos")}
     </div>
     <div class="prof-sec">For fun</div>
@@ -3813,6 +3813,7 @@ document.addEventListener("click", (e) => {
   if (ds.v) return showView(ds.v);
   if (ds.r) return a.classList.toggle("on");
   if (ds.close) return $("#" + ds.close).classList.remove("on");
+  if (ds.open === "add-job") { e.preventDefault(); return openAddJob(); }
   if (ds.open === "home-custom") { e.preventDefault(); return openLookFeel(); }
   if (ds.open === "test") { $("#m-more").classList.remove("on"); return openTest(); }
   if (ds.open === "challenge") { $("#m-more").classList.remove("on"); return openChallenge(); }
@@ -3942,13 +3943,38 @@ $("#ul-state").onchange = async (e) => {
 $("#reset-settings").onclick = () => { if (confirm("Reset settings to default? Your decisions, rules and added companies stay.")) {
   const mine = Object.fromEntries(Object.entries(APP.state.settings.companies).filter(([, c]) => c.user_added));
   APP.state.settings = null; APP.state = hydrate(APP.state); Object.assign(APP.state.settings.companies, mine); commit(); } };
+// add one job from a link: on the Mac it's read and scored at once; on the phone it becomes an "Add job" issue
+// on GitHub, which a workflow reads, scores and publishes (a few minutes)
+function openAddJob(url = "", text = "") {
+  $("#a-url").value = url; $("#a-desc").value = text;
+  $("#a-help").innerHTML = APP.server
+    ? "LinkedIn, company careers pages and job boards all work. It's read, scored and added right away."
+    : "GitHub opens with everything filled in: tap <b>Create</b>. The job is read, scored and shows up here in a few minutes.";
+  $("#a-save").textContent = APP.server ? "Add" : "Continue on GitHub";
+  $("#m-add").classList.add("on");
+}
 $("#a-save").onclick = async () => {
-  const b = { company: $("#a-company").value.trim(), title: $("#a-title").value.trim(), location: $("#a-loc").value.trim(), url: $("#a-url").value.trim(), description: $("#a-desc").value };
-  if (!b.company || !b.title) return toast("Company and role are required");
-  const r = await post("/api/manual", b);
-  $("#m-add").classList.remove("on"); document.querySelectorAll("#m-add input, #m-add textarea").forEach((i) => (i.value = ""));
-  toast(r.location_matched ? "Added" : "Added (location isn't on your city list)"); await loadData(); refresh();
+  const url = $("#a-url").value.trim(), text = $("#a-desc").value.trim();
+  if (!/^https?:\/\/\S+$/i.test(url)) { $("#a-url").focus(); return toast("Paste the link to the job first"); }
+  if (!APP.server) {
+    const body = `${url}\n\n${text}`.slice(0, 6000);
+    window.open(`https://github.com/${REPO}/issues/new?title=${encodeURIComponent("Add job")}&labels=add-job&body=${encodeURIComponent(body)}`, "_blank", "noopener");
+    $("#m-add").classList.remove("on"); return toast("Tap Create on GitHub; the job arrives in a few minutes");
+  }
+  $("#a-save").disabled = true; $("#a-save").textContent = "Reading…";
+  try {
+    const r = await post("/api/add-url", { url, text });
+    if (!r.ok) throw new Error(r.error);
+    $("#m-add").classList.remove("on"); await loadData(); refresh(true);
+    toast(r.filtered ? `Added ${r.company}, but it's filtered: ${r.filtered}` : `Added: ${r.title} at ${r.company}`);
+    if (!r.filtered) openCard(r.id);
+  } catch (e) { toast(`Couldn't read that page (${String(e.message).slice(0, 60)}). Paste the description and try again`); $("#a-desc").focus(); }
+  $("#a-save").disabled = false; $("#a-save").textContent = "Add";
 };
+// a link like …/job/#add=<job link> opens the sheet ready to go (the iPhone share shortcut uses this)
+function addFromHash() { const m = location.hash.match(/^#add=(.+)$/); if (!m) return; history.replaceState(null, "", location.pathname); openAddJob(decodeURIComponent(m[1])); }
+window.addEventListener("hashchange", addFromHash);
+
 $("#fetch-btn").onclick = async () => {
   // the live site is a static page: it can't fetch jobs itself, GitHub does it every morning
   if (!APP.server) {
@@ -4099,6 +4125,7 @@ document.addEventListener("focusout", () => { clearTimeout(kbTimer); kbTimer = s
   APP.state = hydrate(adoptShared(saved));
   save(); bindStack(); bindCardPop(); refresh(); renderPromo(); startPromo();
   setTimeout(() => { if ($("#v-discover").classList.contains("on") && !document.querySelector(".modal.on")) wiggle(centerCard(), true); }, 1100);
+  addFromHash();
   if (APP.server) { pollFetch(false); pollPublish(); sealPacks(false).catch(() => {}); }
   else {
     loadSealed();

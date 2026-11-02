@@ -211,6 +211,15 @@ class Handler(SimpleHTTPRequestHandler):
             if not FETCH["running"]:
                 threading.Thread(target=run_fetch, daemon=True).start()
             return self.send_json({"ok": True})
+        if path == "/api/add-url":  # one posting from a link (LinkedIn's public page or a careers page), pasted text as fallback
+            try:
+                with LOCK:
+                    j = jf.add_url(b.get("url", "").strip(), b.get("text", ""))
+                f = j.get("f", {})
+                return self.send_json({"ok": True, "id": j["id"], "company": j["company"], "title": j["title"],
+                                       "city": f.get("city"), "filtered": f.get("filtered")})
+            except Exception as e:
+                return self.send_json({"ok": False, "error": str(e)[:200]}, 400)
         if path == "/api/manual":
             with LOCK:
                 j = jf.job(b["company"], "manual-" + re.sub(r"\W+", "-", b["title"].lower())[:40],
