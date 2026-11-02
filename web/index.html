@@ -3342,6 +3342,14 @@ function renderHome() {
     ${shown.length ? body : `<div class="home-empty"><div class="hand">a clean desk</div>Every card is hidden.<br><button class="btn sm" style="margin-top:10px" data-open="home-custom">Bring some back</button></div>`}`;
 }
 let HOME_OPEN = { picks: false, todo: false };
+// after a card opens, glide down so its list is in view: never further than its header (just under the top bar), never upwards
+function revealCard(k) {
+  const el = k === "todo" ? $("#home-todo") : $("#home .bt-picks"); if (!el) return;
+  const r = el.getBoundingClientRect(), top = ($(".topbar")?.offsetHeight || 56) + 12;
+  const tb = $(".tabbar"), gap = tb && getComputedStyle(tb).display !== "none" ? tb.offsetHeight + 34 : 24; // the floating tab bar covers the bottom on phones
+  const need = Math.min(r.top - top, r.bottom - innerHeight + gap);
+  if (need > 8) setTimeout(() => window.scrollBy({ top: need, behavior: "smooth" }), 60);
+}
 // the slider tile: hot matches → challenge → self-test, a vertical step every 3 s (paused while touched)
 const SLIDER = { i: 0, paused: false };
 function slideTo(i) {
@@ -3366,10 +3374,10 @@ document.addEventListener("click", (e) => { const d = e.target.closest(".sl-dots
 document.addEventListener("click", (e) => {
   const t = e.target;
   const tog = t.closest("[data-hopen]");
-  if (tog) { HOME_OPEN[tog.dataset.hopen] = !HOME_OPEN[tog.dataset.hopen]; return renderHome(); }
+  if (tog) { const k = tog.dataset.hopen; HOME_OPEN[k] = !HOME_OPEN[k]; renderHome(); if (HOME_OPEN[k]) revealCard(k); return; }
   const g = t.closest("[data-glance]");
   if (g) {
-    if (t.closest(".glance-ring")) { HOME_OPEN.todo = true; renderHome(); return $("#home-todo").scrollIntoView({ behavior: "smooth", block: "start" }); }
+    if (t.closest(".glance-ring")) { HOME_OPEN.todo = true; renderHome(); return revealCard("todo"); }
     return showView("discover");
   }
 });
