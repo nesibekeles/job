@@ -1020,6 +1020,11 @@
   .bento { gap: 20px !important; }
   @media (max-width: 760px) { .bento { gap: 16px !important; } }
 
+  /* iPhone zooms into any text field under 16 px and stays zoomed: every field is 16 px on phones */
+  @media (max-width: 760px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea, .doc-page.editing { font-size: 16px !important; }
+  }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   /* Business: graphite dark mode, one periwinkle accent; same fonts as every theme */
   html[data-theme="business"] {
@@ -3126,6 +3131,7 @@ async function submitPackPass() {
   try {
     await unsealPacks(pass);
     if ($("#pp-remember").checked) lsSet(PACK_PASS, pass);
+    document.activeElement?.blur(); // let the keyboard close before the pack opens
     $("#m-packpass").classList.remove("on"); PACKVIEW.after?.();
   } catch { $("#pp-err").textContent = "That passphrase doesn't open your packs. Try again."; }
   $("#pp-go").disabled = false;
