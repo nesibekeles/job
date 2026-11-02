@@ -2381,7 +2381,7 @@ function appCard(r) {
       ${hasPack(id) ? `<button class="btn primary sm" data-openpack="${esc(id)}">${APP.packs?.[id] ? "" : "🔒 "}Open pack</button>` : d.status === "Saved" ? `<button class="btn sm" data-pack="${esc(id)}">Prepare pack</button>`
         : !APP.server && d.status === "Pack ready" ? `<span class="pack-pill">Pack on your Mac</span>` : ""}
       <button class="btn sm" data-detail="${esc(id)}">Details</button>
-      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a></div></div>`;
+      ${isApplied(id) ? "" : `<a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`}</div></div>`;
 }
 document.addEventListener("click", (e) => {
   const a = e.target.closest("[data-funnel],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wopen],[data-wclose]"); if (!a) return;
@@ -3028,7 +3028,7 @@ function openPack(id, tab) {
       <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
         <div style="display:flex;gap:12px;align-items:center">${avatar(pk.company)}<div><div class="eyebrow">Application pack</div><h2>${esc(pk.title)}</h2>
           <div class="small muted">${esc(pk.company)} · ${esc(pk.location)} · prepared ${esc(pk.prepared_at)}</div></div></div>
-        <div style="display:flex;gap:6px"><a class="btn primary sm" href="${esc(pk.apply_url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a><button class="icon-btn" data-close="m-pack">${icon("x")}</button></div>
+        <div style="display:flex;gap:6px">${isApplied(id) ? "" : `<a class="btn primary sm" href="${esc(pk.apply_url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`}<button class="icon-btn" data-close="m-pack">${icon("x")}</button></div>
       </div>
       <div class="pack-tabs">${PACK_TABS.map(([k, l]) => `<button data-ptab="${k}" class="${k === tab ? "on" : ""}">${l}</button>`).join("")}</div>
     </div>
@@ -3499,6 +3499,8 @@ function setStatus(id, status) {
   d.reached = Math.max(d.reached ?? -1, STAGES.indexOf(status));
 }
 const reachedOf = (d) => Math.max(d.reached ?? -1, STAGES.indexOf(d.status));
+// once a role is applied (or further along, or rejected after applying) there's nothing left to apply to
+const isApplied = (id) => { const d = APP.state.decisions[id]; return !!d && (d.status === "Rejected" || reachedOf(d) >= STAGES.indexOf("Applied")); };
 // the road map is hers to edit: rename steps, change targets, add her own steps; built-in steps count themselves
 const ROAD_DEFAULT = [
   { k: "know", title: "Know what you want", of: 2, w: 5 }, { k: "short", title: "Build a shortlist", of: 10, w: 10 },
