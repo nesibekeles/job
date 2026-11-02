@@ -1320,32 +1320,27 @@
    "2026-11-01": 3
   }
  },
- "updated_at": "2026-11-02T05:01:27.376Z",
+ "updated_at": "2026-11-02T05:07:10.007Z",
  "viewed": {
   "spotify-7f0a8faa-f4f5-4db9-9f51-4101d6a29b34": "2026-11-01T22:35:22.721Z"
  },
  "home": {
   "order": [
    "summary",
-   "todo",
    "picks",
+   "todo",
    "fun"
   ],
-  "hidden": [],
+  "hidden": [
+   "fun"
+  ],
   "wide": [
    "todo"
   ],
-  "rows": [
-   "viewed"
-  ],
-  "todos": [
-   {
-    "id": "mvysk9mx",
-    "text": "Test to-do"
-   }
-  ],
-  "name": "Nesi",
+  "rows": [],
+  "todos": [],
+  "name": "Ms Nesibe",
   "hero": true
  },
- "published_at": "2026-11-02T05:02:58.938932+00:00"
+ "published_at": "2026-11-02T05:08:54.621727+00:00"
 }
