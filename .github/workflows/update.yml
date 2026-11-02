@@ -2,7 +2,9 @@ name: Update jobs & deploy
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # every day 08:00 Istanbul
+    # off the full hour, where GitHub delays or drops scheduled runs; twice a day as a safety net
+    - cron: "23 4 * * *"   # 07:23 Istanbul
+    - cron: "23 12 * * *"  # 15:23 Istanbul
   workflow_dispatch:      # "Run workflow" button
   push:
     branches: [main]
@@ -26,11 +28,11 @@ jobs:
           python-version: "3.11"
 
       - name: Fetch new jobs
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[fetch]')
         run: python3 jobfinder.py fetch
 
       - name: Rescore with current config
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && !contains(github.event.head_commit.message, '[fetch]')
         run: python3 jobfinder.py rescore
 
       - name: Save job data
@@ -46,6 +48,7 @@ jobs:
           mkdir -p _site/data
           cp -r web/* _site/
           python3 jobfinder.py export _site/data/static.json
+          cp data/packs.enc.json _site/data/ 2>/dev/null || true   # encrypted packs, open only with Nesibe's passphrase
 
       - uses: actions/upload-pages-artifact@v3
         with:

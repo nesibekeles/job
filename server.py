@@ -45,7 +45,10 @@ def run_fetch():
 # ---- shared view: the live site (GitHub Pages) shows Nesibe's state as she left it here ----
 GH = jf.ROOT / "private" / "gh"
 SHARED_API = "https://api.github.com/repos/nesibekeles/job/contents/data/shared_state.json"
-PUBLISH = {"timer": None, "at": None, "error": None, "tries": 0}
+PUBLISH = {"timer": None, "at": None, "error": None, "tries": 0, "packs_dirty": False}
+# packs on the phone: the browser encrypts them with Nesibe's passphrase (PBKDF2 + AES-GCM); only ciphertext leaves this computer
+PACKS_ENC = jf.ROOT / "private" / "packs.enc.json"
+PACKS_API = SHARED_API.replace("shared_state.json", "packs.enc.json")
 PUBLISH_DELAY = 90  # seconds of quiet after the last change, so a swiping session becomes one commit
 
 
@@ -56,26 +59,34 @@ def shared_view(state):
     return view
 
 
+def gh_put(api, content, message, headers):
+    """Creates or replaces one file in the repo through the GitHub Contents API."""
+    try:
+        with urllib.request.urlopen(urllib.request.Request(api, headers=headers), timeout=90) as r:
+            sha = json.load(r)["sha"]
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            raise
+        sha = None
+    body = {"message": message, "content": base64.b64encode(content).decode()}
+    if sha:
+        body["sha"] = sha
+    req = urllib.request.Request(api, data=json.dumps(body).encode(), method="PUT",
+                                 headers=dict(headers, **{"Content-Type": "application/json"}))
+    urllib.request.urlopen(req, timeout=90).close()
+
+
 def publish_state():
     PUBLISH["timer"] = None
     PUBLISH["tries"] += 1
     try:
         token = subprocess.run([str(GH), "auth", "token"], capture_output=True, text=True, timeout=30).stdout.strip()
         headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "jobness"}
-        try:
-            with urllib.request.urlopen(urllib.request.Request(SHARED_API, headers=headers), timeout=90) as r:
-                sha = json.load(r)["sha"]
-        except urllib.error.HTTPError as e:
-            if e.code != 404:
-                raise
-            sha = None
+        if PUBLISH["packs_dirty"] and PACKS_ENC.is_file():  # ciphertext only; it opens with Nesibe's passphrase
+            gh_put(PACKS_API, PACKS_ENC.read_bytes(), "Update encrypted packs", headers)
+            PUBLISH["packs_dirty"] = False
         content = json.dumps(shared_view(jf.load_json(STATE, {})), ensure_ascii=False, indent=1).encode()
-        body = {"message": "Update shared view", "content": base64.b64encode(content).decode()}
-        if sha:
-            body["sha"] = sha
-        req = urllib.request.Request(SHARED_API, data=json.dumps(body).encode(), method="PUT",
-                                     headers=dict(headers, **{"Content-Type": "application/json"}))
-        urllib.request.urlopen(req, timeout=90).close()
+        gh_put(SHARED_API, content, "Update shared view", headers)
         PUBLISH.update(at=now(), error=None, tries=0)
     except Exception as e:  # slow or flaky connection: try again a few times before giving up
         PUBLISH["error"] = str(e)[:200]
@@ -181,6 +192,17 @@ class Handler(SimpleHTTPRequestHandler):
                 jf.save_json(jf.DATA / "pack_queue.json", queue)
             schedule_publish()
             return self.send_json({"ok": True})
+        if path == "/api/packs_enc":
+            if not {"v", "ids", "sig", "salt", "iv", "data"} <= b.keys():
+                return self.send_json({"ok": False}, 400)
+            old = jf.load_json(PACKS_ENC, {}) if PACKS_ENC.is_file() else {}
+            if not b.pop("force", False) and old.get("sig") == b["sig"]:
+                return self.send_json({"ok": True, "changed": False})
+            b["at"] = now()
+            PACKS_ENC.write_text(json.dumps(b))
+            PUBLISH["packs_dirty"] = True
+            schedule_publish(delay=20)
+            return self.send_json({"ok": True, "changed": True})
         if path == "/api/company":
             return self.send_json(*add_company(b))
         if path == "/api/fetch":

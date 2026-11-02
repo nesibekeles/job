@@ -825,6 +825,10 @@
           <div class="theme-pick"></div>
         </div>
         <div class="box pad">
+          <h3>Packs on your phone</h3>
+          <div id="pack-phone"></div>
+        </div>
+        <div class="box pad">
           <h3>Backup & moving between devices</h3>
           <p class="hint">Your decisions, rules, weights, companies and settings in one file. Download on your phone and upload on your laptop, or hand it to Claude Code to prepare application packs.</p>
           <div class="chips">
@@ -872,8 +876,16 @@
   <div class="theme-pick"></div>
 </div></div>
 <div class="modal" id="m-home"><div class="sheet" id="home-custom" style="max-width:600px"></div></div>
+<div class="modal" id="m-packpass"><div class="sheet" style="max-width:420px">
+  <div class="sheet-head"><h2>🔒 Unlock your packs</h2><button class="icon-btn" data-close="m-packpass"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <p class="small muted" style="margin:0 0 14px">Your packs hold your CV, so they travel here encrypted. Enter the passphrase you set in Jobness on your Mac.</p>
+  <input class="field" type="password" id="pp-pass" autocomplete="current-password" placeholder="Passphrase" style="width:100%">
+  <label class="small" style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="pp-remember" checked>Remember on this device</label>
+  <div class="small" id="pp-err" style="color:var(--rose);margin-top:8px"></div>
+  <div class="sheet-actions"><button class="btn" data-close="m-packpass">Cancel</button><button class="btn primary" id="pp-go">Unlock</button></div>
+</div></div>
 <div class="modal" id="m-update"><div class="sheet" style="max-width:440px">
-  <div class="sheet-head"><h2>Fresh jobs every morning</h2><button class="icon-btn" data-close="m-update"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet-head"><h2>Fresh jobs twice a day</h2><button class="icon-btn" data-close="m-update"><svg class="i"><use href="#i-x"/></svg></button></div>
   <div id="update-info"></div>
   <div class="sheet-actions"><button class="btn" onclick="location.reload()">Reload now</button><button class="btn primary" data-close="m-update">Got it</button></div>
 </div></div>
@@ -1137,6 +1149,7 @@ function hydrate(s) {
 let saveTimer;
 function save() {
   APP.state.updated_at = new Date().toISOString();
+  if (PACKVIEW.id && $("#m-pack").classList.contains("on") && APP.state.packs?.[PACKVIEW.id]) { APP.state.packs[PACKVIEW.id].at = APP.state.updated_at; schedulePackSeal(); }
   try { localStorage.setItem(STORE_KEY, JSON.stringify(APP.state)); } catch { toast("This browser isn't saving data (private window?)"); }
   if (APP.server) { clearTimeout(saveTimer); saveTimer = setTimeout(() => post("/api/state", APP.state), 300); }
 }
@@ -1704,7 +1717,7 @@ function renderLists() {
   $("#pipeline").innerHTML = statuses.map((s) => `<span class="tag ${counts[s] ? "green" : "gray"}">${esc(s)} · ${counts[s] || 0}</span>`).join("");
   $("#short-list").innerHTML = liked.length ? liked.map((r) => itemHTML(r, `
       <select class="field" data-status="${esc(r.j.id)}">${statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-      ${APP.packs?.[r.j.id] ? `<button class="btn primary sm" data-openpack="${esc(r.j.id)}">Open pack</button>` : r.decision.status === "Saved" ? `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>`
+      ${hasPack(r.j.id) ? `<button class="btn primary sm" data-openpack="${esc(r.j.id)}">${APP.packs?.[r.j.id] ? "" : "🔒 "}Open pack</button>` : r.decision.status === "Saved" ? `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>`
         : !APP.server && r.decision.status === "Pack ready" ? `<span class="pack-pill" title="Packs hold your CV with phone and email, so they stay on your Mac">📦 Pack ready · open it on your Mac</span>` : ""}
       <button class="btn sm" data-detail="${esc(r.j.id)}">Details</button>
       <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`)).join("")
@@ -1957,6 +1970,7 @@ function chipEditor(el, list, key, weighted) {
   el.dataset.key = key; el.dataset.weighted = weighted ? "1" : "";
 }
 function renderSettings() {
+  renderPackPhone();
   const s = APP.state.settings, fx = APP.data.config.cities.fx_to_eur;
   $("#s-try").value = s.istanbul_net_try;
   $("#s-flex").value = s.flex_pct; $("#s-flex-val").textContent = s.flex_pct + "%";
@@ -2240,9 +2254,10 @@ function downloadCoverDoc(id) {
   a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 function openPack(id, tab) {
+  if (!APP.packs?.[id] && APP.sealed?.ids.includes(id)) return askPackPass(() => openPack(id, tab));
   const pk = APP.packs?.[id]; if (!pk) return;
   PACKVIEW.id = id; PACKVIEW.tab = tab;
-  const e = packEdits(id), pdf = `/packs/${encodeURIComponent(id)}/${encodeURIComponent(pk.resume_file)}`;
+  const e = packEdits(id), pdf = packPdf(id);
   let body = "";
   if (tab === "overview") {
     const done = pk.checklist.filter((_, i) => e.checks[i]).length;
@@ -2251,7 +2266,7 @@ function openPack(id, tab) {
       <div class="progress-line"><b style="color:var(--ink)">Before you apply</b><div class="bar"><i style="width:${(done / pk.checklist.length) * 100}%"></i></div>${done}/${pk.checklist.length}</div>
       ${pk.checklist.map((c, i) => `<label class="check ${e.checks[i] ? "done" : ""}"><input type="checkbox" data-pcheck="${i}" ${e.checks[i] ? "checked" : ""}><span>${esc(c)}</span></label>`).join("")}`;
   } else if (tab === "resume") {
-    body = `<div class="doc-tools"><a class="btn primary sm" href="${pdf}" download>${icon("download")}Download PDF</a><a class="btn sm" href="${pdf}" target="_blank" rel="noopener">${icon("ext")}Open in a new tab</a>
+    body = `<div class="doc-tools"><a class="btn primary sm" href="${pdf}" download="${esc(pk.resume_file)}">${icon("download")}Download PDF</a><a class="btn sm" href="${pdf}" target="_blank" rel="noopener">${icon("ext")}Open in a new tab</a>
       <span class="small muted">Tailored for this role. Only real experience, reordered and reworded.</span></div>
       ${matchMedia("(max-width: 760px)").matches
         ? `<a class="pdf-card" href="${pdf}" target="_blank" rel="noopener">${icon("file")}<div><b>${esc(pk.resume_file)}</b><span>One page · tap to open the PDF</span></div>${icon("chev")}</a>`
@@ -2314,6 +2329,98 @@ document.addEventListener("input", (e) => {
 });
 
 
+// ---------------- packs on the phone ----------------
+// Packs hold the CV with phone and email, so the live site only gets them encrypted: the Mac app seals them with
+// Nesibe's passphrase (PBKDF2-SHA256 → AES-GCM) and server.py publishes the ciphertext; the phone decrypts in the browser.
+const PACK_PASS = "jobness.packpass", PACK_SIG = "jobness.packsig";
+const lsGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+const lsSet = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} };
+const hasPack = (id) => !!(APP.packs?.[id] || APP.sealed?.ids.includes(id));
+const packPdf = (id) => APP.pdfUrls?.[id] || `/packs/${encodeURIComponent(id)}/${encodeURIComponent(APP.packs[id].resume_file)}`;
+function b64(buf) { const u = new Uint8Array(buf); let s = ""; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); }
+const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+async function packKey(pass, salt) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: 310000, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+// Mac: encrypt every pack (+ its PDF and Nesibe's edits) and hand the ciphertext to server.py, which publishes it
+async function sealPacks(force) {
+  const pass = lsGet(PACK_PASS), ids = Object.keys(APP.packs || {});
+  if (!APP.server || !pass || !ids.length) return;
+  const pdfs = {};
+  for (const id of ids) pdfs[id] = b64(await fetch(packPdf(id)).then((r) => r.arrayBuffer()));
+  const edits = Object.fromEntries(ids.filter((id) => APP.state.packs?.[id]).map((id) => [id, APP.state.packs[id]]));
+  const plain = new TextEncoder().encode(JSON.stringify({ packs: APP.packs, pdfs, edits }));
+  const sig = b64(await crypto.subtle.digest("SHA-256", plain));
+  if (!force && sig === lsGet(PACK_SIG)) return;
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const data = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, await packKey(pass, salt), plain);
+  const r = await post("/api/packs_enc", { v: 1, ids, sig, salt: b64(salt), iv: b64(iv), data: b64(data), force: !!force });
+  if (r.ok) { lsSet(PACK_SIG, sig); lsSet("jobness.packsync", new Date().toISOString()); }
+  if ($("#v-settings").classList.contains("on")) renderPackPhone();
+}
+let sealTimer;
+function schedulePackSeal() { if (APP.server && lsGet(PACK_PASS)) { clearTimeout(sealTimer); sealTimer = setTimeout(() => sealPacks(false), 30000); } }
+// live site: open the sealed file with the passphrase
+async function unsealPacks(pass) {
+  const x = APP.sealed;
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb64(x.iv) }, await packKey(pass, unb64(x.salt)), unb64(x.data)); // throws on a wrong passphrase
+  const b = JSON.parse(new TextDecoder().decode(plain));
+  APP.packs = b.packs;
+  APP.pdfUrls = Object.fromEntries(Object.entries(b.pdfs).map(([id, d]) => [id, URL.createObjectURL(new Blob([unb64(d)], { type: "application/pdf" }))]));
+  APP.state.packs = APP.state.packs || {};
+  for (const [id, e] of Object.entries(b.edits || {})) if (!(APP.state.packs[id]?.at > (e.at || ""))) APP.state.packs[id] = e; // the newer copy wins
+  save(); renderLists(); renderHome();
+}
+async function loadSealed() {
+  const x = await fetch("data/packs.enc.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  if (!x?.ids?.length) return;
+  APP.sealed = x; renderLists(); renderHome();
+  const pass = lsGet(PACK_PASS);
+  if (pass) await unsealPacks(pass).catch(() => lsSet(PACK_PASS, null)); // passphrase changed on the Mac: ask again next time
+}
+function askPackPass(then) {
+  PACKVIEW.after = then;
+  $("#pp-pass").value = ""; $("#pp-err").textContent = "";
+  $("#m-packpass").classList.add("on"); setTimeout(() => $("#pp-pass").focus(), 50);
+}
+async function submitPackPass() {
+  const pass = $("#pp-pass").value; if (!pass) return;
+  $("#pp-go").disabled = true; $("#pp-err").textContent = "";
+  try {
+    await unsealPacks(pass);
+    if ($("#pp-remember").checked) lsSet(PACK_PASS, pass);
+    $("#m-packpass").classList.remove("on"); PACKVIEW.after?.();
+  } catch { $("#pp-err").textContent = "That passphrase doesn't open your packs. Try again."; }
+  $("#pp-go").disabled = false;
+}
+$("#pp-go").onclick = submitPackPass;
+$("#pp-pass").onkeydown = (e) => { if (e.key === "Enter") submitPackPass(); };
+// Settings card: Mac sets the passphrase, the phone can forget it
+function renderPackPhone() {
+  const el = $("#pack-phone"); if (!el) return;
+  const pass = lsGet(PACK_PASS), synced = lsGet("jobness.packsync"), n = Object.keys(APP.packs || {}).length;
+  if (!APP.server) {
+    el.innerHTML = !APP.sealed ? `<p class="hint" style="margin:0">No packs have been sent to this page yet.</p>`
+      : pass ? `<p class="hint">Your packs are unlocked on this device.</p><button class="btn" data-pp-forget>Lock them again</button>`
+      : `<p class="hint">${APP.sealed.ids.length} packs are here, locked. Open one from your Shortlist and enter your passphrase.</p>`;
+    return;
+  }
+  el.innerHTML = `<p class="hint">Packs hold your CV with phone and email, so they reach the live site only encrypted with a passphrase you choose. The locked file is public; without the passphrase it can't be read. Use a long one, like four random words.</p>
+    ${pass ? `<div class="small" style="margin-bottom:10px">✓ On. ${n} pack${n === 1 ? "" : "s"}${synced ? `, last sent ${ago(synced)}` : ", sending…"}. New packs and your edits follow automatically.</div>` : ""}
+    <div class="add-row"><input class="field" type="password" id="pp-new" autocomplete="new-password" placeholder="${pass ? "New passphrase" : "Choose a passphrase"}">
+      <button class="btn primary" data-pp-set>${pass ? "Change" : "Turn on"}</button>${pass ? `<button class="btn ghost" data-pp-off>Turn off</button>` : ""}</div>`;
+}
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-pp-set],[data-pp-off],[data-pp-forget]"); if (!a) return;
+  if ("ppForget" in a.dataset) { lsSet(PACK_PASS, null); APP.packs = null; APP.pdfUrls = null; renderLists(); renderHome(); renderPackPhone(); return toast("Packs locked on this device"); }
+  if ("ppOff" in a.dataset) { lsSet(PACK_PASS, null); lsSet(PACK_SIG, null); renderPackPhone(); return toast("Stopped sending packs. The last locked copy stays on the live site"); }
+  const v = $("#pp-new").value;
+  if (v.length < 10) return toast("Use at least 10 characters, ideally four random words");
+  lsSet(PACK_PASS, v); toast("Encrypting and sending your packs…");
+  sealPacks(true).then(() => toast("Packs sent. They reach the live site in a few minutes")).catch((err) => toast("Couldn't send the packs: " + err.message));
+});
+
 // ---------------- home ----------------
 const ART = { hero: `<svg class="hero-art" viewBox="0 0 360 150" fill="none" stroke="#2f3a5c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
   <g stroke="#e59a78"><path d="M292.0 25.0L292.0 12.0"/><path d="M301.5 27.5L307.0 18.0"/><path d="M282.5 27.5L277.0 18.0"/><path d="M308.1 33.9L315.3 29.4"/><path d="M275.9 33.9L268.7 29.4"/><path d="M310.9 42.0L316.9 41.4"/><path d="M273.1 42.0L267.1 41.4"/></g>
@@ -2357,10 +2464,10 @@ function homeTodos(h) {
   for (const r of h.ready) {
     const pk = APP.packs?.[r.j.id];
     add(`apply:${r.j.id}`, `Review and send your ${r.j.company} application`, `${r.j.title}${pk ? " · " + packProgress(r.j.id) : ""}`,
-      pk ? `<button class="btn sm primary" data-openpack="${esc(r.j.id)}">Open pack</button>` : `<button class="btn sm" data-v="short">Shortlist</button>`);
+      hasPack(r.j.id) ? `<button class="btn sm primary" data-openpack="${esc(r.j.id)}">Open pack</button>` : `<button class="btn sm" data-v="short">Shortlist</button>`);
   }
   for (const r of APP.rows.filter((x) => x.decision?.status === "Interview"))
-    add(`interview:${r.j.id}`, `Prepare for your ${r.j.company} interview`, r.j.title, APP.packs?.[r.j.id] ? `<button class="btn sm" data-openprep="${esc(r.j.id)}">Interview prep</button>` : "");
+    add(`interview:${r.j.id}`, `Prepare for your ${r.j.company} interview`, r.j.title, hasPack(r.j.id) ? `<button class="btn sm" data-openprep="${esc(r.j.id)}">Interview prep</button>` : "");
   for (const r of APP.rows.filter((x) => x.decision?.status === "Applied")) {
     const d = r.decision, last = new Date(d.followed_up_at || d.status_at || d.at), days = Math.floor((Date.now() - last) / DAY);
     const followedToday = d.followed_up_at && d.followed_up_at.slice(0, 10) === t;
@@ -2404,8 +2511,8 @@ function renderHome() {
   const g = GREETINGS[Math.floor(hr / 3)], art = artSet();
   const greet = g.text.replace(/,? \{name\}/, hm.name.trim() ? ", " + hm.name.trim() : "!");
   const doneN = out.filter((x) => x.done).length;
-  // nothing to open when the count is zero: the row turns gray and can't be clicked
-  const row = (key, dot, n, attr) => hm.rows.includes(key) ? "" : `<li><button ${n ? attr : "disabled"}><span class="dot" style="background:${n ? dot : "var(--line)"}"></span>${HOME_ROWS.find((x) => x[0] === key)[1]}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
+  // rows with nothing in them are left out
+  const row = (key, dot, n, attr) => !n || hm.rows.includes(key) ? "" : `<li><button ${attr}><span class="dot" style="background:${dot}"></span>${HOME_ROWS.find((x) => x[0] === key)[1]}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
   const picks = [...h.fresh.sort((a, b) => b.score - a.score).slice(0, 3), ...h.hot.filter((r) => !h.isNew(r)).slice(0, 4)].slice(0, 6);
   const cards = {
     summary: () => `
@@ -2422,6 +2529,7 @@ function renderHome() {
           ${row("applied", "#3a6390", h.applied.length, 'data-v="short"')}
           ${row("viewed", "#a8475b", h.viewed.length, 'data-hgo="todo"')}
         </ul>
+        ${[h.fresh, h.hot, h.saved, h.requested, h.ready, h.applied, h.viewed].every((x) => !x.length) ? `<p class="small muted" style="margin:10px 0 0">Nothing waiting on you right now.</p>` : ""}
         </div>`,
     picks: () => `
         <div class="hhead">${art.star}<div><div class="hand">quick &amp; worthy</div><h3>Today's picks</h3></div></div>
@@ -2738,10 +2846,11 @@ $("#a-save").onclick = async () => {
 $("#fetch-btn").onclick = async () => {
   // the live site is a static page: it can't fetch jobs itself, GitHub does it every morning
   if (!APP.server) {
-    const m = APP.data.meta, next = new Date(); next.setUTCHours(5, 0, 0, 0); if (next <= new Date()) next.setUTCDate(next.getUTCDate() + 1);
-    $("#update-info").innerHTML = `<p style="margin:0 0 10px">${m.last_fetch ? `Last updated <b>${ago(m.last_fetch)}</b> with ${m.count} jobs.` : ""} The list refreshes itself every morning, next on
+    const m = APP.data.meta, runs = [4, 12].flatMap((h) => [0, 1].map((d) => { const x = new Date(); x.setUTCDate(x.getUTCDate() + d); x.setUTCHours(h, 23, 0, 0); return x; }));
+    const next = runs.filter((x) => x > new Date()).sort((a, b) => a - b)[0];
+    $("#update-info").innerHTML = `<p style="margin:0 0 10px">${m.last_fetch ? `Last updated <b>${ago(m.last_fetch)}</b> with ${m.count} jobs.` : ""} The list refreshes itself twice a day, next on
       <b>${next.toLocaleString("en-GB", { weekday: "long", hour: "2-digit", minute: "2-digit" })}</b>. Just reload the page then.</p>
-      <p class="small muted" style="margin:0">This page can't fetch jobs by itself: GitHub does it for you once a day, so there's nothing to press.</p>`;
+      <p class="small muted" style="margin:0">This page can't fetch jobs by itself: GitHub does it for you twice a day, so there's nothing to press.</p>`;
     return $("#m-update").classList.add("on");
   }
   await post("/api/fetch", {}); pollFetch(true);
@@ -2784,14 +2893,15 @@ async function loadData() {
   if (!APP.server && shared?.published_at) { // live site: mirror Nesibe's published view whenever she publishes a new one
     let seen = null; try { seen = localStorage.getItem("jobness.shared_seen"); } catch {}
     if (!saved || seen !== shared.published_at) {
-      saved = shared;
+      saved = { ...shared, packs: saved?.packs }; // pack edits made on this phone stay
       try { localStorage.setItem("jobness.shared_seen", shared.published_at); } catch {}
     }
   }
   APP.state = hydrate(saved);
   save(); bindStack(); bindCardPop(); refresh(); renderPromo(); startPromo();
   setTimeout(() => { if ($("#v-discover").classList.contains("on") && !document.querySelector(".modal.on")) wiggle(centerCard(), true); }, 1100);
-  if (APP.server) { pollFetch(false); pollPublish(); }
+  if (APP.server) { pollFetch(false); pollPublish(); sealPacks(false).catch(() => {}); }
+  else loadSealed();
 })();
 </script>
 </body>
