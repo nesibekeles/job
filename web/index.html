@@ -1016,13 +1016,17 @@
   .wc-close { position: absolute; top: -10px; right: -6px; width: 28px; height: 28px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: var(--shadow-card); display: grid; place-items: center; cursor: pointer; color: var(--muted); z-index: 2; }
   .wc-close .i { width: 14px; height: 14px; }
 
+  /* home: more air between cards */
+  .bento { gap: 20px !important; }
+  @media (max-width: 760px) { .bento { gap: 16px !important; } }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   /* Business: graphite dark mode, one periwinkle accent; same fonts as every theme */
   html[data-theme="business"] {
     --bg: #0f1116; --surface: #181b22; --ink: #eceef4; --ink-2: #c2c7d2; --muted: #878e9c; --line: #2a2e38; --soft: #20242d;
     --lav: #9aa8ff; --lav-50: #1d2240; --lav-100: #252c52; --lav-200: #3a4580;
     --mint: #7fd1a8; --mint-50: #172620; --butter: #e6c46f; --butter-50: #28220f; --sky: #8cb8f2; --sky-50: #162232; --rose: #f294a5; --rose-50: #2c1b21;
-    --peach: #f2a885; --peach-50: #2b1e17;
+    --peach: #9fb4ff; --peach-50: #1a2240;
     --shadow-sm: 0 1px 0 rgba(255, 255, 255, .04); --shadow: 0 22px 44px -18px rgba(0, 0, 0, .85);
     --shadow-card: inset 0 1px 0 rgba(255, 255, 255, .05), 0 18px 36px -20px rgba(0, 0, 0, .9);
     --t-lav: linear-gradient(135deg, #262c4f, #1c2036); --t-peach: linear-gradient(135deg, #2a2741, #1d1c2b); --t-mint: linear-gradient(135deg, #1f2a3a, #181e29);
@@ -1710,6 +1714,7 @@ function derive(j) {
   const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "on target" : "below target") : "not stated";
   let filtered = f.filtered && !/^Salary too low/.test(f.filtered) ? f.filtered : null;
   if (!filtered && f.years_required >= 8) filtered = `Asks ${f.years_required}+ years of experience`;
+  if (!filtered && f.sponsorship === "no" && !f.remote) filtered = "No visa sponsorship for an on-site role abroad";
   if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Salary too low (€${f.salary.max_eur.toLocaleString("en")} < min €${min.toLocaleString("en")})`;
   const hiddenWhy = cc && cc.on === false ? "city switched off" : co.hidden ? "company hidden" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "title hidden" : null;
   const tags = f.tags.filter((t) => !/^Salary (on|below) target/.test(t.label));
