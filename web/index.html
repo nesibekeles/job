@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&family=Chakra+Petch:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Chakra+Petch:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f7f7fa; --surface: #ffffff; --ink: #1e1d26; --ink-2: #474457; --muted: #7a7789; --line: #e7e6ee; --soft: #f3f2f7;
@@ -20,12 +20,12 @@
     --mint: #2f7d62; --mint-50: #ebf6f1; --butter: #7d6420; --butter-50: #f8f3e3;
     --sky: #3a6390; --sky-50: #ebf1f8; --rose: #a8475b; --rose-50: #f8ecef;
     --shadow-sm: 0 1px 2px rgba(30, 29, 38, .04); --shadow: 0 14px 34px -14px rgba(40, 36, 80, .20);
-    --radius: 14px; --side: 236px; --head: "Manrope", "Inter", system-ui, sans-serif;
+    --radius: 14px; --side: 236px; --head: "Manrope", "DM Sans", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); overscroll-behavior-x: none; }
-  body { font: 14px/1.5 "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  body { font: 14px/1.5 "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
   button, input, select, textarea { font: inherit; color: inherit; }
   a { color: var(--lav); text-decoration: none; }
   svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
@@ -35,7 +35,7 @@
   .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; font: 800 20px/1 var(--head); letter-spacing: -.03em; }
   .brand img { width: 32px; height: 32px; }
   .brand b { color: var(--mint); }
-  .brand small { display: block; font: 500 11.5px/1.3 "Inter", sans-serif; letter-spacing: 0; color: var(--muted); margin-top: 4px; }
+  .brand small { display: block; font: 500 11.5px/1.3 "DM Sans", sans-serif; letter-spacing: 0; color: var(--muted); margin-top: 4px; }
   .side .eyebrow { padding: 6px 10px 8px; }
   .navlink { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; border: 0; background: none; cursor: pointer; color: var(--ink-2); font-weight: 500; text-align: left; width: 100%; }
   .navlink:hover { background: var(--soft); }
@@ -543,7 +543,7 @@
     --t-sky: linear-gradient(135deg, #e6eef9, #d2e1f3); --t-rose: linear-gradient(135deg, #fbe9ed, #f4d5dd); --t-butter: linear-gradient(135deg, #fbf3dc, #f3e5b8); }
   body { background: radial-gradient(900px 520px at 105% -12%, #e9e4fb 0%, rgba(233, 228, 251, 0) 62%), radial-gradient(760px 440px at -12% 108%, #fbece4 0%, rgba(251, 236, 228, 0) 60%) fixed var(--bg); }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .hand { font: 700 11px/1.2 "Inter", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .hand { font: 700 11px/1.2 "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .box, .hcard { border: 0; border-radius: var(--radius); box-shadow: var(--shadow-card); }
   .hcard { padding: 20px; }
   .hhead { gap: 12px; margin-bottom: 14px; }
@@ -855,6 +855,61 @@
   .ld-bar i { display: block; width: 40%; height: 100%; border-radius: 99px; background: var(--lav); animation: ldBar 1.3s ease-in-out infinite; }
   @keyframes ldBar { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
 
+  /* ---------- shortlist v2: (i) tip, funnel of stacked steps, application cards ---------- */
+  h1.hero .info { position: relative; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--lav-100); color: var(--lav);
+    font: italic 700 13px Georgia, serif; vertical-align: middle; cursor: pointer; margin-left: 4px; letter-spacing: 0; }
+  .info .tip { display: none; position: absolute; top: calc(100% + 8px); left: -10px; z-index: 30; width: min(320px, 80vw); padding: 12px 14px; border-radius: 14px; background: var(--ink); color: var(--surface);
+    font: 500 13px/1.5 "DM Sans", sans-serif; font-style: normal; box-shadow: var(--shadow); cursor: default; }
+  .info.open .tip { display: block; } @media (hover: hover) { .info:hover .tip, .info:focus .tip { display: block; } }
+  .funnel { display: flex; flex-direction: column; align-items: center; margin: 4px 0 20px; max-width: 640px; }
+  .fstep { width: var(--w); height: 50px; margin-bottom: -12px; padding: 0 18px 12px; border: 0; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: space-between;
+    font: inherit; color: var(--ink); cursor: pointer; box-shadow: 0 -6px 14px -10px rgba(40, 36, 80, .35); transition: transform .15s; }
+  .fstep:last-child { margin-bottom: 0; height: 40px; padding-bottom: 0; border-radius: 18px; }
+  .fstep span { font-weight: 600; font-size: 13.5px; } .fstep b { font: 800 16px var(--head); }
+  .fstep:hover { transform: translateY(-2px); }
+  .fstep.on { background: var(--ink); color: var(--surface); }
+  .f-note { margin-bottom: 10px; }
+  #short-list .apps { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  .app-top { grid-template-columns: 40px 1fr auto !important; } .app-top .icon-btn { color: var(--muted); }
+  .dates { display: flex; flex-wrap: wrap; gap: 6px; }
+  .date-chip { display: inline-flex; align-items: center; gap: 6px; border: 0; background: var(--peach-50); color: var(--peach); border-radius: 99px; padding: 4px 11px 4px 4px; font: 600 12px "DM Sans", sans-serif; cursor: pointer; }
+  .date-chip em { font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 11px; }
+  .date-chip.add { background: var(--soft); color: var(--ink-2); padding-left: 10px; } .date-chip .i { width: 14px; height: 14px; }
+  .date-form { display: flex; flex-wrap: wrap; gap: 6px; } .date-form .field { flex: 1 1 120px; }
+  @media (max-width: 760px) { #short-list .apps { grid-template-columns: 1fr; } .fstep { height: 46px; } }
+
+  /* ---------- journey v2: pull-out road map, calendar always open ---------- */
+  .goal-wrap { margin: 6px 0 18px; }
+  .goal { position: relative; z-index: 2; margin: 0 !important; }
+  .goal-edit-btn { position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; justify-content: center; align-items: center; padding: 0; background: rgba(255, 255, 255, .6); color: var(--ink-2); }
+  .goal .goal-l { padding-left: 26px; }
+  .road-drawer { position: relative; z-index: 1; width: 94%; margin: -22px auto 0; border-radius: 0 0 24px 24px; background: var(--surface); box-shadow: inset 0 14px 14px -14px rgba(40, 36, 80, .35), var(--shadow-card);
+    display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.2, .8, .2, 1); }
+  .road-drawer.open { grid-template-rows: 1fr; }
+  .road-drawer:not(.open) { margin-top: 0; box-shadow: none; }
+  .rd-in { overflow: hidden; padding: 0 20px; } .road-drawer.open .rd-in { padding: 36px 20px 18px; }
+  .rd-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; } .rd-head b { font: 700 15px var(--head); flex: 1; }
+  .road-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .road .dot { border: 0; padding: 0; font: inherit; } button.dot { cursor: pointer; }
+  .re-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; } .re-row .field:first-child { flex: 1; } .re-of { width: 70px; text-align: center; flex: none; }
+  .re-add { display: flex; gap: 8px; margin-top: 4px; } .re-add .field { flex: 1; }
+  .j-cal .cal-top { margin-bottom: 12px; }
+  .cal-ev .btn { flex: none; }
+  .ev-add select { flex: 1 1 140px !important; }
+  @media (max-width: 760px) { .goal .goal-l { padding-left: 0; padding-top: 22px; } .road-drawer { width: 96%; } .road-drawer.open .rd-in { padding: 34px 14px 14px; } }
+
+  /* home v4: centred slides you can swipe, a notepad line for new to-dos */
+  .bt-slider { touch-action: none; user-select: none; }
+  .sl-in { align-items: center !important; justify-content: center; text-align: center; gap: 6px !important; }
+  .sl .bl { margin-top: 0 !important; }
+  .sl-dots i { cursor: pointer; padding: 0; }
+  .todo-pad { display: flex; align-items: center; gap: 12px; padding: 6px 2px 2px; cursor: text; }
+  .todo-pad .box-ph { width: 17px; height: 17px; border-radius: 5px; border: 1.5px dashed var(--muted); flex: none; opacity: .7; }
+  .todo-pad input { flex: 1; min-width: 0; border: 0; background: none; padding: 4px 0; font: inherit; font-size: 14px; color: var(--ink);
+    border-bottom: 2px dotted rgba(0, 0, 0, .18); outline: none; }
+  .todo-pad input::placeholder { color: var(--muted); font-style: italic; }
+  .todo-pad input:focus { border-bottom-color: var(--rose); }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   html[data-theme="business"] {
     --bg: #0b0c0f; --surface: #16171b; --ink: #f1efe9; --ink-2: #c8c5bd; --muted: #8e8b84; --line: #2a2b31; --soft: #1e1f24;
@@ -901,8 +956,8 @@
   [data-theme="business"] .snack span b { color: #7a5b20; }
   [data-theme="business"] .avatar { filter: saturate(.6) brightness(.92); }
   /* business: the sharpest lines (chamfered Chakra Petch everywhere), no handwriting */
-  html[data-theme="business"] { --head: "Chakra Petch", "Inter", sans-serif; }
-  [data-theme="business"] body { font-family: "Chakra Petch", "Inter", sans-serif; }
+  html[data-theme="business"] { --head: "Chakra Petch", "DM Sans", sans-serif; }
+  [data-theme="business"] body { font-family: "Chakra Petch", "DM Sans", sans-serif; }
   [data-theme="business"] h1.hero, [data-theme="business"] .home-hero h1, [data-theme="business"] .hhead h3, [data-theme="business"] .bignum,
   [data-theme="business"] .panel .head h2, [data-theme="business"] .mini h3, [data-theme="business"] .cp-head h2 { letter-spacing: -.01em; }
   [data-theme="business"] .hand { font-family: "Chakra Petch", sans-serif; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: #a39a86; }
@@ -924,8 +979,8 @@
   [data-theme="private"] .goal { background: linear-gradient(120deg, #ebebe8, #e1e1dd); }
   [data-theme="private"] .me-av, [data-theme="private"] .prof-av { background: #8a8d93; }
   /* private: soft, rounded Nunito everywhere, no handwriting */
-  html[data-theme="private"] { --head: "Nunito", "Inter", sans-serif; }
-  [data-theme="private"] body { font-family: "Nunito", "Inter", sans-serif; }
+  html[data-theme="private"] { --head: "Nunito", "DM Sans", sans-serif; }
+  [data-theme="private"] body { font-family: "Nunito", "DM Sans", sans-serif; }
   [data-theme="private"] .hand { font-family: "Nunito", sans-serif; font-size: 13px; font-weight: 600; color: var(--muted); }
   [data-theme="private"] .hhead h3::after { height: 3px; bottom: -4px; border-radius: 99px; background: #cfd0cc; }
   [data-theme="private"] .theme-fb .hand { font-size: 14px; }
@@ -1064,9 +1119,8 @@
 
     <section class="view" id="v-short">
       <div class="eyebrow">Worth keeping</div>
-      <h1 class="hero">Your shortlist.</h1>
-      <p class="sub" id="pack-help"></p>
-      <div class="pipeline" id="pipeline"></div>
+      <h1 class="hero">Your shortlist. <span class="info" tabindex="0" role="button" aria-label="How it works">i<span class="tip" id="pack-help"></span></span></h1>
+      <div class="funnel" id="pipeline"></div>
       <div class="list" id="short-list"></div>
     </section>
 
@@ -1701,11 +1755,33 @@ function quickChips(r, nHigh = 2) {
     .forEach((t) => chip("sparkle", t.label, t.color === "red" ? "bad" : t.color === "green" ? "hl" : ""));
   return out.join("");
 }
-// one or two plain sentences about the job: Claude's summary when there is one, else the post's first real sentence
+// what the job is, not who the company is: Claude's summary when there is one, else the opening of the post's
+// role section ("What you'll do", "The role", "Responsibilities"…), else the first sentence that talks about the role
+const ROLE_HEAD = /^(what you('|’)?ll (do|be doing|own|work on)|what you will (do|be doing)|the role|about the role|about this role|your role|role overview|in this role|the opportunity|about the opportunity|your mission|your impact|the job|about the job|job description|position overview|about the position|responsibilities|key responsibilities|your responsibilities|what the role involves|in this position)\b/i;
+const OTHER_HEAD = /^(who we are|about (us|the team|the company)|what we('|’)?re looking for|who you are|requirements|qualifications|benefits|what we offer|perks)/i;
 function brief(j) {
   if (j.f.ai_summary) return j.f.ai_summary;
-  const sents = (j.description || "").replace(/\s+/g, " ").split(/(?<=[.!?])\s+/);
-  return sents.find((x) => x.length > 50 && x.length < 260 && !/^(about|who we are|at [A-Z]|we are|our mission)/i.test(x)) || sents[0] || "";
+  const lines = (j.description || "").split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const isHead = (x) => x.length < 70 && !/[.!?]$/.test(x);
+  const sentences = (t) => t.replace(/\s+/g, " ").split(/(?<=[.!?])\s+(?=[A-Z])/).filter((x) => x.length > 30);
+  let pick = "";
+  const h = lines.findIndex((x) => isHead(x) && ROLE_HEAD.test(x));
+  if (h >= 0) {
+    const body = []; for (let i = h + 1; i < lines.length && body.join(" ").length < 400; i++) { if (isHead(lines[i]) && body.length) break; body.push(lines[i]); }
+    pick = sentences(body.join(" ")).slice(0, 2).join(" ");
+  }
+  if (!pick) { // no role heading: skip the company blurb, find a sentence about the role
+    let skip = false; const roleText = [];
+    for (const x of lines) { if (isHead(x)) { skip = OTHER_HEAD.test(x) || new RegExp("^about " + j.company, "i").test(x); continue; } if (!skip) roleText.push(x); }
+    const ss = sentences(roleText.join(" "));
+    pick = ss.find((x) => /\b(you('|’)?ll|you will|this role|in this role|as (a|an|our)\b|we('|’)?re looking for|we are looking for|looking for an?|you('|’)?re going to)/i.test(x)) || ss[0] || "";
+  }
+  pick = pick.replace(/(^|\s)[•·▪◦\-–]\s+/g, "$1").trim();
+  // "You'll be part of the X team and craft…" → "Craft…, as part of the X team."; "You'll own…" → "Own…"
+  const [s1, ...rest] = pick.split(/(?<=[.!?])\s+/);
+  const team = s1.match(/^you(?:'|’)?ll be (?:a )?part of (the .+? team),? and (?:be able to |will )?(.+?)[.!?]?$/i);
+  const first = team ? team[2][0].toUpperCase() + team[2].slice(1) + `, as part of ${team[1]}.` : s1.replace(/^(you('|’)?ll|you will) (?!be )(\w)/i, (m, a, b, c) => c.toUpperCase());
+  return [first, ...rest].join(" ").slice(0, 320);
 }
 function miniHTML(r) {
   const { j, d } = r;
@@ -2145,6 +2221,44 @@ function itemHTML(r, acts) {
     ${pk ? `<div style="margin-top:6px"><span class="pack-pill">📦 Application pack ready · ${packProgress(j.id)}</span></div>` : ""}
     </div><div class="acts">${acts}</div></div>`;
 }
+const FUNNEL = [["all", "Shortlisted", "lav"], ["Pack requested", "Pack requested", "sky"], ["Pack ready", "Pack ready", "mint"], ["Applied", "Applied", "peach"],
+  ["Interview", "Interview", "butter"], ["Offer", "Offer", "mint"], ["Rejected", "Rejected", "rose"]];
+let SHORT_F = "all", DATE_FOR = null;
+// one application: where it stands, its dates (1, 2, 3…), and what to do next
+function appCard(r) {
+  const d = r.decision, id = r.j.id, rc = reachedOf(d), rej = d.status === "Rejected";
+  const dates = (APP.state.journey.events || []).filter((e) => e.job === id).sort((a, b) => a.date.localeCompare(b.date));
+  const fmt = (x) => new Date(x).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+  return `<div class="box app ${rej ? "rej" : ""}">
+    <div class="app-top">${avatar(r.j.company)}<div style="min-width:0"><b>${esc(r.j.title)}</b><span>${esc(r.j.company)} · ${esc(r.d.city)} · score ${r.score} · updated ${ago(d.status_at || d.at)}</span></div>
+      <button class="icon-btn" data-unshort="${esc(id)}" title="Remove from shortlist" aria-label="Remove from shortlist">${icon("trash")}</button></div>
+    <div class="steps">${STEPS.map(([s, l]) => `<span class="${rc >= STAGES.indexOf(s) ? "on" : ""}"><i></i>${l}</span>`).join("")}</div>
+    <div class="dates">${dates.map((e, i) => `<button class="date-chip" data-goday="${e.date}" title="${esc((EV_KIND[e.kind]?.[0] || "") + (e.note ? " · " + e.note : ""))}"><em>${i + 1}</em>${fmt(e.date)} · ${esc(EV_KIND[e.kind]?.[0] || "Date")}</button>`).join("")}
+      <button class="date-chip add" data-date-for="${esc(id)}">${icon("calendar")}${dates.length ? "Add" : "Add a date"}</button></div>
+    ${DATE_FOR === id ? `<div class="date-form"><input class="field" type="date" id="df-date" value="${today()}"><select class="field" id="df-type"><option value="interview">Interview</option><option value="deadline">Deadline</option><option value="call">Call</option><option value="other">Note</option></select>
+      <input class="field" id="df-note" placeholder="Note (optional)"><button class="btn sm" data-date-cancel>Cancel</button><button class="btn primary sm" data-date-save="${esc(id)}">Save</button></div>` : ""}
+    <div class="app-acts"><select class="field" data-status="${esc(id)}">${APP.data.statuses.map((s) => `<option ${s === d.status ? "selected" : ""}>${s}</option>`).join("")}</select>
+      ${hasPack(id) ? `<button class="btn primary sm" data-openpack="${esc(id)}">${APP.packs?.[id] ? "" : "🔒 "}Open pack</button>` : d.status === "Saved" ? `<button class="btn sm" data-pack="${esc(id)}">Prepare pack</button>`
+        : !APP.server && d.status === "Pack ready" ? `<span class="pack-pill">Pack on your Mac</span>` : ""}
+      <button class="btn sm" data-detail="${esc(id)}">Details</button>
+      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a></div></div>`;
+}
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-funnel],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort]"); if (!a) return;
+  const ds = a.dataset; e.preventDefault();
+  if (ds.funnel) { SHORT_F = SHORT_F === ds.funnel && ds.funnel !== "all" ? "all" : ds.funnel; return renderLists(); }
+  if (ds.dateFor) { DATE_FOR = DATE_FOR === ds.dateFor ? null : ds.dateFor; return renderLists(); }
+  if ("dateCancel" in ds) { DATE_FOR = null; return renderLists(); }
+  if (ds.dateSave) { addEvent(ds.dateSave, $("#df-date").value || today(), $("#df-type").value, $("#df-note").value.trim()); DATE_FOR = null; toast("Date added to your calendar"); return renderLists(); }
+  if (ds.goday) { JOURNEY.sel = ds.goday; JOURNEY.month = ds.goday.slice(0, 7); return showView("journey"); }
+  if (ds.unshort) {
+    const r = APP.byId[ds.unshort];
+    if (!confirm(`Remove ${r.j.company} · ${r.j.title} from your shortlist? It goes back to Discover.`)) return;
+    delete APP.state.decisions[ds.unshort]; toast("Removed. It's back in Discover"); return commit();
+  }
+});
+// the (i) next to the title: hover on a computer, tap on a phone
+document.addEventListener("click", (e) => { const i = e.target.closest(".info"); document.querySelectorAll(".info.open").forEach((x) => x !== i && x.classList.remove("open")); if (i) i.classList.toggle("open"); });
 function renderLists() {
   const statuses = APP.data.statuses, liked = APP.rows.filter((r) => r.decision?.decision === "like");
   const order = Object.fromEntries(statuses.map((s, i) => [s, i]));
@@ -2153,22 +2267,23 @@ function renderLists() {
   $("#c-short").textContent = liked.length || "";
   setText("#st-short", liked.length);
   setText("#st-applied", liked.filter((r) => ["Applied", "Interview", "Offer"].includes(r.decision.status)).length);
-  $("#pipeline").innerHTML = statuses.map((s) => `<span class="tag ${counts[s] ? "green" : "gray"}">${esc(s)} · ${counts[s] || 0}</span>`).join("");
-  $("#short-list").innerHTML = liked.length ? liked.map((r) => itemHTML(r, `
-      <select class="field" data-status="${esc(r.j.id)}">${statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-      ${hasPack(r.j.id) ? `<button class="btn primary sm" data-openpack="${esc(r.j.id)}">${APP.packs?.[r.j.id] ? "" : "🔒 "}Open pack</button>` : r.decision.status === "Saved" ? `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>`
-        : !APP.server && r.decision.status === "Pack ready" ? `<span class="pack-pill" title="Packs hold your CV with phone and email, so they stay on your Mac">📦 Pack ready · open it on your Mac</span>` : ""}
-      <button class="btn sm" data-detail="${esc(r.j.id)}">Details</button>
-      <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`)).join("")
-    : `<div class="box empty">Nothing shortlisted yet. Swipe a card right on Discover.</div>`;
+  // funnel: each step counts the roles that got at least that far (rejected ones are their own step); tap a step to filter
+  const reached = (k) => k === "all" ? liked : k === "Rejected" ? liked.filter((r) => r.decision.status === "Rejected") : liked.filter((r) => reachedOf(r.decision) >= STAGES.indexOf(k));
+  const steps = FUNNEL.map(([k, l, tint]) => [k, l, tint, reached(k).length]);
+  $("#pipeline").innerHTML = steps.map(([k, l, tint, n], i) => `<button class="fstep t-${tint} ${SHORT_F === k ? "on" : ""}" data-funnel="${esc(k)}" style="--w:${100 - i * (k === "Rejected" ? 0 : 6)}%">
+      <span>${l}</span><b>${n}</b></button>`).join("");
+  const list = reached(SHORT_F);
+  $("#short-list").innerHTML = list.length ? `${SHORT_F !== "all" ? `<div class="small muted f-note">Showing ${FUNNEL.find((x) => x[0] === SHORT_F)[1].toLowerCase()} · <a href="#" data-funnel="all">show all ${liked.length}</a></div>` : ""}
+    <div class="apps">${list.map(appCard).join("")}</div>`
+    : `<div class="box empty">${liked.length ? "Nothing at this step yet." : "Nothing shortlisted yet. Swipe a card right on Discover."}</div>`;
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#c-rej").textContent = mine.length + auto.length || "";
   $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Undo</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
   $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
   $("#pack-help").innerHTML = APP.server
-    ? `Press “Prepare pack”, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here as links. Review, apply, then update the status.`
-    : `Press “Prepare pack”, then download your backup (Profile & preferences) and give it to Claude Code with <b>paketleri hazırla</b>.`;
+    ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Tap a funnel step to see only those roles.`
+    : `Press <b>Prepare pack</b> on your Mac and ask Claude Code to prepare it. Review, apply, then update the status. Tap a funnel step to see only those roles.`;
 }
 
 // ---------------- companies ----------------
@@ -3003,21 +3118,19 @@ function renderHome() {
             <span class="btn primary sm">Start swiping<svg class="i"><use href="#i-chev"/></svg></span></div>
           <div class="glance-ring" title="Open today's checklist">${ring(out.length ? doneN / out.length : 0, `${doneN}/${out.length}<small>to-dos</small>`, 88)}</div></section>
         <section class="bt bt-slider t-peach" data-slider>
-          <div class="sl-track">
+          <div class="sl-track" style="transform:translateY(${-SLIDER.i * 100}%)">
             <button class="sl" data-hgo="hot"><span class="sl-in">${ico("flame", "peach")}<span class="bl">Hot matches</span><b class="bn">${h.hot.length}</b></span></button>
             <button class="sl" data-open="challenge"><span class="sl-in">${ico("puzzle", "peach")}<span class="bl">${APP.state.challenge.last === today() ? "Challenge done" : "Daily challenge"}</span><b class="bn sm">${APP.state.challenge.streak ? `${APP.state.challenge.streak}-day streak` : "Play now"}</b></span></button>
             <button class="sl" data-open="test"><span class="sl-in">${ico("sparkle", "peach")}<span class="bl">Self-discovery</span><b class="bn sm">${APP.state.test ? "Retake test" : "2-min test"}</b></span></button>
-          </div><div class="sl-dots"><i class="on"></i><i></i><i></i></div></section>
+          </div><div class="sl-dots"><i class="${SLIDER.i === 0 ? "on" : ""}"></i><i class="${SLIDER.i === 1 ? "on" : ""}"></i><i class="${SLIDER.i === 2 ? "on" : ""}"></i></div></section>
         ${stat("", "mint", "Packs ready", h.ready.length, 'data-v="short"', "file")}`,
       // picks and checklist open on tap; closed by default so the whole home fits one screen
       picks: () => `<section class="bt bt-picks ${HOME_OPEN.picks ? "open" : ""}"><button class="bth bth-tog" data-hopen="picks">${ico("star", "peach")}<b>Today's picks</b>
             <span class="wv">${picks.length ? `${picks.length} · top ${picks[0].score}` : "none today"}</span><svg class="i tog"><use href="#i-chev"/></svg></button>
           ${HOME_OPEN.picks ? (picks.length ? `<div class="picks">${picks.map(pickHTML).join("")}</div><button class="btn ghost sm" data-v="discover">See all in Discover<svg class="i"><use href="#i-chev"/></svg></button>` : `<div class="home-empty">No new or hot jobs today.</div>`) : ""}</section>`,
-      todo: () => `<section class="bt bt-todo t-rose ${HOME_OPEN.todo ? "open" : ""}" id="home-todo"><div class="bth"><button class="bth-tog" data-hopen="todo">${ico("check", "rose")}<b>Today's checklist</b><span class="wv">${doneN}/${out.length}</span><svg class="i tog"><use href="#i-chev"/></svg></button>
-            <button class="icon-btn add-todo" data-todo-add title="Add a to-do" aria-label="Add a to-do">${icon("plus")}</button></div>
+      todo: () => `<section class="bt bt-todo t-rose ${HOME_OPEN.todo ? "open" : ""}" id="home-todo"><div class="bth"><button class="bth-tog" data-hopen="todo">${ico("check", "rose")}<b>Today's checklist</b><span class="wv">${doneN}/${out.length}</span><svg class="i tog"><use href="#i-chev"/></svg></button></div>
           <div class="bar"><i style="width:${out.length ? (doneN / out.length) * 100 : 0}%"></i></div>
-          ${HOME_ADDING ? `<div class="todo-new"><input class="field" id="todo-new" placeholder="New to-do for today"><button class="btn primary sm" data-todo-save>Add</button></div>` : ""}
-          ${HOME_OPEN.todo ? todoList(out) : ""}</section>`,
+          ${HOME_OPEN.todo ? todoList(out) + `<label class="todo-pad"><span class="box-ph"></span><input id="todo-new" placeholder="add a to-do for today…" autocomplete="off" enterkeyhint="done"></label>` : ""}</section>`,
       journey: () => `<button class="bt bt-small t-sky" data-v="journey"><div class="bth">${ico("route", "sky")}<b>My journey</b></div>${ring(js.pct / 100, js.pct + "%", 64)}<span class="small muted">${esc(js.next.title)}</span></button>`,
     };
     body = `<div class="bento">${shown.map((k) => tiles[k]()).join("")}</div>`;
@@ -3038,25 +3151,33 @@ function renderHome() {
       ${art[g.art]}
     </div>` : ""}
     ${shown.length ? body : `<div class="home-empty"><div class="hand">a clean desk</div>Every card is hidden.<br><button class="btn sm" style="margin-top:10px" data-open="home-custom">Bring some back</button></div>`}`;
-  if (HOME_ADDING) setTimeout(() => $("#todo-new")?.focus(), 30);
 }
-let HOME_OPEN = { picks: false, todo: false }, HOME_ADDING = false;
+let HOME_OPEN = { picks: false, todo: false };
 // the slider tile: hot matches → challenge → self-test, a vertical step every 3 s (paused while touched)
 const SLIDER = { i: 0, paused: false };
-setInterval(() => {
-  const el = document.querySelector("#home [data-slider]"); if (!el || SLIDER.paused || document.querySelector(".modal.on")) return;
-  SLIDER.i = (SLIDER.i + 1) % 3;
+function slideTo(i) {
+  const el = document.querySelector("#home [data-slider]"); if (!el) return;
+  SLIDER.i = (i + 3) % 3;
   el.querySelector(".sl-track").style.transform = `translateY(${-SLIDER.i * 100}%)`;
   el.querySelectorAll(".sl-dots i").forEach((d, k) => d.classList.toggle("on", k === SLIDER.i));
-}, 3000);
+}
+setInterval(() => { if (!SLIDER.paused && !document.querySelector(".modal.on") && Date.now() - (SLIDER.touched || 0) > 6000) slideTo(SLIDER.i + 1); }, 3000);
+// swipe it by hand like a watch crown: drag up for the next card, down for the previous; a swipe never counts as a tap
+let slDrag = null;
+document.addEventListener("pointerdown", (e) => { const el = e.target.closest?.("#home [data-slider]"); if (el) slDrag = { y: e.clientY, moved: false }; });
+document.addEventListener("pointermove", (e) => { if (slDrag && Math.abs(e.clientY - slDrag.y) > 12) slDrag.moved = true; });
+document.addEventListener("pointerup", (e) => {
+  if (!slDrag) return; const dy = e.clientY - slDrag.y, moved = slDrag.moved; slDrag = null;
+  if (moved && Math.abs(dy) > 24) { SLIDER.touched = Date.now(); slideTo(SLIDER.i + (dy < 0 ? 1 : -1)); SLIDER.swallow = Date.now(); }
+});
+document.addEventListener("click", (e) => { if (Date.now() - (SLIDER.swallow || 0) < 400 && e.target.closest("[data-slider]")) { e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener("click", (e) => { const d = e.target.closest(".sl-dots i"); if (d) { e.stopPropagation(); SLIDER.touched = Date.now(); slideTo([...d.parentElement.children].indexOf(d)); } }, true);
 ["pointerenter", "touchstart"].forEach((ev) => document.addEventListener(ev, (e) => { if (e.target.closest?.("[data-slider]")) SLIDER.paused = true; }, { passive: true, capture: true }));
 ["pointerleave", "touchend"].forEach((ev) => document.addEventListener(ev, (e) => { if (e.target.closest?.("[data-slider]")) setTimeout(() => (SLIDER.paused = false), 1500); }, { passive: true, capture: true }));
 document.addEventListener("click", (e) => {
   const t = e.target;
   const tog = t.closest("[data-hopen]");
   if (tog) { HOME_OPEN[tog.dataset.hopen] = !HOME_OPEN[tog.dataset.hopen]; return renderHome(); }
-  if (t.closest("[data-todo-add]")) { HOME_ADDING = !HOME_ADDING; return renderHome(); }
-  if (t.closest("[data-todo-save]")) return saveExtraTodo();
   const g = t.closest("[data-glance]");
   if (g) {
     if (t.closest(".glance-ring")) { HOME_OPEN.todo = true; renderHome(); return $("#home-todo").scrollIntoView({ behavior: "smooth", block: "start" }); }
@@ -3067,7 +3188,7 @@ function saveExtraTodo() {
   const v = $("#todo-new")?.value.trim(); if (!v) return toast("Write the to-do first");
   const t = today(); APP.state.extra_todos = APP.state.extra_todos || {};
   (APP.state.extra_todos[t] = APP.state.extra_todos[t] || []).push({ id: Date.now().toString(36), text: v });
-  HOME_ADDING = false; HOME_OPEN.todo = true; save(); renderHome();
+  HOME_OPEN.todo = true; save(); renderHome(); setTimeout(() => $("#todo-new")?.focus(), 30);
 }
 document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.id === "todo-new") saveExtraTodo(); });
 // ---- customize home: show/hide, order and width of each card, summary rows, name, own to-dos ----
@@ -3143,112 +3264,149 @@ function setStatus(id, status) {
   d.reached = Math.max(d.reached ?? -1, STAGES.indexOf(status));
 }
 const reachedOf = (d) => Math.max(d.reached ?? -1, STAGES.indexOf(d.status));
+// the road map is hers to edit: rename steps, change targets, add her own steps; built-in steps count themselves
+const ROAD_DEFAULT = [
+  { k: "know", title: "Know what you want", of: 2, w: 5 }, { k: "short", title: "Build a shortlist", of: 10, w: 10 },
+  { k: "packs", title: "Prepare tailored packs", of: 5, w: 10 }, { k: "apply", title: "Send applications", of: 30, w: 30 },
+  { k: "talk", title: "Get interviews", of: 3, w: 25 }, { k: "offer", title: "Land the offer", of: 1, w: 15 }, { k: "move", title: "Move abroad", of: 1, w: 5 },
+];
+const ROAD_COUNTED = new Set(["short", "packs", "apply", "talk"]); // their targets can be changed
 function journeyStats() {
   const jr = APP.state.journey, liked = APP.rows.filter((r) => r.decision?.decision === "like");
   const at = (s) => liked.filter((r) => reachedOf(r.decision) >= STAGES.indexOf(s)).length;
-  const ms = [
-    { k: "know", title: "Know what you want", n: 1 + (APP.state.test ? 1 : 0), of: 2, w: 5, hint: "take the 2-minute self-test" },
-    { k: "short", title: "Build a shortlist", n: liked.length, of: 10, w: 10, hint: "roles to shortlist" },
-    { k: "packs", title: "Prepare tailored packs", n: at("Pack ready"), of: 5, w: 10, hint: "packs to prepare" },
-    { k: "apply", title: "Send applications", n: at("Applied"), of: jr.goal_apps, w: 30, hint: "applications to send" },
-    { k: "talk", title: "Get interviews", n: at("Interview"), of: 3, w: 25, hint: "interviews to land" },
-    { k: "offer", title: "Land the offer", n: at("Offer"), of: 1, w: 15, hint: "one offer to win" },
-    { k: "move", title: "Move abroad", n: jr.moved ? 1 : 0, of: 1, w: 5, hint: "pack your bags" },
-  ];
-  const pct = Math.round(ms.reduce((a, m) => a + m.w * Math.min(m.n / m.of, 1), 0));
+  const road = jr.road || ROAD_DEFAULT;
+  const auto = { know: (APP.state.test ? 1 : 0) + (jr.prefs_ok ? 1 : 0), short: liked.length, packs: at("Pack ready"), apply: at("Applied"), talk: at("Interview"), offer: at("Offer"), move: jr.moved ? 1 : 0 };
+  const ms = road.map((x) => ({ ...x, of: x.k === "apply" ? jr.goal_apps : x.of, w: x.w ?? 10, n: x.k in auto ? auto[x.k] : x.done ? 1 : 0 }));
+  const total = ms.reduce((a, m) => a + m.w, 0) || 1;
+  const pct = Math.round((ms.reduce((a, m) => a + m.w * Math.min(m.n / m.of, 1), 0) / total) * 100);
   const cur = ms.find((m) => m.n < m.of) || ms.at(-1);
-  const left = cur.n >= cur.of ? "you did it!" : ["short", "packs", "apply", "talk"].includes(cur.k) ? `${cur.of - cur.n} ${cur.hint}` : cur.hint;
+  const LEFT = { short: "roles to shortlist", packs: "packs to prepare", apply: "applications to send", talk: "interviews to land" };
+  const left = cur.n >= cur.of ? "you did it!" : LEFT[cur.k] ? `${cur.of - cur.n} ${LEFT[cur.k]}`
+    : cur.k === "know" ? (APP.state.test ? "check your preferences" : "take the 2-minute self-test") : cur.k === "offer" ? "one offer to win" : cur.k === "move" ? "pack your bags" : "tick it off when it's done";
   const days = Math.ceil((new Date(jr.goal_date) - new Date(today())) / DAY);
   return { ms, pct, cur, next: { title: cur.title, left }, days, liked, at };
 }
-const JOURNEY = { month: null, sel: null, editGoal: false };
+const JOURNEY = { month: null, sel: null, editGoal: false, road: false, editRoad: false };
 function journeyEvents() {
   const jr = APP.state.journey, ev = [];
   for (const r of APP.rows) {
     const d = r.decision; if (d?.decision !== "like") continue;
     const co = r.j.company;
-    ev.push({ date: ymd(d.at), kind: "short", title: `Shortlisted ${co}`, sub: r.j.title });
-    for (const l of d.log || []) ev.push({ date: ymd(l.at), kind: { Applied: "apply", Interview: "talk", Offer: "offer", Rejected: "no" }[l.s] || "step", title: `${l.s}: ${co}`, sub: r.j.title });
-    if (d.status === "Applied") ev.push({ date: ymd(+new Date(d.followed_up_at || d.status_at || d.at) + 7 * DAY), kind: "due", title: `Follow up with ${co}`, sub: "a week without news" });
+    ev.push({ date: ymd(d.at), kind: "short", title: `Shortlisted ${co}`, sub: r.j.title, job: r.j.id });
+    for (const l of d.log || []) ev.push({ date: ymd(l.at), kind: { Applied: "apply", Interview: "talk", Offer: "offer", Rejected: "no" }[l.s] || "step", title: `${l.s}: ${co}`, sub: r.j.title, job: r.j.id });
+    if (d.status === "Applied") ev.push({ date: ymd(+new Date(d.followed_up_at || d.status_at || d.at) + 7 * DAY), kind: "due", title: `Follow up with ${co}`, sub: r.j.title, job: r.j.id });
   }
-  for (const e of jr.events || []) ev.push({ ...e, mine: true });
+  for (const e of jr.events || []) { const r = e.job && APP.byId[e.job];
+    ev.push({ ...e, mine: true, title: r ? `${EV_KIND[e.kind]?.[0] || "Date"}: ${r.j.company}` : e.title, sub: r ? r.j.title + (e.note ? ` · ${e.note}` : "") : e.note || "" }); }
   return ev;
 }
 const EV_KIND = { short: ["Shortlisted", "lav"], step: ["Progress", "lav"], apply: ["Applied", "sky"], talk: ["Interview", "peach"], offer: ["Offer", "mint"], no: ["Rejected", "rose"],
   due: ["Follow-up", "butter"], interview: ["Interview", "peach"], deadline: ["Deadline", "rose"], call: ["Call", "sky"], other: ["Note", "lav"] };
+const ROAD_ACTIONS = {
+  know: () => `${APP.state.test ? "" : `<button class="btn sm" data-open="test">Take the self-test</button>`}
+    ${APP.state.journey.prefs_ok ? "" : `<button class="btn sm" data-v="settings">Check preferences</button><button class="btn sm" data-road-prefs>${icon("check")}They look right</button>`}`,
+  short: () => `<button class="btn sm" data-v="discover">Go to Discover</button>`,
+  packs: () => `<button class="btn sm" data-v="short">Open shortlist</button>`,
+  apply: () => `<button class="btn sm" data-v="short">Open shortlist</button>`,
+  talk: () => `<button class="btn sm" data-jcal>Add an interview date</button>`,
+  move: () => APP.state.journey.moved ? "" : `<button class="btn sm" data-g-moved>I've moved 🎉</button>`,
+};
+function roadHTML(js) {
+  const jr = APP.state.journey;
+  if (JOURNEY.editRoad) return `<div class="road-edit">${js.ms.map((x, i) => `<div class="re-row" data-ri="${i}">
+      <input class="field" data-rtitle value="${esc(x.title)}">
+      ${ROAD_COUNTED.has(x.k) ? `<input class="field re-of" type="number" min="1" data-rof value="${x.of}" title="Target">` : `<span class="re-of muted small">${x.k.startsWith("c:") ? "tick" : "auto"}</span>`}
+      ${x.k.startsWith("c:") ? `<button class="icon-btn" data-rdelstep="${i}" title="Remove step">${icon("trash")}</button>` : `<span style="width:30px"></span>`}</div>`).join("")}
+    <div class="re-add"><input class="field" id="road-new" placeholder="Add your own step, e.g. Polish my LinkedIn"><button class="btn sm" data-road-add>${icon("plus")}Add</button></div>
+    <div class="sheet-actions" style="margin-top:8px"><button class="btn ghost sm" data-road-reset>Back to default</button><button class="btn sm" data-road-cancel>Cancel</button><button class="btn primary sm" data-road-save>Save</button></div></div>`;
+  return `<ol class="road">${js.ms.map((x, i) => { const done = x.n >= x.of, cur = x === js.cur && !done, custom = x.k.startsWith("c:");
+    return `<li class="${done ? "done" : cur ? "cur" : ""}">${custom ? `<button class="dot" data-rtick="${i}" aria-label="Tick">${done ? icon("check") : ""}</button>` : `<span class="dot">${done ? icon("check") : ""}</span>`}<div><b>${esc(x.title)}</b>
+      <span>${done ? "done" : custom ? "tick it off when it's done" : x.k === "know" ? `${x.n} of 2: self-test, preferences` : `${Math.min(x.n, x.of)} of ${x.of}`}</span>
+      ${cur && x.of > 1 ? `<div class="bar"><i style="width:${(x.n / x.of) * 100}%"></i></div>` : ""}
+      ${!done && ROAD_ACTIONS[x.k] ? `<div class="road-acts">${ROAD_ACTIONS[x.k]()}</div>` : ""}</div></li>`; }).join("")}</ol>`;
+}
 function renderJourney() {
   const el = $("#journey"); if (!el || !APP.state) return;
   const jr = APP.state.journey, js = journeyStats(), ev = journeyEvents();
   JOURNEY.month = JOURNEY.month || today().slice(0, 7); JOURNEY.sel = JOURNEY.sel || today();
   const goalDate = new Date(jr.goal_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-  // calendar grid, weeks start on Monday
   const [y, m] = JOURNEY.month.split("-").map(Number), first = new Date(y, m - 1, 1), lead = (first.getDay() + 6) % 7, nDays = new Date(y, m, 0).getDate();
   const byDay = {}; for (const e of ev) (byDay[e.date] = byDay[e.date] || []).push(e);
   const cells = [...Array(lead).fill(""), ...Array.from({ length: nDays }, (_, i) => `${JOURNEY.month}-${String(i + 1).padStart(2, "0")}`)];
-  const dayEv = (byDay[JOURNEY.sel] || []);
-  const apps = [...js.liked].sort((a, b) => reachedOf(b.decision) - reachedOf(a.decision) || (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at));
+  const dayEv = byDay[JOURNEY.sel] || [];
+  const liked = js.liked;
   el.innerHTML = `
     <div class="eyebrow">My journey</div>
     <h1 class="hero">On the way to the dream job.</h1>
+    <div class="goal-wrap">
     <section class="goal">
+      <button class="icon-btn goal-edit-btn" data-g-edit title="Edit goal" aria-label="Edit goal">${icon("edit")}</button>
       <div class="goal-l"><div class="hand">dream job by ${esc(goalDate)}</div>
         <div class="goal-pct">${js.pct}%<small>of the way there</small></div>
         <div class="goal-bar"><i style="width:${js.pct}%"></i></div>
         <p>${js.days >= 0 ? `<b>${js.days} days</b> to go` : `<b>${-js.days} days</b> past your date`} · next: <b>${esc(js.next.title.toLowerCase())}</b>, ${esc(js.next.left)}</p>
         ${JOURNEY.editGoal ? `<div class="goal-edit"><label>Target date<input class="field" type="date" id="g-date" value="${esc(jr.goal_date)}"></label>
-          <label>Applications to send<input class="field" type="number" min="1" id="g-apps" value="${jr.goal_apps}"></label><button class="btn primary sm" data-g-save>Save</button></div>`
-          : `<button class="btn sm" data-g-edit>${icon("edit")}Edit goal</button>`}</div>
+          <label>Applications to send<input class="field" type="number" min="1" id="g-apps" value="${jr.goal_apps}"></label><button class="btn sm" data-g-cancel>Cancel</button><button class="btn primary sm" data-g-save>Save</button></div>`
+          : `<button class="btn sm" data-road-toggle>${icon("route")}${JOURNEY.road ? "Hide road map" : "Show road map"}</button>`}</div>
       ${ring(js.pct / 100, js.pct + "%", 128)}
     </section>
-    ${jWallet([
-      ["road", "flag", "lav", "Road map", `${js.ms.filter((m) => m.n >= m.of).length} of ${js.ms.length} done`, `<ol class="road">${js.ms.map((x) => { const done = x.n >= x.of, cur = x === js.cur && !done;
-          return `<li class="${done ? "done" : cur ? "cur" : ""}"><span class="dot">${done ? icon("check") : ""}</span><div><b>${esc(x.title)}${x.k === "move" ? " 🎉" : ""}</b>
-            <span>${done ? "done" : `${Math.min(x.n, x.of)} of ${x.of}`}</span>${cur ? `<div class="bar"><i style="width:${(x.n / x.of) * 100}%"></i></div>` : ""}
-            ${x.k === "move" && js.at("Offer") && !jr.moved ? `<button class="btn sm" data-g-moved style="margin-top:6px">I've moved 🎉</button>` : ""}</div></li>`; }).join("")}</ol>`],
-      ["cal", "calendar", "peach", "Calendar", first.toLocaleDateString("en-GB", { month: "short", year: "numeric" }), `<div class="cal-top j-cal"><b>${first.toLocaleDateString("en-GB", { month: "long", year: "numeric" })}</b>
-          <span class="cal-nav"><button class="icon-btn" data-cal="-1" aria-label="Previous month">${icon("chev")}</button><button class="icon-btn" data-cal="0">Today</button><button class="icon-btn" data-cal="1" aria-label="Next month">${icon("chev")}</button></span></div>
-        <div class="cal">${["M", "T", "W", "T", "F", "S", "S"].map((d) => `<span class="cal-h">${d}</span>`).join("")}
-          ${cells.map((d) => d ? `<button class="cal-d ${d === today() ? "today" : ""} ${d === JOURNEY.sel ? "sel" : ""}" data-day="${d}">${+d.slice(8)}<span class="cal-dots">${(byDay[d] || []).slice(0, 3).map((e) => `<i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i>`).join("")}</span></button>` : "<span></span>").join("")}</div>
-        <div class="cal-list"><div class="small muted" style="margin-bottom:6px">${new Date(JOURNEY.sel).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
-          ${dayEv.length ? dayEv.map((e, i) => `<div class="cal-ev"><i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i><div><b>${esc(e.title)}</b><span>${esc(EV_KIND[e.kind]?.[0] || "")}${e.sub ? " · " + esc(e.sub) : ""}</span></div>${e.mine ? `<button class="icon-btn" data-ev-del="${esc(e.id)}" title="Remove">${icon("trash")}</button>` : ""}</div>`).join("") : `<div class="small muted">Nothing on this day.</div>`}
-          <div class="ev-add"><input class="field" id="ev-title" placeholder="Add: e.g. Airbnb interview, 14:00"><select class="field" id="ev-type"><option value="interview">Interview</option><option value="deadline">Deadline</option><option value="call">Call</option><option value="other">Note</option></select><button class="btn primary sm" data-ev-add>Add</button></div></div>`],
-      ["apps", "briefcase", "mint", "Applications", `${apps.length} on your list`, `<div class="apps">${apps.length ? apps.map((r) => { const d = r.decision, rc = reachedOf(d), rej = d.status === "Rejected";
-      return `<div class="box app ${rej ? "rej" : ""}">
-        <div class="app-top">${avatar(r.j.company)}<div style="min-width:0"><b>${esc(r.j.title)}</b><span>${esc(r.j.company)} · ${esc(r.d.city)} · updated ${ago(d.status_at || d.at)}</span></div>
-          <span class="tag ${rej ? "red" : rc >= 3 ? "green" : "gray"}">${esc(d.status)}</span></div>
-        <div class="steps">${STEPS.map(([s, l]) => `<span class="${rc >= STAGES.indexOf(s) ? "on" : ""}"><i></i>${l}</span>`).join("")}</div>
-        <div class="app-acts"><select class="field" data-status="${esc(r.j.id)}">${APP.data.statuses.map((s) => `<option ${s === d.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-          ${hasPack(r.j.id) ? `<button class="btn sm" data-openpack="${esc(r.j.id)}">Open pack</button>` : ""}
-          <button class="btn sm" data-ev-for="${esc(r.j.company)}">${icon("calendar")}Add a date</button></div></div>`; }).join("")
-      : `<div class="empty">No applications yet. Shortlist a job on Discover and it starts its journey here.</div>`}</div>`],
-    ])}`;
+    <div class="road-drawer ${JOURNEY.road ? "open" : ""}"><div class="rd-in">
+      <div class="rd-head"><b>Road map</b><span class="small muted">${js.ms.filter((x) => x.n >= x.of).length} of ${js.ms.length} done</span>
+        ${JOURNEY.editRoad ? "" : `<button class="icon-btn" data-road-edit title="Edit the road map">${icon("edit")}</button>`}</div>
+      ${roadHTML(js)}</div></div>
+    </div>
+    <section class="box pad j-cal"><div class="cal-top"><b>${first.toLocaleDateString("en-GB", { month: "long", year: "numeric" })}</b>
+        <span class="cal-nav"><button class="icon-btn" data-cal="-1" aria-label="Previous month">${icon("chev")}</button><button class="icon-btn" data-cal="0">Today</button><button class="icon-btn" data-cal="1" aria-label="Next month">${icon("chev")}</button></span></div>
+      <div class="cal">${["M", "T", "W", "T", "F", "S", "S"].map((d) => `<span class="cal-h">${d}</span>`).join("")}
+        ${cells.map((d) => d ? `<button class="cal-d ${d === today() ? "today" : ""} ${d === JOURNEY.sel ? "sel" : ""}" data-day="${d}">${+d.slice(8)}<span class="cal-dots">${(byDay[d] || []).slice(0, 3).map((e) => `<i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i>`).join("")}</span></button>` : "<span></span>").join("")}</div>
+      <div class="cal-list"><div class="small muted" style="margin-bottom:6px">${new Date(JOURNEY.sel).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
+        ${dayEv.length ? dayEv.map((e) => `<div class="cal-ev"><i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i><div><b>${esc(e.title)}</b><span>${esc(e.sub || EV_KIND[e.kind]?.[0] || "")}</span></div>
+          ${e.job && hasPack(e.job) ? `<button class="btn sm" data-openpack="${esc(e.job)}">Pack</button>` : e.job ? `<button class="btn sm" data-detail="${esc(e.job)}">Role</button>` : ""}
+          ${e.mine ? `<button class="icon-btn" data-ev-del="${esc(e.id)}" title="Remove">${icon("trash")}</button>` : ""}</div>`).join("") : `<div class="small muted">Nothing on this day.</div>`}
+        <div class="ev-add"><select class="field" id="ev-job"><option value="">No application</option>${liked.map((r) => `<option value="${esc(r.j.id)}">${esc(r.j.company)} · ${esc(r.j.title.slice(0, 40))}</option>`).join("")}</select>
+          <select class="field" id="ev-type"><option value="interview">Interview</option><option value="deadline">Deadline</option><option value="call">Call</option><option value="other">Note</option></select>
+          <input class="field" id="ev-title" placeholder="Note, e.g. 14:00 with the hiring manager"><button class="btn primary sm" data-ev-add>Add</button></div></div>
+    </section>`;
 }
-// stacked cards: every section shows a coloured tab; the open one sits in front at the bottom
-let J_FRONT = "apps";
-function jWallet(cards) {
-  const front = cards.find((c) => c[0] === J_FRONT) || cards.at(-1), back = cards.filter((c) => c !== front);
-  return `<div class="wallet">${back.map(([k, ic, tint, title, val]) => `<button class="wcard tab t-${tint}" data-jfront="${k}">${ico(ic, tint)}<b>${title}</b><span class="wv">${esc(val)}</span>${icon("chev")}</button>`).join("")}
-    <section class="wcard open t-${front[2]}"><div class="whead">${ico(front[1], front[2])}<b>${front[3]}</b><span class="wv">${esc(front[4])}</span></div><div class="wbody">${front[5]}</div></section></div>`;
+// a date on an application (from the shortlist card or the calendar)
+function addEvent(job, date, type, note) {
+  const jr = APP.state.journey;
+  (jr.events = jr.events || []).push({ id: Date.now().toString(36), date, type, kind: type, job: job || null, note: note || "", title: note || EV_KIND[type]?.[0] || "Date" });
+  save();
 }
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-jfront]"); if (!t) return;
-  J_FRONT = t.dataset.jfront; renderJourney();
-  $("#journey .wcard.open")?.animate([{ transform: "translateY(26px)", opacity: .6 }, { transform: "none", opacity: 1 }], { duration: 280, easing: "cubic-bezier(.2,.8,.2,1)" });
-});
-document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-cal],[data-day],[data-ev-add],[data-ev-del],[data-ev-for],[data-g-edit],[data-g-save],[data-g-moved]"); if (!a || !$("#v-journey").contains(a)) return;
+  const a = e.target.closest("[data-cal],[data-day],[data-ev-add],[data-ev-del],[data-g-edit],[data-g-save],[data-g-cancel],[data-g-moved],[data-road-toggle],[data-road-edit],[data-road-save],[data-road-cancel],[data-road-reset],[data-road-add],[data-rdelstep],[data-rtick],[data-road-prefs],[data-jcal]");
+  if (!a || !$("#v-journey").contains(a)) return;
   const ds = a.dataset, jr = APP.state.journey;
   if (ds.cal != null) { if (ds.cal === "0") { JOURNEY.month = today().slice(0, 7); JOURNEY.sel = today(); } else { const [y, m] = JOURNEY.month.split("-").map(Number), d = new Date(y, m - 1 + +ds.cal, 1); JOURNEY.month = ymd(d).slice(0, 7); } return renderJourney(); }
   if (ds.day) { JOURNEY.sel = ds.day; return renderJourney(); }
-  if ("evFor" in ds) { J_FRONT = "cal"; renderJourney(); $("#ev-title").value = ds.evFor + " "; $(".j-cal").scrollIntoView({ behavior: "smooth", block: "center" }); return setTimeout(() => $("#ev-title").focus(), 300); }
-  if ("evAdd" in ds) { const title = $("#ev-title").value.trim(); if (!title) return toast("Write what happens that day");
-    (jr.events = jr.events || []).push({ id: Date.now().toString(36), date: JOURNEY.sel, type: $("#ev-type").value, kind: $("#ev-type").value, title }); save(); return renderJourney(); }
-  if (ds.evDel) { jr.events = jr.events.filter((x) => x.id !== ds.evDel); save(); return renderJourney(); }
-  if ("gEdit" in ds) { JOURNEY.editGoal = true; return renderJourney(); }
+  if ("evAdd" in ds) { const job = $("#ev-job").value, note = $("#ev-title").value.trim(); if (!job && !note) return toast("Pick an application or write a note");
+    addEvent(job, JOURNEY.sel, $("#ev-type").value, note); renderLists(); return renderJourney(); }
+  if (ds.evDel) { jr.events = jr.events.filter((x) => x.id !== ds.evDel); save(); renderLists(); return renderJourney(); }
+  if ("gEdit" in ds) { JOURNEY.editGoal = !JOURNEY.editGoal; return renderJourney(); }
+  if ("gCancel" in ds) { JOURNEY.editGoal = false; return renderJourney(); }
   if ("gSave" in ds) { jr.goal_date = $("#g-date").value || jr.goal_date; jr.goal_apps = Math.max(1, +$("#g-apps").value || jr.goal_apps); JOURNEY.editGoal = false; save(); renderHome(); return renderJourney(); }
   if ("gMoved" in ds) { jr.moved = true; save(); toast("Congratulations! 🎉"); renderHome(); return renderJourney(); }
+  if ("roadToggle" in ds) { JOURNEY.road = !JOURNEY.road; return renderJourney(); }
+  if ("roadEdit" in ds) { JOURNEY.road = true; JOURNEY.editRoad = true; return renderJourney(); }
+  if ("roadCancel" in ds) { JOURNEY.editRoad = false; return renderJourney(); }
+  if ("roadReset" in ds) { if (!confirm("Put the road map back to default? Your own steps are removed.")) return; delete jr.road; JOURNEY.editRoad = false; save(); renderHome(); return renderJourney(); }
+  if ("roadSave" in ds || "roadAdd" in ds || ds.rdelstep != null) {
+    const road = (jr.road || ROAD_DEFAULT).map((x) => ({ ...x }));
+    document.querySelectorAll(".re-row").forEach((row) => { const x = road[+row.dataset.ri]; x.title = row.querySelector("[data-rtitle]").value.trim() || x.title;
+      const of = row.querySelector("[data-rof]"); if (of) { x.of = Math.max(1, +of.value || x.of); if (x.k === "apply") jr.goal_apps = x.of; } });
+    if (ds.rdelstep != null) road.splice(+ds.rdelstep, 1);
+    if ("roadAdd" in ds) { const t = $("#road-new").value.trim(); if (!t) return toast("Write the step first"); road.splice(road.length - 1, 0, { k: "c:" + Date.now().toString(36), title: t, of: 1, w: 10 }); }
+    jr.road = road; if ("roadSave" in ds) JOURNEY.editRoad = false; save(); renderHome(); return renderJourney();
+  }
+  if (ds.rtick != null) { const road = (jr.road || ROAD_DEFAULT).map((x) => ({ ...x })), x = road[+ds.rtick]; x.done = !x.done; jr.road = road; save(); renderHome(); return renderJourney(); }
+  if ("roadPrefs" in ds) { jr.prefs_ok = true; save(); renderHome(); return renderJourney(); }
+  if ("jcal" in ds) { $(".j-cal").scrollIntoView({ behavior: "smooth", block: "start" }); $("#ev-type").value = "interview"; }
 });
-document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.id === "ev-title") document.querySelector("[data-ev-add]").click(); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.target.id === "ev-title") document.querySelector("[data-ev-add]").click();
+  if (e.key === "Enter" && e.target.id === "road-new") document.querySelector("[data-road-add]").click();
+});
 
 // ---------------- profile ----------------
 const PROFILE_DEFAULT = { name: "Nesibe Keleş", location: "Istanbul · heading to Europe", email: "", phone: "", linkedin: "" };
@@ -3583,8 +3741,30 @@ function adoptShared(saved) {
   let seen = null; try { seen = localStorage.getItem("jobness.shared_seen"); } catch {}
   if (saved && seen === shared.published_at) return saved;
   try { localStorage.setItem("jobness.shared_seen", shared.published_at); } catch {}
-  // pack edits and contact details made on this phone stay (neither is ever published)
-  return { ...shared, packs: saved?.packs, profile: { ...(shared.profile || {}), email: saved?.profile?.email || "", phone: saved?.profile?.phone || "" } };
+  return mergeShared(shared, saved);
+}
+// a new view from the Mac is merged in, never pasted over: swipes, challenge results, to-dos and dates made on
+// this device survive; for the same job or day the newer entry wins; settings and rules follow the Mac
+function mergeShared(shared, local) {
+  if (!local) return shared;
+  const m = { ...shared }, t = (d) => d?.status_at || d?.at || "";
+  m.decisions = { ...(local.decisions || {}) };
+  for (const [id, d] of Object.entries(shared.decisions || {})) if (!m.decisions[id] || t(d) >= t(m.decisions[id])) m.decisions[id] = d;
+  const a = local.challenge || {}, b = shared.challenge || {}, newer = (a.last || "") > (b.last || "") ? a : b;
+  m.challenge = { ...b, results: { ...(b.results || {}), ...(a.results || {}) }, last: newer.last || null, streak: newer.streak || 0, best: Math.max(a.best || 0, b.best || 0) };
+  const days = (x = {}, y = {}) => { const o = { ...x }; for (const [k, v] of Object.entries(y)) o[k] = { ...(o[k] || {}), ...v }; return o; };
+  m.todos = days(shared.todos, local.todos);
+  const byId = (x = [], y = []) => [...new Map([...x, ...y].map((e) => [e.id ?? e.at, e])).values()];
+  m.extra_todos = { ...(shared.extra_todos || {}) };
+  for (const [d, list] of Object.entries(local.extra_todos || {})) m.extra_todos[d] = byId(m.extra_todos[d], list);
+  m.journey = { ...(shared.journey || {}), events: byId(shared.journey?.events, local.journey?.events) };
+  m.feedback = byId(shared.feedback, local.feedback);
+  m.viewed = { ...(shared.viewed || {}) };
+  for (const [id, v] of Object.entries(local.viewed || {})) if (!m.viewed[id] || v > m.viewed[id]) m.viewed[id] = v;
+  if (local.test && (!shared.test || (local.test.at || "") > (shared.test.at || ""))) m.test = local.test;
+  m.packs = local.packs; // pack edits and contact details made here stay (neither is ever published)
+  m.profile = { ...(shared.profile || {}), email: local.profile?.email || "", phone: local.profile?.phone || "" };
+  return m;
 }
 (async function boot() {
   await loadData();
