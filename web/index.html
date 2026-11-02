@@ -847,6 +847,14 @@
     .doc-tools { gap: 6px; }
   }
 
+  .loading-home { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; }
+  .loading-home b { font: 700 18px var(--head); } .loading-home span { color: var(--muted); font-size: 13px; max-width: 300px; }
+  .ld-logo { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); box-shadow: var(--shadow-card); margin-bottom: 8px; animation: ldPulse 1.6s ease-in-out infinite; }
+  .ld-logo img { width: 38px; } @keyframes ldPulse { 50% { transform: scale(1.06); } }
+  .ld-bar { width: 180px; height: 5px; border-radius: 99px; background: var(--soft); overflow: hidden; margin-top: 10px; }
+  .ld-bar i { display: block; width: 40%; height: 100%; border-radius: 99px; background: var(--lav); animation: ldBar 1.3s ease-in-out infinite; }
+  @keyframes ldBar { from { transform: translateX(-100%); } to { transform: translateX(260%); } }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   html[data-theme="business"] {
     --bg: #0b0c0f; --surface: #16171b; --ink: #f1efe9; --ink-2: #c8c5bd; --muted: #8e8b84; --line: #2a2b31; --soft: #1e1f24;
@@ -1917,7 +1925,7 @@ function facts({ j, d }) {
   return `<div class="fact"><span>Location</span><b>${esc(d.city)}</b><em>#${d.priority} choice</em></div>
     <div class="fact"><span>Salary (gross/yr)</span><b>${esc(sal)}</b><em>${esc(salNote)}</em></div>
     <div class="fact"><span>Visa sponsorship</span><b>${esc(sp)}</b><em>${esc(spNote)}</em></div>
-    <div class="fact"><span>Work setup · level</span><b>${esc(SELECT_LABELS.workplace[f.workplace] || f.workplace)}</b><em>${esc(SELECT_LABELS.seniority[f.seniority])}${f.office_days ? ` · ${f.office_days} office days` : ""}</em></div>`;
+    <div class="fact"><span>Work setup · level</span><b>${esc(SELECT_LABELS.workplace[f.workplace] || f.workplace)}</b><em>${esc(SELECT_LABELS.seniority[f.seniority])}${f.years_required ? ` · ${f.years_required}+ yrs experience` : ""}${f.office_days ? ` · ${f.office_days} office days` : ""}</em></div>`;
 }
 function renderPanel(r) {
   if (!$("#panel")) return; // Discover shows everything on the cards now
@@ -1984,7 +1992,7 @@ function openCard(id) {
   pop.style.transform = ""; pop.style.opacity = ""; swipeFeel(pop, 0);
   pop.innerHTML = `<div class="stamp like">♥ SHORTLIST</div><div class="stamp nope">✕ PASS</div>
     <div class="cp-head"><div style="display:flex;gap:12px;min-width:0">${avatar(j.company)}
-        <div style="min-width:0"><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2>${esc(j.title)}</h2><div class="qchips" style="margin-top:8px">${quickChips(r, 3)}</div></div></div>
+        <div style="min-width:0"><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2>${esc(j.title)}</h2></div></div>
       <div style="display:flex;gap:6px;align-items:start"><div class="bigscore"><b>${r.score}</b><span>SCORE</span></div><button class="icon-btn" data-close="m-card" title="Close (Esc)">${icon("x")}</button></div></div>
     <div class="cp-body">${detailBody(r)}</div>
     <div class="cp-foot">
@@ -3269,7 +3277,6 @@ function renderProfile() {
       <div class="sheet-actions" style="margin-top:4px"><button class="btn" data-pcancel>Cancel</button><button class="btn primary" data-psave>Save</button></div></div>` : ""}
     <div class="prof-stats"><div><span>Shortlisted</span><b>${js.liked.length}</b></div><div><span>Applied</span><b>${js.at("Applied")}</b></div><div><span>Journey</span><b>${js.pct}%</b></div>
       <div><span>Streak</span><b class="streak">${APP.state.challenge.streak ? `${icon("flame")}${APP.state.challenge.streak}` : "–"}</b></div></div>
-    <button class="prow prof-switch" data-theme-open>${ico("palette", "lav")}<span><b>Switch theme</b><small>${esc(t.name)}</small></span>${icon("chev")}</button>
     ${p.email || p.phone || p.linkedin ? `<div class="prof-sec">Contact</div><div class="prof-list prof-contact">
       ${p.email ? `<div class="prow">${ico("mail", "sky")}<span><b>${esc(p.email)}</b><small>email</small></span></div>` : ""}
       ${p.phone ? `<div class="prow">${ico("phone", "mint")}<span><b>${esc(p.phone)}</b><small>phone</small></span></div>` : ""}
@@ -3542,14 +3549,42 @@ async function pollPublish() {
   if (p && el) el.textContent = p.error ? "· live site sync failed" : p.pending ? "· syncing live site soon" : p.at ? `· live site synced ${ago(p.at)}` : "";
   setTimeout(pollPublish, 20000);
 }
+// live site on a slow connection: the last copy of the jobs file is kept on the device and shown at once;
+// the fresh one downloads in the background and swaps in when it has arrived
+const DATA_CACHE = "jobness-data-v1", DATA_URL = "data/static.json";
+async function cachedStatic() { try { const r = await (await caches.open(DATA_CACHE)).match(DATA_URL); return r ? await r.json() : null; } catch { return null; } }
+async function freshStatic() {
+  const r = await fetch(DATA_URL, { cache: "no-cache" });
+  if (!r.ok) throw new Error(r.status);
+  try { await (await caches.open(DATA_CACHE)).put(DATA_URL, r.clone()); } catch {}
+  return r.json();
+}
+function showFetchInfo() {
+  const m = APP.data.meta;
+  $("#fetch-info").innerHTML = (m.last_fetch ? `<span class="status-dot"></span>Updated ${ago(m.last_fetch)} · ${m.count} jobs ` : "") + `<span id="publish-info"></span>`;
+}
 async function loadData() {
   if (!location.hostname.endsWith("github.io")) { // only the local Python server has /api
     try { const d = await fetch("/api/data").then((r) => r.json()); if (d.jobs) { APP.data = d; APP.server = true; } } catch {}
   }
-  if (!APP.server) APP.data = await fetch("data/static.json", { cache: "no-cache" }).then((r) => r.json());
+  if (!APP.server) {
+    APP.data = await cachedStatic();
+    if (!APP.data) { $("#home").innerHTML = LOADING_HTML; APP.data = await freshStatic(); APP.dataFresh = true; }
+  }
   if (APP.server) APP.packs = await fetch("/api/packs").then((r) => r.json()).catch(() => ({}));
-  const m = APP.data.meta;
-  $("#fetch-info").innerHTML = (m.last_fetch ? `<span class="status-dot"></span>Updated ${ago(m.last_fetch)} · ${m.count} jobs ` : "") + `<span id="publish-info"></span>`;
+  showFetchInfo();
+}
+const LOADING_HTML = `<div class="loading-home"><div class="ld-logo"><img src="logo.svg" alt=""></div><b>Loading your jobs…</b>
+  <span>The first visit downloads every job once. After that this page opens instantly, even offline.</span><div class="ld-bar"><i></i></div></div>`;
+// live site: mirror Nesibe's published view whenever she publishes a new one
+function adoptShared(saved) {
+  const shared = APP.data.shared_state;
+  if (APP.server || !shared?.published_at) return saved;
+  let seen = null; try { seen = localStorage.getItem("jobness.shared_seen"); } catch {}
+  if (saved && seen === shared.published_at) return saved;
+  try { localStorage.setItem("jobness.shared_seen", shared.published_at); } catch {}
+  // pack edits and contact details made on this phone stay (neither is ever published)
+  return { ...shared, packs: saved?.packs, profile: { ...(shared.profile || {}), email: saved?.profile?.email || "", phone: saved?.profile?.phone || "" } };
 }
 (async function boot() {
   await loadData();
@@ -3559,20 +3594,20 @@ async function loadData() {
     if (remote?.updated_at && (!saved?.updated_at || remote.updated_at > saved.updated_at)) saved = remote;
   }
   if (!saved) { try { const old = JSON.parse(localStorage.getItem("radar.decisions")); if (old) saved = { decisions: old }; } catch {} }
-  const shared = APP.data.shared_state;
-  if (!APP.server && shared?.published_at) { // live site: mirror Nesibe's published view whenever she publishes a new one
-    let seen = null; try { seen = localStorage.getItem("jobness.shared_seen"); } catch {}
-    if (!saved || seen !== shared.published_at) {
-      // pack edits and contact details made on this phone stay (neither is ever published)
-      saved = { ...shared, packs: saved?.packs, profile: { ...(shared.profile || {}), email: saved?.profile?.email || "", phone: saved?.profile?.phone || "" } };
-      try { localStorage.setItem("jobness.shared_seen", shared.published_at); } catch {}
-    }
-  }
-  APP.state = hydrate(saved);
+  APP.state = hydrate(adoptShared(saved));
   save(); bindStack(); bindCardPop(); refresh(); renderPromo(); startPromo();
   setTimeout(() => { if ($("#v-discover").classList.contains("on") && !document.querySelector(".modal.on")) wiggle(centerCard(), true); }, 1100);
   if (APP.server) { pollFetch(false); pollPublish(); sealPacks(false).catch(() => {}); }
-  else loadSealed();
+  else {
+    loadSealed();
+    if (!APP.dataFresh) freshStatic().then((d) => { // swap in newer jobs or a newer shared view without a reload
+      const old = APP.data;
+      if (d.meta?.last_fetch === old.meta?.last_fetch && d.shared_state?.published_at === old.shared_state?.published_at) return;
+      APP.data = d; showFetchInfo();
+      if (d.shared_state?.published_at !== old.shared_state?.published_at) APP.state = hydrate(adoptShared(APP.state));
+      save(); refresh(true); toast("Updated to the latest jobs");
+    }).catch(() => {});
+  }
 })();
 </script>
 </body>
