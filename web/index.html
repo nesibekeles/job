@@ -1025,6 +1025,23 @@
     input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea, .doc-page.editing { font-size: 16px !important; }
   }
 
+  /* while the keyboard is up on a phone: room below the page to lift any section to the top, and dialogs sit at the top */
+  @media (max-width: 760px) {
+    html.kb-open .main { padding-bottom: 70vh !important; }
+    html.kb-open .tabbar { display: none !important; }
+    html.kb-open .modal.on:not(.drawer) { align-items: flex-start !important; padding-top: calc(env(safe-area-inset-top) + 10px) !important; }
+    html.kb-open .modal.on:not(.drawer) .sheet { border-radius: 0 0 22px 22px; max-height: 60dvh; }
+    html.kb-open .pack-body { padding-bottom: 60vh !important; }
+  }
+
+  /* pack: the letter's tools stay reachable while you scroll or type; the pack header steps aside for the keyboard */
+  .pack-body .doc-tools { position: sticky; top: -22px; z-index: 3; background: var(--bg); padding: 10px 0 8px; margin-top: -10px; }
+  @media (max-width: 760px) {
+    .pack-body .doc-tools { top: -14px; }
+    html.kb-open .pack-head { display: none; }
+    html.kb-open .modal.drawer .sheet.pack-sheet { height: 100dvh !important; border-radius: 0; }
+  }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   /* Business: graphite dark mode, one periwinkle accent; same fonts as every theme */
   html[data-theme="business"] {
@@ -4034,6 +4051,42 @@ async function checkForUpdate() {
 }
 setInterval(checkForUpdate, 5 * 60 * 1000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) checkForUpdate(); });
+
+// ---- typing on a phone: the section being written in moves to the top, so the keyboard never covers it ----
+const WRITE_GROUP = ".todo-form, .date-form, .goal-edit, .prof-form, .ev-add, .road-edit, .add-row, .doc-page, .answer, .cust-row, .tone, .cond, .sheet, .search, .wrow";
+const isTyping = (el) => el?.matches?.('input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="date"]), textarea, [contenteditable="true"]');
+function scrollParent(el) {
+  for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+    const oy = getComputedStyle(p).overflowY;
+    if ((oy === "auto" || oy === "scroll") && p.scrollHeight > p.clientHeight + 4) return p;
+  }
+  return null;
+}
+function bringWritingUp(el) {
+  // inside a short dialog the dialog itself moves to the top (kb-open); in a long sheet or the page, the section's start goes to the top
+  let group = el.closest(".doc-page") || el.closest(WRITE_GROUP.replace(", .sheet", "")) || el;
+  if (group.classList.contains("doc-page")) { // in the letter, the paragraph with the cursor (e.g. the part to fill in) goes to the top
+    const n = getSelection().anchorNode, para = n && (n.nodeType === 1 ? n : n.parentElement)?.closest("#cover-doc p");
+    if (para && para !== group.firstElementChild) group = para;
+  }
+  const box = scrollParent(group);
+  if (box) {
+    const pinned = group.closest(".doc-page") ? box.querySelector(".doc-tools")?.offsetHeight || 0 : 0; // the letter's buttons stay pinned above it
+    const dy = group.getBoundingClientRect().top - box.getBoundingClientRect().top - 12 - pinned;
+    if (Math.abs(dy) > 8) box.scrollBy({ top: dy, behavior: "smooth" }); return;
+  }
+  if (group.closest(".modal")) return;
+  const top = ($(".topbar")?.offsetHeight || 56) + 12, dy = group.getBoundingClientRect().top - top;
+  if (Math.abs(dy) > 8) window.scrollBy({ top: dy, behavior: "smooth" });
+}
+let kbTimer;
+document.addEventListener("focusin", (e) => {
+  if (!matchMedia("(max-width: 760px)").matches || !isTyping(e.target)) return;
+  clearTimeout(kbTimer);
+  document.documentElement.classList.add("kb-open");
+  setTimeout(() => bringWritingUp(e.target), 320); // after the keyboard has slid in
+});
+document.addEventListener("focusout", () => { clearTimeout(kbTimer); kbTimer = setTimeout(() => { if (!isTyping(document.activeElement)) document.documentElement.classList.remove("kb-open"); }, 250); });
 (async function boot() {
   checkForUpdate();
   await loadData();
