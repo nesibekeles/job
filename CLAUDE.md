@@ -34,3 +34,15 @@ Linki Chrome'da (salt okuma) ya da web-fetch ile aç, metni al ve `data/manual_j
 
 ## Komut: "yeni şirket ekle X"
 Hangi ATS'i kullandığını bul (kariyer sayfası linkinden: boards.greenhouse.io, jobs.lever.co, jobs.ashbyhq.com, *.myworkdayjobs.com, jobs.smartrecruiters.com), API'nin cevap verdiğini doğrula, `config/companies.json`'a ekle. Okunamıyorsa watchlist'e koy.
+
+## Her yeni özellik ve değişiklikte: 360° kontrol (Nesibe'nin kuralı)
+Bir şeyi "eklendi" diye teslim etmeden önce kullanıcının gözünden bütün döngüyü düşün ve dene:
+- **Yaşam döngüsü:** oluştur · gör · düzenle · sil · geri al (undo) · boş hâl · çok fazla öğe hâli. Eklenen her şey düzenlenebilir ve silinebilir olmalı.
+- **Girdi:** açık bir kaydet/ekle butonu (Enter tek başına yayınlamasın), iptal, yanlışlıkla dokunmaya karşı onay ya da geri alma.
+- **Bağlantılar:** öğe ilgili yere bağlanabiliyor mu (ilan, paket, sayfa, link)? Otomatik üretilen metinler (alt yazı, etiket) düzenlenebiliyor mu?
+- **Sayılar ve filtreler:** her sayı ekrandaki listeyle birebir tutuyor mu? Filtre seçiliyken boş liste ne diyor?
+- **Ekranlar:** 375 px telefon ve masaüstü; taşan/kırpılan yazı, tooltip ve popup ekrana sığıyor mu, dokunma alanları yeterli mi?
+- **Temalar:** Casual, Businessman, Prefer not to disclose; bir temada yapılan font/renk değişikliği diğerlerini bozmasın (temaların fontları sabit).
+- **Veri:** güncellemeler ve canlı site senkronu kullanıcı verisini asla silmesin; telefon ve Mac verisi birleşir.
+- **Tutarlılık ve görünüm:** benchmark'lara bak (Apple Wallet, iOS, modern SaaS); mevcut tasarım diliyle aynı, profesyonel görünmeli. Ekran görüntüsü alıp gerçekten bak; "çalışıyor" yetmez, "iyi görünüyor ve anlaşılır" olmalı.
+- **Tarayıcı popup'ı yok:** confirm/alert yerine uygulamanın kendi diyalogları.

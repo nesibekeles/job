@@ -20,12 +20,12 @@
     --mint: #2f7d62; --mint-50: #ebf6f1; --butter: #7d6420; --butter-50: #f8f3e3;
     --sky: #3a6390; --sky-50: #ebf1f8; --rose: #a8475b; --rose-50: #f8ecef;
     --shadow-sm: 0 1px 2px rgba(30, 29, 38, .04); --shadow: 0 14px 34px -14px rgba(40, 36, 80, .20);
-    --radius: 14px; --side: 236px; --head: "Manrope", "DM Sans", system-ui, sans-serif;
+    --radius: 14px; --side: 236px; --head: "Manrope", "DM Sans", system-ui, sans-serif; --body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); overscroll-behavior-x: none; }
-  body { font: 14px/1.5 "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  body { font: 14px/1.5 var(--body); -webkit-font-smoothing: antialiased; }
   button, input, select, textarea { font: inherit; color: inherit; }
   a { color: var(--lav); text-decoration: none; }
   svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
@@ -35,7 +35,7 @@
   .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 20px; font: 800 20px/1 var(--head); letter-spacing: -.03em; }
   .brand img { width: 32px; height: 32px; }
   .brand b { color: var(--mint); }
-  .brand small { display: block; font: 500 11.5px/1.3 "DM Sans", sans-serif; letter-spacing: 0; color: var(--muted); margin-top: 4px; }
+  .brand small { display: block; font: 500 11.5px/1.3 var(--body); letter-spacing: 0; color: var(--muted); margin-top: 4px; }
   .side .eyebrow { padding: 6px 10px 8px; }
   .navlink { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; border: 0; background: none; cursor: pointer; color: var(--ink-2); font-weight: 500; text-align: left; width: 100%; }
   .navlink:hover { background: var(--soft); }
@@ -543,7 +543,7 @@
     --t-sky: linear-gradient(135deg, #e6eef9, #d2e1f3); --t-rose: linear-gradient(135deg, #fbe9ed, #f4d5dd); --t-butter: linear-gradient(135deg, #fbf3dc, #f3e5b8); }
   body { background: radial-gradient(900px 520px at 105% -12%, #e9e4fb 0%, rgba(233, 228, 251, 0) 62%), radial-gradient(760px 440px at -12% 108%, #fbece4 0%, rgba(251, 236, 228, 0) 60%) fixed var(--bg); }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .hand { font: 700 11px/1.2 "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .hand { font: 700 11px/1.2 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .box, .hcard { border: 0; border-radius: var(--radius); box-shadow: var(--shadow-card); }
   .hcard { padding: 20px; }
   .hhead { gap: 12px; margin-bottom: 14px; }
@@ -859,9 +859,9 @@
   h1.hero .info { position: relative; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--lav-100); color: var(--lav);
     font: italic 700 13px Georgia, serif; vertical-align: middle; cursor: pointer; margin-left: 4px; letter-spacing: 0; }
   .info .tip { display: none; position: absolute; top: calc(100% + 8px); left: -10px; z-index: 30; width: min(320px, 80vw); padding: 12px 14px; border-radius: 14px; background: var(--ink); color: var(--surface);
-    font: 500 13px/1.5 "DM Sans", sans-serif; font-style: normal; box-shadow: var(--shadow); cursor: default; }
+    font: 500 13px/1.5 var(--body); font-style: normal; box-shadow: var(--shadow); cursor: default; }
   .info.open .tip { display: block; } @media (hover: hover) { .info:hover .tip, .info:focus .tip { display: block; } }
-  .funnel { display: flex; flex-direction: column; align-items: center; margin: 4px 0 20px; max-width: 640px; }
+
   .fstep { width: var(--w); height: 50px; margin-bottom: -12px; padding: 0 18px 12px; border: 0; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: space-between;
     font: inherit; color: var(--ink); cursor: pointer; box-shadow: 0 -6px 14px -10px rgba(40, 36, 80, .35); transition: transform .15s; }
   .fstep:last-child { margin-bottom: 0; height: 40px; padding-bottom: 0; border-radius: 18px; }
@@ -872,7 +872,7 @@
   #short-list .apps { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
   .app-top { grid-template-columns: 40px 1fr auto !important; } .app-top .icon-btn { color: var(--muted); }
   .dates { display: flex; flex-wrap: wrap; gap: 6px; }
-  .date-chip { display: inline-flex; align-items: center; gap: 6px; border: 0; background: var(--peach-50); color: var(--peach); border-radius: 99px; padding: 4px 11px 4px 4px; font: 600 12px "DM Sans", sans-serif; cursor: pointer; }
+  .date-chip { display: inline-flex; align-items: center; gap: 6px; border: 0; background: var(--peach-50); color: var(--peach); border-radius: 99px; padding: 4px 11px 4px 4px; font: 600 12px var(--body); cursor: pointer; }
   .date-chip em { font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 11px; }
   .date-chip.add { background: var(--soft); color: var(--ink-2); padding-left: 10px; } .date-chip .i { width: 14px; height: 14px; }
   .date-form { display: flex; flex-wrap: wrap; gap: 6px; } .date-form .field { flex: 1 1 120px; }
@@ -900,7 +900,7 @@
 
   /* home v4: centred slides you can swipe, a notepad line for new to-dos */
   .bt-slider { touch-action: none; user-select: none; }
-  .sl-in { align-items: center !important; justify-content: center; text-align: center; gap: 6px !important; }
+  .sl-in { align-items: flex-start !important; justify-content: center; text-align: left; gap: 6px !important; }
   .sl .bl { margin-top: 0 !important; }
   .sl-dots i { cursor: pointer; padding: 0; }
   .todo-pad { display: flex; align-items: center; gap: 12px; padding: 6px 2px 2px; cursor: text; }
@@ -909,6 +909,75 @@
     border-bottom: 2px dotted rgba(0, 0, 0, .18); outline: none; }
   .todo-pad input::placeholder { color: var(--muted); font-style: italic; }
   .todo-pad input:focus { border-bottom-color: var(--rose); }
+
+  /* own to-dos */
+  .todo.own .tx b { font-weight: 600; }
+  .todo-own { display: flex; gap: 0; flex: none; } .todo-own .icon-btn { padding: 5px; color: var(--muted); } .todo-own .i { width: 15px; height: 15px; }
+  button.todo-pad { width: 100%; border: 0; background: none; font: inherit; text-align: left; }
+  .pad-line { flex: 1; color: var(--muted); font-style: italic; font-size: 14px; padding: 4px 0; border-bottom: 2px dotted rgba(0, 0, 0, .18); }
+  .todo-form { display: flex; flex-direction: column; gap: 8px; padding: 10px 0 4px; width: 100%; }
+  .tf-line { display: flex; align-items: center; gap: 12px; }
+  .tf-line .box-ph { width: 17px; height: 17px; border-radius: 5px; border: 1.5px dashed var(--muted); flex: none; opacity: .7; }
+  .tf-line input { flex: 1; min-width: 0; border: 0; background: none; padding: 4px 0; font: inherit; font-size: 14.5px; font-weight: 600; color: var(--ink); border-bottom: 2px dotted var(--rose); outline: none; }
+  .todo-form .field { background: rgba(255, 255, 255, .8); font-size: 13px; padding: 8px 11px; }
+  .tf-row { display: flex; gap: 8px; align-items: center; } .tf-row select { flex: 1; min-width: 0; }
+  .tf-rep { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+  .tf-acts { display: flex; gap: 8px; justify-content: flex-end; }
+  .todo.editing { display: block; }
+  [data-theme="business"] .todo-form .field { background: #111216; }
+
+  /* ---------- shortlist v3: pipeline chart + wallet stack ---------- */
+  #pipeline { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow-card); padding: 14px 16px 10px; margin: 6px 0 22px; max-width: 720px; display: block; }
+  .pl-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; } .pl-head b { font: 700 15px var(--head); }
+  .pl-row { display: grid; grid-template-columns: 116px 1fr 30px; align-items: center; gap: 12px; width: 100%; border: 0; background: none; padding: 6px 8px; margin: 0 -8px; width: calc(100% + 16px);
+    border-radius: 10px; font: inherit; color: var(--ink-2); cursor: pointer; text-align: left; }
+  .pl-row:hover:not(:disabled) { background: var(--soft); }
+  .pl-row:disabled { cursor: default; opacity: .45; }
+  .pl-row.sep { margin-top: 6px; border-top: 1px solid var(--soft); border-radius: 0 0 10px 10px; padding-top: 10px; }
+  .pl-l { font-size: 13px; font-weight: 600; } .pl-row b { font: 700 14px var(--head); text-align: right; color: var(--ink); }
+  .pl-bar { height: 10px; border-radius: 99px; background: var(--soft); overflow: hidden; } .pl-bar i { display: block; height: 100%; border-radius: 99px; transition: width .4s; filter: saturate(1.4) brightness(.95); }
+  .pl-row.on { background: var(--ink); color: var(--surface); } .pl-row.on b { color: var(--surface); } .pl-row.on .pl-bar { background: rgba(255, 255, 255, .18); }
+  .wstack { display: flex; flex-direction: column; max-width: 720px; padding-bottom: 8px; }
+  .wc { position: relative; border-radius: 24px; box-shadow: 0 -10px 24px -16px rgba(40, 36, 80, .45), 0 1px 0 rgba(255, 255, 255, .6) inset; margin-bottom: -58px; transition: margin .35s cubic-bezier(.2, .8, .2, 1); }
+  .wc.last, .wc.open { margin-bottom: 14px; }
+  .wc-head { display: flex; align-items: center; gap: 12px; width: 100%; height: 78px; padding: 0 18px; border: 0; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
+  .wc-head .avatar { width: 42px; height: 42px; box-shadow: 0 2px 6px rgba(0, 0, 0, .08); }
+  .wc-t { flex: 1; min-width: 0; } .wc-t b { display: block; font: 700 15px/1.25 var(--head); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wc-t small { font-size: 12.5px; color: var(--ink-2); }
+  .wc-st { flex: none; font: 700 11px var(--head); text-transform: uppercase; letter-spacing: .06em; padding: 5px 10px; border-radius: 99px; background: rgba(255, 255, 255, .75); color: var(--ink-2); }
+  .wc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .38s cubic-bezier(.2, .8, .2, 1); padding: 0 8px; }
+  .wc-body > .app { overflow: hidden; min-height: 0; }
+  .wc.last .wc-body, .wc.open .wc-body { grid-template-rows: 1fr; padding-bottom: 8px; }
+  .wc:not(.open):not(.last) .wc-body { height: 58px; }
+  .wc .app { background: var(--surface); border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: none; }
+  .app-meta { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; color: var(--muted); } .app-meta b { color: var(--ink); }
+  .app-meta .btn { color: var(--rose); } .app-meta .btn .i { width: 15px; height: 15px; }
+  .un-role { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: 16px; background: var(--soft); margin: 10px 0 14px; } .un-role b { display: block; font: 700 14px var(--head); } .un-role span { font-size: 12.5px; color: var(--muted); }
+  .un-opt { display: flex; gap: 14px; align-items: center; width: 100%; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 16px; padding: 14px; margin-bottom: 8px; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
+  .un-opt:hover { background: var(--soft); } .un-opt b { display: block; font-size: 14.5px; } .un-opt small { color: var(--muted); font-size: 12.5px; }
+  [data-theme="business"] .wc-st { background: rgba(255, 255, 255, .08); color: var(--ink-2); }
+  @media (max-width: 760px) { .pl-row { grid-template-columns: 104px 1fr 26px; gap: 10px; } .wc-head { height: 72px; padding: 0 14px; } .wc { margin-bottom: -54px; } .wc:not(.open):not(.last) .wc-body { height: 54px; } }
+
+  .sc-i { width: 15px; height: 15px; } .scene-dot .sc-i { width: 14px; height: 14px; }
+  .sc-ico { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--lav-50); color: var(--lav); }
+  .sc-ico.lg { width: 36px; height: 36px; } .sc-ico.lg .sc-i { width: 18px; height: 18px; }
+
+  /* pack: job tab, safe editing, unfinished parts */
+  .brief-lg { margin: 0 0 12px; font-size: 14.5px; color: var(--ink-2); line-height: 1.55; }
+  .job-tab .facts { margin-top: 12px; }
+  .doc-page:not(.editing) { cursor: default; }
+  .doc-page.editing { box-shadow: 0 0 0 3px var(--lav-100), 0 8px 24px -12px rgba(30, 29, 38, .18); }
+  mark.ph { background: #fde68a; color: #6b4e00; border-radius: 4px; padding: 0 2px; }
+  .ph-warn { max-width: 720px; margin: 0 auto 12px !important; } .ph-warn em { font-style: normal; font-weight: 600; }
+  /* (i) tips never leave the screen on a phone */
+  @media (max-width: 760px) { .info .tip { position: fixed; left: 16px; right: 16px; width: auto; top: var(--tip-top, 120px); } }
+
+  .bt-todo .todos, .todos { grid-template-columns: minmax(0, 1fr) !important; }
+  .bt-todo { min-width: 0; } .todo { min-width: 0; }
+  .todo-form, .todo-form > * { min-width: 0; max-width: 100%; }
+  .todo-form select, .todo-form input.field { width: 100%; }
+  .tf-row select { width: auto; flex: 1 1 0; min-width: 0; text-overflow: ellipsis; }
+  @media (min-width: 901px) { .todos:not(.bt-todo .todos) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; } }
 
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   html[data-theme="business"] {
@@ -956,8 +1025,8 @@
   [data-theme="business"] .snack span b { color: #7a5b20; }
   [data-theme="business"] .avatar { filter: saturate(.6) brightness(.92); }
   /* business: the sharpest lines (chamfered Chakra Petch everywhere), no handwriting */
-  html[data-theme="business"] { --head: "Chakra Petch", "DM Sans", sans-serif; }
-  [data-theme="business"] body { font-family: "Chakra Petch", "DM Sans", sans-serif; }
+  html[data-theme="business"] { --head: "Chakra Petch", sans-serif; --body: "Chakra Petch", sans-serif; }
+  [data-theme="business"] body { font-family: var(--body); }
   [data-theme="business"] h1.hero, [data-theme="business"] .home-hero h1, [data-theme="business"] .hhead h3, [data-theme="business"] .bignum,
   [data-theme="business"] .panel .head h2, [data-theme="business"] .mini h3, [data-theme="business"] .cp-head h2 { letter-spacing: -.01em; }
   [data-theme="business"] .hand { font-family: "Chakra Petch", sans-serif; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em; color: #a39a86; }
@@ -979,8 +1048,8 @@
   [data-theme="private"] .goal { background: linear-gradient(120deg, #ebebe8, #e1e1dd); }
   [data-theme="private"] .me-av, [data-theme="private"] .prof-av { background: #8a8d93; }
   /* private: soft, rounded Nunito everywhere, no handwriting */
-  html[data-theme="private"] { --head: "Nunito", "DM Sans", sans-serif; }
-  [data-theme="private"] body { font-family: "Nunito", "DM Sans", sans-serif; }
+  html[data-theme="private"] { --head: "Nunito", sans-serif; --body: "Nunito", sans-serif; }
+  [data-theme="private"] body { font-family: var(--body); }
   [data-theme="private"] .hand { font-family: "Nunito", sans-serif; font-size: 13px; font-weight: 600; color: var(--muted); }
   [data-theme="private"] .hhead h3::after { height: 3px; bottom: -4px; border-radius: 99px; background: #cfd0cc; }
   [data-theme="private"] .theme-fb .hand { font-size: 14px; }
@@ -1155,7 +1224,7 @@
       <p class="sub">Score = base score (CV match, city, sponsorship, salary, role type) + scene fit + scoring matrix + weights. Every change re-scores all jobs instantly.</p>
       <div class="box pad" style="margin-bottom:22px" id="learn-summary"></div>
       <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:12px;gap:10px;flex-wrap:wrap">
-        <div><h3 class="sec">🎬 Scene engine</h3><div class="small muted">Reads each post for the life inside the job: small crew, ideas built up from a seed, reviewing and giving feedback, new discoveries, rituals.</div></div>
+        <div><h3 class="sec">Scene engine</h3><div class="small muted">Reads each post for the life inside the job: small crew, ideas built up from a seed, reviewing and giving feedback, new discoveries, rituals.</div></div>
         <div class="stepper" title="Points a perfect scene fit adds to the score"><button data-scpts="-5">−</button><b id="scene-pts"></b><button data-scpts="5">+</button></div>
       </div>
       <div class="box pad" style="margin-bottom:32px" id="scene-engine"></div>
@@ -1280,6 +1349,7 @@
   <div class="small" id="pp-err" style="color:var(--rose);margin-top:8px"></div>
   <div class="sheet-actions"><button class="btn" data-close="m-packpass">Cancel</button><button class="btn primary" id="pp-go">Unlock</button></div>
 </div></div>
+<div class="modal" id="m-unshort"><div class="sheet" id="unshort-sheet" style="max-width:460px"></div></div>
 <div class="modal" id="m-update"><div class="sheet" style="max-width:440px">
   <div class="sheet-head"><h2>Fresh jobs twice a day</h2><button class="icon-btn" data-close="m-update"><svg class="i"><use href="#i-x"/></svg></button></div>
   <div id="update-info"></div>
@@ -1313,6 +1383,13 @@
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8"/></symbol>
   <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M10 4h4v3a2 2 0 1 0 4 0V7h2v5h-3a2 2 0 1 0 0 4h3v4h-6v-3a2 2 0 1 0-4 0v3H4v-6h3a2 2 0 1 0 0-4H4V4h6z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="sc-critic" viewBox="0 0 24 24"><path d="M5 5h14v10H10l-4 3.5V15H5z"/><path d="m9 10 2 2 4-4"/></symbol>
+  <symbol id="sc-seed" viewBox="0 0 24 24"><path d="M12 20v-7"/><path d="M12 13c0-3.5 2.5-6 6.5-6 0 4-2.5 6-6.5 6zM12 15.5C12 12.5 9.8 10 6 10c0 3.4 2.2 5.5 6 5.5z"/></symbol>
+  <symbol id="sc-dig" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4.5 4.5M10.5 8v5M8 10.5h5"/></symbol>
+  <symbol id="sc-cast" viewBox="0 0 24 24"><circle cx="9" cy="9" r="2.6"/><circle cx="16" cy="10" r="2.2"/><path d="M4 18.5c.7-3 2.7-4.5 5-4.5s4.3 1.5 5 4.5M14 14.6c1.9-.3 4.4.7 5.3 3.9"/></symbol>
+  <symbol id="sc-crew" viewBox="0 0 24 24"><path d="M12 19.5s-7-4.2-7-9.4A3.7 3.7 0 0 1 12 8a3.7 3.7 0 0 1 7 2.1c0 5.2-7 9.4-7 9.4z"/></symbol>
+  <symbol id="sc-novel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m15.5 8.5-2.3 4.7-4.7 2.3 2.3-4.7z"/></symbol>
+  <symbol id="sc-ritual" viewBox="0 0 24 24"><rect x="4.5" y="6" width="15" height="13.5" rx="2.5"/><path d="M8.5 4v4M15.5 4v4M4.5 10.5h15"/><path d="m12 12.6.9 1.8 2 .3-1.4 1.4.3 2-1.8-.9-1.8.9.3-2-1.4-1.4 2-.3z"/></symbol>
   <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
   <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="5" ry="2.5"/><path d="M4 7v4c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V7"/><path d="M10 15.4c.9.4 2 .6 3 .6 2.8 0 5-1.1 5-2.5v-4M14 11.6c2.3.2 4-.8 4-2.1"/><path d="M4 11v4c0 1.4 2.2 2.5 5 2.5"/></symbol>
@@ -1418,6 +1495,7 @@ const SPONSOR_NOTE = { known: "company sponsors", sometimes: "sometimes", rare: 
 
 // ---- scene engine: the job as a lifestyle. Each scene is scored from the post's own sentences. ----
 // Phrases match at a word start; a trailing * also matches longer words (celebrat* → celebrating). Negative weights pull a scene down.
+const sceneIcon = (k) => `<svg class="i sc-i"><use href="#sc-${k}"/></svg>`;
 const SCENES = {
   critic: { emoji: "🔍", name: "The critic's chair", text: "Reviewing outcomes and giving feedback" },
   seed: { emoji: "💡", name: "From a seed", text: "Starting from a small or general idea and building on it" },
@@ -1485,7 +1563,7 @@ function sceneFit(sc) {
 const sceneLevel = (v) => v < -0.05 ? "neg" : v >= 0.6 ? "l3" : v >= 0.35 ? "l2" : v > 0.05 ? "l1" : "";
 function sceneStrip(d, withLabel) {
   return `<div class="scene-strip">${withLabel ? `<span class="lbl">Scene fit</span><b class="scene-fit">${d.scene.fit}</b>` : ""}
-    ${Object.entries(SCENES).map(([k, s]) => { const v = d.scene.dims[k]?.v ?? 0; return `<span class="scene-dot ${sceneLevel(v)}" title="${esc(s.name)}: ${Math.round(v * 100)}">${s.emoji}</span>`; }).join("")}</div>`;
+    ${Object.entries(SCENES).map(([k, s]) => { const v = d.scene.dims[k]?.v ?? 0; return `<span class="scene-dot ${sceneLevel(v)}" title="${esc(s.name)}: ${Math.round(v * 100)}">${sceneIcon(k)}</span>`; }).join("")}</div>`;
 }
 
 const $ = (s) => document.querySelector(s);
@@ -1965,7 +2043,7 @@ function decide(id, decision, reasons, note) {
 const SNACK = { id: null, timer: null };
 function shortlistSnack(id) {
   const el = $("#snack"), co = APP.byId[id]?.j.company || "";
-  SNACK.id = id;
+  SNACK.id = id; SNACK.undo = null; $("#snack-undo").textContent = "Take back";
   $("#snack-text").innerHTML = `${icon("heart")}<span>Added${co ? ` <b>${esc(co)}</b>` : ""} to <span class="long">your </span>shortlist</span>`;
   el.classList.remove("on"); void el.offsetWidth; el.classList.add("on"); // restart the countdown bar
   clearTimeout(SNACK.timer); SNACK.timer = setTimeout(hideSnack, 3000);
@@ -1979,7 +2057,14 @@ function takeBack(id) {
   refresh(true);
   APP.idx = Math.max(0, deckRows().findIndex((r) => r.j.id === id)); renderStack(-1); flashCard("restored");
 }
-$("#snack-undo").onclick = () => { const id = SNACK.id; hideSnack(); if (id) takeBack(id); };
+$("#snack-undo").onclick = () => { const id = SNACK.id, undo = SNACK.undo; hideSnack(); SNACK.undo = null; if (undo) undo(); else if (id) takeBack(id); };
+// "Deleted … · Undo" for anything removable
+function undoSnack(text, undo) {
+  const el = $("#snack"); SNACK.id = null; SNACK.undo = undo;
+  $("#snack-text").innerHTML = `${icon("trash")}<span>${text}</span>`; $("#snack-undo").textContent = "Undo";
+  el.classList.remove("on"); void el.offsetWidth; el.classList.add("on");
+  clearTimeout(SNACK.timer); SNACK.timer = setTimeout(() => { hideSnack(); SNACK.undo = null; $("#snack-undo").textContent = "Take back"; }, 5000);
+}
 $("#snack").addEventListener("mouseenter", () => clearTimeout(SNACK.timer)); // hovering keeps it open
 $("#snack").addEventListener("mouseleave", () => { SNACK.timer = setTimeout(hideSnack, 1200); });
 
@@ -2043,7 +2128,7 @@ function detailBody(r) {
     <div class="facts">${facts(r)}</div>
     ${f.sponsorship_evidence ? `<div class="small muted">Sponsorship evidence</div><div class="evidence">“${esc(f.sponsorship_evidence)}”</div>` : ""}
     <div class="tags" style="margin:12px 0">${d.tags.map((t) => `<span class="tag ${t.color}">${esc(t.label)}</span>`).join("")}</div>
-    <details style="margin:12px 0" open><summary style="cursor:pointer"><b>🎬 Scene fit ${d.scene.fit}</b> <span class="muted small">what would a day look like?</span></summary>
+    <details style="margin:12px 0"><summary style="cursor:pointer"><b>Scene fit ${d.scene.fit}</b> <span class="muted small">what would a day look like?</span></summary>
       ${sceneEvidence(j, d)}</details>
     <details style="margin:12px 0"><summary style="cursor:pointer"><b>Score ${r.score}</b> <span class="muted small">how was it calculated?</span></summary>
       <div class="breakdown" style="margin-top:8px">
@@ -2223,15 +2308,36 @@ function itemHTML(r, acts) {
 }
 const FUNNEL = [["all", "Shortlisted", "lav"], ["Pack requested", "Pack requested", "sky"], ["Pack ready", "Pack ready", "mint"], ["Applied", "Applied", "peach"],
   ["Interview", "Interview", "butter"], ["Offer", "Offer", "mint"], ["Rejected", "Rejected", "rose"]];
-let SHORT_F = "all", DATE_FOR = null;
+const STATUS_TINT = { Saved: "lav", "Pack requested": "sky", "Pack ready": "mint", Applied: "peach", Interview: "butter", Offer: "mint", Rejected: "rose" };
+let SHORT_F = "all", DATE_FOR = null, WALLET_OPEN = null;
+// wallet stack (Apple Wallet): every card shows its top strip; tap one and it opens in place while the others slide away
+function walletCard(r, last) {
+  const id = r.j.id, open = WALLET_OPEN === id, d = r.decision;
+  const n = (APP.state.journey.events || []).filter((e) => e.job === id).length;
+  return `<article class="wc t-${STATUS_TINT[d.status] || "lav"} ${open ? "open" : ""} ${last ? "last" : ""}" data-wid="${esc(id)}">
+    <button class="wc-head" data-wopen="${esc(id)}" aria-expanded="${open}">${avatar(r.j.company)}
+      <span class="wc-t"><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.d.city)}${n ? ` · ${n} date${n > 1 ? "s" : ""}` : ""}</small></span>
+      <span class="wc-st">${esc(d.status)}</span></button>
+    <div class="wc-body">${appCard(r)}</div></article>`;
+}
+// FLIP: remember where every card was, re-render, then glide each one from its old spot to the new one
+function flipRender(render) {
+  const before = new Map([...document.querySelectorAll("[data-wid]")].map((el) => [el.dataset.wid, el.getBoundingClientRect().top]));
+  render();
+  document.querySelectorAll("[data-wid]").forEach((el) => {
+    const was = before.get(el.dataset.wid); if (was == null) return;
+    const dy = was - el.getBoundingClientRect().top;
+    if (dy) el.animate([{ transform: `translateY(${dy}px)` }, { transform: "none" }], { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" });
+  });
+}
 // one application: where it stands, its dates (1, 2, 3…), and what to do next
 function appCard(r) {
   const d = r.decision, id = r.j.id, rc = reachedOf(d), rej = d.status === "Rejected";
   const dates = (APP.state.journey.events || []).filter((e) => e.job === id).sort((a, b) => a.date.localeCompare(b.date));
   const fmt = (x) => new Date(x).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-  return `<div class="box app ${rej ? "rej" : ""}">
-    <div class="app-top">${avatar(r.j.company)}<div style="min-width:0"><b>${esc(r.j.title)}</b><span>${esc(r.j.company)} · ${esc(r.d.city)} · score ${r.score} · updated ${ago(d.status_at || d.at)}</span></div>
-      <button class="icon-btn" data-unshort="${esc(id)}" title="Remove from shortlist" aria-label="Remove from shortlist">${icon("trash")}</button></div>
+  return `<div class="app ${rej ? "rej" : ""}">
+    <div class="app-meta"><span>Score <b>${r.score}</b> · updated ${ago(d.status_at || d.at)}</span>
+      <button class="btn ghost sm" data-unshort="${esc(id)}">${icon("trash")}Remove</button></div>
     <div class="steps">${STEPS.map(([s, l]) => `<span class="${rc >= STAGES.indexOf(s) ? "on" : ""}"><i></i>${l}</span>`).join("")}</div>
     <div class="dates">${dates.map((e, i) => `<button class="date-chip" data-goday="${e.date}" title="${esc((EV_KIND[e.kind]?.[0] || "") + (e.note ? " · " + e.note : ""))}"><em>${i + 1}</em>${fmt(e.date)} · ${esc(EV_KIND[e.kind]?.[0] || "Date")}</button>`).join("")}
       <button class="date-chip add" data-date-for="${esc(id)}">${icon("calendar")}${dates.length ? "Add" : "Add a date"}</button></div>
@@ -2244,21 +2350,37 @@ function appCard(r) {
       <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a></div></div>`;
 }
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-funnel],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort]"); if (!a) return;
+  const a = e.target.closest("[data-funnel],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wopen]"); if (!a) return;
   const ds = a.dataset; e.preventDefault();
-  if (ds.funnel) { SHORT_F = SHORT_F === ds.funnel && ds.funnel !== "all" ? "all" : ds.funnel; return renderLists(); }
+  if (ds.wopen) { WALLET_OPEN = WALLET_OPEN === ds.wopen ? null : ds.wopen; return flipRender(renderLists); }
+  if (ds.funnel) { SHORT_F = SHORT_F === ds.funnel && ds.funnel !== "all" ? "all" : ds.funnel; WALLET_OPEN = null; return flipRender(renderLists); }
   if (ds.dateFor) { DATE_FOR = DATE_FOR === ds.dateFor ? null : ds.dateFor; return renderLists(); }
   if ("dateCancel" in ds) { DATE_FOR = null; return renderLists(); }
   if (ds.dateSave) { addEvent(ds.dateSave, $("#df-date").value || today(), $("#df-type").value, $("#df-note").value.trim()); DATE_FOR = null; toast("Date added to your calendar"); return renderLists(); }
   if (ds.goday) { JOURNEY.sel = ds.goday; JOURNEY.month = ds.goday.slice(0, 7); return showView("journey"); }
-  if (ds.unshort) {
-    const r = APP.byId[ds.unshort];
-    if (!confirm(`Remove ${r.j.company} · ${r.j.title} from your shortlist? It goes back to Discover.`)) return;
-    delete APP.state.decisions[ds.unshort]; toast("Removed. It's back in Discover"); return commit();
-  }
+  if (ds.unshort) return openUnshort(ds.unshort);
 });
+// removing from the shortlist: our own dialog with the two real choices
+let UNSHORT = null;
+function openUnshort(id) {
+  const r = APP.byId[id]; UNSHORT = id;
+  $("#unshort-sheet").innerHTML = `<div class="sheet-head"><h2>Remove from your shortlist?</h2><button class="icon-btn" data-close="m-unshort">${icon("x")}</button></div>
+    <div class="un-role">${avatar(r.j.company)}<div><b>${esc(r.j.title)}</b><span>${esc(r.j.company)} · ${esc(r.decision.status)}</span></div></div>
+    <button class="un-opt" data-un="discover">${ico("compass", "sky")}<span><b>Send back to Discover</b><small>It returns to your deck, undecided. Its pack and dates stay.</small></span></button>
+    <button class="un-opt" data-un="pass">${ico("xc", "rose")}<span><b>Mark as passed</b><small>Pick at least one reason, so your ranking learns from it.</small></span></button>
+    <div class="sheet-actions"><button class="btn" data-close="m-unshort">Cancel</button></div>`;
+  $("#m-unshort").classList.add("on");
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-un]"); if (!b || !UNSHORT) return;
+  const id = UNSHORT, prev = APP.state.decisions[id]; $("#m-unshort").classList.remove("on"); UNSHORT = null;
+  if (b.dataset.un === "discover") { delete APP.state.decisions[id]; commit(); return undoSnack("Sent back to Discover", () => { APP.state.decisions[id] = prev; commit(); }); }
+  REASON_REQUIRED = true; askReason(id);
+});
+let REASON_REQUIRED = false;
 // the (i) next to the title: hover on a computer, tap on a phone
-document.addEventListener("click", (e) => { const i = e.target.closest(".info"); document.querySelectorAll(".info.open").forEach((x) => x !== i && x.classList.remove("open")); if (i) i.classList.toggle("open"); });
+document.addEventListener("click", (e) => { const i = e.target.closest(".info"); document.querySelectorAll(".info.open").forEach((x) => x !== i && x.classList.remove("open"));
+  if (i) { i.style.setProperty("--tip-top", i.getBoundingClientRect().bottom + 10 + "px"); i.classList.toggle("open"); } });
 function renderLists() {
   const statuses = APP.data.statuses, liked = APP.rows.filter((r) => r.decision?.decision === "like");
   const order = Object.fromEntries(statuses.map((s, i) => [s, i]));
@@ -2267,23 +2389,25 @@ function renderLists() {
   $("#c-short").textContent = liked.length || "";
   setText("#st-short", liked.length);
   setText("#st-applied", liked.filter((r) => ["Applied", "Interview", "Offer"].includes(r.decision.status)).length);
-  // funnel: each step counts the roles that got at least that far (rejected ones are their own step); tap a step to filter
-  const reached = (k) => k === "all" ? liked : k === "Rejected" ? liked.filter((r) => r.decision.status === "Rejected") : liked.filter((r) => reachedOf(r.decision) >= STAGES.indexOf(k));
-  const steps = FUNNEL.map(([k, l, tint]) => [k, l, tint, reached(k).length]);
-  $("#pipeline").innerHTML = steps.map(([k, l, tint, n], i) => `<button class="fstep t-${tint} ${SHORT_F === k ? "on" : ""}" data-funnel="${esc(k)}" style="--w:${100 - i * (k === "Rejected" ? 0 : 6)}%">
-      <span>${l}</span><b>${n}</b></button>`).join("");
-  const list = reached(SHORT_F);
-  $("#short-list").innerHTML = list.length ? `${SHORT_F !== "all" ? `<div class="small muted f-note">Showing ${FUNNEL.find((x) => x[0] === SHORT_F)[1].toLowerCase()} · <a href="#" data-funnel="all">show all ${liked.length}</a></div>` : ""}
-    <div class="apps">${list.map(appCard).join("")}</div>`
-    : `<div class="box empty">${liked.length ? "Nothing at this step yet." : "Nothing shortlisted yet. Swipe a card right on Discover."}</div>`;
+  // pipeline: how many roles sit at each step right now (the first row is all of them); tap a row to filter
+  const at = (k) => k === "all" ? liked : liked.filter((r) => r.decision.status === k);
+  const max = Math.max(1, liked.length);
+  $("#pipeline").innerHTML = `<div class="pl-head"><b>Pipeline</b><span class="small muted">${SHORT_F === "all" ? "tap a step to filter" : `<a href="#" data-funnel="all">show all ${liked.length}</a>`}</span></div>` +
+    FUNNEL.map(([k, l, tint]) => { const n = at(k).length;
+      return `<button class="pl-row ${SHORT_F === k ? "on" : ""} ${k === "Rejected" ? "sep" : ""}" data-funnel="${esc(k)}" ${n || k === "all" ? "" : "disabled"}>
+        <span class="pl-l">${l}</span><span class="pl-bar"><i class="t-${tint}" style="width:${n ? Math.max(6, (n / max) * 100) : 0}%"></i></span><b>${n}</b></button>`; }).join("");
+  const list = at(SHORT_F).sort((a, b) => reachedOf(b.decision) - reachedOf(a.decision) || (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at));
+  if (WALLET_OPEN && !list.some((r) => r.j.id === WALLET_OPEN)) WALLET_OPEN = null;
+  $("#short-list").innerHTML = list.length ? `<div class="wstack">${list.map((r, i) => walletCard(r, i === list.length - 1)).join("")}</div>`
+    : `<div class="box empty">${liked.length ? `No roles at “${esc(FUNNEL.find((x) => x[0] === SHORT_F)[1])}” right now. <a href="#" data-funnel="all">Show all</a>` : "Nothing shortlisted yet. Swipe a card right on Discover."}</div>`;
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#c-rej").textContent = mine.length + auto.length || "";
   $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Undo</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
   $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
   $("#pack-help").innerHTML = APP.server
-    ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Tap a funnel step to see only those roles.`
-    : `Press <b>Prepare pack</b> on your Mac and ask Claude Code to prepare it. Review, apply, then update the status. Tap a funnel step to see only those roles.`;
+    ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Tap a pipeline step to see only those roles.`
+    : `Press <b>Prepare pack</b> on your Mac and ask Claude Code to prepare it. Review, apply, then update the status. Tap a pipeline step to see only those roles.`;
 }
 
 // ---------------- companies ----------------
@@ -2406,7 +2530,7 @@ function sceneEvidence(j, d) {
   const rows = Object.entries(SCENES).map(([k, s]) => {
     const x = d.scene.dims[k]; if (!x || (!x.ev.length && !x.ai)) return "";
     const top = x.ev.filter((e) => e.w >= 1 || e.w < 0).slice(0, 2);
-    return `<div class="row"><span>${s.emoji}</span><div><b>${esc(s.name)}</b> <span class="scene-dot ${sceneLevel(x.v)}">${Math.round(x.v * 100)}</span>${x.ai ? ` <span class="muted small">· Claude's read</span>` : ""}
+    return `<div class="row"><span class="sc-ico">${sceneIcon(k)}</span><div><b>${esc(s.name)}</b> <span class="scene-dot ${sceneLevel(x.v)}">${Math.round(x.v * 100)}</span>${x.ai ? ` <span class="muted small">· Claude's read</span>` : ""}
       <div class="small muted">${x.ev.map((e) => esc(e.p) + (e.w < 0 ? " (−)" : "")).join(" · ")}</div>
       ${top.map((e) => `<q class="${e.w < 0 ? "neg" : ""}">${mark(e.s, e.p)}</q>`).join("")}</div></div>`;
   }).join("");
@@ -2418,7 +2542,7 @@ function renderScene() {
   $("#scene-engine").innerHTML = `<div class="small muted" style="margin-bottom:4px">${live.filter((r) => r.d.scene.fit >= 40).length} of ${live.length} open jobs feel like your movie (scene fit 40+). Click a phrase's number to change its weight; negative numbers pull a scene down.</div>` +
     Object.entries(SCENES).map(([k, sc]) => {
       const strong = live.filter((r) => (r.d.scene.dims[k]?.v ?? 0) >= 0.35).length;
-      return `<div class="scene-dim"><div class="top"><span style="font-size:20px">${sc.emoji}</span>
+      return `<div class="scene-dim"><div class="top"><span class="sc-ico lg">${sceneIcon(k)}</span>
         <div class="nm"><b>${esc(sc.name)}</b><span>${esc(sc.text)} · strong in ${strong} jobs</span></div>
         <div class="seg">${[0, 0.5, 1, 1.5, 2].map((w) => `<button data-scw="${k}:${w}" class="${(s.scene_w[k] ?? 1) === w ? "on" : ""}">${w === 0 ? "off" : "×" + w}</button>`).join("")}</div></div>
         <div class="chips" id="scene-lex-${k}"></div></div>`;
@@ -2755,7 +2879,7 @@ function finishChallenge() {
 
 // ---------------- application packs ----------------
 const PACKVIEW = { id: null, tab: "overview" };
-const PACK_TABS = [["overview", "Overview"], ["resume", "Resume"], ["cover", "Cover letter"], ["answers", "Form answers"], ["prep", "Interview prep"]];
+const PACK_TABS = [["job", "Job details"], ["overview", "Overview"], ["resume", "Resume"], ["cover", "Cover letter"], ["answers", "Form answers"], ["prep", "Interview prep"]];
 function packEdits(id) { APP.state.packs = APP.state.packs || {}; return (APP.state.packs[id] = APP.state.packs[id] || { checks: {}, prep: {}, answers: {} }); }
 function packProgress(id) {
   const pk = APP.packs[id], e = APP.state.packs?.[id];
@@ -2807,13 +2931,27 @@ function downloadCoverDoc(id) {
   const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob(["﻿" + doc], { type: "application/msword" })), download: `Nesibe Keles_Cover Letter_${pk.company}.doc` });
   a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
+let COVER_EDIT = false;
+// the letter as a clean A4 page in a new tab; the browser's print dialog saves it as PDF (on iPhone: Share → Save to Files)
+function downloadCoverPdf(id) {
+  const pk = APP.packs[id], name = `${me().name.replace(/ş/g, "s").replace(/Ş/g, "S")}_Cover Letter_${pk.company}`;
+  const paras = packCoverText(id).split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
+  const w = window.open("", "_blank"); if (!w) return toast("Allow pop-ups for this site to save the PDF");
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(name)}</title><style>@page{size:A4;margin:22mm 20mm}body{font:11pt/1.55 Calibri,Carlito,"Segoe UI",Arial,sans-serif;color:#111;max-width:170mm;margin:24px auto}p{margin:0 0 10pt}</style></head><body>${paras}<script>setTimeout(()=>print(),300)<\/script></body></html>`);
+  w.document.close();
+}
 function openPack(id, tab) {
   if (!APP.packs?.[id] && APP.sealed?.ids.includes(id)) return askPackPass(() => openPack(id, tab));
   const pk = APP.packs?.[id]; if (!pk) return;
   PACKVIEW.id = id; PACKVIEW.tab = tab;
   const e = packEdits(id), pdf = packPdf(id);
   let body = "";
-  if (tab === "overview") {
+  if (tab !== "cover") COVER_EDIT = false;
+  if (tab === "job") {
+    const r = APP.byId[id];
+    body = r ? `<div class="job-tab"><p class="brief-lg">${esc(brief(r.j))}</p><div class="qchips" style="margin:0 0 6px">${quickChips(r, 3)}</div>${detailBody(r)}</div>`
+      : `<div class="empty">This post is no longer in your job list (it may have closed).<br><a class="btn sm" style="margin-top:10px" href="${esc(pk.apply_url)}" target="_blank" rel="noopener">${icon("ext")}Open the post</a></div>`;
+  } else if (tab === "overview") {
     const done = pk.checklist.filter((_, i) => e.checks[i]).length;
     body = `<div class="pack-sec">Honest take</div>
       ${pk.assessment.map((a) => `<div class="assess ${a.tone}"><b>${{ warn: "⚠︎", info: "ℹ︎", good: "✓" }[a.tone]}</b><span>${esc(a.text)}</span></div>`).join("")}
@@ -2826,10 +2964,15 @@ function openPack(id, tab) {
         ? `<a class="pdf-card" href="${pdf}" target="_blank" rel="noopener">${icon("file")}<div><b>${esc(pk.resume_file)}</b><span>One page · tap to open the PDF</span></div>${icon("chev")}</a>`
         : `<iframe class="pdf-frame" src="${pdf}#view=FitH" title="Resume"></iframe>`}`;
   } else if (tab === "cover") {
-    const paras = coverParasHTML(id);
-    body = `${pk.cover_letter.tone ? toneHTML(id, e.cover != null) : ""}<div class="doc-tools"><button class="btn primary sm" data-pcopy>${icon("copy")}Copy text</button><button class="btn sm" data-pword>${icon("download")}Download for Word</button>
-      ${e.cover != null ? `<span class="edited">Edited by you · saved</span><button class="btn ghost sm" data-preset>Reset to original</button>` : `<span class="small muted">Click anywhere on the page to edit. Changes save automatically.</span>`}</div>
-      <div class="doc-page" contenteditable="true" spellcheck="true" id="cover-doc">${paras}</div>`;
+    // parts still waiting for her own words look like [Your Airbnb moment …]: warn before she copies or downloads
+    const holes = [...new Set(packCoverText(id).match(/\[[^\]]{3,}\]/g) || [])];
+    const paras = coverParasHTML(id).replace(/\[[^\]]{3,}\]/g, (m) => `<mark class="ph">${m}</mark>`);
+    body = `${pk.cover_letter.tone ? toneHTML(id, e.cover != null) : ""}
+      ${holes.length ? `<div class="assess warn ph-warn"><b>⚠︎</b><span><b>${holes.length === 1 ? "One part still needs" : `${holes.length} parts still need`} your own words</b> before you send it: ${holes.map((h) => `<em>${esc(h.length > 60 ? h.slice(0, 58) + "…]" : h)}</em>`).join(", ")}. Press <b>Edit</b>, then replace the highlighted text.</span></div>` : ""}
+      <div class="doc-tools">${COVER_EDIT ? `<button class="btn primary sm" data-pedit-cover>${icon("check")}Done editing</button>` : `<button class="btn sm" data-pedit-cover>${icon("edit")}Edit</button>`}
+        <button class="btn sm" data-pcopy>${icon("copy")}Copy text</button><button class="btn sm" data-ppdf>${icon("download")}PDF</button><button class="btn sm" data-pword>${icon("download")}Word</button>
+        ${e.cover != null ? `<span class="edited">Edited by you · saved</span><button class="btn ghost sm" data-preset>Reset to original</button>` : ""}</div>
+      <div class="doc-page ${COVER_EDIT ? "editing" : ""}" ${COVER_EDIT ? 'contenteditable="true"' : ""} spellcheck="true" id="cover-doc">${paras}</div>`;
   } else if (tab === "answers") {
     body = pk.answers.map((a, i) => { const v = packAnswer(id, i);
       return `<div class="answer ${v ? "" : "empty-a"}"><div class="q"><span>${esc(a.q)}</span><button class="btn ghost sm" data-acopy="${i}">${icon("copy")}Copy</button></div>
@@ -3031,8 +3174,8 @@ function homeTodos(h) {
   for (const r of h.saved) add(`pack:${r.j.id}`, `Prepare an application pack for ${r.j.company}`, r.j.title, `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>`);
   for (const r of h.requested) add(`claude:${r.j.id}`, `Ask Claude Code to prepare the ${r.j.company} pack`, "type “paketleri hazırla”", "");
   for (const { r, t: seen } of h.viewed.slice(0, 4)) add(`decide:${r.j.id}`, `Decide on ${r.j.company}`, `${r.j.title} · you looked ${ago(seen)}`, `<button class="btn sm" data-opencard="${esc(r.j.id)}">Decide</button>`);
-  (APP.state.home.todos || []).forEach((x, i) => add(`mine:${x.id}`, x.text, "your own daily to-do", ""));
-  (APP.state.extra_todos?.[t] || []).forEach((x) => add(`extra:${x.id}`, x.text, "added today", ""));
+  (APP.state.home.todos || []).forEach((x) => { add(`mine:${x.id}`, x.text, x.sub ?? "every day", todoLinkBtn(x.link)); out.at(-1).own = { store: "daily", id: x.id }; });
+  (APP.state.extra_todos?.[t] || []).forEach((x) => { add(`extra:${x.id}`, x.text, x.sub ?? "today", todoLinkBtn(x.link)); out.at(-1).own = { store: "today", id: x.id }; });
   const playedToday = APP.state.challenge?.last === t;
   add("challenge", "Play today's challenge", playedToday ? `done: ${APP.state.challenge.results[t]}/3` : "3 quick questions · keep your streak", playedToday ? "" : `<button class="btn sm" data-open="challenge">Play</button>`, playedToday);
   if (!APP.state.test) add("test", "Take the 2-minute self-discovery test", "it tunes your scoring", `<button class="btn sm" data-open="test">Start</button>`);
@@ -3078,11 +3221,12 @@ function renderHome() {
   const pickHTML = (r) => `
           <button class="pick" data-opencard="${esc(r.j.id)}">${avatar(r.j.company)}
             <div style="min-width:0"><b>${esc(r.j.title)}</b><div class="meta">${esc(r.j.company)} · ${esc(r.d.city)}
-              ${h.isNew(r) ? '<span class="tag badge-new">New today</span>' : ""}${r.score >= 80 ? '<span class="tag badge-hot">Hot match</span>' : ""}${r.d.scene?.fit >= 60 ? '<span class="tag badge-scene">🎬 Scene fit</span>' : ""}</div></div>
+              ${h.isNew(r) ? '<span class="tag badge-new">New today</span>' : ""}${r.score >= 80 ? '<span class="tag badge-hot">Hot match</span>' : ""}${r.d.scene?.fit >= 60 ? '<span class="tag badge-scene">Scene fit</span>' : ""}</div></div>
             <div class="sc">${r.score}<small>SCORE</small></div></button>`;
   const todoList = (list) => list.length ? `<ul class="todos">${list.map((x) => `
-          <li class="todo ${x.done ? "done" : ""}"><input type="checkbox" data-todo="${esc(x.key)}" ${x.done ? "checked" : ""} aria-label="${esc(x.text)}">
-            <div class="tx"><b>${esc(x.text)}</b><span>${esc(x.sub)}</span></div>${x.done ? "" : x.action}</li>`).join("")}</ul>`
+          ${x.own && TODO_EDIT?.id === x.own.id ? `<li class="todo editing">${todoForm(x.own)}</li>` : `<li class="todo ${x.done ? "done" : ""} ${x.own ? "own" : ""}"><input type="checkbox" data-todo="${esc(x.key)}" ${x.done ? "checked" : ""} aria-label="${esc(x.text)}">
+            <div class="tx"><b>${esc(x.text)}</b>${x.sub ? `<span>${esc(x.sub)}</span>` : ""}</div>${x.done ? "" : x.action}
+            ${x.own ? `<span class="todo-own"><button class="icon-btn" data-todo-edit="${x.own.store}:${x.own.id}" title="Edit" aria-label="Edit">${icon("edit")}</button><button class="icon-btn" data-todo-del="${x.own.store}:${x.own.id}" title="Delete" aria-label="Delete">${icon("trash")}</button></span>` : ""}</li>`}`).join("")}</ul>`
     : `<div class="home-empty"><div class="hand">nothing on your plate</div>Shortlist a job and your next steps show up here.</div>`;
   const rows = [row("fresh", "#2f7d62", h.fresh.length, 'data-hgo="fresh"'), row("hot", "#e0855f", h.hot.length, 'data-hgo="hot"'),
     row("saved", "#6655c4", h.saved.length + h.requested.length, 'data-v="short"'), row("ready", "#c9a13b", h.ready.length, 'data-v="short"'),
@@ -3130,7 +3274,7 @@ function renderHome() {
           ${HOME_OPEN.picks ? (picks.length ? `<div class="picks">${picks.map(pickHTML).join("")}</div><button class="btn ghost sm" data-v="discover">See all in Discover<svg class="i"><use href="#i-chev"/></svg></button>` : `<div class="home-empty">No new or hot jobs today.</div>`) : ""}</section>`,
       todo: () => `<section class="bt bt-todo t-rose ${HOME_OPEN.todo ? "open" : ""}" id="home-todo"><div class="bth"><button class="bth-tog" data-hopen="todo">${ico("check", "rose")}<b>Today's checklist</b><span class="wv">${doneN}/${out.length}</span><svg class="i tog"><use href="#i-chev"/></svg></button></div>
           <div class="bar"><i style="width:${out.length ? (doneN / out.length) * 100 : 0}%"></i></div>
-          ${HOME_OPEN.todo ? todoList(out) + `<label class="todo-pad"><span class="box-ph"></span><input id="todo-new" placeholder="add a to-do for today…" autocomplete="off" enterkeyhint="done"></label>` : ""}</section>`,
+          ${HOME_OPEN.todo ? todoList(out) + (TODO_EDIT?.id === "new" ? todoForm(null) : `<button class="todo-pad" data-todo-new><span class="box-ph"></span><span class="pad-line">add a to-do…</span></button>`) : ""}</section>`,
       journey: () => `<button class="bt bt-small t-sky" data-v="journey"><div class="bth">${ico("route", "sky")}<b>My journey</b></div>${ring(js.pct / 100, js.pct + "%", 64)}<span class="small muted">${esc(js.next.title)}</span></button>`,
     };
     body = `<div class="bento">${shown.map((k) => tiles[k]()).join("")}</div>`;
@@ -3184,13 +3328,65 @@ document.addEventListener("click", (e) => {
     return showView("discover");
   }
 });
-function saveExtraTodo() {
-  const v = $("#todo-new")?.value.trim(); if (!v) return toast("Write the to-do first");
-  const t = today(); APP.state.extra_todos = APP.state.extra_todos || {};
-  (APP.state.extra_todos[t] = APP.state.extra_todos[t] || []).push({ id: Date.now().toString(36), text: v });
-  HOME_OPEN.todo = true; save(); renderHome(); setTimeout(() => $("#todo-new")?.focus(), 30);
+// ---- own to-dos: today only or every day, with details and an optional link; edit and delete with undo ----
+let TODO_EDIT = null; // { id: "new" } or { store, id }
+const todoStore = (store) => store === "daily" ? (APP.state.home.todos = APP.state.home.todos || []) : ((APP.state.extra_todos = APP.state.extra_todos || {})[today()] = APP.state.extra_todos[today()] || []);
+const VIEW_LINKS = [["discover", "Discover"], ["short", "Shortlist"], ["journey", "My journey"], ["settings", "Preferences"]];
+function todoLinkBtn(link) {
+  if (!link?.v) return "";
+  if (link.t === "pack") return hasPack(link.v) ? `<button class="btn sm" data-openpack="${esc(link.v)}">Open pack</button>` : `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>`;
+  if (link.t === "job") return `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>`;
+  if (link.t === "view") return `<button class="btn sm" data-v="${esc(link.v)}">${esc(VIEW_LINKS.find((x) => x[0] === link.v)?.[1] || "Open")}</button>`;
+  if (link.t === "url") return `<a class="btn sm" href="${esc(/^https?:/i.test(link.v) ? link.v : "https://" + link.v)}" target="_blank" rel="noopener">${icon("ext")}Open link</a>`;
+  return "";
 }
-document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.id === "todo-new") saveExtraTodo(); });
+function todoForm(own) {
+  const x = own ? todoStore(own.store).find((t) => t.id === own.id) || {} : {}, lk = x.link || {};
+  const liked = APP.rows.filter((r) => r.decision?.decision === "like");
+  const sel = (v) => (`${lk.t}:${lk.v}` === v ? "selected" : "");
+  return `<div class="todo-form">
+    <div class="tf-line"><span class="box-ph"></span><input id="tf-text" value="${esc(x.text || "")}" placeholder="What do you want to do?" autocomplete="off" enterkeyhint="next"></div>
+    <input class="field" id="tf-sub" value="${esc(x.sub ?? "")}" placeholder="Details (optional), e.g. before 6 pm" enterkeyhint="next">
+    <div class="tf-row"><select class="field" id="tf-link"><option value="">No link</option>
+        <optgroup label="A page">${VIEW_LINKS.map(([k, l]) => `<option value="view:${k}" ${sel("view:" + k)}>${l}</option>`).join("")}</optgroup>
+        ${liked.length ? `<optgroup label="A shortlisted role">${liked.map((r) => `<option value="${hasPack(r.j.id) ? "pack" : "job"}:${esc(r.j.id)}" ${sel((hasPack(r.j.id) ? "pack:" : "job:") + r.j.id)}>${esc(r.j.company)} · ${esc(r.j.title.slice(0, 36))}</option>`).join("")}</optgroup>` : ""}
+        <option value="url:" ${lk.t === "url" ? "selected" : ""}>A web link…</option></select>
+      <label class="tf-rep"><input type="checkbox" id="tf-daily" ${own?.store === "daily" ? "checked" : ""}>Every day</label></div>
+    <input class="field" id="tf-url" value="${esc(lk.t === "url" ? lk.v : "")}" placeholder="https://…" ${lk.t === "url" ? "" : "hidden"}>
+    <div class="tf-acts"><button class="btn sm" data-tf-cancel>Cancel</button><button class="btn primary sm" data-tf-save>${own ? "Save" : "Add"}</button></div></div>`;
+}
+function saveTodo() {
+  const text = $("#tf-text").value.trim(); if (!text) { $("#tf-text").focus(); return toast("Write the to-do first"); }
+  const lv = $("#tf-link").value, [lt, ...rest] = lv.split(":"), link = !lv ? null : lt === "url" ? ($("#tf-url").value.trim() ? { t: "url", v: $("#tf-url").value.trim() } : null) : { t: lt, v: rest.join(":") };
+  const store = $("#tf-daily").checked ? "daily" : "today", item = { text, sub: $("#tf-sub").value.trim(), link };
+  if (TODO_EDIT.id === "new") todoStore(store).push({ id: Date.now().toString(36), ...item });
+  else { // edited: may also move between "today" and "every day"
+    const from = todoStore(TODO_EDIT.store), i = from.findIndex((t) => t.id === TODO_EDIT.id), old = from[i];
+    if (TODO_EDIT.store === store) from[i] = { ...old, ...item }; else { from.splice(i, 1); todoStore(store).push({ ...old, ...item }); }
+  }
+  TODO_EDIT = null; save(); renderHome(); toast(store === "daily" ? "Saved. It shows up every day" : "Saved for today");
+}
+document.addEventListener("click", (e) => {
+  const t = e.target;
+  if (t.closest("[data-todo-new]")) { TODO_EDIT = { id: "new" }; renderHome(); return setTimeout(() => $("#tf-text")?.focus(), 30); }
+  const ed = t.closest("[data-todo-edit]");
+  if (ed) { const [store, id] = ed.dataset.todoEdit.split(":"); TODO_EDIT = { store, id }; renderHome(); return setTimeout(() => $("#tf-text")?.focus(), 30); }
+  const del = t.closest("[data-todo-del]");
+  if (del) {
+    const [store, id] = del.dataset.todoDel.split(":"), list = todoStore(store), i = list.findIndex((x) => x.id === id), item = list[i];
+    list.splice(i, 1); save(); renderHome();
+    return undoSnack(`Deleted “${esc(item.text.slice(0, 28))}”`, () => { todoStore(store).splice(i, 0, item); save(); renderHome(); });
+  }
+  if (t.closest("[data-tf-cancel]")) { TODO_EDIT = null; return renderHome(); }
+  if (t.closest("[data-tf-save]")) return saveTodo();
+});
+document.addEventListener("change", (e) => { if (e.target.id === "tf-link") $("#tf-url").hidden = !e.target.value.startsWith("url:"); });
+// Enter moves to the next field; only the Add / Save button saves
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  if (e.target.id === "tf-text") { e.preventDefault(); $("#tf-sub").focus(); }
+  else if (e.target.id === "tf-sub" || e.target.id === "tf-url") { e.preventDefault(); $("#tf-link").focus(); }
+});
 // ---- customize home: show/hide, order and width of each card, summary rows, name, own to-dos ----
 function renderHomeCustom() {
   const hm = APP.state.home;
@@ -3561,11 +3757,13 @@ document.addEventListener("click", (e) => {
   if (ds.hgo) return homeGo(ds.hgo);
   if (ds.openprep) return openPack(ds.openprep, "prep");
   if (ds.cpact) return cardAct(ds.cpact);
-  if (ds.openpack) return openPack(ds.openpack, "overview");
+  if (ds.openpack) return openPack(ds.openpack, "job");
   if (ds.ptab) return openPack(PACKVIEW.id, ds.ptab);
   if ("pcopy" in ds) return copyText(packCoverText(PACKVIEW.id), "Cover letter copied");
   if (ds.acopy != null) return copyText(packAnswer(PACKVIEW.id, +ds.acopy), "Answer copied");
   if ("pword" in ds) return downloadCoverDoc(PACKVIEW.id);
+  if ("ppdf" in ds) return downloadCoverPdf(PACKVIEW.id);
+  if ("peditCover" in ds) { COVER_EDIT = !COVER_EDIT; openPack(PACKVIEW.id, "cover"); if (COVER_EDIT) setTimeout(() => { const d = $("#cover-doc"); d.focus(); const m = d.querySelector("mark.ph"); if (m) { const r = document.createRange(); r.selectNodeContents(m); getSelection().removeAllRanges(); getSelection().addRange(r); } }, 30); else toast("Saved"); return; }
   if (ds.tpreset) { const id = PACKVIEW.id; if (packEdits(id).cover != null) return openPack(id, "cover"); setMix(id, TONE_PRESETS.find(([l]) => l === ds.tpreset)[1] || APP.packs[id].cover_letter.tone.default); return save(); }
   if ("preset" in ds) { if (confirm("Throw away your edits and go back to the original cover letter?")) { delete packEdits(PACKVIEW.id).cover; save(); openPack(PACKVIEW.id, "cover"); } return; }
   if (ds.act === "like") return like();
@@ -3643,10 +3841,12 @@ document.addEventListener("keydown", (e) => {
 });
 $("#r-save").onclick = () => {
   const reasons = [...document.querySelectorAll("#reasons .chip.on")].map((c) => c.dataset.r);
+  if (REASON_REQUIRED && !reasons.length && !$("#reason-note").value.trim()) return toast("Pick at least one reason");
+  REASON_REQUIRED = false;
   $("#m-reason").classList.remove("on"); if (current()?.j.id === pendingReject) flyOut(-1);
   decide(pendingReject, "dislike", reasons, $("#reason-note").value); pendingReject = null;
 };
-$("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingReject = null; renderStack(); };
+$("#r-cancel").onclick = () => { $("#m-reason").classList.remove("on"); pendingReject = null; REASON_REQUIRED = false; renderStack(); };
 $("#b-undo").onclick = undo;
 $("#add-rule").onclick = () => { APP.state.rules.unshift({ id: uid(), on: true, name: "New rule", all: [{ f: "title", op: "has", v: "" }], pts: 3 }); commit(); };
 $("#add-co").onclick = () => companySheet(null);
@@ -3759,6 +3959,7 @@ function mergeShared(shared, local) {
   for (const [d, list] of Object.entries(local.extra_todos || {})) m.extra_todos[d] = byId(m.extra_todos[d], list);
   m.journey = { ...(shared.journey || {}), events: byId(shared.journey?.events, local.journey?.events) };
   m.feedback = byId(shared.feedback, local.feedback);
+  m.home = { ...(shared.home || {}), todos: byId(shared.home?.todos, local.home?.todos) };
   m.viewed = { ...(shared.viewed || {}) };
   for (const [id, v] of Object.entries(local.viewed || {})) if (!m.viewed[id] || v > m.viewed[id]) m.viewed[id] = v;
   if (local.test && (!shared.test || (local.test.at || "") > (shared.test.at || ""))) m.test = local.test;
