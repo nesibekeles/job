@@ -1320,7 +1320,7 @@
    "2026-11-01": 3
   }
  },
- "updated_at": "2026-11-02T07:52:43.926Z",
+ "updated_at": "2026-11-02T09:08:14.047Z",
  "viewed": {
   "spotify-7f0a8faa-f4f5-4db9-9f51-4101d6a29b34": "2026-11-01T22:35:22.721Z"
  },
@@ -1329,11 +1329,10 @@
    "summary",
    "picks",
    "todo",
-   "fun",
    "journey"
   ],
   "hidden": [
-   "fun"
+   "journey"
   ],
   "wide": [
    "todo"
@@ -1342,12 +1341,13 @@
   "todos": [],
   "name": "Ms Nesibe",
   "hero": true,
-  "layout": "bento"
+  "layout": "bento",
+  "v3": true
  },
  "journey": {
   "goal_date": "2027-06-30",
   "goal_apps": 30,
   "events": []
  },
- "published_at": "2026-11-02T08:03:29.774442+00:00"
+ "published_at": "2026-11-02T09:09:44.879835+00:00"
 }
