@@ -583,7 +583,9 @@
   .navlink.on .count { color: inherit; opacity: .7; }
   .side { border-right: 0; background: rgba(255, 255, 255, .62); backdrop-filter: blur(14px); }
   .topbar { border-bottom: 0; background: rgba(244, 244, 248, .7); backdrop-filter: blur(14px); }
-  .avatar { border-radius: 50%; }
+  .avatar { border-radius: 50%; position: relative; overflow: hidden; }
+  .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 18%; background: #fff; opacity: 0; transition: opacity .2s; }
+  .avatar.has-logo { box-shadow: inset 0 0 0 1px var(--line); } .avatar.has-logo img { opacity: 1; }
   .item { padding: 16px 18px; }
   .mini { border: 0 !important; border-radius: 24px !important; box-shadow: 0 1px 2px rgba(24, 22, 48, .04), 0 10px 26px -16px rgba(40, 36, 80, .22) !important; }
   .mini.center { box-shadow: 0 2px 4px rgba(24, 22, 48, .05), 0 28px 50px -22px rgba(40, 36, 80, .38) !important; }
@@ -1340,7 +1342,28 @@ const ago = (iso) => { if (!iso) return ""; const m = (Date.now() - new Date(iso
   return m < 1 ? "just now" : m < 60 ? Math.floor(m) + " min ago" : d < 1 ? Math.floor(m / 60) + " h ago" : d < 2 ? "yesterday" : Math.floor(d) + " days ago"; };
 const signed = (n) => (n > 0 ? "+" : "") + (Math.round(n * 10) / 10);
 const pastel = (name) => PASTELS[[...name].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % PASTELS.length];
-const avatar = (name) => { const [bg, fg] = pastel(name); return `<div class="avatar" style="background:${bg};color:${fg}">${esc(name[0])}</div>`; };
+// company logos: the site icon of the company's own domain, with the first letter underneath in case it can't load
+const LOGO_DOMAINS = { Amazon: "amazon.com", Stripe: "stripe.com", Airbnb: "airbnb.com", Figma: "figma.com", Datadog: "datadoghq.com", Duolingo: "duolingo.com",
+  Dropbox: "dropbox.com", Spotify: "spotify.com", Notion: "notion.so", Salesforce: "salesforce.com", Adobe: "adobe.com", "P&G": "pg.com", Nike: "nike.com",
+  PayPal: "paypal.com", Mastercard: "mastercard.com", Philips: "philips.com", Adyen: "adyen.com", Intercom: "intercom.com", Squarespace: "squarespace.com",
+  Elastic: "elastic.co", Celonis: "celonis.com", Wise: "wise.com", Monzo: "monzo.com", "Delivery Hero": "deliveryhero.com", Canva: "canva.com",
+  HelloFresh: "hellofresh.com", Wolt: "wolt.com", Doctolib: "doctolib.fr", GetYourGuide: "getyourguide.com", Bitpanda: "bitpanda.com", GoStudent: "gostudent.org",
+  N26: "n26.com", trivago: "trivago.com", Contentful: "contentful.com", Mirakl: "mirakl.com", Tide: "tide.co", Cleo: "web.meetcleo.com", BlaBlaCar: "blablacar.com",
+  n8n: "n8n.io", Google: "google.com", Meta: "meta.com", Unilever: "unilever.com", "Booking.com": "booking.com", Microsoft: "microsoft.com", Apple: "apple.com",
+  Uber: "uber.com", Netflix: "netflix.com", TikTok: "tiktok.com", Zalando: "zalando.com", Revolut: "revolut.com", "Red Bull": "redbull.com", "L'Oréal": "loreal.com",
+  Heineken: "theheinekencompany.com", "Xero (NZ)": "xero.com", Xero: "xero.com", "Air New Zealand": "airnewzealand.co.nz" };
+const ATS_HOSTS = /(greenhouse\.io|lever\.co|ashbyhq\.com|myworkdayjobs\.com|smartrecruiters\.com|workable\.com|teamtailor\.com)$/;
+function logoDomain(name) {
+  if (LOGO_DOMAINS[name]) return LOGO_DOMAINS[name];
+  const url = APP.state?.settings?.companies?.[name]?.url; if (!url) return null;
+  try { const h = new URL(url).hostname.replace(/^(www|careers|jobs|join|apply)\./, ""); return ATS_HOSTS.test(h) ? null : h; } catch { return null; }
+}
+// tiny or missing icons (the service's generic globe is 16px) fall back to the letter
+const logoLoaded = (img) => { if (img.naturalWidth < 32) img.remove(); else img.parentElement.classList.add("has-logo"); };
+const avatar = (name) => {
+  const [bg, fg] = pastel(name), d = logoDomain(name);
+  return `<div class="avatar" style="background:${bg};color:${fg}">${esc(name[0])}${d ? `<img src="https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=128" alt="" loading="lazy" onload="logoLoaded(this)" onerror="this.remove()">` : ""}</div>`;
+};
 const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
 const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all", cof: "all",
