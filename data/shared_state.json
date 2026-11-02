@@ -1320,7 +1320,7 @@
    "2026-11-01": 3
   }
  },
- "updated_at": "2026-11-02T05:57:16.177Z",
+ "updated_at": "2026-11-02T06:54:43.526Z",
  "viewed": {
   "spotify-7f0a8faa-f4f5-4db9-9f51-4101d6a29b34": "2026-11-01T22:35:22.721Z"
  },
@@ -1329,7 +1329,8 @@
    "summary",
    "picks",
    "todo",
-   "fun"
+   "fun",
+   "journey"
   ],
   "hidden": [
    "fun"
@@ -1340,7 +1341,8 @@
   "rows": [],
   "todos": [],
   "name": "Ms Nesibe",
-  "hero": true
+  "hero": true,
+  "layout": "bento"
  },
- "published_at": "2026-11-02T05:58:46.898574+00:00"
+ "published_at": "2026-11-02T06:56:48.534350+00:00"
 }
