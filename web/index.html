@@ -336,6 +336,14 @@
   .home-hero .hero-art { width: min(360px, 42vw); height: auto; flex: none; }
   .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
   .home-wide { grid-column: 1 / -1; }
+  .home-tools { display: flex; justify-content: flex-end; margin: -10px 0 10px; }
+  .cust-sec { font: 700 13px var(--head); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 20px 0 8px; }
+  .cust-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .cust-row.card-row b { flex: 1; } .cust-row.off b { color: var(--muted); }
+  .cust-row .ord { display: flex; } .cust-row .ord .icon-btn:first-child .i { transform: rotate(-90deg); } .cust-row .ord .icon-btn:last-child .i { transform: rotate(90deg); }
+  .cust-row .ord .icon-btn:disabled { opacity: .3; cursor: default; }
+  .chip-toggle { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+  .chip-toggle.on { background: var(--lav-50); border-color: var(--lav-200); color: var(--ink); }
   .hcard { background: var(--surface); border: 1.5px solid #d9d6e3; border-radius: 18px 22px 16px 24px; padding: 20px 22px; box-shadow: 4px 4px 0 #ecebf2; }
   .hhead { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .hhead .doodle { width: 46px; height: 46px; flex: none; }
@@ -452,6 +460,23 @@
   .answer .hint { font-size: 12px; color: var(--butter); margin-top: 6px; }
   .answer.empty-a textarea { background: var(--butter-50); border-color: #efe3bd; }
   .pdf-frame { width: 100%; height: 78vh; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+  .combo { position: relative; flex: 1; min-width: 0; display: flex; }
+  .combo > input { width: 100%; padding-right: 34px; }
+  .combo-tog { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); border: 0; background: none; padding: 6px; color: var(--muted); cursor: pointer; }
+  .combo-tog .i { width: 15px; height: 15px; transform: rotate(90deg); transition: transform .15s; }
+  .combo.open .combo-tog .i { transform: rotate(-90deg); }
+  .combo-list { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 30; max-height: 260px; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 4px; }
+  .combo.open .combo-list { display: block; }
+  .combo-list button { display: flex; width: 100%; align-items: center; gap: 8px; justify-content: space-between; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 8px; font: inherit; font-size: 14px; color: var(--ink); cursor: pointer; }
+  .combo-list button:hover, .combo-list button.on { background: var(--lav-50); }
+  .combo-list small { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .combo-list .combo-new { color: var(--lav); font-weight: 600; justify-content: flex-start; border-bottom: 1px solid var(--line); border-radius: 8px 8px 0 0; }
+  .combo-list .combo-new .i { width: 15px; height: 15px; }
+  .combo-empty { padding: 10px; font-size: 13px; color: var(--muted); }
+  .between { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; } .between input { min-width: 0; flex: 1; } .between span { font-size: 13px; color: var(--muted); }
+  .pdf-card { display: flex; align-items: center; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; }
+  .pdf-card > .i:first-child { width: 30px; height: 30px; color: var(--lav); flex-shrink: 0; }
+  .pdf-card div { flex: 1; min-width: 0; } .pdf-card b { display: block; overflow-wrap: anywhere; } .pdf-card span { font-size: 13px; color: var(--muted); }
   .fit { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 13.5px; }
   .fit th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); background: var(--soft); padding: 9px 14px; }
   .fit td { padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
@@ -607,7 +632,7 @@
     .item .avatar { width: 36px; height: 36px; }
     .grid-2 { grid-template-columns: 1fr; }
     .rules { grid-template-columns: 1fr; }
-    .cond { grid-template-columns: 1fr .8fr 24px; } .cond .val { grid-column: 1 / 3; }
+    .cond { grid-template-columns: 1fr .8fr 24px; } .cond > .val, .cond > .combo, .cond > .between { grid-column: 1 / 3; }
     .wrow { grid-template-columns: 1fr 76px 64px; } .wrow .auto { display: none; }
     .city { grid-template-columns: 40px 1fr 64px 100px; } .city .min { display: none; }
     .co-grid { grid-template-columns: 1fr; }
@@ -751,7 +776,7 @@
       <div class="box pad">
         <div class="add-row">
           <select class="field" id="w-kind" style="flex:0 0 160px"><option value="t">Word in title</option><option value="co">Company</option><option value="cotag">Company tag</option><option value="city">City</option><option value="tag">Tag</option><option value="role">Role type</option></select>
-          <input class="field" id="w-val" list="w-suggest" placeholder="e.g. marketing"><datalist id="w-suggest"></datalist>
+          <div class="combo" style="flex:1;min-width:160px"><input class="field" id="w-val" data-combo="weight" autocomplete="off" placeholder="pick or type a new one"><button class="combo-tog" type="button" tabindex="-1" aria-label="Show options"><svg class="i"><use href="#i-chev"/></svg></button><div class="combo-list"></div></div>
           <input class="field" id="w-pts" type="number" step="0.5" value="3" style="flex:0 0 84px">
           <button class="btn primary" id="w-add">Add</button>
         </div>
@@ -846,6 +871,12 @@
   <p class="small muted" style="margin:0 0 14px">Saved on this device only.</p>
   <div class="theme-pick"></div>
 </div></div>
+<div class="modal" id="m-home"><div class="sheet" id="home-custom" style="max-width:600px"></div></div>
+<div class="modal" id="m-update"><div class="sheet" style="max-width:440px">
+  <div class="sheet-head"><h2>Fresh jobs every morning</h2><button class="icon-btn" data-close="m-update"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div id="update-info"></div>
+  <div class="sheet-actions"><button class="btn" onclick="location.reload()">Reload now</button><button class="btn primary" data-close="m-update">Got it</button></div>
+</div></div>
 <div class="modal" id="m-quiz"><div class="sheet" id="quiz" style="max-width:520px"></div></div>
 <div class="modal" id="m-add"><div class="sheet">
   <h2>Add a job</h2>
@@ -874,6 +905,7 @@
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8"/></symbol>
   <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M10 4h4v3a2 2 0 1 0 4 0V7h2v5h-3a2 2 0 1 0 0 4h3v4h-6v-3a2 2 0 1 0-4 0v3H4v-6h3a2 2 0 1 0 0-4H4V4h6z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-up" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6"/></symbol>
@@ -955,7 +987,9 @@ const FIELDS = {
   salary: { label: "Salary status", type: "select" }, company: { label: "Company", type: "select" },
   city: { label: "City", type: "select" }, tag: { label: "Job tag", type: "select" },
 };
-const OPS = { text: [["has", "contains"], ["not", "doesn't contain"]], select: [["is", "="], ["isnt", "≠"]], number: [["gte", "≥"], ["lte", "≤"]] };
+const OPS = { text: [["has", "contains"], ["not", "doesn't contain"]], select: [["is", "="], ["isnt", "≠"]], number: [["eq", "="], ["neq", "≠"], ["lt", "<"], ["lte", "≤"], ["gt", ">"], ["gte", "≥"], ["between", "between"]] };
+// select fields with an open list of values: pick one that exists or type a brand new one
+const OPEN_FIELDS = new Set(["tag", "cotag", "company", "city"]);
 const W_KIND = { t: "Word in title", co: "Company", cotag: "Company tag", city: "City", tag: "Tag", role: "Role type" };
 const PAY = { top: "above market", high: "pays well", mid: "mid-market" };
 const SPONSOR_NOTE = { known: "company sponsors", sometimes: "sometimes", rare: "rarely" };
@@ -1096,6 +1130,8 @@ function hydrate(s) {
   for (const [n, c] of Object.entries(saved)) st.settings.companies[n] = { ...(def.companies[n] || {}), ...c, url: c.url || def.companies[n]?.url || "" };
   for (const c of def.cities) if (!st.settings.cities.some((x) => x.name === c.name)) st.settings.cities.push(c);
   st.challenge = { streak: 0, best: 0, last: null, results: {}, ...(st.challenge || {}) };
+  st.home = { ...HOME_DEFAULT, ...(st.home || {}) };
+  for (const k of HOME_DEFAULT.order) if (!st.home.order.includes(k)) st.home.order.push(k);
   return st;
 }
 let saveTimer;
@@ -1157,8 +1193,13 @@ function fieldValue(j, d, f) {
 function condOk(c, j, d) {
   const v = fieldValue(j, d, c.f), type = FIELDS[c.f]?.type;
   if (type === "text") { const has = !!c.v && v.includes(String(c.v).toLowerCase()); return c.op === "not" ? !has : has; }
-  if (type === "number") { if (v == null || c.v === "" || c.v == null) return false; return c.op === "lte" ? v <= +c.v : v >= +c.v; }
-  const has = Array.isArray(v) ? v.includes(c.v) : v === c.v;
+  if (type === "number") {
+    if (v == null || c.v === "" || c.v == null) return false;
+    const a = +c.v, b = c.v2 === "" || c.v2 == null ? a : +c.v2;
+    return { eq: v === a, neq: v !== a, lt: v < a, lte: v <= a, gt: v > a, gte: v >= a, between: v >= Math.min(a, b) && v <= Math.max(a, b) }[c.op] ?? false;
+  }
+  const same = (x) => String(x).toLowerCase() === String(c.v).toLowerCase();
+  const has = Array.isArray(v) ? v.some(same) : same(v);
   return c.op === "isnt" ? !has : has;
 }
 const ruleHits = (r, j, d) => r.on && r.all.length > 0 && r.all.every((c) => condOk(c, j, d));
@@ -1663,7 +1704,8 @@ function renderLists() {
   $("#pipeline").innerHTML = statuses.map((s) => `<span class="tag ${counts[s] ? "green" : "gray"}">${esc(s)} · ${counts[s] || 0}</span>`).join("");
   $("#short-list").innerHTML = liked.length ? liked.map((r) => itemHTML(r, `
       <select class="field" data-status="${esc(r.j.id)}">${statuses.map((s) => `<option ${s === r.decision.status ? "selected" : ""}>${s}</option>`).join("")}</select>
-      ${APP.packs?.[r.j.id] ? `<button class="btn primary sm" data-openpack="${esc(r.j.id)}">Open pack</button>` : r.decision.status === "Saved" ? `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>` : ""}
+      ${APP.packs?.[r.j.id] ? `<button class="btn primary sm" data-openpack="${esc(r.j.id)}">Open pack</button>` : r.decision.status === "Saved" ? `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>`
+        : !APP.server && r.decision.status === "Pack ready" ? `<span class="pack-pill" title="Packs hold your CV with phone and email, so they stay on your Mac">📦 Pack ready · open it on your Mac</span>` : ""}
       <button class="btn sm" data-detail="${esc(r.j.id)}">Details</button>
       <a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`)).join("")
     : `<div class="box empty">Nothing shortlisted yet. Swipe a card right on Discover.</div>`;
@@ -1780,9 +1822,12 @@ function selectOptions(f) {
 }
 function condHTML(c, i) {
   const type = FIELDS[c.f].type;
-  const val = type === "select"
+  const num = (attr, v, ph) => `<input class="field val" ${attr} type="number" step="${FIELDS[c.f].step}" value="${esc(v ?? "")}" placeholder="${ph}">`;
+  const val = OPEN_FIELDS.has(c.f) ? comboHTML(`data-cv="${i}" data-combo="${c.f}"`, c.v, "pick or type a new one")
+    : type === "select"
     ? `<select class="field val" data-cv="${i}">${selectOptions(c.f).map(([v, l]) => `<option value="${esc(v)}" ${v === c.v ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>`
-    : `<input class="field val" data-cv="${i}" type="${type === "number" ? "number" : "text"}" ${type === "number" ? `step="${FIELDS[c.f].step}"` : ""} value="${esc(c.v)}" placeholder="value">`;
+    : type === "number" ? (c.op === "between" ? `<span class="between">${num(`data-cv="${i}"`, c.v, "from")}<span>and</span>${num(`data-cv2="${i}"`, c.v2, "to")}</span>` : num(`data-cv="${i}"`, c.v, "value"))
+    : `<input class="field val" data-cv="${i}" type="text" value="${esc(c.v)}" placeholder="value">`;
   return `<div class="cond">
     <select class="field" data-cf="${i}">${Object.entries(FIELDS).map(([k, x]) => `<option value="${k}" ${k === c.f ? "selected" : ""}>${x.label}</option>`).join("")}</select>
     <select class="field" data-cop="${i}">${OPS[type].map(([k, l]) => `<option value="${k}" ${k === c.op ? "selected" : ""}>${l}</option>`).join("")}</select>
@@ -1841,11 +1886,57 @@ function renderWeights() {
       <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon-btn" data-wreset title="Back to learned value">${icon("undo")}</button>` : ""}<button class="icon-btn" data-wdel title="Delete">${icon("trash")}</button></span></div>`).join("")
     : `<div class="muted small" style="padding:12px 0">No weights yet. They appear as you swipe, or add your own above.</div>`;
   $("#hidden-info").innerHTML = st.hidden.length ? `${st.hidden.length} deleted weights are no longer learned. <a href="#" id="unhide">Restore</a>` : "";
-  const kind = $("#w-kind").value;
-  const sug = kind === "t" ? [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-z]+/g) || []).filter((w) => w.length > 2)))]
-    : selectOptions({ co: "company", cotag: "cotag", city: "city", tag: "tag", role: "role_type" }[kind]).map(([v]) => v);
-  $("#w-suggest").innerHTML = sug.slice(0, 300).map((x) => `<option value="${esc(x)}">`).join("");
+  $("#w-val").placeholder = { t: "e.g. marketing", co: "pick a company or type one", cotag: "pick a company tag or type a new one", city: "pick a city", tag: "e.g. Remote, Turkish a plus", role: "pick a role type" }[$("#w-kind").value];
 }
+// ---- combo: a dropdown of known values that also takes free text ----
+function comboHTML(attrs, value, ph) {
+  return `<div class="combo"><input class="field val" ${attrs} autocomplete="off" value="${esc(value ?? "")}" placeholder="${ph}"><button class="combo-tog" type="button" tabindex="-1" aria-label="Show options">${icon("chev")}</button><div class="combo-list"></div></div>`;
+}
+function comboOptions(input) {
+  let f = input.dataset.combo;
+  if (f === "weight") {
+    const kind = $("#w-kind").value;
+    if (kind === "t") return [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-z]+/g) || []).filter((w) => w.length > 2)))].sort().map((x) => [x, x]);
+    f = { co: "company", cotag: "cotag", city: "city", tag: "tag", role: "role_type" }[kind];
+  }
+  const opts = selectOptions(f);
+  if (f !== "tag") return opts;
+  // job tags: most common first, with how many open jobs carry each
+  const n = {}; for (const r of APP.rows) if (!r.d.filtered) for (const t of r.d.tags) n[t.label] = (n[t.label] || 0) + 1;
+  return opts.sort((a, b) => (n[b[0]] || 0) - (n[a[0]] || 0)).map(([v, l]) => [v, l, n[v] || 0]);
+}
+function openCombo(input, all) {
+  const box = input.closest(".combo"), list = box.querySelector(".combo-list"), q = all ? "" : input.value.trim().toLowerCase();
+  const opts = comboOptions(input), hits = opts.filter(([v, l]) => !q || l.toLowerCase().includes(q) || v.toLowerCase().includes(q)).slice(0, 80);
+  const typed = input.value.trim(), exists = opts.some(([v]) => v.toLowerCase() === typed.toLowerCase());
+  list.innerHTML = (typed && !exists ? `<button type="button" class="combo-new" data-pick="${esc(typed)}">${icon("plus")}Add “${esc(typed)}” as a new one</button>` : "")
+    + hits.map(([v, l, n]) => `<button type="button" data-pick="${esc(v)}" class="${v.toLowerCase() === typed.toLowerCase() ? "on" : ""}"><span>${esc(l)}</span>${n != null ? `<small>${n} jobs</small>` : ""}</button>`).join("")
+    + (!hits.length && !typed ? `<div class="combo-empty">Nothing here yet. Type a new one.</div>` : "");
+  document.querySelectorAll(".combo.open").forEach((c) => c !== box && c.classList.remove("open"));
+  box.classList.add("open");
+}
+const closeCombos = () => document.querySelectorAll(".combo.open").forEach((c) => c.classList.remove("open"));
+document.addEventListener("focusin", (e) => { if (e.target.dataset?.combo) openCombo(e.target, true); });
+document.addEventListener("input", (e) => { if (e.target.dataset?.combo) openCombo(e.target); });
+document.addEventListener("mousedown", (e) => {
+  const tog = e.target.closest(".combo-tog");
+  if (tog) { e.preventDefault(); const inp = tog.parentElement.querySelector("input"); if (tog.parentElement.classList.contains("open")) closeCombos(); else { inp.focus(); openCombo(inp, true); } return; }
+  const pick = e.target.closest(".combo-list [data-pick]");
+  if (pick) {
+    e.preventDefault();
+    const inp = pick.closest(".combo").querySelector("input");
+    inp.value = pick.dataset.pick; closeCombos();
+    inp.dispatchEvent(new Event("change", { bubbles: true }));
+    return;
+  }
+  if (!e.target.closest(".combo")) closeCombos();
+});
+document.addEventListener("focusout", (e) => { if (e.target.dataset?.combo) setTimeout(() => { if (!e.target.closest(".combo")?.contains(document.activeElement)) e.target.closest(".combo")?.classList.remove("open"); }, 120); });
+document.addEventListener("keydown", (e) => {
+  if (!e.target.dataset?.combo) return;
+  if (e.key === "Escape") closeCombos();
+  if (e.key === "Enter") { closeCombos(); if (e.target.id === "w-val") $("#w-add").click(); else e.target.blur(); }
+});
 function renderLearnSummary() {
   const m = APP.model, t = APP.state.test;
   $("#learn-summary").innerHTML = `<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:center">
@@ -2162,7 +2253,9 @@ function openPack(id, tab) {
   } else if (tab === "resume") {
     body = `<div class="doc-tools"><a class="btn primary sm" href="${pdf}" download>${icon("download")}Download PDF</a><a class="btn sm" href="${pdf}" target="_blank" rel="noopener">${icon("ext")}Open in a new tab</a>
       <span class="small muted">Tailored for this role. Only real experience, reordered and reworded.</span></div>
-      <iframe class="pdf-frame" src="${pdf}#view=FitH" title="Resume"></iframe>`;
+      ${matchMedia("(max-width: 760px)").matches
+        ? `<a class="pdf-card" href="${pdf}" target="_blank" rel="noopener">${icon("file")}<div><b>${esc(pk.resume_file)}</b><span>One page · tap to open the PDF</span></div>${icon("chev")}</a>`
+        : `<iframe class="pdf-frame" src="${pdf}#view=FitH" title="Resume"></iframe>`}`;
   } else if (tab === "cover") {
     const paras = coverParasHTML(id);
     body = `${pk.cover_letter.tone ? toneHTML(id, e.cover != null) : ""}<div class="doc-tools"><button class="btn primary sm" data-pcopy>${icon("copy")}Copy text</button><button class="btn sm" data-pword>${icon("download")}Download for Word</button>
@@ -2277,6 +2370,7 @@ function homeTodos(h) {
   for (const r of h.saved) add(`pack:${r.j.id}`, `Prepare an application pack for ${r.j.company}`, r.j.title, `<button class="btn sm" data-pack="${esc(r.j.id)}">Prepare pack</button>`);
   for (const r of h.requested) add(`claude:${r.j.id}`, `Ask Claude Code to prepare the ${r.j.company} pack`, "type “paketleri hazırla”", "");
   for (const { r, t: seen } of h.viewed.slice(0, 4)) add(`decide:${r.j.id}`, `Decide on ${r.j.company}`, `${r.j.title} · you looked ${ago(seen)}`, `<button class="btn sm" data-opencard="${esc(r.j.id)}">Decide</button>`);
+  (APP.state.home.todos || []).forEach((x, i) => add(`mine:${x.id}`, x.text, "your own daily to-do", ""));
   const playedToday = APP.state.challenge?.last === t;
   add("challenge", "Play today's challenge", playedToday ? `done: ${APP.state.challenge.results[t]}/3` : "3 quick questions · keep your streak", playedToday ? "" : `<button class="btn sm" data-open="challenge">Play</button>`, playedToday);
   if (!APP.state.test) add("test", "Take the 2-minute self-discovery test", "it tunes your scoring", `<button class="btn sm" data-open="test">Start</button>`);
@@ -2293,47 +2387,43 @@ const GREETINGS = [
   { text: "Are you a nighter or an owl?", art: "shrug" },                         // 03:00–05:59
   { text: "Hi there, you owl!", art: "owl" },                                     // 06:00–08:59
   { text: "You missed all the fun, but hey!", art: "party" },                     // 09:00–11:59
-  { text: "Good morning, Ms Nesibe", art: "noon" },                               // 12:00–14:59
-  { text: "Good afternoon, Ms Nesibe", art: "afternoon" },                        // 15:00–17:59
+  { text: "Good morning, {name}", art: "noon" },                               // 12:00–14:59
+  { text: "Good afternoon, {name}", art: "afternoon" },                        // 15:00–17:59
   { text: "Tell me you're home. Hope you're home!", art: "dusk" },               // 18:00–20:59
   { text: "If you want to leave it after midnight, it's okay!", art: "cosy" },  // 21:00–23:59
 ];
 // re-draw the greeting when the clock crosses into the next three-hour slot
 let greetSlot = Math.floor(new Date().getHours() / 3);
 setInterval(() => { const s = Math.floor(new Date().getHours() / 3); if (s !== greetSlot) { greetSlot = s; if ($("#v-home").classList.contains("on")) renderHome(); } }, 60000);
+const HOME_DEFAULT = { order: ["summary", "picks", "todo", "fun"], hidden: ["fun"], wide: ["todo"], rows: [], todos: [], name: "Ms Nesibe", hero: true };
+const HOME_CARDS = { summary: "Your summary", picks: "Today's picks", todo: "Today's checklist", fun: "Challenge & self-test" };
+const HOME_ROWS = [["fresh", "New since the last update"], ["hot", "Hot matches (score 80+)"], ["saved", "Shortlisted, no pack yet"], ["ready", "Packs ready to send"], ["applied", "Applications in motion"], ["viewed", "Looked at, still undecided"]];
 function renderHome() {
   const el = $("#home"); if (!el || !APP.state) return;
-  const h = homeData(), hr = new Date().getHours(), { out, soon } = homeTodos(h);
+  const h = homeData(), hr = new Date().getHours(), { out, soon } = homeTodos(h), hm = APP.state.home;
   const g = GREETINGS[Math.floor(hr / 3)], art = artSet();
+  const greet = g.text.replace(/,? \{name\}/, hm.name.trim() ? ", " + hm.name.trim() : "!");
   const doneN = out.filter((x) => x.done).length;
   // nothing to open when the count is zero: the row turns gray and can't be clicked
-  const row = (dot, label, n, attr) => `<li><button ${n ? attr : "disabled"}><span class="dot" style="background:${n ? dot : "var(--line)"}"></span>${label}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
+  const row = (key, dot, n, attr) => hm.rows.includes(key) ? "" : `<li><button ${n ? attr : "disabled"}><span class="dot" style="background:${n ? dot : "var(--line)"}"></span>${HOME_ROWS.find((x) => x[0] === key)[1]}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
   const picks = [...h.fresh.sort((a, b) => b.score - a.score).slice(0, 3), ...h.hot.filter((r) => !h.isNew(r)).slice(0, 4)].slice(0, 6);
-  el.innerHTML = `
-    <div class="home-hero">
-      <div><div class="hand">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
-        <h1>${esc(g.text)}</h1>
-        <p class="sub" style="margin:0">Your job jungle, tidied up for today. One small step at a time.</p></div>
-      ${art[g.art]}
-    </div>
-    <div class="home-grid">
-      <section class="hcard">
+  const cards = {
+    summary: () => `
         <div class="hhead">${art.cup}<div><div class="hand">today at a glance</div><h3>Your summary</h3></div></div>
         <div class="hbody">
         <div class="bignum">${h.deck.length}<small>jobs match you today</small></div>
         <p class="muted" style="margin:6px 0 14px">${h.fresh.length ? `${h.fresh.length} of them are new. ` : ""}Want to respond?</p>
         <button class="btn primary" data-v="discover">Start swiping<svg class="i"><use href="#i-chev"/></svg></button>
         <ul class="alist">
-          ${row("#2f7d62", "New since the last update", h.fresh.length, 'data-hgo="fresh"')}
-          ${row("#e59a78", "Hot matches (score 80+)", h.hot.length, 'data-hgo="hot"')}
-          ${row("#6655c4", "Shortlisted, no pack yet", h.saved.length + h.requested.length, 'data-v="short"')}
-          ${row("#c9a13b", "Packs ready to send", h.ready.length, 'data-v="short"')}
-          ${row("#3a6390", "Applications in motion", h.applied.length, 'data-v="short"')}
-          ${row("#a8475b", "Looked at, still undecided", h.viewed.length, 'data-hgo="todo"')}
+          ${row("fresh", "#2f7d62", h.fresh.length, 'data-hgo="fresh"')}
+          ${row("hot", "#e59a78", h.hot.length, 'data-hgo="hot"')}
+          ${row("saved", "#6655c4", h.saved.length + h.requested.length, 'data-v="short"')}
+          ${row("ready", "#c9a13b", h.ready.length, 'data-v="short"')}
+          ${row("applied", "#3a6390", h.applied.length, 'data-v="short"')}
+          ${row("viewed", "#a8475b", h.viewed.length, 'data-hgo="todo"')}
         </ul>
-        </div>
-      </section>
-      <section class="hcard">
+        </div>`,
+    picks: () => `
         <div class="hhead">${art.star}<div><div class="hand">quick &amp; worthy</div><h3>Today's picks</h3></div></div>
         <div class="hbody">
         ${picks.length ? `<div class="picks">${picks.map((r) => `
@@ -2343,19 +2433,84 @@ function renderHome() {
             <div class="sc">${r.score}<small>SCORE</small></div></button>`).join("")}</div>
           <button class="btn ghost sm" style="margin-top:10px" data-v="discover">See everything in Discover<svg class="i"><use href="#i-chev"/></svg></button>`
         : `<div class="home-empty"><div class="hand">all quiet in the forest</div>No new or hot jobs today. Fresh ones arrive every morning.</div>`}
-        </div>
-      </section>
-      <section class="hcard home-wide" id="home-todo">
+        </div>`,
+    todo: () => `
         <div class="hhead">${art.note}<div><div class="hand">one step at a time</div><h3>Today's checklist</h3></div></div>
+        <div class="hbody">
         <div class="todo-top"><div class="bar"><i style="width:${out.length ? (doneN / out.length) * 100 : 0}%"></i></div><span class="small muted">${doneN} of ${out.length} done today</span></div>
         ${out.length ? `<ul class="todos">${out.map((x) => `
           <li class="todo ${x.done ? "done" : ""}"><input type="checkbox" data-todo="${esc(x.key)}" ${x.done ? "checked" : ""} aria-label="${esc(x.text)}">
             <div class="tx"><b>${esc(x.text)}</b><span>${esc(x.sub)}</span></div>${x.done ? "" : x.action}</li>`).join("")}</ul>`
         : `<div class="home-empty"><div class="hand">nothing on your plate</div>Shortlist a job and your next steps show up here.</div>`}
         ${soon.length ? `<div class="soon"><span class="hand" style="font-size:16px">coming up:</span> follow up with ${esc(soon.join(", "))}</div>` : ""}
-      </section>
+        </div>`,
+    fun: () => `
+        <div class="hhead">${art.star}<div><div class="hand">a little break</div><h3>Challenge &amp; self-test</h3></div></div>
+        <div class="hbody"><div class="promo"></div></div>`,
+  };
+  const shown = hm.order.filter((k) => cards[k] && !hm.hidden.includes(k));
+  // a half-width card with no neighbour in its row stretches to full width instead of leaving a hole
+  const wide = shown.map((k) => hm.wide.includes(k));
+  for (let i = 0, col = 0; i < shown.length; i++) {
+    if (wide[i]) { col = 0; continue; }
+    if (col === 0 && (i === shown.length - 1 || wide[i + 1])) wide[i] = true; else col = 1 - col;
+  }
+  const wideAt = (i) => wide[i];
+  el.innerHTML = `
+    ${hm.hero ? `<div class="home-hero">
+      <div><div class="hand">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
+        <h1>${esc(greet)}</h1>
+        <p class="sub" style="margin:0">Your job jungle, tidied up for today. One small step at a time.</p></div>
+      ${art[g.art]}
+    </div>` : ""}
+    <div class="home-tools"><button class="btn ghost sm" data-open="home-custom"><svg class="i"><use href="#i-sliders"/></svg>Customize your home</button></div>
+    <div class="home-grid">
+      ${shown.map((k, i) => `<section class="hcard ${wideAt(i) ? "home-wide" : ""}" ${k === "todo" ? 'id="home-todo"' : ""}>${cards[k]()}</section>`).join("")}
+      ${shown.length ? "" : `<div class="home-empty home-wide"><div class="hand">a clean desk</div>Every card is hidden.<br><button class="btn sm" style="margin-top:10px" data-open="home-custom">Bring some back</button></div>`}
     </div>`;
+  const promo = el.querySelector(".promo");
+  if (promo) { renderPromo(); promo.onmouseenter = () => (PROMO.paused = true); promo.onmouseleave = () => (PROMO.paused = false); }
 }
+// ---- customize home: show/hide, order and width of each card, summary rows, name, own to-dos ----
+function renderHomeCustom() {
+  const hm = APP.state.home;
+  $("#home-custom").innerHTML = `
+    <div class="sheet-head"><h2>Customize your home</h2><button class="icon-btn" data-close="m-home">${icon("x")}</button></div>
+    <p class="small muted" style="margin:0 0 16px">Changes show up right away and are kept with the rest of your settings.</p>
+    <div class="cust-sec">Greeting</div>
+    <label class="cust-row"><span>Show the greeting and drawing</span><label class="switch"><input type="checkbox" data-hc-hero ${hm.hero ? "checked" : ""}><span></span></label></label>
+    <label class="cust-row"><span>Call me</span><input class="field" data-hc-name value="${esc(hm.name)}" placeholder="e.g. Ms Nesibe" style="max-width:200px"></label>
+    <div class="cust-sec">Cards <span class="small muted" style="font-weight:500">· order, size and visibility</span></div>
+    ${hm.order.map((k, i) => `<div class="cust-row card-row ${hm.hidden.includes(k) ? "off" : ""}">
+      <span class="ord"><button class="icon-btn" data-hc-move="${k}:-1" ${i ? "" : "disabled"} title="Move up">${icon("chev")}</button><button class="icon-btn" data-hc-move="${k}:1" ${i < hm.order.length - 1 ? "" : "disabled"} title="Move down">${icon("chev")}</button></span>
+      <b>${HOME_CARDS[k]}</b>
+      <div class="seg"><button data-hc-wide="${k}:0" class="${hm.wide.includes(k) ? "" : "on"}">Half</button><button data-hc-wide="${k}:1" class="${hm.wide.includes(k) ? "on" : ""}">Full</button></div>
+      <label class="switch"><input type="checkbox" data-hc-show="${k}" ${hm.hidden.includes(k) ? "" : "checked"}><span></span></label></div>`).join("")}
+    <div class="cust-sec">Summary rows</div>
+    <div class="chips">${HOME_ROWS.map(([k, l]) => `<button class="chip-toggle ${hm.rows.includes(k) ? "" : "on"}" data-hc-row="${k}">${hm.rows.includes(k) ? "" : "✓ "}${l}</button>`).join("")}</div>
+    <div class="cust-sec">Your own daily to-dos <span class="small muted" style="font-weight:500">· added to Today's checklist every day</span></div>
+    ${(hm.todos || []).map((x) => `<div class="cust-row"><span>${esc(x.text)}</span><button class="icon-btn" data-hc-todel="${esc(x.id)}" title="Remove">${icon("trash")}</button></div>`).join("")}
+    <div class="add-row" style="margin-top:8px"><input class="field" id="hc-todo" placeholder="e.g. Message one person on LinkedIn"><button class="btn primary" data-hc-todo>Add</button></div>
+    <div class="sheet-actions"><button class="btn ghost" data-hc-reset>Back to default</button><button class="btn primary" data-close="m-home">Done</button></div>`;
+}
+function homeCustom(fn) { fn(APP.state.home); save(); renderHome(); renderHomeCustom(); }
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-hc-move],[data-hc-wide],[data-hc-row],[data-hc-todel],[data-hc-todo],[data-hc-reset]"); if (!a) return;
+  const ds = a.dataset;
+  if (ds.hcMove) { const [k, d] = ds.hcMove.split(":"); return homeCustom((hm) => { const i = hm.order.indexOf(k), j = i + +d; [hm.order[i], hm.order[j]] = [hm.order[j], hm.order[i]]; }); }
+  if (ds.hcWide) { const [k, w] = ds.hcWide.split(":"); return homeCustom((hm) => { hm.wide = hm.wide.filter((x) => x !== k).concat(w === "1" ? [k] : []); }); }
+  if (ds.hcRow) return homeCustom((hm) => { hm.rows = hm.rows.includes(ds.hcRow) ? hm.rows.filter((x) => x !== ds.hcRow) : [...hm.rows, ds.hcRow]; });
+  if (ds.hcTodel) return homeCustom((hm) => { hm.todos = hm.todos.filter((x) => x.id !== ds.hcTodel); });
+  if ("hcTodo" in ds) { const text = $("#hc-todo").value.trim(); if (!text) return toast("Write the to-do first"); return homeCustom((hm) => { hm.todos = [...(hm.todos || []), { id: Date.now().toString(36), text }]; }); }
+  if ("hcReset" in ds && confirm("Put the home page back to default? Your own to-dos are removed too.")) homeCustom((hm) => Object.assign(hm, structuredClone(HOME_DEFAULT)));
+});
+document.addEventListener("change", (e) => {
+  const ds = e.target.dataset || {};
+  if (ds.hcShow) homeCustom((hm) => { hm.hidden = e.target.checked ? hm.hidden.filter((x) => x !== ds.hcShow) : [...hm.hidden, ds.hcShow]; });
+  else if ("hcHero" in ds) homeCustom((hm) => { hm.hero = e.target.checked; });
+  else if ("hcName" in ds) homeCustom((hm) => { hm.name = e.target.value.trim(); });
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.id === "hc-todo") document.querySelector("[data-hc-todo]").click(); });
 function homeGo(where) {
   if (where === "todo") return $("#home-todo").scrollIntoView({ behavior: "smooth", block: "start" });
   if (where === "fresh") { APP.filters.fresh = true; document.querySelector('[data-ftoggle="fresh"]')?.classList.add("on"); }
@@ -2443,6 +2598,7 @@ document.addEventListener("click", (e) => {
   if (ds.v) return showView(ds.v);
   if (ds.r) return a.classList.toggle("on");
   if (ds.close) return $("#" + ds.close).classList.remove("on");
+  if (ds.open === "home-custom") { e.preventDefault(); renderHomeCustom(); return $("#m-home").classList.add("on"); }
   if (ds.open === "test") { $("#m-more").classList.remove("on"); return openTest(); }
   if (ds.open === "challenge") { $("#m-more").classList.remove("on"); return openChallenge(); }
   if (ds.dot != null) { promoGo(+ds.dot); return; }
@@ -2502,7 +2658,8 @@ document.addEventListener("change", (e) => {
   if ("rname" in ds) { ruleOf(t).name = t.value.trim() || "Untitled rule"; return commit(); }
   if (ds.cf != null) { const c = ruleOf(t).all[+ds.cf], type = FIELDS[t.value].type; c.f = t.value; c.op = OPS[type][0][0]; c.v = type === "select" ? selectOptions(t.value)[0]?.[0] ?? "" : ""; return commit(); }
   if (ds.cop != null) { ruleOf(t).all[+ds.cop].op = t.value; return commit(); }
-  if (ds.cv != null) { const c = ruleOf(t).all[+ds.cv]; c.v = FIELDS[c.f].type === "number" ? (t.value === "" ? "" : +t.value) : t.value; return commit(); }
+  if (ds.cv != null) { const c = ruleOf(t).all[+ds.cv]; c.v = FIELDS[c.f].type === "number" ? (t.value === "" ? "" : +t.value) : t.value.trim(); return commit(); }
+  if (ds.cv2 != null) { ruleOf(t).all[+ds.cv2].v2 = t.value === "" ? "" : +t.value; return commit(); }
   if ("wset" in ds) { const k = t.closest("[data-wk]").dataset.wk; if (t.value !== "") APP.state.overrides[k] = +t.value; return commit(); }
   const s = APP.state.settings, cityEl = t.closest("[data-ci]");
   if (cityEl) {
@@ -2579,7 +2736,14 @@ $("#a-save").onclick = async () => {
   toast(r.location_matched ? "Added" : "Added (location isn't on your city list)"); await loadData(); refresh();
 };
 $("#fetch-btn").onclick = async () => {
-  if (!APP.server) { window.open(`https://github.com/${REPO}/actions/workflows/update.yml`, "_blank", "noopener"); return toast("Press “Run workflow”, then reload in a few minutes"); }
+  // the live site is a static page: it can't fetch jobs itself, GitHub does it every morning
+  if (!APP.server) {
+    const m = APP.data.meta, next = new Date(); next.setUTCHours(5, 0, 0, 0); if (next <= new Date()) next.setUTCDate(next.getUTCDate() + 1);
+    $("#update-info").innerHTML = `<p style="margin:0 0 10px">${m.last_fetch ? `Last updated <b>${ago(m.last_fetch)}</b> with ${m.count} jobs.` : ""} The list refreshes itself every morning, next on
+      <b>${next.toLocaleString("en-GB", { weekday: "long", hour: "2-digit", minute: "2-digit" })}</b>. Just reload the page then.</p>
+      <p class="small muted" style="margin:0">This page can't fetch jobs by itself: GitHub does it for you once a day, so there's nothing to press.</p>`;
+    return $("#m-update").classList.add("on");
+  }
   await post("/api/fetch", {}); pollFetch(true);
 };
 async function pollFetch(started) {
