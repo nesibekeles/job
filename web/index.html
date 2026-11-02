@@ -169,6 +169,16 @@
   .mini .meta span.ok { background: var(--mint-50); color: var(--mint); }
   .stamp { position: absolute; top: 16px; padding: 4px 11px; border: 2px solid; border-radius: 8px; font: 800 13px var(--head); letter-spacing: .08em; opacity: 0; background: var(--surface); pointer-events: none; }
   .stamp.like { right: 18px; color: var(--mint); transform: rotate(6deg); }
+  .mini::after, .card-pop::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+    background: linear-gradient(270deg, rgb(47 125 98 / calc(var(--yes, 0) * .34)), rgb(47 125 98 / 0) 75%), linear-gradient(90deg, rgb(168 71 91 / calc(var(--no, 0) * .34)), rgb(168 71 91 / 0) 75%);
+    box-shadow: inset 0 0 0 calc(var(--yes, 0) * 3px) rgb(47 125 98 / .85), inset 0 0 0 calc(var(--no, 0) * 3px) rgb(168 71 91 / .85); }
+  .stamp { z-index: 3; transition: transform .12s; }
+  .go-yes .stamp.like { background: var(--mint); border-color: var(--mint); color: #fff; animation: stampPop .25s ease; }
+  .go-no .stamp.nope { background: var(--rose); border-color: var(--rose); color: #fff; animation: stampPop .25s ease; }
+  @keyframes stampPop { 50% { scale: 1.12; } }
+  .deck-actions .round { transition: transform .12s, background .15s, color .15s; }
+  .deck-actions .round.yes.hot { background: var(--mint); color: #fff; border-color: var(--mint); }
+  .deck-actions .round.no.hot { background: var(--rose); color: #fff; border-color: var(--rose); }
   .stamp.nope { left: 18px; color: var(--rose); transform: rotate(-6deg); }
   .position { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
   .position .count { font: 700 15px var(--head); white-space: nowrap; }
@@ -526,6 +536,212 @@
     .deck-actions { gap: 14px; margin-top: 8px; }
   }
 
+  /* ---------- design kit v2: soft surfaces, pills, tinted icon circles; no borders, no dashes, no handwriting ---------- */
+  :root { --bg: #f4f4f8; --radius: 20px; --peach: #c0623d; --peach-50: #fdeee6;
+    --shadow-card: 0 1px 2px rgba(24, 22, 48, .04), 0 12px 32px -16px rgba(40, 36, 80, .18);
+    --t-lav: linear-gradient(135deg, #ece8fc, #ddd5f8); --t-peach: linear-gradient(135deg, #fdeee5, #f9dccd); --t-mint: linear-gradient(135deg, #e3f4ec, #cdeadc);
+    --t-sky: linear-gradient(135deg, #e6eef9, #d2e1f3); --t-rose: linear-gradient(135deg, #fbe9ed, #f4d5dd); --t-butter: linear-gradient(135deg, #fbf3dc, #f3e5b8); }
+  body { background: radial-gradient(900px 520px at 105% -12%, #e9e4fb 0%, rgba(233, 228, 251, 0) 62%), radial-gradient(760px 440px at -12% 108%, #fbece4 0%, rgba(251, 236, 228, 0) 60%) fixed var(--bg); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .hand { font: 700 11px/1.2 "Inter", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .box, .hcard { border: 0; border-radius: var(--radius); box-shadow: var(--shadow-card); }
+  .hcard { padding: 20px; }
+  .hhead { gap: 12px; margin-bottom: 14px; }
+  .hhead h3 { font-size: 17px; margin: 0; } .hhead h3::after { display: none; }
+  .ico { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--lav-50); color: var(--lav); }
+  .ico .i { width: 19px; height: 19px; }
+  .ico.lav { background: var(--lav-100); color: var(--lav); } .ico.mint { background: var(--mint-50); color: var(--mint); } .ico.peach { background: var(--peach-50); color: var(--peach); }
+  .ico.sky { background: var(--sky-50); color: var(--sky); } .ico.rose { background: var(--rose-50); color: var(--rose); } .ico.butter { background: var(--butter-50); color: var(--butter); }
+  .btn { border: 0; border-radius: 99px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); padding: 10px 16px; color: var(--ink); }
+  .btn:hover { background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); }
+  .btn.primary { background: var(--ink); color: var(--surface); box-shadow: 0 6px 16px -8px rgba(30, 29, 38, .5); }
+  .btn.primary:hover { background: var(--ink-2); color: var(--surface); }
+  .btn.ghost { box-shadow: none; } .btn.ghost:hover { background: var(--soft); }
+  .btn.mint { background: var(--mint-50); color: var(--mint); box-shadow: none; }
+  .btn.sm { padding: 7px 13px; border-radius: 99px; }
+  .icon-btn { border-radius: 99px; }
+  .round-ico { width: 40px; height: 40px; padding: 0; align-items: center; justify-content: center; background: var(--surface); box-shadow: var(--shadow-card); color: var(--ink-2); }
+  .round-ico:hover { background: var(--surface); color: var(--ink); }
+  .round-ico.spin .i { animation: spin 1s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }
+  .field { border: 1px solid transparent; background: var(--soft); border-radius: 12px; padding: 9px 12px; }
+  .field:focus { outline: none; border-color: var(--lav-200); background: var(--surface); box-shadow: 0 0 0 4px var(--lav-50); }
+  .chip { border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); padding: 6px 13px; font-weight: 500; }
+  .chip:hover { background: var(--soft); }
+  .chip.on { background: var(--ink); color: var(--surface); box-shadow: none; font-weight: 600; }
+  .chip .w { background: var(--lav-50); }
+  .chip-add { border: 1px dashed var(--lav-200); }
+  .chip-toggle { border: 0; box-shadow: inset 0 0 0 1px var(--line); } .chip-toggle.on { background: var(--ink); color: var(--surface); box-shadow: none; }
+  .tag { border-radius: 99px; padding: 3px 10px; font-weight: 600; }
+  .tag.line { border: 0; background: var(--sky-50); color: var(--sky); }
+  .pack-pill, .src, .scene-dot, .mini .scenepill { border-radius: 99px; }
+  .seg { border-radius: 99px; padding: 4px; } .seg button { border-radius: 99px; }
+  .stepper { border: 0; border-radius: 99px; background: var(--soft); } .stepper button { background: transparent; }
+  .switch span { background: var(--line); }
+  .note, .evidence { border: 0; border-radius: 14px; }
+  .navlink { border-radius: 12px; }
+  .navlink.on { background: var(--ink); color: var(--surface); }
+  .navlink.on .count { color: inherit; opacity: .7; }
+  .side { border-right: 0; background: rgba(255, 255, 255, .62); backdrop-filter: blur(14px); }
+  .topbar { border-bottom: 0; background: rgba(244, 244, 248, .7); backdrop-filter: blur(14px); }
+  .avatar { border-radius: 50%; }
+  .item { padding: 16px 18px; }
+  .mini { border: 0 !important; border-radius: 24px !important; box-shadow: 0 1px 2px rgba(24, 22, 48, .04), 0 10px 26px -16px rgba(40, 36, 80, .22) !important; }
+  .mini.center { box-shadow: 0 2px 4px rgba(24, 22, 48, .05), 0 28px 50px -22px rgba(40, 36, 80, .38) !important; }
+  .mini .facts-row span { border-radius: 99px; padding: 3px 10px; }
+  .card-pop { border-radius: 24px; }
+  .stamp { border-radius: 99px; padding: 5px 13px; }
+  .deck-actions .round { width: 60px; height: 60px; border: 0; background: var(--surface); box-shadow: var(--shadow-card); }
+  .navbtns button { border: 0; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-card); }
+  .alist { border-top: 0; margin-top: 14px; }
+  .alist li button { border-bottom: 1px solid var(--soft); padding: 12px 2px; }
+  .alist li:last-child button { border-bottom: 0; }
+  .pick { border: 0; background: var(--soft); border-radius: 16px; }
+  .pick:hover { background: var(--lav-50); }
+  .todo { border-bottom: 1px solid var(--soft); }
+  .soon { background: var(--soft); border-radius: 12px; padding: 10px 12px; }
+  .sheet { border-radius: 24px; }
+  .modal { background: rgba(20, 18, 36, .34); backdrop-filter: blur(6px); }
+  .check, .answer, .assess, .tone, .fit { border: 0; box-shadow: var(--shadow-card); }
+  .promo-card { border: 0; border-radius: 18px; }
+  .theme-opt { border-radius: 18px; }
+  .wrow, .city, .scene-dim { border-bottom-color: var(--soft); }
+  .rule-foot { border-top: 1px solid var(--soft); }
+  .co-card .foot { border-top-color: var(--soft); }
+  .actions, .cp-head, .cp-foot, .pack-head { border-color: var(--soft); }
+  .bar { background: var(--soft); }
+  .add-row { border-radius: 16px; }
+  .me-chip { margin-top: 12px; display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: var(--surface); box-shadow: var(--shadow-card); border-radius: 16px; padding: 10px 12px; cursor: pointer; text-align: left; color: var(--ink); }
+  .me-chip > span:nth-child(2) { flex: 1; min-width: 0; } .me-chip b { display: block; font: 700 13.5px var(--head); } .me-chip small { color: var(--muted); font-size: 11.5px; }
+  .me-chip > .i { color: var(--muted); width: 16px; }
+  .me-av, .prof-av { display: grid; place-items: center; border-radius: 50%; color: #fff; font: 800 13px var(--head); background: linear-gradient(135deg, #8f7fe0, #e0855f); width: 36px; height: 36px; flex: none; }
+  .me-chip.on { box-shadow: 0 0 0 2px var(--lav); }
+
+  /* ---------- home: hero ---------- */
+  .home-hero { position: relative; align-items: center; margin-bottom: 20px; }
+  .home-hero .sub { margin: 0; }
+  .hh-cust { position: absolute; top: 0; right: 0; }
+  .home-tools { margin: 0 0 12px; }
+  @media (max-width: 760px) {
+    .home-hero { flex-direction: row; align-items: center; gap: 10px; margin-bottom: 14px; padding-right: 46px; }
+    .home-hero .hh-text { flex: 1; min-width: 0; }
+    .home-hero h1 { font-size: 21px; margin: 4px 0 0; }
+    .home-hero .sub { display: none; }
+    .home-hero .hero-art { width: 104px; max-height: 64px; flex: none; }
+  }
+  /* ring */
+  .ring { position: relative; flex: none; display: grid; place-items: center; }
+  .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 3.4; } .ring .rb { stroke: rgba(255, 255, 255, .9); } .ring .rf.zero { stroke-linecap: butt; } .ring .rf { stroke: var(--lav); stroke-linecap: round; }
+  .ring b { position: relative; font: 800 15px var(--head); letter-spacing: -.02em; text-align: center; line-height: 1.1; }
+  .ring b small { display: block; font: 600 10px var(--head); color: var(--muted); letter-spacing: .02em; }
+  .box .ring .rb, .hcard .ring .rb { stroke: var(--soft); }
+  .jmini { display: flex; gap: 16px; align-items: center; }
+  /* tints */
+  .t-lav, .bt.t-lav { background: var(--t-lav); } .t-peach, .bt.t-peach { background: var(--t-peach); } .t-mint, .bt.t-mint { background: var(--t-mint); }
+  .t-sky, .bt.t-sky { background: var(--t-sky); } .t-rose, .bt.t-rose { background: var(--t-rose); } .t-butter, .bt.t-butter { background: var(--t-butter); }
+  .t-lav .ico, .t-peach .ico, .t-mint .ico, .t-sky .ico, .t-rose .ico { background: rgba(255, 255, 255, .75); }
+
+  /* ---------- home layout: bento ---------- */
+  .bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-flow: dense; gap: 14px; }
+  .bt { border: 0; border-radius: 24px; padding: 18px; background: var(--surface); box-shadow: var(--shadow-card); text-align: left; color: var(--ink); min-width: 0; display: flex; flex-direction: column; gap: 8px; font: inherit; }
+  button.bt { cursor: pointer; } button.bt:hover { transform: translateY(-1px); } button.bt:disabled { cursor: default; transform: none; opacity: .6; }
+  .bth { display: flex; align-items: center; gap: 10px; } .bth b { font: 700 15px var(--head); flex: 1; } .bth .ico { width: 34px; height: 34px; } .bth .ico .i { width: 17px; height: 17px; }
+  .wv { font: 700 13px var(--head); color: var(--ink-2); white-space: nowrap; }
+  .bt-hero { grid-column: span 2; flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; padding: 22px; }
+  .bt-hero .bignum { font-size: 52px; }
+  .bt-hero .ring .rf { stroke: var(--ink); }
+  .bt-picks { grid-column: span 2; grid-row: span 2; }
+  .bt-picks .pick { background: var(--soft); }
+  .bt-stat { justify-content: space-between; min-height: 132px; }
+  .bt-stat .bl { font-weight: 600; font-size: 13px; color: var(--ink-2); margin-top: auto; } .bt-stat .bn, .bt-small .bn { font: 800 32px/1 var(--head); letter-spacing: -.03em; }
+  .bt-todo { grid-column: span 2; } .bt-todo .bar { flex: none; } .bt-todo .bar i { background: var(--rose); } .bt-todo .todos { grid-template-columns: 1fr; margin: 0; }
+  .bt-todo .todo { border-bottom-color: rgba(255, 255, 255, .6); padding: 10px 0; }
+  .bt-small { align-items: flex-start; } .bt-small .ring .rf { stroke: var(--sky); }
+  .bt .home-empty { padding: 10px 0; text-align: left; }
+  @media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; gap: 12px; } .bt-picks { grid-row: auto; } }
+  @media (max-width: 760px) {
+    .bt { padding: 15px; border-radius: 22px; } .bt-hero { padding: 18px; } .bt-hero .bignum { font-size: 42px; } .bt-stat { min-height: 116px; }
+    .bt-picks .pick { grid-template-columns: 34px 1fr auto; padding: 9px 10px; } .bt-picks .pick .avatar { width: 34px; height: 34px; }
+  }
+
+  /* ---------- my journey ---------- */
+  .goal { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 28px; border-radius: 28px; margin: 6px 0 18px;
+          background: linear-gradient(120deg, #e6e0fb 0%, #f5e3f0 55%, #fde5d8 100%); box-shadow: var(--shadow-card); }
+  .goal-l { flex: 1; min-width: 0; }
+  .goal-pct { font: 800 52px/1 var(--head); letter-spacing: -.04em; margin: 8px 0 10px; } .goal-pct small { font: 600 15px var(--head); color: var(--ink-2); margin-left: 8px; letter-spacing: 0; }
+  .goal-bar { height: 8px; border-radius: 99px; background: rgba(255, 255, 255, .7); overflow: hidden; max-width: 460px; } .goal-bar i { display: block; height: 100%; background: var(--ink); border-radius: 99px; }
+  .goal p { margin: 12px 0; color: var(--ink-2); }
+  .goal .ring .rf { stroke: var(--ink); }
+  .goal-edit { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; } .goal-edit label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+  .goal-edit .field { background: rgba(255, 255, 255, .8); }
+  .j-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; align-items: start; }
+  .j-grid .bth { margin-bottom: 14px; }
+  .road { list-style: none; margin: 0; padding: 0; position: relative; }
+  .road li { display: flex; gap: 14px; padding: 0 0 18px; position: relative; }
+  .road li::before { content: ""; position: absolute; left: 13px; top: 28px; bottom: 0; width: 2px; background: var(--soft); }
+  .road li:last-child::before { display: none; }
+  .road .dot { width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--soft); color: #fff; position: relative; z-index: 1; }
+  .road .dot .i { width: 15px; height: 15px; stroke-width: 2.6; }
+  .road li.done .dot { background: var(--mint); } .road li.done::before { background: var(--mint-50); }
+  .road li.cur .dot { background: var(--surface); box-shadow: inset 0 0 0 3px var(--lav); }
+  .road li > div { flex: 1; min-width: 0; padding-top: 3px; } .road b { display: block; font: 700 14px var(--head); } .road span { font-size: 12.5px; color: var(--muted); }
+  .road li.done b { color: var(--muted); } .road li.cur b { color: var(--lav); }
+  .road .bar { margin-top: 6px; max-width: 220px; }
+  .cal-nav { display: flex; gap: 2px; } .cal-nav .icon-btn:first-child .i { transform: rotate(180deg); } .cal-nav .icon-btn { font-size: 12.5px; font-weight: 600; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-h { text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); padding-bottom: 4px; }
+  .cal-d { aspect-ratio: 1; border: 0; background: none; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-weight: 600; font-size: 13px; color: var(--ink-2); }
+  .cal-d:hover { background: var(--soft); }
+  .cal-d.today { color: var(--lav); box-shadow: inset 0 0 0 1.5px var(--lav-200); }
+  .cal-d.sel { background: var(--ink); color: var(--surface); }
+  .cal-dots { display: flex; gap: 2px; height: 5px; } .cal-dots i { width: 5px; height: 5px; border-radius: 50%; }
+  .cal-list { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--soft); }
+  .cal-ev { display: flex; gap: 10px; align-items: center; padding: 8px 0; } .cal-ev > i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .cal-ev div { flex: 1; min-width: 0; } .cal-ev b { display: block; font-size: 13.5px; } .cal-ev span { font-size: 12px; color: var(--muted); }
+  .cal-dots i.t-lav, .cal-ev i.t-lav { background: var(--lav); } .cal-dots i.t-sky, .cal-ev i.t-sky { background: var(--sky); } .cal-dots i.t-peach, .cal-ev i.t-peach { background: var(--peach); }
+  .cal-dots i.t-mint, .cal-ev i.t-mint { background: var(--mint); } .cal-dots i.t-rose, .cal-ev i.t-rose { background: var(--rose); } .cal-dots i.t-butter, .cal-ev i.t-butter { background: #c9a13b; }
+  .ev-add { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; } .ev-add input { flex: 1 1 180px; } .ev-add select { flex: 0 0 auto; }
+  .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+  .app { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; } .app.rej { opacity: .7; }
+  .app-top { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center; }
+  .app-top b { display: block; font: 700 14.5px var(--head); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .app-top span { font-size: 12px; color: var(--muted); }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .steps span { display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 600; color: var(--muted); }
+  .steps i { height: 5px; border-radius: 99px; background: var(--soft); } .steps span.on { color: var(--ink); } .steps span.on i { background: var(--lav); }
+  .app-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; } .app-acts select { flex: 0 1 150px; }
+  @media (max-width: 900px) { .j-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .goal { padding: 20px; border-radius: 24px; } .goal .ring { display: none; } .goal-pct { font-size: 42px; } .apps { grid-template-columns: 1fr; } }
+
+  /* ---------- profile ---------- */
+  .prof { max-width: 560px; margin: 0 auto; }
+  .prof-head { text-align: center; padding: 6px 0 18px; }
+  .prof-av { width: 96px; height: 96px; font-size: 32px; margin: 0 auto 12px; box-shadow: 0 0 0 6px var(--surface), var(--shadow-card); }
+  .prof-head h1 { font: 800 24px var(--head); letter-spacing: -.03em; margin: 0 0 4px; }
+  .prof-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; margin-bottom: 16px; }
+  .prof-stats span { display: block; font-size: 11.5px; color: var(--muted); font-weight: 600; } .prof-stats b { font: 800 19px var(--head); }
+  .prow { display: flex; align-items: center; gap: 14px; width: 100%; border: 0; background: none; padding: 12px 14px; cursor: pointer; text-align: left; color: var(--ink); font: inherit; border-radius: 16px; }
+  .prow:hover { background: var(--soft); }
+  .prow > span:nth-child(2) { flex: 1; min-width: 0; } .prow b { display: block; font-weight: 600; font-size: 14.5px; } .prow small { color: var(--muted); font-size: 12px; }
+  .prow > .i:last-child { color: var(--muted); width: 16px; }
+  .prof-switch { background: var(--surface); box-shadow: var(--shadow-card); }
+  .prof-switch:hover { background: var(--surface); }
+  .prof-sec { font: 700 12px var(--head); color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin: 22px 4px 8px; }
+  .prof-list { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow-card); padding: 6px; }
+  @media (max-width: 760px) {
+    .tabbar { left: 12px !important; right: 12px !important; bottom: calc(10px + env(safe-area-inset-bottom)) !important; height: 64px !important; padding: 0 6px !important; border: 0 !important; border-radius: 99px;
+              background: rgba(255, 255, 255, .9) !important; backdrop-filter: blur(16px); box-shadow: 0 14px 32px -12px rgba(30, 29, 38, .3), 0 0 0 1px rgba(30, 29, 38, .04); }
+    .tabbar button { font-size: 10px; gap: 2px; color: var(--muted); }
+    .tabbar button .i { width: 20px; height: 20px; padding: 4px 12px; border-radius: 99px; box-sizing: content-box; transition: background .2s; }
+    .tabbar button.on { color: var(--ink); } .tabbar button.on .i { background: var(--lav-100); color: var(--lav); }
+    .tabbar .ping { top: 8px; right: calc(50% - 18px); }
+    .main { padding-bottom: 96px !important; }
+    .actions { bottom: 84px !important; }
+    .snack { bottom: 162px !important; }
+    .topbar { background: rgba(244, 244, 248, .82); }
+    .round-ico { width: 36px; height: 36px; }
+    .prof-stats b { font-size: 17px; }
+  }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   html[data-theme="business"] {
     --bg: #0b0c0f; --surface: #16171b; --ink: #f1efe9; --ink-2: #c8c5bd; --muted: #8e8b84; --line: #2a2b31; --soft: #1e1f24;
@@ -543,7 +759,22 @@
   [data-theme="business"] .tabbar { background: rgba(14, 15, 18, .96); }
   [data-theme="business"] .mini { background-color: #131418; border-color: #26272c; }
   [data-theme="business"] .mini.center { background-color: #1b1c21; border-color: #3a3b42; }
-  [data-theme="business"] .hcard { border-color: #2c2d33; box-shadow: 4px 4px 0 #050506, inset 0 1px 0 rgba(255, 255, 255, .07); }
+  [data-theme="business"] .hcard { border: 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 20px 40px -22px rgba(0, 0, 0, .9); }
+  html[data-theme="business"] { --peach: #e8a07e; --peach-50: #2a1c15;
+    --shadow-card: inset 0 1px 0 rgba(255, 255, 255, .06), 0 18px 36px -20px rgba(0, 0, 0, .9);
+    --t-lav: linear-gradient(135deg, #2b2619, #1c1a14); --t-peach: linear-gradient(135deg, #2c2019, #1d1713); --t-mint: linear-gradient(135deg, #18261f, #131b17);
+    --t-sky: linear-gradient(135deg, #18202b, #13171e); --t-rose: linear-gradient(135deg, #2a1a1f, #1c1417); --t-butter: linear-gradient(135deg, #2a2414, #1c1810); }
+  [data-theme="business"] .tabbar { background: rgba(22, 23, 27, .92) !important; box-shadow: 0 14px 32px -12px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .07) !important; }
+  [data-theme="business"] .side { background: rgba(16, 17, 20, .8); }
+  [data-theme="business"] .topbar { background: rgba(11, 12, 15, .75); }
+  [data-theme="business"] .goal { background: linear-gradient(120deg, #2b2619, #1b1c21 60%, #241b16); }
+  [data-theme="business"] .goal-bar i, [data-theme="business"] .goal .ring .rf, [data-theme="business"] .bt-hero .ring .rf { background: #cdae74; stroke: #cdae74; }
+  [data-theme="business"] .ring .rb, [data-theme="business"] .goal-bar { stroke: rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .08); }
+  [data-theme="business"] .t-lav .ico, [data-theme="business"] .t-peach .ico, [data-theme="business"] .t-mint .ico, [data-theme="business"] .t-sky .ico, [data-theme="business"] .t-rose .ico { background: rgba(255, 255, 255, .07); }
+  [data-theme="business"] .wbody { background: #16171b; }
+  [data-theme="business"] .navlink.on { background: linear-gradient(180deg, #dcc08b, #b8955a); color: #141414; }
+  [data-theme="business"] .chip.on, [data-theme="business"] .chip-toggle.on, [data-theme="business"] .cal-d.sel { background: #cdae74; color: #141414; }
+  [data-theme="business"] .me-av, [data-theme="business"] .prof-av { background: linear-gradient(135deg, #dcc08b, #8a6a35); color: #141414; }
   [data-theme="business"] .pick { background-color: #18191e; border-color: #2a2b31; }
   [data-theme="business"] .alist, [data-theme="business"] .alist li button, [data-theme="business"] .todo { border-color: #2c2d33; }
   [data-theme="business"] .btn.primary { background: linear-gradient(180deg, #dcc08b, #b8955a); border-color: #b8955a; color: #141414; }
@@ -572,7 +803,13 @@
   }
   [data-theme="private"] .avatar, [data-theme="private"] .brand img,
   [data-theme="private"] .m-brand img, [data-theme="private"] .star.on { filter: grayscale(1); }
-  [data-theme="private"] .hcard { box-shadow: 4px 4px 0 #e6e6e2; border-color: #d9d9d5; }
+  [data-theme="private"] .hcard { box-shadow: var(--shadow-card); }
+  html[data-theme="private"] { --peach: #74675f; --peach-50: #f0eeec;
+    --t-lav: linear-gradient(135deg, #ecebe8, #e2e1dd); --t-peach: linear-gradient(135deg, #efedea, #e5e2de); --t-mint: linear-gradient(135deg, #ebedeb, #e0e3e0);
+    --t-sky: linear-gradient(135deg, #eaecee, #dfe2e5); --t-rose: linear-gradient(135deg, #eeebeb, #e4e0e1); --t-butter: linear-gradient(135deg, #eeede8, #e4e2da); }
+  html[data-theme="private"] body { background: var(--bg); }
+  [data-theme="private"] .goal { background: linear-gradient(120deg, #ebebe8, #e1e1dd); }
+  [data-theme="private"] .me-av, [data-theme="private"] .prof-av { background: #8a8d93; }
   /* private: soft, rounded Nunito everywhere, no handwriting */
   html[data-theme="private"] { --head: "Nunito", "Inter", sans-serif; }
   [data-theme="private"] body { font-family: "Nunito", "Inter", sans-serif; }
@@ -669,11 +906,13 @@
   <button class="navlink on" data-v="home"><svg class="i"><use href="#i-home"/></svg>Home</button>
   <button class="navlink" data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Discover<span class="count" id="c-deck"></span></button>
   <button class="navlink" data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Shortlist<span class="count" id="c-short"></span></button>
+  <button class="navlink" data-v="journey"><svg class="i"><use href="#i-route"/></svg>My journey</button>
   <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Passed<span class="count" id="c-rej"></span></button>
   <button class="navlink" data-v="companies"><svg class="i"><use href="#i-building"/></svg>Companies<span class="count" id="c-co"></span></button>
   <button class="navlink" data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Scoring</button>
-  <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Profile & preferences</button>
+  <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Preferences</button>
   <div class="promo" id="promo-side"></div>
+  <button class="me-chip" data-v="profile"><span class="me-av">NK</span><span><b>Nesibe Keleş</b><small>Istanbul → Europe</small></span><svg class="i"><use href="#i-chev"/></svg></button>
 </aside>
 
 <div class="main">
@@ -682,8 +921,8 @@
     <div class="crumb">Your workspace <svg class="i" style="width:14px;height:14px"><use href="#i-chev"/></svg> <b id="crumb">Home</b></div>
     <div class="spacer"></div>
     <span class="small muted" id="fetch-info"></span>
-    <button class="icon-btn" id="theme-btn" title="Theme" aria-label="Choose a theme"><svg class="i"><use href="#i-palette"/></svg></button>
-    <button class="btn sm" id="fetch-btn"><svg class="i"><use href="#i-refresh"/></svg><span>Refresh jobs</span></button>
+    <button class="icon-btn round-ico" id="fetch-btn" title="Refresh jobs" aria-label="Refresh jobs"><svg class="i"><use href="#i-refresh"/></svg><span class="sr">Refresh jobs</span></button>
+    <button class="icon-btn round-ico" id="theme-btn" title="Theme" aria-label="Choose a theme"><svg class="i"><use href="#i-palette"/></svg></button>
   </div>
 
   <div class="page">
@@ -731,6 +970,9 @@
       <div class="pipeline" id="pipeline"></div>
       <div class="list" id="short-list"></div>
     </section>
+
+    <section class="view" id="v-journey"><div id="journey"></div></section>
+    <section class="view" id="v-profile"><div id="profile"></div></section>
 
     <section class="view" id="v-rejected">
       <div class="eyebrow">Left behind</div>
@@ -846,8 +1088,8 @@
   <button data-v="home" class="on"><svg class="i"><use href="#i-home"/></svg>Home</button>
   <button data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Discover</button>
   <button data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Shortlist</button>
-  <button data-v="companies"><svg class="i"><use href="#i-building"/></svg>Companies</button>
-  <button data-v="more"><svg class="i"><use href="#i-more"/></svg>More<span class="ping" id="more-ping" hidden></span></button>
+  <button data-v="journey"><svg class="i"><use href="#i-route"/></svg>Journey</button>
+  <button data-v="profile"><svg class="i"><use href="#i-user"/></svg>Profile<span class="ping" id="more-ping" hidden></span></button>
 </nav>
 
 <div class="modal drawer" id="m-detail"><div class="sheet" id="detail"></div></div>
@@ -917,6 +1159,13 @@
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8"/></symbol>
   <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M10 4h4v3a2 2 0 1 0 4 0V7h2v5h-3a2 2 0 1 0 0 4h3v4h-6v-3a2 2 0 1 0-4 0v3H4v-6h3a2 2 0 1 0 0-4H4V4h6z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8 18h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 15v-4M12 15V7M17 15v-6"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 21c-4 0-6.5-2.6-6.5-6.2 0-3.6 3-5.6 3.5-9.3 2.5 1.3 4 3.6 4 5.5 1-.6 1.7-1.7 1.8-3 1.9 1.5 3.7 4 3.7 6.8 0 3.6-2.5 6.2-6.5 6.2z"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
@@ -950,7 +1199,7 @@ const CURRENCY = { "United Kingdom": ["GBP", "£"], "New Zealand": ["NZD", "NZ$"
 const BASE_TRY = 200000; // city targets in config were set for this Istanbul salary
 // muted pastel tints for company avatars only: [background, letter]
 const PASTELS = [["#ece9f8", "#5b4fa0"], ["#e4f2eb", "#2f6f55"], ["#f5ebe5", "#8a5a43"], ["#f3efe0", "#6f5e2c"], ["#e6edf5", "#3d5f82"], ["#f2e8ec", "#86495a"]];
-const VIEW_NAMES = { home: "Home", discover: "Discover", short: "Shortlist", rejected: "Passed", companies: "Companies", scoring: "Scoring", settings: "Profile & preferences" };
+const VIEW_NAMES = { home: "Home", discover: "Discover", short: "Shortlist", journey: "My journey", profile: "Profile", rejected: "Passed", companies: "Companies", scoring: "Scoring", settings: "Preferences" };
 
 const DEFAULT_RULES = [
   { name: "Roles asking ≤5 years", all: [{ f: "years", op: "lte", v: 5 }], pts: 5 },
@@ -1143,6 +1392,8 @@ function hydrate(s) {
   for (const c of def.cities) if (!st.settings.cities.some((x) => x.name === c.name)) st.settings.cities.push(c);
   st.challenge = { streak: 0, best: 0, last: null, results: {}, ...(st.challenge || {}) };
   st.home = { ...HOME_DEFAULT, ...(st.home || {}) };
+  if (!HOME_LAYOUTS.some(([k]) => k === st.home.layout)) st.home.layout = "bento"; // the stacked layout was retired
+  st.journey = { goal_date: "2027-06-30", goal_apps: 30, events: [], ...(st.journey || {}) };
   for (const k of HOME_DEFAULT.order) if (!st.home.order.includes(k)) st.home.order.push(k);
   return st;
 }
@@ -1308,7 +1559,7 @@ function miniHTML(r) {
   const sp = f.sponsorship === "yes" ? ["ok", "Sponsorship ✓"] : f.sponsorship === "no" ? ["bad", "No sponsorship"] : f.remote ? ["ok", "No visa needed"] : ["", "Sponsorship unclear"];
   const facts = [`📍 ${esc(d.city)} · #${d.priority}`, `💶 ${esc(sal)}`, `<b class="${sp[0]}">🛂 ${sp[1]}</b>`,
     f.workplace !== "?" ? `🏢 ${esc(f.workplace)}` : "", esc(SELECT_LABELS.seniority[f.seniority] || ""), f.years_required ? `${f.years_required}+ yrs` : ""].filter(Boolean);
-  return `<div class="stamp like">SHORTLIST</div><div class="stamp nope">PASS</div>
+  return `<div class="stamp like">♥ SHORTLIST</div><div class="stamp nope">✕ PASS</div>
     <div class="row1">${avatar(j.company)}
       <div class="co">${esc(j.company)}<span>${esc(ago(j.posted || j.first_seen))}${d.coPriority ? " · priority" : ""}</span></div>
       <div class="scorepill">${r.score}<small>SCORE</small></div></div>
@@ -1336,6 +1587,7 @@ function flashCard(kind) {
 }
 function renderStack(dir = 0) {
   const list = deckRows(), n = list.length, stack = $("#stack");
+  document.querySelectorAll(".deck-actions .round").forEach((b) => { b.style.transform = ""; b.classList.remove("hot"); });
   $("#c-deck").textContent = n || "";
   setText("#st-deck", n);
   if (!n) {
@@ -1417,8 +1669,7 @@ function bindStack() {
     if (st.axis === "x") {
       st.card.classList.add("dragging");
       st.card.style.transform = `translateX(${st.dx}px) rotate(${st.dx / 24}deg)`;
-      st.card.querySelector(".stamp.like").style.opacity = clamp(st.dx / 100, 0, 1);
-      st.card.querySelector(".stamp.nope").style.opacity = clamp(-st.dx / 100, 0, 1);
+      swipeFeel(st.card, st.dx, 100);
     }
   });
   stack.addEventListener("pointerup", () => {
@@ -1428,13 +1679,13 @@ function bindStack() {
     if (axis === "x") {
       if (dx > 100) return like();
       if (dx < -100) return askReason();
-      return renderStack();
+      swipeFeel(card, 0); return renderStack();
     }
     if (axis === "y") { if (Math.abs(dy) > 30) go(dy < 0 ? 1 : -1); return; }
     const o = +card.dataset.o; // a tap: the focused card opens the post, a neighbour becomes current
     if (o === 0) openCard(card.dataset.id); else go(o);
   });
-  stack.addEventListener("pointercancel", () => { st = null; renderStack(); });
+  stack.addEventListener("pointercancel", () => { if (st) swipeFeel(st.card, 0); st = null; renderStack(); });
 }
 // ---- swipe tutorial: the card leans right (shortlist) then left (pass) until she has made a few decisions ----
 const HINT = { anim: [], timer: null, key: "jobness.swipes", needed: 3 };
@@ -1588,8 +1839,8 @@ function openCard(id) {
   markViewed(id);
   const { j } = r; CARD.id = id;
   const pop = $("#card-pop");
-  pop.style.transform = ""; pop.style.opacity = "";
-  pop.innerHTML = `<div class="stamp like">SHORTLIST</div><div class="stamp nope">PASS</div>
+  pop.style.transform = ""; pop.style.opacity = ""; swipeFeel(pop, 0);
+  pop.innerHTML = `<div class="stamp like">♥ SHORTLIST</div><div class="stamp nope">✕ PASS</div>
     <div class="cp-head"><div style="display:flex;gap:12px;min-width:0">${avatar(j.company)}
         <div style="min-width:0"><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2>${esc(j.title)}</h2></div></div>
       <div style="display:flex;gap:6px;align-items:start"><div class="bigscore"><b>${r.score}</b><span>SCORE</span></div><button class="icon-btn" data-close="m-card" title="Close (Esc)">${icon("x")}</button></div></div>
@@ -1625,12 +1876,11 @@ function trackpadSwipe(target, cardEl, act) {
     const el = cardEl(); if (!el) return;
     el.classList.add("dragging");
     el.style.transform = `${el._base ?? (el._base = el.style.transform || "")} translateX(${dx}px) rotate(${dx / 26}deg)`;
-    el.querySelector(".stamp.like") && (el.querySelector(".stamp.like").style.opacity = clamp(dx / 100, 0, 1));
-    el.querySelector(".stamp.nope") && (el.querySelector(".stamp.nope").style.opacity = clamp(-dx / 100, 0, 1));
+    swipeFeel(el, dx, 105);
   };
   const settle = () => {
     const el = cardEl();
-    if (el && !T.fired) { el.classList.remove("dragging"); el.style.transform = el._base ?? ""; el.querySelectorAll(".stamp").forEach((x) => (x.style.opacity = 0)); }
+    if (el && !T.fired) { el.classList.remove("dragging"); el.style.transform = el._base ?? ""; swipeFeel(el, 0); }
     if (el) delete el._base;
     T.acc = 0; T.fired = false;
   };
@@ -1646,6 +1896,24 @@ function trackpadSwipe(target, cardEl, act) {
   }, { passive: false });
 }
 
+// ---- swipe feedback: the card washes green (shortlist) or red (pass) from the first pixel, the stamp grows,
+// the matching round button swells, and at the decision point it locks in with a pop (and a tick on Android) ----
+function swipeFeel(el, dx, thr = 100) {
+  if (!el) return;
+  const p = clamp(Math.abs(dx) / thr, 0, 1), yes = dx > 0 ? p : 0, no = dx < 0 ? p : 0, ready = p >= 1;
+  el.style.setProperty("--yes", yes.toFixed(3)); el.style.setProperty("--no", no.toFixed(3));
+  const sl = el.querySelector(".stamp.like"), sn = el.querySelector(".stamp.nope");
+  if (sl) { sl.style.opacity = clamp(yes * 1.6, 0, 1); sl.style.transform = `rotate(6deg) scale(${0.85 + yes * 0.3})`; }
+  if (sn) { sn.style.opacity = clamp(no * 1.6, 0, 1); sn.style.transform = `rotate(-6deg) scale(${0.85 + no * 0.3})`; }
+  el.classList.toggle("go-yes", ready && dx > 0); el.classList.toggle("go-no", ready && dx < 0);
+  if (ready && !el._ready) navigator.vibrate?.(14);
+  el._ready = ready;
+  if (el.closest("#stack")) {
+    const by = $(".deck-actions .round.yes"), bn = $(".deck-actions .round.no");
+    by.style.transform = yes ? `scale(${1 + yes * 0.22})` : ""; by.classList.toggle("hot", ready && dx > 0);
+    bn.style.transform = no ? `scale(${1 + no * 0.22})` : ""; bn.classList.toggle("hot", ready && dx < 0);
+  }
+}
 function bindCardPop() {
   trackpadSwipe($("#card-pop"), () => $("#card-pop"), (k) => cardAct(k));
   trackpadSwipe($("#stack"), centerCard, (k) => (k === "like" ? like() : askReason()));
@@ -1665,8 +1933,7 @@ function bindCardPop() {
     if (st.axis !== "x") return;
     st.dx = dx;
     pop.style.transform = `translateX(${dx}px) rotate(${dx / 30}deg)`;
-    pop.querySelector(".stamp.like").style.opacity = clamp(dx / 100, 0, 1);
-    pop.querySelector(".stamp.nope").style.opacity = clamp(-dx / 100, 0, 1);
+    swipeFeel(pop, dx, 110);
   });
   const end = () => {
     if (!st) return;
@@ -1675,7 +1942,7 @@ function bindCardPop() {
     if (axis !== "x") return;
     if (dx > 110) return cardAct("like");
     if (dx < -110) return cardAct("nope");
-    pop.style.transform = ""; pop.querySelectorAll(".stamp").forEach((x) => (x.style.opacity = 0));
+    pop.style.transform = ""; swipeFeel(pop, 0);
   };
   pop.addEventListener("pointerup", end);
   pop.addEventListener("pointercancel", end);
@@ -2416,7 +2683,7 @@ document.addEventListener("click", (e) => {
   if ("ppForget" in a.dataset) { lsSet(PACK_PASS, null); APP.packs = null; APP.pdfUrls = null; renderLists(); renderHome(); renderPackPhone(); return toast("Packs locked on this device"); }
   if ("ppOff" in a.dataset) { lsSet(PACK_PASS, null); lsSet(PACK_SIG, null); renderPackPhone(); return toast("Stopped sending packs. The last locked copy stays on the live site"); }
   const v = $("#pp-new").value;
-  if (v.length < 10) return toast("Use at least 10 characters, ideally four random words");
+  if (v.length < 6) return toast("Use at least 6 characters (longer is safer)");
   lsSet(PACK_PASS, v); toast("Encrypting and sending your packs…");
   sealPacks(true).then(() => toast("Packs sent. They reach the live site in a few minutes")).catch((err) => toast("Couldn't send the packs: " + err.message));
 });
@@ -2502,80 +2769,93 @@ const GREETINGS = [
 // re-draw the greeting when the clock crosses into the next three-hour slot
 let greetSlot = Math.floor(new Date().getHours() / 3);
 setInterval(() => { const s = Math.floor(new Date().getHours() / 3); if (s !== greetSlot) { greetSlot = s; if ($("#v-home").classList.contains("on")) renderHome(); } }, 60000);
-const HOME_DEFAULT = { order: ["summary", "picks", "todo", "fun"], hidden: ["fun"], wide: ["todo"], rows: [], todos: [], name: "Ms Nesibe", hero: true };
-const HOME_CARDS = { summary: "Your summary", picks: "Today's picks", todo: "Today's checklist", fun: "Challenge & self-test" };
+const HOME_DEFAULT = { order: ["summary", "picks", "todo", "journey", "fun"], hidden: ["fun"], wide: ["todo"], rows: [], todos: [], name: "Ms Nesibe", hero: true, layout: "bento" };
+const HOME_CARDS = { summary: "Your summary", picks: "Today's picks", todo: "Today's checklist", journey: "My journey", fun: "Challenge & self-test" };
+const HOME_LAYOUTS = [["bento", "Bento"], ["grid", "Classic grid"]];
 const HOME_ROWS = [["fresh", "New since the last update"], ["hot", "Hot matches (score 80+)"], ["saved", "Shortlisted, no pack yet"], ["ready", "Packs ready to send"], ["applied", "Applications in motion"], ["viewed", "Looked at, still undecided"]];
+const HOME_META = { summary: ["chart", "lav"], picks: ["star", "peach"], todo: ["check", "mint"], journey: ["route", "sky"], fun: ["puzzle", "rose"] };
+const ico = (name, tint) => `<span class="ico ${tint}">${icon(name)}</span>`;
+// a progress ring: p from 0 to 1
+const ring = (p, label, size = 84) => { const r = 15.5, c = 2 * Math.PI * r;
+  return `<div class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="${r}" class="rb"/><circle cx="18" cy="18" r="${r}" class="rf ${p > 0 ? "" : "zero"}" stroke-dasharray="${(c * clamp(p, 0, 1)).toFixed(2)} ${c.toFixed(2)}"/></svg><b>${label}</b></div>`; };
 function renderHome() {
   const el = $("#home"); if (!el || !APP.state) return;
-  const h = homeData(), hr = new Date().getHours(), { out, soon } = homeTodos(h), hm = APP.state.home;
+  const h = homeData(), hr = new Date().getHours(), { out, soon } = homeTodos(h), hm = APP.state.home, js = journeyStats();
   const g = GREETINGS[Math.floor(hr / 3)], art = artSet();
   const greet = g.text.replace(/,? \{name\}/, hm.name.trim() ? ", " + hm.name.trim() : "!");
   const doneN = out.filter((x) => x.done).length;
   // rows with nothing in them are left out
   const row = (key, dot, n, attr) => !n || hm.rows.includes(key) ? "" : `<li><button ${attr}><span class="dot" style="background:${dot}"></span>${HOME_ROWS.find((x) => x[0] === key)[1]}<span class="n">${n}</span><svg class="i chev" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>`;
   const picks = [...h.fresh.sort((a, b) => b.score - a.score).slice(0, 3), ...h.hot.filter((r) => !h.isNew(r)).slice(0, 4)].slice(0, 6);
-  const cards = {
-    summary: () => `
-        <div class="hhead">${art.cup}<div><div class="hand">today at a glance</div><h3>Your summary</h3></div></div>
-        <div class="hbody">
-        <div class="bignum">${h.deck.length}<small>jobs match you today</small></div>
-        <p class="muted" style="margin:6px 0 14px">${h.fresh.length ? `${h.fresh.length} of them are new. ` : ""}Want to respond?</p>
-        <button class="btn primary" data-v="discover">Start swiping<svg class="i"><use href="#i-chev"/></svg></button>
-        <ul class="alist">
-          ${row("fresh", "#2f7d62", h.fresh.length, 'data-hgo="fresh"')}
-          ${row("hot", "#e59a78", h.hot.length, 'data-hgo="hot"')}
-          ${row("saved", "#6655c4", h.saved.length + h.requested.length, 'data-v="short"')}
-          ${row("ready", "#c9a13b", h.ready.length, 'data-v="short"')}
-          ${row("applied", "#3a6390", h.applied.length, 'data-v="short"')}
-          ${row("viewed", "#a8475b", h.viewed.length, 'data-hgo="todo"')}
-        </ul>
-        ${[h.fresh, h.hot, h.saved, h.requested, h.ready, h.applied, h.viewed].every((x) => !x.length) ? `<p class="small muted" style="margin:10px 0 0">Nothing waiting on you right now.</p>` : ""}
-        </div>`,
-    picks: () => `
-        <div class="hhead">${art.star}<div><div class="hand">quick &amp; worthy</div><h3>Today's picks</h3></div></div>
-        <div class="hbody">
-        ${picks.length ? `<div class="picks">${picks.map((r) => `
+  const pickHTML = (r) => `
           <button class="pick" data-opencard="${esc(r.j.id)}">${avatar(r.j.company)}
             <div style="min-width:0"><b>${esc(r.j.title)}</b><div class="meta">${esc(r.j.company)} · ${esc(r.d.city)}
               ${h.isNew(r) ? '<span class="tag badge-new">New today</span>' : ""}${r.score >= 80 ? '<span class="tag badge-hot">Hot match</span>' : ""}${r.d.scene?.fit >= 60 ? '<span class="tag badge-scene">🎬 Scene fit</span>' : ""}</div></div>
-            <div class="sc">${r.score}<small>SCORE</small></div></button>`).join("")}</div>
-          <button class="btn ghost sm" style="margin-top:10px" data-v="discover">See everything in Discover<svg class="i"><use href="#i-chev"/></svg></button>`
-        : `<div class="home-empty"><div class="hand">all quiet in the forest</div>No new or hot jobs today. Fresh ones arrive every morning.</div>`}
-        </div>`,
-    todo: () => `
-        <div class="hhead">${art.note}<div><div class="hand">one step at a time</div><h3>Today's checklist</h3></div></div>
-        <div class="hbody">
-        <div class="todo-top"><div class="bar"><i style="width:${out.length ? (doneN / out.length) * 100 : 0}%"></i></div><span class="small muted">${doneN} of ${out.length} done today</span></div>
-        ${out.length ? `<ul class="todos">${out.map((x) => `
+            <div class="sc">${r.score}<small>SCORE</small></div></button>`;
+  const todoList = (list) => list.length ? `<ul class="todos">${list.map((x) => `
           <li class="todo ${x.done ? "done" : ""}"><input type="checkbox" data-todo="${esc(x.key)}" ${x.done ? "checked" : ""} aria-label="${esc(x.text)}">
             <div class="tx"><b>${esc(x.text)}</b><span>${esc(x.sub)}</span></div>${x.done ? "" : x.action}</li>`).join("")}</ul>`
-        : `<div class="home-empty"><div class="hand">nothing on your plate</div>Shortlist a job and your next steps show up here.</div>`}
-        ${soon.length ? `<div class="soon"><span class="hand" style="font-size:16px">coming up:</span> follow up with ${esc(soon.join(", "))}</div>` : ""}
-        </div>`,
-    fun: () => `
-        <div class="hhead">${art.star}<div><div class="hand">a little break</div><h3>Challenge &amp; self-test</h3></div></div>
-        <div class="hbody"><div class="promo"></div></div>`,
+    : `<div class="home-empty"><div class="hand">nothing on your plate</div>Shortlist a job and your next steps show up here.</div>`;
+  const rows = [row("fresh", "#2f7d62", h.fresh.length, 'data-hgo="fresh"'), row("hot", "#e0855f", h.hot.length, 'data-hgo="hot"'),
+    row("saved", "#6655c4", h.saved.length + h.requested.length, 'data-v="short"'), row("ready", "#c9a13b", h.ready.length, 'data-v="short"'),
+    row("applied", "#3a6390", h.applied.length, 'data-v="journey"'), row("viewed", "#a8475b", h.viewed.length, 'data-hgo="todo"')].join("");
+  const bodies = {
+    summary: () => `
+        <div class="bignum">${h.deck.length}<small>jobs match you today</small></div>
+        <p class="muted" style="margin:6px 0 14px">${h.fresh.length ? `${h.fresh.length} of them are new. ` : ""}Want to respond?</p>
+        <button class="btn primary" data-v="discover">Start swiping<svg class="i"><use href="#i-chev"/></svg></button>
+        ${rows ? `<ul class="alist">${rows}</ul>` : `<p class="small muted" style="margin:12px 0 0">Nothing waiting on you right now.</p>`}`,
+    picks: () => picks.length ? `<div class="picks">${picks.map(pickHTML).join("")}</div>
+          <button class="btn ghost sm" style="margin-top:10px" data-v="discover">See everything in Discover<svg class="i"><use href="#i-chev"/></svg></button>`
+        : `<div class="home-empty"><div class="hand">all quiet</div>No new or hot jobs today. Fresh ones arrive twice a day.</div>`,
+    todo: () => `
+        <div class="todo-top"><div class="bar"><i style="width:${out.length ? (doneN / out.length) * 100 : 0}%"></i></div><span class="small muted">${doneN} of ${out.length} done today</span></div>
+        ${todoList(out)}
+        ${soon.length ? `<div class="soon"><b>Coming up:</b> follow up with ${esc(soon.join(", "))}</div>` : ""}`,
+    journey: () => `<div class="jmini">${ring(js.pct / 100, js.pct + "%", 76)}<div><b>${esc(js.next.title)}</b><div class="small muted">${esc(js.next.left)}</div>
+        <button class="btn sm" style="margin-top:10px" data-v="journey">Open my journey<svg class="i"><use href="#i-chev"/></svg></button></div></div>`,
+    fun: () => `<div class="promo"></div>`,
   };
-  const shown = hm.order.filter((k) => cards[k] && !hm.hidden.includes(k));
-  // a half-width card with no neighbour in its row stretches to full width instead of leaving a hole
-  const wide = shown.map((k) => hm.wide.includes(k));
-  for (let i = 0, col = 0; i < shown.length; i++) {
-    if (wide[i]) { col = 0; continue; }
-    if (col === 0 && (i === shown.length - 1 || wide[i + 1])) wide[i] = true; else col = 1 - col;
+  const shown = hm.order.filter((k) => bodies[k] && !hm.hidden.includes(k));
+  const head = (k) => `<div class="hhead">${ico(...HOME_META[k])}<h3>${HOME_CARDS[k]}</h3></div>`;
+  let body = "";
+  if (hm.layout === "bento") {
+    const on = (k) => shown.includes(k);
+    const stat = (cls, tint, label, n, attr, ic) => `<button class="bt bt-stat t-${tint} ${cls}" ${n ? attr : "disabled"}>${ico(ic, tint)}<span class="bl">${label}</span><b class="bn">${n}</b></button>`;
+    const tiles = {
+      summary: () => `<section class="bt bt-hero t-lav"><div class="bh-l"><div class="hand">today at a glance</div>
+            <div class="bignum">${h.deck.length}<small>jobs match you</small></div>
+            <p class="small" style="margin:4px 0 12px;color:var(--ink-2)">${h.fresh.length ? `${h.fresh.length} new since the last update` : "Nothing new since the last update"}</p>
+            <button class="btn primary sm" data-v="discover">Start swiping<svg class="i"><use href="#i-chev"/></svg></button></div>
+          ${ring(out.length ? doneN / out.length : 0, `${doneN}/${out.length}<small>to-dos</small>`, 92)}</section>
+        ${stat("", "peach", "Hot matches", h.hot.length, 'data-hgo="hot"', "flame")}
+        ${stat("", "mint", "Packs ready", h.ready.length, 'data-v="short"', "file")}`,
+      picks: () => `<section class="bt bt-picks"><div class="bth">${ico("star", "peach")}<b>Today's picks</b></div>
+          ${picks.length ? `<div class="picks">${picks.slice(0, 3).map(pickHTML).join("")}</div><button class="btn ghost sm" data-v="discover">See all<svg class="i"><use href="#i-chev"/></svg></button>` : `<div class="home-empty">No new or hot jobs today.</div>`}</section>`,
+      todo: () => `<section class="bt bt-todo t-rose" id="home-todo"><div class="bth">${ico("check", "rose")}<b>Today's checklist</b><span class="wv">${doneN}/${out.length}</span></div>
+          <div class="bar"><i style="width:${out.length ? (doneN / out.length) * 100 : 0}%"></i></div>${todoList(out)}</section>`,
+      journey: () => `<button class="bt bt-small t-sky" data-v="journey"><div class="bth">${ico("route", "sky")}<b>My journey</b></div>${ring(js.pct / 100, js.pct + "%", 64)}<span class="small muted">${esc(js.next.title)}</span></button>`,
+      fun: () => `<button class="bt bt-small" data-open="challenge"><div class="bth">${ico("puzzle", "rose")}<b>Daily challenge</b></div><div class="bn">${APP.state.challenge.streak ? "🔥 " + APP.state.challenge.streak : "▶"}</div><span class="small muted">${APP.state.challenge.last === today() ? "Done today" : "3 quick questions"}</span></button>`,
+    };
+    body = `<div class="bento">${shown.map((k) => tiles[k]()).join("")}</div>`;
+  } else {
+    // classic grid: a half-width card with no neighbour in its row stretches to full width
+    const wide = shown.map((k) => hm.wide.includes(k));
+    for (let i = 0, col = 0; i < shown.length; i++) {
+      if (wide[i]) { col = 0; continue; }
+      if (col === 0 && (i === shown.length - 1 || wide[i + 1])) wide[i] = true; else col = 1 - col;
+    }
+    body = `<div class="home-grid">${shown.map((k, i) => `<section class="hcard ${wide[i] ? "home-wide" : ""}" ${k === "todo" ? 'id="home-todo"' : ""}>${head(k)}<div class="hbody">${bodies[k]()}</div></section>`).join("")}</div>`;
   }
-  const wideAt = (i) => wide[i];
   el.innerHTML = `
     ${hm.hero ? `<div class="home-hero">
-      <div><div class="hand">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
+      <div class="hh-text"><div class="hand">${new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
         <h1>${esc(greet)}</h1>
-        <p class="sub" style="margin:0">Your job jungle, tidied up for today. One small step at a time.</p></div>
+        <p class="sub">Your job jungle, tidied up for today. One small step at a time.</p></div>
       ${art[g.art]}
-    </div>` : ""}
-    <div class="home-tools"><button class="btn ghost sm" data-open="home-custom"><svg class="i"><use href="#i-sliders"/></svg>Customize your home</button></div>
-    <div class="home-grid">
-      ${shown.map((k, i) => `<section class="hcard ${wideAt(i) ? "home-wide" : ""}" ${k === "todo" ? 'id="home-todo"' : ""}>${cards[k]()}</section>`).join("")}
-      ${shown.length ? "" : `<div class="home-empty home-wide"><div class="hand">a clean desk</div>Every card is hidden.<br><button class="btn sm" style="margin-top:10px" data-open="home-custom">Bring some back</button></div>`}
-    </div>`;
+      <button class="icon-btn round-ico hh-cust" data-open="home-custom" title="Customize your home" aria-label="Customize your home">${icon("sliders")}</button>
+    </div>` : `<div class="home-tools"><button class="icon-btn round-ico" data-open="home-custom" title="Customize your home" aria-label="Customize your home">${icon("sliders")}</button></div>`}
+    ${shown.length ? body : `<div class="home-empty"><div class="hand">a clean desk</div>Every card is hidden.<br><button class="btn sm" style="margin-top:10px" data-open="home-custom">Bring some back</button></div>`}`;
   const promo = el.querySelector(".promo");
   if (promo) { renderPromo(); promo.onmouseenter = () => (PROMO.paused = true); promo.onmouseleave = () => (PROMO.paused = false); }
 }
@@ -2585,6 +2865,8 @@ function renderHomeCustom() {
   $("#home-custom").innerHTML = `
     <div class="sheet-head"><h2>Customize your home</h2><button class="icon-btn" data-close="m-home">${icon("x")}</button></div>
     <p class="small muted" style="margin:0 0 16px">Changes show up right away and are kept with the rest of your settings.</p>
+    <div class="cust-sec">Layout</div>
+    <div class="seg">${HOME_LAYOUTS.map(([k, l]) => `<button data-hc-layout="${k}" class="${hm.layout === k ? "on" : ""}">${l}</button>`).join("")}</div>
     <div class="cust-sec">Greeting</div>
     <label class="cust-row"><span>Show the greeting and drawing</span><label class="switch"><input type="checkbox" data-hc-hero ${hm.hero ? "checked" : ""}><span></span></label></label>
     <label class="cust-row"><span>Call me</span><input class="field" data-hc-name value="${esc(hm.name)}" placeholder="e.g. Ms Nesibe" style="max-width:200px"></label>
@@ -2592,7 +2874,7 @@ function renderHomeCustom() {
     ${hm.order.map((k, i) => `<div class="cust-row card-row ${hm.hidden.includes(k) ? "off" : ""}">
       <span class="ord"><button class="icon-btn" data-hc-move="${k}:-1" ${i ? "" : "disabled"} title="Move up">${icon("chev")}</button><button class="icon-btn" data-hc-move="${k}:1" ${i < hm.order.length - 1 ? "" : "disabled"} title="Move down">${icon("chev")}</button></span>
       <b>${HOME_CARDS[k]}</b>
-      <div class="seg"><button data-hc-wide="${k}:0" class="${hm.wide.includes(k) ? "" : "on"}">Half</button><button data-hc-wide="${k}:1" class="${hm.wide.includes(k) ? "on" : ""}">Full</button></div>
+      ${hm.layout === "grid" ? `<div class="seg"><button data-hc-wide="${k}:0" class="${hm.wide.includes(k) ? "" : "on"}">Half</button><button data-hc-wide="${k}:1" class="${hm.wide.includes(k) ? "on" : ""}">Full</button></div>` : ""}
       <label class="switch"><input type="checkbox" data-hc-show="${k}" ${hm.hidden.includes(k) ? "" : "checked"}><span></span></label></div>`).join("")}
     <div class="cust-sec">Summary rows</div>
     <div class="chips">${HOME_ROWS.map(([k, l]) => `<button class="chip-toggle ${hm.rows.includes(k) ? "" : "on"}" data-hc-row="${k}">${hm.rows.includes(k) ? "" : "✓ "}${l}</button>`).join("")}</div>
@@ -2603,8 +2885,9 @@ function renderHomeCustom() {
 }
 function homeCustom(fn) { fn(APP.state.home); save(); renderHome(); renderHomeCustom(); }
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-hc-move],[data-hc-wide],[data-hc-row],[data-hc-todel],[data-hc-todo],[data-hc-reset]"); if (!a) return;
+  const a = e.target.closest("[data-hc-move],[data-hc-wide],[data-hc-row],[data-hc-todel],[data-hc-todo],[data-hc-reset],[data-hc-layout]"); if (!a) return;
   const ds = a.dataset;
+  if (ds.hcLayout) return homeCustom((hm) => { hm.layout = ds.hcLayout; });
   if (ds.hcMove) { const [k, d] = ds.hcMove.split(":"); return homeCustom((hm) => { const i = hm.order.indexOf(k), j = i + +d; [hm.order[i], hm.order[j]] = [hm.order[j], hm.order[i]]; }); }
   if (ds.hcWide) { const [k, w] = ds.hcWide.split(":"); return homeCustom((hm) => { hm.wide = hm.wide.filter((x) => x !== k).concat(w === "1" ? [k] : []); }); }
   if (ds.hcRow) return homeCustom((hm) => { hm.rows = hm.rows.includes(ds.hcRow) ? hm.rows.filter((x) => x !== ds.hcRow) : [...hm.rows, ds.hcRow]; });
@@ -2631,6 +2914,141 @@ document.addEventListener("change", (e) => {
   else if (k !== "challenge") { const t = today(); APP.state.todos = APP.state.todos || {}; (APP.state.todos[t] = APP.state.todos[t] || {})[k] = e.target.checked; }
   save(); renderHome();
 });
+
+// ---------------- my journey: goal, road map, calendar, applications ----------------
+const STAGES = ["Saved", "Pack requested", "Pack ready", "Applied", "Interview", "Offer"];
+const STEPS = [["Saved", "Saved"], ["Pack ready", "Pack"], ["Applied", "Applied"], ["Interview", "Interview"], ["Offer", "Offer"]];
+const ymd = (x) => { const d = new Date(x); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+// every status change is stamped, so the calendar and the road map can look back
+function setStatus(id, status) {
+  const d = APP.state.decisions[id], at = new Date().toISOString();
+  d.status = status; d.status_at = at;
+  (d.log = d.log || []).push({ s: status, at });
+  d.reached = Math.max(d.reached ?? -1, STAGES.indexOf(status));
+}
+const reachedOf = (d) => Math.max(d.reached ?? -1, STAGES.indexOf(d.status));
+function journeyStats() {
+  const jr = APP.state.journey, liked = APP.rows.filter((r) => r.decision?.decision === "like");
+  const at = (s) => liked.filter((r) => reachedOf(r.decision) >= STAGES.indexOf(s)).length;
+  const ms = [
+    { k: "know", title: "Know what you want", n: 1 + (APP.state.test ? 1 : 0), of: 2, w: 5, hint: "take the 2-minute self-test" },
+    { k: "short", title: "Build a shortlist", n: liked.length, of: 10, w: 10, hint: "roles to shortlist" },
+    { k: "packs", title: "Prepare tailored packs", n: at("Pack ready"), of: 5, w: 10, hint: "packs to prepare" },
+    { k: "apply", title: "Send applications", n: at("Applied"), of: jr.goal_apps, w: 30, hint: "applications to send" },
+    { k: "talk", title: "Get interviews", n: at("Interview"), of: 3, w: 25, hint: "interviews to land" },
+    { k: "offer", title: "Land the offer", n: at("Offer"), of: 1, w: 15, hint: "one offer to win" },
+    { k: "move", title: "Move abroad", n: jr.moved ? 1 : 0, of: 1, w: 5, hint: "pack your bags" },
+  ];
+  const pct = Math.round(ms.reduce((a, m) => a + m.w * Math.min(m.n / m.of, 1), 0));
+  const cur = ms.find((m) => m.n < m.of) || ms.at(-1);
+  const left = cur.n >= cur.of ? "you did it!" : ["short", "packs", "apply", "talk"].includes(cur.k) ? `${cur.of - cur.n} ${cur.hint}` : cur.hint;
+  const days = Math.ceil((new Date(jr.goal_date) - new Date(today())) / DAY);
+  return { ms, pct, cur, next: { title: cur.title, left }, days, liked, at };
+}
+const JOURNEY = { month: null, sel: null, editGoal: false };
+function journeyEvents() {
+  const jr = APP.state.journey, ev = [];
+  for (const r of APP.rows) {
+    const d = r.decision; if (d?.decision !== "like") continue;
+    const co = r.j.company;
+    ev.push({ date: ymd(d.at), kind: "short", title: `Shortlisted ${co}`, sub: r.j.title });
+    for (const l of d.log || []) ev.push({ date: ymd(l.at), kind: { Applied: "apply", Interview: "talk", Offer: "offer", Rejected: "no" }[l.s] || "step", title: `${l.s}: ${co}`, sub: r.j.title });
+    if (d.status === "Applied") ev.push({ date: ymd(+new Date(d.followed_up_at || d.status_at || d.at) + 7 * DAY), kind: "due", title: `Follow up with ${co}`, sub: "a week without news" });
+  }
+  for (const e of jr.events || []) ev.push({ ...e, mine: true });
+  return ev;
+}
+const EV_KIND = { short: ["Shortlisted", "lav"], step: ["Progress", "lav"], apply: ["Applied", "sky"], talk: ["Interview", "peach"], offer: ["Offer", "mint"], no: ["Rejected", "rose"],
+  due: ["Follow-up", "butter"], interview: ["Interview", "peach"], deadline: ["Deadline", "rose"], call: ["Call", "sky"], other: ["Note", "lav"] };
+function renderJourney() {
+  const el = $("#journey"); if (!el || !APP.state) return;
+  const jr = APP.state.journey, js = journeyStats(), ev = journeyEvents();
+  JOURNEY.month = JOURNEY.month || today().slice(0, 7); JOURNEY.sel = JOURNEY.sel || today();
+  const goalDate = new Date(jr.goal_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  // calendar grid, weeks start on Monday
+  const [y, m] = JOURNEY.month.split("-").map(Number), first = new Date(y, m - 1, 1), lead = (first.getDay() + 6) % 7, nDays = new Date(y, m, 0).getDate();
+  const byDay = {}; for (const e of ev) (byDay[e.date] = byDay[e.date] || []).push(e);
+  const cells = [...Array(lead).fill(""), ...Array.from({ length: nDays }, (_, i) => `${JOURNEY.month}-${String(i + 1).padStart(2, "0")}`)];
+  const dayEv = (byDay[JOURNEY.sel] || []);
+  const apps = [...js.liked].sort((a, b) => reachedOf(b.decision) - reachedOf(a.decision) || (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at));
+  el.innerHTML = `
+    <div class="eyebrow">My journey</div>
+    <h1 class="hero">On the way to the dream job.</h1>
+    <section class="goal">
+      <div class="goal-l"><div class="hand">dream job by ${esc(goalDate)}</div>
+        <div class="goal-pct">${js.pct}%<small>of the way there</small></div>
+        <div class="goal-bar"><i style="width:${js.pct}%"></i></div>
+        <p>${js.days >= 0 ? `<b>${js.days} days</b> to go` : `<b>${-js.days} days</b> past your date`} · next: <b>${esc(js.next.title.toLowerCase())}</b>, ${esc(js.next.left)}</p>
+        ${JOURNEY.editGoal ? `<div class="goal-edit"><label>Target date<input class="field" type="date" id="g-date" value="${esc(jr.goal_date)}"></label>
+          <label>Applications to send<input class="field" type="number" min="1" id="g-apps" value="${jr.goal_apps}"></label><button class="btn primary sm" data-g-save>Save</button></div>`
+          : `<button class="btn sm" data-g-edit>${icon("edit")}Edit goal</button>`}</div>
+      ${ring(js.pct / 100, js.pct + "%", 128)}
+    </section>
+    <div class="j-grid">
+      <section class="box pad j-road"><div class="bth">${ico("flag", "lav")}<b>Road map</b></div>
+        <ol class="road">${js.ms.map((x) => { const done = x.n >= x.of, cur = x === js.cur && !done;
+          return `<li class="${done ? "done" : cur ? "cur" : ""}"><span class="dot">${done ? icon("check") : ""}</span><div><b>${esc(x.title)}${x.k === "move" ? " 🎉" : ""}</b>
+            <span>${done ? "done" : `${Math.min(x.n, x.of)} of ${x.of}`}</span>${cur ? `<div class="bar"><i style="width:${(x.n / x.of) * 100}%"></i></div>` : ""}
+            ${x.k === "move" && js.at("Offer") && !jr.moved ? `<button class="btn sm" data-g-moved style="margin-top:6px">I've moved 🎉</button>` : ""}</div></li>`; }).join("")}</ol></section>
+      <section class="box pad j-cal"><div class="bth">${ico("calendar", "peach")}<b>${first.toLocaleDateString("en-GB", { month: "long", year: "numeric" })}</b>
+          <span class="cal-nav"><button class="icon-btn" data-cal="-1" aria-label="Previous month">${icon("chev")}</button><button class="icon-btn" data-cal="0">Today</button><button class="icon-btn" data-cal="1" aria-label="Next month">${icon("chev")}</button></span></div>
+        <div class="cal">${["M", "T", "W", "T", "F", "S", "S"].map((d) => `<span class="cal-h">${d}</span>`).join("")}
+          ${cells.map((d) => d ? `<button class="cal-d ${d === today() ? "today" : ""} ${d === JOURNEY.sel ? "sel" : ""}" data-day="${d}">${+d.slice(8)}<span class="cal-dots">${(byDay[d] || []).slice(0, 3).map((e) => `<i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i>`).join("")}</span></button>` : "<span></span>").join("")}</div>
+        <div class="cal-list"><div class="small muted" style="margin-bottom:6px">${new Date(JOURNEY.sel).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
+          ${dayEv.length ? dayEv.map((e, i) => `<div class="cal-ev"><i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i><div><b>${esc(e.title)}</b><span>${esc(EV_KIND[e.kind]?.[0] || "")}${e.sub ? " · " + esc(e.sub) : ""}</span></div>${e.mine ? `<button class="icon-btn" data-ev-del="${esc(e.id)}" title="Remove">${icon("trash")}</button>` : ""}</div>`).join("") : `<div class="small muted">Nothing on this day.</div>`}
+          <div class="ev-add"><input class="field" id="ev-title" placeholder="Add: e.g. Airbnb interview, 14:00"><select class="field" id="ev-type"><option value="interview">Interview</option><option value="deadline">Deadline</option><option value="call">Call</option><option value="other">Note</option></select><button class="btn primary sm" data-ev-add>Add</button></div></div>
+      </section>
+    </div>
+    <h3 class="sec section-title">Applications <span class="small muted" style="font-weight:500">· ${apps.length} on your list</span></h3>
+    <div class="apps">${apps.length ? apps.map((r) => { const d = r.decision, rc = reachedOf(d), rej = d.status === "Rejected";
+      return `<div class="box app ${rej ? "rej" : ""}">
+        <div class="app-top">${avatar(r.j.company)}<div style="min-width:0"><b>${esc(r.j.title)}</b><span>${esc(r.j.company)} · ${esc(r.d.city)} · updated ${ago(d.status_at || d.at)}</span></div>
+          <span class="tag ${rej ? "red" : rc >= 3 ? "green" : "gray"}">${esc(d.status)}</span></div>
+        <div class="steps">${STEPS.map(([s, l]) => `<span class="${rc >= STAGES.indexOf(s) ? "on" : ""}"><i></i>${l}</span>`).join("")}</div>
+        <div class="app-acts"><select class="field" data-status="${esc(r.j.id)}">${APP.data.statuses.map((s) => `<option ${s === d.status ? "selected" : ""}>${s}</option>`).join("")}</select>
+          ${hasPack(r.j.id) ? `<button class="btn sm" data-openpack="${esc(r.j.id)}">Open pack</button>` : ""}
+          <button class="btn sm" data-ev-for="${esc(r.j.company)}">${icon("calendar")}Add a date</button></div></div>`; }).join("")
+      : `<div class="box empty">No applications yet. Shortlist a job on Discover and it starts its journey here.</div>`}</div>`;
+}
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-cal],[data-day],[data-ev-add],[data-ev-del],[data-ev-for],[data-g-edit],[data-g-save],[data-g-moved]"); if (!a || !$("#v-journey").contains(a)) return;
+  const ds = a.dataset, jr = APP.state.journey;
+  if (ds.cal != null) { if (ds.cal === "0") { JOURNEY.month = today().slice(0, 7); JOURNEY.sel = today(); } else { const [y, m] = JOURNEY.month.split("-").map(Number), d = new Date(y, m - 1 + +ds.cal, 1); JOURNEY.month = ymd(d).slice(0, 7); } return renderJourney(); }
+  if (ds.day) { JOURNEY.sel = ds.day; return renderJourney(); }
+  if ("evFor" in ds) { $("#ev-title").value = ds.evFor + " "; $(".j-cal").scrollIntoView({ behavior: "smooth", block: "center" }); return setTimeout(() => $("#ev-title").focus(), 300); }
+  if ("evAdd" in ds) { const title = $("#ev-title").value.trim(); if (!title) return toast("Write what happens that day");
+    (jr.events = jr.events || []).push({ id: Date.now().toString(36), date: JOURNEY.sel, type: $("#ev-type").value, kind: $("#ev-type").value, title }); save(); return renderJourney(); }
+  if (ds.evDel) { jr.events = jr.events.filter((x) => x.id !== ds.evDel); save(); return renderJourney(); }
+  if ("gEdit" in ds) { JOURNEY.editGoal = true; return renderJourney(); }
+  if ("gSave" in ds) { jr.goal_date = $("#g-date").value || jr.goal_date; jr.goal_apps = Math.max(1, +$("#g-apps").value || jr.goal_apps); JOURNEY.editGoal = false; save(); renderHome(); return renderJourney(); }
+  if ("gMoved" in ds) { jr.moved = true; save(); toast("Congratulations! 🎉"); renderHome(); return renderJourney(); }
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.id === "ev-title") document.querySelector("[data-ev-add]").click(); });
+
+// ---------------- profile ----------------
+function renderProfile() {
+  const el = $("#profile"); if (!el || !APP.state) return;
+  const js = journeyStats(), t = THEMES.find((x) => x.id === currentTheme());
+  const rowB = (ic, tint, label, attr, sub) => `<button class="prow" ${attr}>${ico(ic, tint)}<span><b>${label}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("chev")}</button>`;
+  el.innerHTML = `<div class="prof">
+    <div class="prof-head"><div class="prof-av">NK</div><h1>Nesibe Keleş</h1><div class="muted small">📍 Istanbul · heading to Europe</div></div>
+    <div class="prof-stats"><div><span>Shortlisted</span><b>${js.liked.length}</b></div><div><span>Applied</span><b>${js.at("Applied")}</b></div><div><span>Journey</span><b>${js.pct}%</b></div><div><span>Streak</span><b>${APP.state.challenge.streak ? "🔥 " + APP.state.challenge.streak : "–"}</b></div></div>
+    <button class="prow prof-switch" data-theme-open>${ico("palette", "lav")}<span><b>Switch theme</b><small>${esc(t.name)}</small></span>${icon("chev")}</button>
+    <div class="prof-sec">General</div>
+    <div class="prof-list">
+      ${rowB("gear", "lav", "Preferences", 'data-v="settings"', "salary, cities, role fit, CV keywords")}
+      ${rowB("sliders", "sky", "Scoring", 'data-v="scoring"', "scene engine, rules, weights")}
+      ${rowB("building", "mint", "Companies", 'data-v="companies"', "your watchlist")}
+      ${rowB("xc", "rose", "Passed", 'data-v="rejected"', "roles you left behind")}
+      ${rowB("home", "peach", "Customize your home", 'data-open="home-custom"', "layout, cards, own to-dos")}
+    </div>
+    <div class="prof-sec">For fun</div>
+    <div class="prof-list">
+      ${rowB("puzzle", "mint", "Today's challenge", 'data-open="challenge"', APP.state.challenge.last === today() ? "done for today" : "3 quick questions")}
+      ${rowB("sparkle", "lav", "Self-discovery test", 'data-open="test"', APP.state.test ? "retake it" : "2 minutes")}
+    </div></div>`;
+}
+document.addEventListener("click", (e) => { if (e.target.closest("[data-theme-open]")) { renderThemePickers(false); $("#m-theme").classList.add("on"); } });
 
 // ---------------- themes ----------------
 const THEMES = [
@@ -2676,12 +3094,14 @@ function refresh(keepOrder) {
   compute();
   if (keepOrder) APP.order = APP.order.filter((id) => APP.byId[id]); else buildOrder(true);
   renderFilters(); renderStack(); renderLists(); renderLearnSummary(); renderCompanies(); renderHome();
+  if ($("#v-journey").classList.contains("on")) renderJourney();
+  if ($("#v-profile").classList.contains("on")) renderProfile();
   const v = document.querySelector(".view.on").id;
   if (v === "v-scoring") { renderScene(); renderRules(); renderWeights(); }
   if (v === "v-settings") renderSettings();
 }
 function showView(v) {
-  if (v === "more") return $("#m-more").classList.add("on");
+  if (v === "more") v = "profile";
   document.querySelectorAll(".modal.on").forEach((m) => m.classList.remove("on"));
   document.querySelectorAll("[data-v]").forEach((b) => b.classList.toggle("on", b.dataset.v === v));
   document.querySelectorAll(".view").forEach((x) => x.classList.toggle("on", x.id === "v-" + v));
@@ -2691,6 +3111,8 @@ function showView(v) {
   if (v === "scoring") { renderScene(); renderRules(); renderWeights(); }
   if (v === "settings") { renderSettings(); renderThemePickers(false); }
   if (v === "companies") renderCompanies();
+  if (v === "journey") renderJourney();
+  if (v === "profile") renderProfile();
   window.scrollTo(0, 0);
 }
 const commit = () => { save(); refresh(); };
@@ -2761,7 +3183,7 @@ document.addEventListener("change", (e) => {
   if (t.id === "f-city") { APP.filters.city = t.value; buildOrder(); return renderStack(); }
   if (t.id === "f-tag") { APP.filters.tag = t.value; buildOrder(); return renderStack(); }
   if (t.id === "f-min") { APP.filters.min = +t.value; buildOrder(); return renderStack(); }
-  if (ds.status) { APP.state.decisions[ds.status].status = t.value; toast("Status updated"); return commit(); }
+  if (ds.status) { setStatus(ds.status, t.value); toast("Status updated"); return commit(); }
   if ("ron" in ds) { ruleOf(t).on = t.checked; return commit(); }
   if ("rname" in ds) { ruleOf(t).name = t.value.trim() || "Untitled rule"; return commit(); }
   if (ds.cf != null) { const c = ruleOf(t).all[+ds.cf], type = FIELDS[t.value].type; c.f = t.value; c.op = OPS[type][0][0]; c.v = type === "select" ? selectOptions(t.value)[0]?.[0] ?? "" : ""; return commit(); }
@@ -2858,7 +3280,8 @@ $("#fetch-btn").onclick = async () => {
 async function pollFetch(started) {
   const f = await fetch("/api/fetch").then((r) => r.json());
   $("#fetch-btn").disabled = f.running;
-  $("#fetch-btn span").textContent = f.running ? `Fetching… ${f.log.at(-1) || ""}` : "Refresh jobs";
+  $("#fetch-btn").classList.toggle("spin", f.running);
+  $("#fetch-btn").title = f.running ? `Fetching… ${f.log.at(-1) || ""}` : "Refresh jobs";
   if (f.running) setTimeout(() => pollFetch(true), 2000);
   else if (started) { toast(f.log.at(-1) || "Done"); await loadData(); refresh(); }
 }
