@@ -979,6 +979,27 @@
   .tf-row select { width: auto; flex: 1 1 0; min-width: 0; text-overflow: ellipsis; }
   @media (min-width: 901px) { .todos:not(.bt-todo .todos) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; } }
 
+  /* slider + stat tiles: icon on the left, text left-aligned beside it, the group centred top-to-bottom */
+  .sl-in { flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 12px !important; padding: 0 30px 0 16px !important; }
+  .sl-tx, .bt-stat .sl-tx { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; }
+  .sl .bl, .bt-stat .bl { margin: 0 !important; font-size: 12.5px; white-space: nowrap; }
+  .sl .bn, .bt-stat .bn { font-size: 24px !important; line-height: 1.1; } .sl .bn.sm { font-size: 16px !important; white-space: nowrap; }
+  .bt-stat { flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; gap: 12px !important; }
+  .bt-slider, .bt-stat { min-height: 96px !important; }
+  .info { font: 700 13px var(--body) !important; }
+
+  .update-bar { position: fixed; left: 50%; top: 12px; transform: translateX(-50%); z-index: 80; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 99px;
+    background: var(--ink); color: var(--surface); font-size: 13px; font-weight: 600; box-shadow: var(--shadow); white-space: nowrap; }
+  .update-bar .i { width: 16px; height: 16px; } .update-bar button { border: 0; border-radius: 99px; background: var(--surface); color: var(--ink); font: inherit; padding: 6px 12px; cursor: pointer; }
+
+  .sl-in { padding: 0 20px 0 14px !important; gap: 10px !important; } .bt-stat { gap: 10px !important; padding: 0 14px !important; }
+  .sl-in .ico, .bt-stat .ico { width: 32px !important; height: 32px !important; } .sl-in .ico .i, .bt-stat .ico .i { width: 16px; height: 16px; }
+  .sl-tx { overflow: hidden; } .sl-tx > * { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .sl .bl, .bt-stat .bl { font-size: 12px; } .sl .bn.sm { font-size: 15px !important; }
+  .sl-dots { right: 8px !important; }
+  .sl-in > .sl-tx { flex: 1 1 auto; flex-shrink: 1 !important; min-width: 0; }
+  .sl { padding: 0 !important; } .sl-in { padding: 0 18px 0 14px !important; }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   html[data-theme="business"] {
     --bg: #0b0c0f; --surface: #16171b; --ink: #f1efe9; --ink-2: #c8c5bd; --muted: #8e8b84; --line: #2a2b31; --soft: #1e1f24;
@@ -3253,7 +3274,7 @@ function renderHome() {
   let body = "";
   if (hm.layout === "bento") {
     const on = (k) => shown.includes(k);
-    const stat = (cls, tint, label, n, attr, ic) => `<button class="bt bt-stat t-${tint} ${cls}" ${n ? attr : "disabled"}>${ico(ic, tint)}<span class="bl">${label}</span><b class="bn">${n}</b></button>`;
+    const stat = (cls, tint, label, n, attr, ic) => `<button class="bt bt-stat t-${tint} ${cls}" ${n ? attr : "disabled"}>${ico(ic, tint)}<span class="sl-tx"><span class="bl">${label}</span><b class="bn">${n}</b></span></button>`;
     const tiles = {
       // tap anywhere on "today at a glance" to swipe; the to-do ring opens the checklist instead
       summary: () => `<section class="bt bt-hero t-lav" data-glance><div class="bh-l"><div class="hand">today at a glance</div>
@@ -3263,9 +3284,9 @@ function renderHome() {
           <div class="glance-ring" title="Open today's checklist">${ring(out.length ? doneN / out.length : 0, `${doneN}/${out.length}<small>to-dos</small>`, 88)}</div></section>
         <section class="bt bt-slider t-peach" data-slider>
           <div class="sl-track" style="transform:translateY(${-SLIDER.i * 100}%)">
-            <button class="sl" data-hgo="hot"><span class="sl-in">${ico("flame", "peach")}<span class="bl">Hot matches</span><b class="bn">${h.hot.length}</b></span></button>
-            <button class="sl" data-open="challenge"><span class="sl-in">${ico("puzzle", "peach")}<span class="bl">${APP.state.challenge.last === today() ? "Challenge done" : "Daily challenge"}</span><b class="bn sm">${APP.state.challenge.streak ? `${APP.state.challenge.streak}-day streak` : "Play now"}</b></span></button>
-            <button class="sl" data-open="test"><span class="sl-in">${ico("sparkle", "peach")}<span class="bl">Self-discovery</span><b class="bn sm">${APP.state.test ? "Retake test" : "2-min test"}</b></span></button>
+            <button class="sl" data-hgo="hot"><span class="sl-in">${ico("flame", "peach")}<span class="sl-tx"><span class="bl">Hot matches</span><b class="bn">${h.hot.length}</b></span></span></button>
+            <button class="sl" data-open="challenge"><span class="sl-in">${ico("puzzle", "peach")}<span class="sl-tx"><span class="bl">${APP.state.challenge.last === today() ? "Challenge done" : "Daily challenge"}</span><b class="bn sm">${APP.state.challenge.streak ? `${APP.state.challenge.streak}-day streak` : "Play now"}</b></span></span></button>
+            <button class="sl" data-open="test"><span class="sl-in">${ico("sparkle", "peach")}<span class="sl-tx"><span class="bl">Self-discovery</span><b class="bn sm">${APP.state.test ? "Retake test" : "2-min test"}</b></span></span></button>
           </div><div class="sl-dots"><i class="${SLIDER.i === 0 ? "on" : ""}"></i><i class="${SLIDER.i === 1 ? "on" : ""}"></i><i class="${SLIDER.i === 2 ? "on" : ""}"></i></div></section>
         ${stat("", "mint", "Packs ready", h.ready.length, 'data-v="short"', "file")}`,
       // picks and checklist open on tap; closed by default so the whole home fits one screen
@@ -3967,7 +3988,20 @@ function mergeShared(shared, local) {
   m.profile = { ...(shared.profile || {}), email: local.profile?.email || "", phone: local.profile?.phone || "" };
   return m;
 }
+// a tab left open keeps running the version it loaded: notice a newer one and offer a reload
+const PAGE_STAMP = { tag: null };
+async function pageTag() { try { const r = await fetch(location.pathname, { method: "HEAD", cache: "no-store" }); return r.headers.get("etag") || r.headers.get("last-modified"); } catch { return null; } }
+async function checkForUpdate() {
+  const tag = await pageTag(); if (!tag) return;
+  if (!PAGE_STAMP.tag) { PAGE_STAMP.tag = tag; return; }
+  if (tag !== PAGE_STAMP.tag && !$("#update-bar")) {
+    document.body.insertAdjacentHTML("beforeend", `<div id="update-bar" class="update-bar">${icon("refresh")}<span>A new version of Jobness is ready</span><button onclick="location.reload()">Reload</button></div>`);
+  }
+}
+setInterval(checkForUpdate, 5 * 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) checkForUpdate(); });
 (async function boot() {
+  checkForUpdate();
   await loadData();
   let saved = readLocal();
   if (APP.server) { // the server copy wins when newer (e.g. Claude marked packs as ready)
