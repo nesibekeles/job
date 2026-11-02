@@ -284,6 +284,13 @@
     "priority": 9,
     "on": true,
     "target": 70000
+   },
+   {
+    "name": "Istanbul",
+    "country": "Türkiye",
+    "priority": 6,
+    "on": true,
+    "target": 66000
    }
   ],
   "remote": {
@@ -1320,7 +1327,7 @@
    "2026-11-01": 3
   }
  },
- "updated_at": "2026-11-02T16:54:34.019Z",
+ "updated_at": "2026-11-02T17:58:26.948Z",
  "viewed": {
   "spotify-7f0a8faa-f4f5-4db9-9f51-4101d6a29b34": "2026-11-01T22:35:22.721Z"
  },
@@ -1352,5 +1359,5 @@
  "extra_todos": {
   "2026-11-02": []
  },
- "published_at": "2026-11-02T16:56:04.511831+00:00"
+ "published_at": "2026-11-02T18:02:12.421598+00:00"
 }
