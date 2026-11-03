@@ -927,6 +927,20 @@
   .tf-row { display: flex; gap: 8px; align-items: center; } .tf-row select { flex: 1; min-width: 0; }
   .tf-rep { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
   .tf-acts { display: flex; gap: 8px; justify-content: flex-end; }
+  .ms { position: relative; } .ms-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 600 13.5px var(--body); cursor: pointer; text-align: left; }
+  .ms-btn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ms-btn .i { width: 15px; height: 15px; transform: rotate(90deg); transition: transform .2s; flex: none; color: var(--muted); }
+  .ms.open .ms-btn .i { transform: rotate(-90deg); } .ms-btn.on { border-color: var(--lav); color: var(--lav); }
+  .ms-pop { margin-top: 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 8px; }
+  .ms-search { position: relative; margin-bottom: 4px; } .ms-search .i { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
+  .ms-search input.field { width: 100%; padding-left: 32px; }
+  .ms-list { max-height: 300px; overflow-y: auto; overscroll-behavior: contain; }
+  .ms-row { display: flex; align-items: center; gap: 9px; padding: 7px 6px; border-radius: 8px; cursor: pointer; font-size: 13.5px; flex: 1; min-width: 0; }
+  .ms-row input { width: 17px; height: 17px; accent-color: var(--lav); margin: 0; flex: none; } .ms-row span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ms-row b { flex: 1; font-weight: 700; } .ms-row small { color: var(--muted); font-size: 12px; } .ms-row em { font: 700 10px var(--head); font-style: normal; text-transform: uppercase; letter-spacing: .05em; color: var(--lav); background: var(--lav-100); padding: 2px 6px; border-radius: 99px; }
+  .ms-allrow { border-bottom: 1px solid var(--line); border-radius: 0; margin-bottom: 2px; }
+  .ms-gh { display: flex; align-items: center; } .ms-exp { width: 28px; height: 28px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; flex: none; padding: 0; }
+  .ms-exp .i { width: 14px; height: 14px; transition: transform .2s; } .ms-exp.on .i { transform: rotate(90deg); }
+  .ms-items { padding-left: 28px; } .ms-split { height: 1px; background: var(--line); margin: 4px 6px; } .ms-empty { padding: 10px 8px; font-size: 13px; color: var(--muted); }
   .tf-pick { position: relative; } .tf-pick-in { position: relative; display: flex; align-items: center; }
   .tf-pick-in > .i { position: absolute; left: 10px; width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
   .tf-pick-in input.field { padding-left: 32px !important; padding-right: 38px !important; }
@@ -1761,7 +1775,7 @@ const avatar = (name) => {
 const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
 const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all", cof: "all",
-  order: [], idx: 0, sinceOrder: 0, filters: { q: "", cities: [], tags: [], min: 0, sponsor: false, top: false, fresh: false, scene: false } };
+  order: [], idx: 0, sinceOrder: 0, filters: { q: "", cities: [], cos: [], tags: [], min: 0, exp: 0, sponsor: false, top: false, fresh: false, scene: false } };
 
 // ---------------- state ----------------
 function defaultCompanies(cfg) {
@@ -1955,7 +1969,8 @@ function passesFilters(r) {
   const f = APP.filters, q = f.q.trim();
   return !r.d.filtered && !r.d.hiddenWhy && !r.j.closed
     && (!q || matchQ(r, q))
-    && (!f.cities.length || f.cities.includes(r.d.city)) && r.score >= f.min
+    && (!f.cities.length || f.cities.includes(r.d.city)) && (!f.cos.length || f.cos.includes(r.j.company)) && r.score >= f.min
+    && (!f.exp || !r.j.f.years_required || r.j.f.years_required <= f.exp)
     && (!f.sponsor || r.j.f.sponsorship === "yes") && (!f.top || r.d.coPriority) && (!f.fresh || r.j.is_new) && (!f.scene || r.d.scene.fit >= 40)
     && (!f.tags.length || f.tags.some((x) => r.d.tags.some((t) => t.label === x) || r.d.cotags.includes(x)));
 }
@@ -2439,7 +2454,89 @@ function bindCardPop() {
 // ---------------- discover chrome ----------------
 // filters live in one sheet; the Discover bar only shows a search box and a "Filters" button with how many are on
 const FILTER_TOGGLES = [["sponsor", "Sponsorship ✓"], ["top", "Priority company"], ["fresh", "New"], ["scene", "Feels like my movie"]];
-const filterCount = () => { const f = APP.filters; return f.cities.length + f.tags.length + (f.min ? 1 : 0) + FILTER_TOGGLES.filter(([k]) => f[k]).length; };
+const filterCount = () => { const f = APP.filters; return (f.cities.length ? 1 : 0) + (f.cos.length ? 1 : 0) + f.tags.length + (f.min ? 1 : 0) + (f.exp ? 1 : 0) + FILTER_TOGGLES.filter(([k]) => f[k]).length; };
+// ---- Excel-style filter lists: grouped, searchable, multi-select; a whole group can be ticked at once ----
+const CONTINENT = { "New Zealand": "Oceania", Australia: "Oceania", "United Arab Emirates": "Middle East", Singapore: "Asia", Japan: "Asia", "United States": "Americas", Canada: "Americas" };
+// sectors in her order: e-commerce, technology, gaming, FMCG, banking, telecom, then the rest
+// the most specific sector wins (Wolt is food before it is a marketplace)
+const CO_SECTORS = [["Fintech & banking", ["Fintech", "Payments", "Banking"]], ["Food & delivery", ["Food", "Quick commerce", "Food delivery"]], ["Travel & mobility", ["Travel", "Mobility"]],
+  ["Health & education", ["Health", "EdTech"]], ["Gaming & entertainment", ["Gaming", "Music", "Entertainment", "Social"]], ["Brands & FMCG", ["FMCG", "Brand building", "Beauty", "Consumer goods"]],
+  ["Telecom", ["Telecom"]], ["E-commerce & marketplaces", ["E-commerce", "Marketplace", "Fashion", "Retail"]],
+  ["Tech & SaaS", ["SaaS", "AI", "Technology", "Martech", "Design", "Creative", "B2B", "Global scale"]], ["Consumer apps", ["Consumer", "Mobile apps", "Mobile"]]];
+const CO_ORDER = ["E-commerce & marketplaces", "Tech & SaaS", "Gaming & entertainment", "Brands & FMCG", "Fintech & banking", "Telecom", "Travel & mobility", "Food & delivery", "Consumer apps", "Health & education", "Other"];
+const sectorOf = (tags = []) => CO_SECTORS.find(([, t]) => t.some((x) => tags.includes(x)))?.[0] || "Other";
+const MS = { open: null, q: { cities: "", cos: "" }, exp: { cities: new Set(), cos: new Set() } };
+function msData(key) {
+  const rows = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed), items = {};
+  for (const r of rows) {
+    const v = key === "cities" ? r.d.city : r.j.company; if (!v) continue;
+    const it = (items[v] = items[v] || { v, n: 0 }); it.n++;
+    if (key === "cities") { const c = APP.state.settings.cities.find((x) => x.name === v); it.group = v === "Remote" ? "Remote" : c ? CONTINENT[c.country] || "Europe" : "Other"; it.rank = c?.priority ?? 99; it.top = it.rank < 9; }
+    else { const co = companyOf(r.j); it.group = sectorOf(co.tags); it.top = co.tier === "top" || !!co.priority; }
+  }
+  const groups = {};
+  for (const it of Object.values(items)) (groups[it.group] = groups[it.group] || []).push(it);
+  // top ones first (cities by priority, companies A–Z), the rest A–Z
+  for (const g of Object.values(groups)) g.sort((a, b) => (b.top - a.top) || (a.top && key === "cities" ? a.rank - b.rank : 0) || a.v.localeCompare(b.v));
+  const order = key === "cities" ? Object.keys(groups).sort((a, b) => Math.min(...groups[a].map((x) => x.rank)) - Math.min(...groups[b].map((x) => x.rank)) || a.localeCompare(b))
+    : CO_ORDER.filter((g) => groups[g]);
+  return order.map((name) => ({ name, items: groups[name] }));
+}
+const msSel = (key) => APP.filters[key];
+const msOn = (key, v) => !msSel(key).length || msSel(key).includes(v);
+function msSet(key, vals) { // [] = everything; nothing ticked keeps a marker so the list shows none
+  const all = msData(key).flatMap((g) => g.items.map((x) => x.v)), set = new Set(vals);
+  APP.filters[key] = set.size >= all.length && all.every((v) => set.has(v)) ? [] : set.size ? [...set] : ["__none__"];
+}
+const msTicked = (key) => msData(key).flatMap((g) => g.items.map((x) => x.v)).filter((v) => msOn(key, v));
+function msVisible(key) { const q = MS.q[key].trim(); return msData(key).map((g) => ({ ...g, items: q ? g.items.filter((x) => fold(x.v).includes(fold(q)) || fold(g.name).includes(fold(q))) : g.items })).filter((g) => g.items.length); }
+function msSummary(key) {
+  const sel = msSel(key), word = key === "cities" ? "cities" : "companies";
+  if (!sel.length) return `All ${word}`; if (sel[0] === "__none__") return `No ${word} selected`;
+  // whole groups picked: name the groups (e.g. "Fintech & banking") rather than every company in them
+  const full = msData(key).filter((g) => g.items.every((x) => sel.includes(x.v))), inFull = new Set(full.flatMap((g) => g.items.map((x) => x.v)));
+  const names = [...full.map((g) => g.name), ...sel.filter((v) => !inFull.has(v))];
+  return names.length <= 2 ? names.join(", ") : `${names.slice(0, 2).join(", ")} +${names.length - 2}`;
+}
+function msList(key) {
+  const groups = msVisible(key), q = MS.q[key].trim(), vis = groups.flatMap((g) => g.items.map((x) => x.v));
+  if (!groups.length) return `<div class="ms-empty">No match for “${esc(q)}”.</div>`;
+  const allOn = vis.every((v) => msOn(key, v)), someOn = vis.some((v) => msOn(key, v));
+  return `<label class="ms-row ms-allrow"><input type="checkbox" data-ms-all="${key}" ${allOn ? "checked" : ""} ${someOn && !allOn ? 'data-mixed="1"' : ""}><b>${q ? "Select all results" : "Select all"}</b></label>
+    ${groups.map((g) => { const on = g.items.filter((x) => msOn(key, x.v)).length, exp = q || MS.exp[key].has(g.name), n = g.items.reduce((a, x) => a + x.n, 0);
+      let rows = "", split = false;
+      for (const x of g.items) { if (!x.top && !split && g.items[0].top) { split = true; rows += `<div class="ms-split"></div>`; }
+        rows += `<label class="ms-row ms-item"><input type="checkbox" data-ms-item="${key}" value="${esc(x.v)}" ${msOn(key, x.v) ? "checked" : ""}><span>${esc(x.v)}</span>${x.top ? `<em>${key === "cities" ? "top" : "top tier"}</em>` : ""}<small>${x.n}</small></label>`; }
+      return `<div class="ms-grp"><div class="ms-gh"><button class="ms-exp ${exp ? "on" : ""}" data-ms-exp="${key}" value="${esc(g.name)}" aria-label="${exp ? "Collapse" : "Expand"} ${esc(g.name)}">${icon("chev")}</button>
+        <label class="ms-row"><input type="checkbox" data-ms-grp="${key}" value="${esc(g.name)}" ${on === g.items.length ? "checked" : ""} ${on && on < g.items.length ? 'data-mixed="1"' : ""}><b>${esc(g.name)}</b><small>${n}</small></label></div>
+        ${exp ? `<div class="ms-items">${rows}</div>` : ""}</div>`; }).join("")}`;
+}
+function msHTML(key) {
+  const open = MS.open === key;
+  queueMicrotask(() => document.querySelectorAll("#filter-sheet [data-mixed]").forEach((x) => (x.indeterminate = true)));
+  return `<div class="ms ${open ? "open" : ""}"><button class="ms-btn ${msSel(key).length ? "on" : ""}" data-ms-toggle="${key}" aria-expanded="${open}"><span>${esc(msSummary(key))}</span>${icon("chev")}</button>
+    ${open ? `<div class="ms-pop"><div class="ms-search">${icon("search")}<input class="field" data-ms-q="${key}" value="${esc(MS.q[key])}" placeholder="Search ${key === "cities" ? "a city or continent" : "a company or sector"}" autocomplete="off"></div>
+      <div class="ms-list" data-ms-list="${key}">${msList(key)}</div></div>` : ""}</div>`;
+}
+function msRefreshList(key) { const el = document.querySelector(`[data-ms-list="${key}"]`); if (el) { el.innerHTML = msList(key); el.querySelectorAll("[data-mixed]").forEach((x) => (x.indeterminate = true)); } }
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-ms-toggle],[data-ms-exp]"); if (!t) return;
+  e.preventDefault();
+  if (t.dataset.msToggle) { const k = t.dataset.msToggle; MS.open = MS.open === k ? null : k;
+    if (MS.open && !MS.exp[k].size) { const g = msData(k); if (g.length <= 3) g.forEach((x) => MS.exp[k].add(x.name)); } // a few groups: open them all
+    return renderFilterSheet(); }
+  const key = t.dataset.msExp, g = t.value; MS.exp[key].has(g) ? MS.exp[key].delete(g) : MS.exp[key].add(g); msRefreshList(key);
+});
+document.addEventListener("input", (e) => { const key = e.target.dataset?.msQ; if (key) { MS.q[key] = e.target.value; msRefreshList(key); } });
+document.addEventListener("change", (e) => {
+  const t = e.target, ds = t.dataset; const key = ds.msAll || ds.msGrp || ds.msItem; if (!key || !(key in MS.q)) return;
+  const cur = new Set(msTicked(key));
+  if (ds.msItem) t.checked ? cur.add(t.value) : cur.delete(t.value);
+  else { const vals = ds.msAll ? msVisible(key).flatMap((g) => g.items.map((x) => x.v)) : (msVisible(key).find((g) => g.name === t.value)?.items || []).map((x) => x.v);
+    vals.forEach((v) => (t.checked ? cur.add(v) : cur.delete(v))); }
+  msSet(key, [...cur]); buildOrder(); renderStack(); renderFilters();
+});
+
 function renderFilters() {
   const n = filterCount();
   $("#f-count").hidden = !n; $("#f-count").textContent = n;
@@ -2448,28 +2545,34 @@ function renderFilters() {
 }
 function renderFilterSheet() {
   const f = APP.filters, open = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy);
-  const cities = {}, prio = {}, tags = {};
-  for (const r of open) { cities[r.d.city] = (cities[r.d.city] || 0) + 1; prio[r.d.city] = r.d.priority; for (const t of [...r.d.tags.map((x) => x.label), ...r.d.cotags]) tags[t] = (tags[t] || 0) + 1; }
+  const tags = {}, y = $("#filter-sheet").scrollTop, focus = document.activeElement?.dataset?.msQ;
+  for (const r of open) for (const t of [...r.d.tags.map((x) => x.label), ...r.d.cotags]) tags[t] = (tags[t] || 0) + 1;
   const pill = (attr, v, label, on, n) => `<button class="chip ${on ? "on" : ""}" ${attr}="${esc(v)}">${on ? icon("check") : ""}${esc(label)}${n != null ? `<small>${n}</small>` : ""}</button>`;
   $("#filter-sheet").innerHTML = `
     <div class="sheet-head"><h2>Filters</h2><button class="icon-btn" data-close="m-filter">${icon("x")}</button></div>
     <p class="small muted" style="margin:0 0 6px">Pick as many as you like. Within a group, any match counts.</p>
     <div class="cust-sec">Quick</div><div class="chips">${FILTER_TOGGLES.map(([k, l]) => pill("data-fq", k, l, f[k])).join("")}</div>
     <div class="cust-sec">Minimum score</div><div class="seg">${[[0, "Any"], [50, "50+"], [65, "65+"], [80, "80+"]].map(([v, l]) => `<button data-fmin="${v}" class="${f.min === v ? "on" : ""}">${l}</button>`).join("")}</div>
-    <div class="cust-sec">Cities</div><div class="chips">${Object.keys(cities).sort((a, b) => prio[a] - prio[b] || a.localeCompare(b)).map((c) => pill("data-fcity", c, c, f.cities.includes(c), cities[c])).join("")}</div>
+    <div class="cust-sec">Experience asked</div><div class="seg">${[[0, "Any"], [3, "Up to 3 yrs"], [5, "Up to 5"], [7, "Up to 7"]].map(([v, l]) => `<button data-fexp="${v}" class="${f.exp === v ? "on" : ""}">${l}</button>`).join("")}</div>
+    <div class="small muted" style="margin-top:6px">Roles that don't state years stay in.</div>
+    <div class="cust-sec">Cities</div>${msHTML("cities")}
+    <div class="cust-sec">Companies</div>${msHTML("cos")}
     <div class="cust-sec">Tags & personas</div><div class="chips">${Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 30).map(([t, k]) => pill("data-ftag", t, t, f.tags.includes(t), k)).join("")}</div>
     <div class="sheet-actions"><button class="btn ghost" data-fclear ${filterCount() ? "" : "disabled"}>Clear all</button><button class="btn primary" data-close="m-filter">Show ${deckRows().length} jobs</button></div>`;
+  $("#filter-sheet").scrollTop = y;
+  if (focus) { const i = document.querySelector(`[data-ms-q="${focus}"]`); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
 }
 function applyFilters() { buildOrder(); renderStack(); renderFilters(); }
 $("#f-open").onclick = () => { renderFilterSheet(); $("#m-filter").classList.add("on"); };
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-fq],[data-fmin],[data-fcity],[data-ftag],[data-fclear]"); if (!a) return;
+  const a = e.target.closest("[data-fq],[data-fmin],[data-fexp],[data-fcity],[data-ftag],[data-fclear]"); if (!a) return;
   const f = APP.filters, ds = a.dataset, flip = (arr, v) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
   if (ds.fq) f[ds.fq] = !f[ds.fq];
   else if (ds.fmin != null) f.min = +ds.fmin;
+  else if (ds.fexp != null) f.exp = +ds.fexp;
   else if (ds.fcity) f.cities = flip(f.cities, ds.fcity);
   else if (ds.ftag) f.tags = flip(f.tags, ds.ftag);
-  else Object.assign(f, { cities: [], tags: [], min: 0, sponsor: false, top: false, fresh: false, scene: false });
+  else Object.assign(f, { cities: [], cos: [], tags: [], min: 0, exp: 0, sponsor: false, top: false, fresh: false, scene: false });
   applyFilters();
 });
 
