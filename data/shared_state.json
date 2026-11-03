@@ -1104,6 +1104,102 @@
     "source": "ashby",
     "url": "https://jobs.ashbyhq.com/n8n"
    },
+   "Trendyol": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "unknown",
+    "tags": [
+     "E-commerce",
+     "Marketplace",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "lever",
+    "url": "https://jobs.lever.co/trendyol"
+   },
+   "Codeway": {
+    "tier": "scaleup",
+    "pay": "high",
+    "sponsor": "unknown",
+    "tags": [
+     "Technology",
+     "Mobile apps",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "ashby",
+    "url": "https://jobs.ashbyhq.com/codeway"
+   },
+   "Peak Games": {
+    "tier": "big",
+    "pay": "high",
+    "sponsor": "unknown",
+    "tags": [
+     "Gaming",
+     "Mobile",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "lever",
+    "url": "https://jobs.lever.co/peakgames"
+   },
+   "Dream Games": {
+    "tier": "scaleup",
+    "pay": "high",
+    "sponsor": "unknown",
+    "tags": [
+     "Gaming",
+     "Mobile",
+     "Türkiye"
+    ],
+    "priority": false,
+    "hidden": false,
+    "source": "lever",
+    "url": "https://jobs.lever.co/dreamgames"
+   },
+   "Çiçeksepeti": {
+    "tier": "scaleup",
+    "pay": "mid",
+    "sponsor": "unknown",
+    "tags": [
+     "E-commerce",
+     "Türkiye"
+    ],
+    "priority": false,
+    "hidden": false,
+    "source": "lever",
+    "url": "https://jobs.lever.co/ciceksepeti"
+   },
+   "iyzico": {
+    "tier": "scaleup",
+    "pay": "mid",
+    "sponsor": "unknown",
+    "tags": [
+     "Fintech",
+     "Payments",
+     "Türkiye"
+    ],
+    "priority": false,
+    "hidden": false,
+    "source": "lever",
+    "url": "https://jobs.lever.co/iyzico"
+   },
+   "Midas": {
+    "tier": "scaleup",
+    "pay": "mid",
+    "sponsor": "unknown",
+    "tags": [
+     "Fintech",
+     "Türkiye"
+    ],
+    "priority": false,
+    "hidden": false,
+    "source": "lever",
+    "url": "https://jobs.lever.co/getmidas"
+   },
    "Google": {
     "tier": "top",
     "pay": "high",
@@ -1315,6 +1411,172 @@
     "hidden": false,
     "source": "manual",
     "url": "https://careers.airnewzealand.co.nz/"
+   },
+   "Getir": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "E-commerce",
+     "Quick commerce",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Getir+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "n11": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "E-commerce",
+     "Marketplace",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=n11+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Nesine": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Technology",
+     "Gaming",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Nesine+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Yemeksepeti": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "E-commerce",
+     "Food delivery",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Yemeksepeti+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Hepsiburada": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "E-commerce",
+     "Marketplace",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Hepsiburada+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Rollic": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Gaming",
+     "Mobile",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Rollic+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Garanti BBVA": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Banking",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Garanti+BBVA+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Coca-Cola İçecek": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "FMCG",
+     "Brand building",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Coca-Cola+%C4%B0%C3%A7ecek+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "BSH": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Consumer goods",
+     "Brand building",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=BSH+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Turkcell": {
+    "tier": "top",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Telecom",
+     "Technology",
+     "Türkiye"
+    ],
+    "priority": true,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Turkcell+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Insider": {
+    "tier": "big",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Technology",
+     "Martech",
+     "Türkiye"
+    ],
+    "priority": false,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Insider+marketing&location=Istanbul%2C+T%C3%BCrkiye"
+   },
+   "Papara": {
+    "tier": "big",
+    "pay": "high",
+    "sponsor": "known",
+    "tags": [
+     "Fintech",
+     "Türkiye"
+    ],
+    "priority": false,
+    "hidden": false,
+    "source": "manual",
+    "url": "https://www.linkedin.com/jobs/search/?keywords=Papara+marketing&location=Istanbul%2C+T%C3%BCrkiye"
    }
   }
  },
@@ -1327,7 +1589,7 @@
    "2026-11-01": 3
   }
  },
- "updated_at": "2026-11-02T17:58:26.948Z",
+ "updated_at": "2026-11-03T07:42:41.920Z",
  "viewed": {
   "spotify-7f0a8faa-f4f5-4db9-9f51-4101d6a29b34": "2026-11-01T22:35:22.721Z"
  },
@@ -1359,5 +1621,5 @@
  "extra_todos": {
   "2026-11-02": []
  },
- "published_at": "2026-11-02T18:02:12.421598+00:00"
+ "published_at": "2026-11-03T07:44:12.846628+00:00"
 }
