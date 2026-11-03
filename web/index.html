@@ -1107,6 +1107,11 @@
   .pf-read { margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: var(--soft); display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; }
   .pf-tag { display: inline-block; font: 700 11px var(--head); padding: 2px 8px; border-radius: 99px; background: var(--lav-100); color: var(--lav); margin-right: 8px; }
 
+  .sg-head { display: flex; align-items: center; gap: 10px; } .sg-head .sg-all { flex: 1; }
+  .sg-tog { display: flex; align-items: center; gap: 6px; border: 0; background: none; font: 600 12px var(--body); color: var(--muted); cursor: pointer; padding: 6px 0 6px 6px; }
+  .sg-tog .i { width: 15px; height: 15px; transform: rotate(90deg); transition: transform .2s; } .sg-cat.open .sg-tog .i { transform: rotate(-90deg); }
+  .sg-cat .sg-help { margin-top: 6px; }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   /* Business: graphite dark mode, one periwinkle accent; same fonts as every theme */
   html[data-theme="business"] {
@@ -3016,13 +3021,23 @@ function testSuggestions({ tr, like, avoid }) {
 }
 const SG_CATS = [["co", "Companies", "Who you'd be happiest at: priorities to add, companies to hide."], ["w", "Weights", "Points added to (+) or taken from (−) every job's score that has it. A score is out of 100."],
   ["k", "Keywords", "Words that decide role fit, CV match and the scene engine. Each shows where it goes."]];
+const SG_OPEN = new Set();
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-sgtog]"); if (!b) return;
+  const c = b.dataset.sgtog; SG_OPEN.has(c) ? SG_OPEN.delete(c) : SG_OPEN.add(c);
+  const y = $("#quiz").scrollTop; QUIZ.kind === "pf16" ? renderPf16() : renderTest(); $("#quiz").scrollTop = y;
+});
 function sgHTML(sg) {
+  queueMicrotask(markMixed); // runs right after the HTML is in place
   return SG_CATS.map(([c, name, help]) => { const items = sg.map((x, i) => [x, i]).filter(([x]) => x.cat === c); if (!items.length) return "";
-      const all = items.every(([, i]) => QUIZ.sel.has(i));
-      return `<div class="sg-cat"><label class="sg-all"><input type="checkbox" data-sgall="${c}" ${all ? "checked" : ""}><b>${name}</b><span>${items.length}</span></label><div class="small muted sg-help">${help}</div>
-        ${items.map(([x, i]) => `<label class="sg-item"><input type="checkbox" data-sg="${i}" ${QUIZ.sel.has(i) ? "checked" : ""}><span class="sg-t"><b>${esc(x.label)}</b>${x.sec ? `<span class="sg-sec">→ ${esc(x.sec)}</span>` : ""}<small>${esc(x.why)}</small></span><em class="${x.neg ? "neg" : "pos"}">${esc(x.eff)}</em></label>`).join("")}</div>`; }).join("")
+      const all = items.every(([, i]) => QUIZ.sel.has(i)), some = items.filter(([, i]) => QUIZ.sel.has(i)).length, open = SG_OPEN.has(c);
+      // each group opens and closes; closed it still shows how many are picked and can be ticked as a whole
+      return `<div class="sg-cat ${open ? "open" : ""}"><div class="sg-head"><label class="sg-all"><input type="checkbox" data-sgall="${c}" ${all ? "checked" : ""} ${some && !all ? 'data-mixed="1"' : ""}><b>${name}</b></label>
+          <button class="sg-tog" data-sgtog="${c}" aria-expanded="${open}"><span>${some} of ${items.length} selected</span>${icon("chev")}</button></div>
+        ${open ? `<div class="small muted sg-help">${help}</div>${items.map(([x, i]) => `<label class="sg-item"><input type="checkbox" data-sg="${i}" ${QUIZ.sel.has(i) ? "checked" : ""}><span class="sg-t"><b>${esc(x.label)}</b>${x.sec ? `<span class="sg-sec">→ ${esc(x.sec)}</span>` : ""}<small>${esc(x.why)}</small></span><em class="${x.neg ? "neg" : "pos"}">${esc(x.eff)}</em></label>`).join("")}` : ""}</div>`; }).join("")
       || `<div class="small muted" style="margin:14px 0">Your current setup already matches your answers. Nothing to change.</div>`;
 }
+function markMixed() { document.querySelectorAll("#quiz [data-mixed]").forEach((x) => (x.indeterminate = true)); }
 function renderTest() {
   const progress = `<div class="quiz-progress">${TQ.map((_, i) => `<i class="${i < QUIZ.step ? "done" : ""}"></i>`).join("")}</div>`;
   const head = `<div class="sheet-head"><h2>Discover yourself</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
