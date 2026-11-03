@@ -299,6 +299,7 @@
 
   /* ---------- sheets ---------- */
   .modal { position: fixed; inset: 0; background: rgba(30, 29, 38, .32); backdrop-filter: blur(2px); display: none; z-index: 50; }
+  #m-quiz { z-index: 49; } /* a job opened from the quiz/results (e.g. 16Personalities matches) shows on top */
   .modal.on { display: flex; align-items: center; justify-content: center; padding: 16px; }
   .sheet { background: var(--surface); border-radius: 18px; max-width: 560px; width: 100%; max-height: 90vh; overflow: auto; padding: 24px; box-shadow: 0 30px 60px -20px rgba(30, 29, 38, .35); }
   .sheet h2 { font: 800 19px var(--head); letter-spacing: -.02em; margin: 0 0 4px; }
@@ -1103,8 +1104,15 @@
   .pf-row.unset .pf-h em { color: var(--muted); font-weight: 600; } .pf-row.unset input[type=range] { opacity: .45; }
   .pf-row input[type=range] { display: block; margin: 6px 0 0; height: 28px; }
   .p16-clear { border: 0; background: none; padding: 2px; color: var(--muted); cursor: pointer; display: grid; place-items: center; } .p16-clear .i { width: 14px; height: 14px; }
-  .p16-type { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px; padding: 10px 14px; border-radius: 14px; background: var(--lav-100); }
-  .p16-type b { font: 800 18px var(--head); color: var(--lav); } .p16-type span { font-weight: 600; }
+  .p16-code-row { display: flex; gap: 8px; margin-bottom: 10px; } .p16-code-row input { flex: 1; min-width: 0; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+  .p16-code-row input::placeholder { text-transform: none; letter-spacing: 0; font-weight: 400; }
+  .p16-type { margin: 0 0 12px; padding: 10px 14px; border-radius: 14px; background: var(--lav-100); }
+  .p16-type div { display: flex; align-items: baseline; gap: 8px; } .p16-type b { font: 800 18px var(--head); color: var(--lav); } .p16-type span { font-weight: 600; }
+  .p16-type p { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
+  .p16-fit .chips { margin-top: 4px; } .p16-fit .chip { cursor: default; } .p16-fit .chip.p16-s { background: var(--lav-100); color: var(--lav); border-color: transparent; font-weight: 700; }
+  .p16-job { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; background: var(--surface); border-radius: 12px; padding: 8px 10px; cursor: pointer; color: inherit; font: inherit; }
+  .p16-job span { flex: 1; min-width: 0; display: flex; flex-direction: column; } .p16-job b { font-size: 13.5px; } .p16-job small { color: var(--muted); font-size: 12px; }
+  .p16-job em { font: 800 14px var(--head); font-style: normal; color: var(--lav); } .p16-job .avatar, .p16-job img { flex: none; }
   .p16-code { font: 700 13px var(--head); color: var(--lav); background: var(--lav-100); padding: 2px 8px; border-radius: 99px; vertical-align: middle; }
   .pf-poles { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 4px; }
   .pf-read { margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: var(--soft); display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; }
@@ -3120,6 +3128,38 @@ const P16_READ = {
   Judging: "You like a plan and closure: clear goals, structure, follow-through.", Prospecting: "You keep options open: you improvise well and spot opportunities.",
   Assertive: "You stay calm under pressure and bounce back fast.", Turbulent: "You hold high standards and keep pushing to improve; good feedback suits you.",
 };
+// what each type is like at work, the marketing / growth roles that tend to suit it, and title words to find them in the feed
+const P16_FIT = {
+  INTJ: { about: "Independent planners who see the long game and build systems to get there.", strengths: ["Long-range strategy", "Systems thinking", "Works well alone"], roles: ["Marketing strategy", "Growth strategy", "Product marketing", "Market intelligence"], kw: ["strateg", "product marketing", "insight", "intelligence", "planning"], watch: "Fuzzy goals, office politics and lots of small talk drain you." },
+  INTP: { about: "Curious analysts who love models, experiments and finding out why something works.", strengths: ["Analysis", "Experiment design", "Original ideas"], roles: ["Growth analytics", "Marketing analytics", "Experimentation", "Pricing"], kw: ["analyt", "analyst", "data", "insight", "pricing", "experiment"], watch: "Repetitive execution and rigid process drain you." },
+  ENTJ: { about: "Decisive leaders who set direction, organise people and scale what works.", strengths: ["Leading teams", "Fast decisions", "Owning a number"], roles: ["Head of growth", "Marketing director", "Market launch lead", "Revenue lead"], kw: ["head of", "director", "lead", "launch", "expansion", "revenue", "general manager"], watch: "Slow decisions and roles without real ownership drain you." },
+  ENTP: { about: "Idea people who enjoy debate, pitching and building something from zero.", strengths: ["0 to 1 ideas", "Pitching", "Spotting openings"], roles: ["New market expansion", "Partnerships", "Growth", "Business development"], kw: ["expansion", "new market", "partner", "growth", "business development", "launch"], watch: "Routine reporting and doing the same thing twice drain you." },
+  INFJ: { about: "Quiet, insightful people who understand others deeply and want work with purpose.", strengths: ["Customer insight", "Purposeful storytelling", "Quiet influence"], roles: ["Brand strategy", "Customer insight", "Content strategy", "Mission-driven marketing"], kw: ["brand", "insight", "content", "customer", "research", "community"], watch: "High-conflict, numbers-only cultures drain you." },
+  INFP: { about: "Creative idealists who care about authenticity and say things in their own voice.", strengths: ["Writing and voice", "Creativity", "Empathy for users"], roles: ["Brand and content", "Storytelling", "Creative marketing", "Social impact"], kw: ["brand", "content", "creative", "copy", "story", "social"], watch: "Hard-sell targets and cold cultures drain you." },
+  ENFJ: { about: "Warm leaders who bring people together and help them grow.", strengths: ["Inspiring a team", "Building relationships", "Communicating"], roles: ["Team lead", "Community", "Partnerships", "Customer marketing"], kw: ["lead", "community", "partner", "customer", "engagement", "team"], watch: "Isolated solo roles drain you." },
+  ENFP: { about: "Enthusiastic connectors full of ideas, who light up around people and new things.", strengths: ["Big ideas", "Energising people", "Campaigns that travel"], roles: ["Brand campaigns", "Community and social", "Partnerships", "Launch marketing"], kw: ["campaign", "brand", "community", "social", "partner", "launch", "influencer"], watch: "Repetitive admin and rigid hierarchy drain you." },
+  ISTJ: { about: "Reliable organisers who value accuracy, process and doing things properly.", strengths: ["Process", "Accuracy", "Follow-through"], roles: ["Marketing operations", "CRM", "Performance marketing", "Reporting"], kw: ["operations", "ops", "crm", "performance", "reporting", "analyst"], watch: "Chaos and constant pivots drain you." },
+  ISFJ: { about: "Caring, detail-minded people who look after customers and teams.", strengths: ["Care for customers", "Detail", "Dependability"], roles: ["Customer marketing", "Retention and lifecycle", "CRM", "Customer experience"], kw: ["customer", "retention", "lifecycle", "crm", "experience", "loyalty"], watch: "Aggressive hustle culture drains you." },
+  ESTJ: { about: "Organised doers who run things, set standards and deliver on time.", strengths: ["Running operations", "Clear standards", "Delivery"], roles: ["Marketing manager", "Programme lead", "Performance lead", "Sales and marketing ops"], kw: ["manager", "operations", "performance", "program", "project", "revenue"], watch: "Vague roles and missing structure drain you." },
+  ESFJ: { about: "Sociable organisers who keep people connected and things running smoothly.", strengths: ["Bringing people together", "Organising", "Service"], roles: ["Events", "Community", "Customer marketing", "Partner marketing"], kw: ["event", "community", "partner", "customer", "engagement"], watch: "Isolated, conflict-heavy roles drain you." },
+  ISTP: { about: "Hands-on problem solvers who like tools, tinkering and quick fixes.", strengths: ["Troubleshooting", "Tools and automation", "Calm in a crisis"], roles: ["Performance and paid", "Marketing tech", "Growth engineering", "Analytics"], kw: ["performance", "paid", "martech", "automation", "technical", "analyt"], watch: "Long meetings and plans without action drain you." },
+  ISFP: { about: "Gentle creatives with a strong eye for look and feel.", strengths: ["Aesthetics", "Craft", "Authenticity"], roles: ["Creative", "Design-led brand", "Content", "Social"], kw: ["creative", "design", "content", "social", "brand", "visual"], watch: "Rigid corporate settings drain you." },
+  ESTP: { about: "Action-takers who enjoy deals, speed and being in the room where it happens.", strengths: ["Closing deals", "Speed", "Reading people"], roles: ["Business development", "Sales-led growth", "Partnerships", "Market launch"], kw: ["business development", "partner", "sales", "launch", "expansion", "growth"], watch: "Slow, bureaucratic places drain you." },
+  ESFP: { about: "Energetic people-people who make experiences fun and memorable.", strengths: ["Energy", "Live experiences", "Making people feel welcome"], roles: ["Events and experiential", "Influencer", "Social", "Brand activation"], kw: ["event", "influencer", "social", "activation", "community", "brand"], watch: "Solitary desk work drains you." },
+};
+const P16_ID = { A: "Assertive: you stay calm under pressure and handle targets with confidence.", T: "Turbulent: you push hard to improve; a team that gives good feedback brings out your best." };
+// open jobs whose title has one of the type's words, best score first
+function p16Jobs(code) {
+  const kw = P16_FIT[code]?.kw || [];
+  return (APP.rows || []).filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && kw.some((w) => r.j.title.toLowerCase().includes(w)));
+}
+// a typed code like "enfp-a": sets each trait to its side (keeps a percentage already on that side)
+function p16FromCode(raw) {
+  const m = raw.trim().toUpperCase().replace(/\s+/g, "").match(/^([IE])([NS])([TF])([JP])(?:-?([AT]))?$/); if (!m) return false;
+  P16.slice(0, 4).forEach(([k, , , l], i) => { const left = m[i + 1] === l, v = PFV.v[k]; if (v == null || (v <= 50) !== left) PFV.v[k] = left ? 35 : 65; });
+  if (m[5]) { const left = m[5] === "A", v = PFV.v.identity; if (v == null || (v <= 50) !== left) PFV.v.identity = left ? 35 : 65; }
+  return true;
+}
 const PFV = { v: {}, pasted: "", stage: "enter" };
 const p16Pct = (k) => PFV.v[k]; // % toward the right pole, or undefined
 function p16Label(k, v) {
@@ -3134,6 +3174,16 @@ function p16Type(v) {
   const role = code[1] === "N" ? (code[2] === "T" ? "Analysts" : "Diplomats") : code[3] === "J" ? "Sentinels" : "Explorers";
   const strategy = id ? { IA: "Confident Individualism", EA: "People Mastery", IT: "Constant Improvement", ET: "Social Engagement" }[code[0] + id] : null;
   return { code, full: id ? `${code}-${id}` : code, name: P16_TYPES[code], role, strategy };
+}
+function p16FitHTML(ty) {
+  const f = P16_FIT[ty.code], jobs = p16Jobs(ty.code), id = ty.full.split("-")[1];
+  return `<div class="pf-read p16-fit"><b>How ${esc(ty.name)}s tend to work</b><div>${esc(f.about)}</div>
+      <div><span class="muted small">Strengths</span><div class="chips">${f.strengths.map((x) => `<span class="chip p16-s">${esc(x)}</span>`).join("")}</div></div>
+      <div><span class="muted small">Roles that often suit you</span><div class="chips">${f.roles.map((x) => `<span class="chip">${esc(x)}</span>`).join("")}</div></div>
+      <div class="small">${esc(f.watch)}${id ? " " + esc(P16_ID[id]) : ""}</div></div>
+    <div class="pf-read p16-jobs"><b>${jobs.length ? `${jobs.length} open role${jobs.length === 1 ? "" : "s"} like these in your feed` : "No open roles like these in your feed right now"}</b>
+      ${jobs.slice(0, 5).map((r) => `<button class="p16-job" data-detail="${esc(r.j.id)}">${avatar(r.j.company)}<span><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.j.locations[0] || "")}</small></span><em>${r.score}</em></button>`).join("")}
+      ${jobs.length > 5 ? `<div class="small muted">Best 5 by score. The rest are in Discover.</div>` : ""}</div>`;
 }
 function openP16() {
   Object.assign(PFV, { v: { ...(APP.state.p16?.v || {}) }, pasted: "", stage: "enter" });
@@ -3166,17 +3216,19 @@ function renderP16() {
   const ty = p16Type(PFV.v);
   if (PFV.stage === "enter") {
     $("#quiz").innerHTML = `${head}
-      <p class="small muted" style="margin:0 0 10px">Enter your result from <a href="https://www.16personalities.com/free-personality-test" target="_blank" rel="noopener">16personalities.com</a>: slide each trait to your percentage, or paste the result and let Jobness read it. Your result stays on your devices.</p>
-      <details class="pf-paste" ${PFV.pasted ? "open" : ""}><summary>Paste your result</summary>
+      <p class="small muted" style="margin:0 0 10px">Your type from <a href="https://www.16personalities.com/free-personality-test" target="_blank" rel="noopener">16personalities.com</a> is enough. Add the percentages if you have them for a sharper reading. It stays on your devices.</p>
+      <div class="p16-code-row"><input class="field" id="p16-code" maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="Your type, e.g. ENFP-A" value="${ty ? ty.full : ""}"><button class="btn" data-p16code>Use</button></div>
+      ${ty ? `<div class="p16-type"><div><b>${ty.full}</b><span>${ty.name} · ${ty.role.slice(0, -1)}</span></div><p>${esc(P16_FIT[ty.code].about)}</p></div>` : ""}
+      <details class="pf-paste" ${PFV.pasted ? "open" : ""}><summary>Or paste your whole result</summary>
         <textarea class="field" id="pf-text" rows="3" style="width:100%" placeholder="e.g. INFJ-T · Energy 62% Introverted · Mind 71% Intuitive …">${esc(PFV.pasted)}</textarea>
         <div style="display:flex;justify-content:flex-end;margin-top:6px"><button class="btn" data-pf-read>Read my result</button></div></details>
-      ${ty ? `<div class="p16-type"><b>${ty.full}</b><span>${ty.name}</span></div>` : ""}
+      <div class="small muted" style="margin:4px 0 8px">Your percentages${ty ? " (set from your type; slide to your own numbers)" : ""}</div>
       <div class="pf-list">${P16.map(([k, asp, L, , R]) => { const v = PFV.v[k];
         return `<div class="pf-row ${v == null ? "unset" : ""}"><div class="pf-h"><span>${asp}</span><em data-p16v="${k}">${p16Label(k, v)}</em>${v != null ? `<button class="p16-clear" data-p16clear="${k}" aria-label="Clear ${asp}">${icon("x")}</button>` : ""}</div>
           <input type="range" min="0" max="100" step="1" value="${v ?? 50}" data-p16="${k}" aria-label="${asp}: ${L} to ${R}">
           <div class="pf-poles"><span>${L}</span><span>${R}</span></div></div>`; }).join("")}</div>
-      <div class="sheet-actions"><span class="small muted" style="margin-right:auto">${ty ? "Identity is optional" : "Set the first four traits"}</span><button class="btn" data-close="m-quiz">Cancel</button>
-        <button class="btn primary" data-pf-go ${ty ? "" : "disabled"}>See my suggestions</button></div>`;
+      <div class="sheet-actions"><span class="small muted" style="margin-right:auto">${ty ? "" : "Enter your type"}</span><button class="btn" data-close="m-quiz">Cancel</button>
+        <button class="btn primary" data-pf-go ${ty ? "" : "disabled"}>See what fits</button></div>`;
     return;
   }
   const prof = p16Traits(PFV.v), persona = personaOf(prof.tr), p = PERSONAS[persona];
@@ -3186,6 +3238,7 @@ function renderP16() {
     <div class="persona"><div class="eyebrow">${esc(ty.role)}${ty.strategy ? ` · ${esc(ty.strategy)}` : ""}</div><h3>${esc(ty.name)} <span class="p16-code">${ty.full}</span></h3>
       <p class="muted" style="margin:0">${esc(P16_ROLES[ty.role])}${ty.strategy ? " " + esc(P16_STRATEGIES[ty.strategy]) : ""}</p>
       <div class="small muted" style="margin-top:8px">Your work style reads like <b>${esc(p.name)}</b></div></div>
+    ${p16FitHTML(ty)}
     <div class="pf-read"><b>What it means for work</b>${rows.map(([k, asp, L, , R]) => { const v = PFV.v[k];
       return `<div><span class="pf-tag">${asp} · ${p16Label(k, v)}</span>${esc(P16_READ[v > 50 ? R : L])}</div>`; }).join("")}</div>
     <p class="small muted" style="margin:12px 0 4px">These suggestions translate your type into your job search. 16Personalities describes preferences, not ability: treat them as a nudge, and only apply what feels right.</p>
@@ -3198,11 +3251,18 @@ document.addEventListener("input", (e) => {
   PFV.v[k] = +e.target.value; // updated in place while dragging; the full redraw (clear button, type) waits for the release
   const row = e.target.closest(".pf-row"); row.classList.remove("unset"); row.querySelector("em").textContent = p16Label(k, PFV.v[k]);
 });
+function useP16Code() {
+  const raw = $("#p16-code").value;
+  if (!p16FromCode(raw)) return toast("Type it like ENFP-A or INTJ-T: four letters, then A or T");
+  const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; toast(`${p16Type(PFV.v).full} · ${p16Type(PFV.v).name}`);
+}
+document.addEventListener("keydown", (e) => { if (e.target.id === "p16-code" && e.key === "Enter") { e.preventDefault(); useP16Code(); } });
 document.addEventListener("change", (e) => { if (e.target.dataset?.p16) { const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; } });
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-p16clear],[data-pf-read],[data-pf-go],[data-pf-edit],[data-pf-apply]"); if (!a) return;
+  const a = e.target.closest("[data-p16clear],[data-p16code],[data-pf-read],[data-pf-go],[data-pf-edit],[data-pf-apply]"); if (!a) return;
   const ds = a.dataset;
   if (ds.p16clear) { delete PFV.v[ds.p16clear]; const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; return; }
+  if ("p16code" in ds) return useP16Code();
   if ("pfRead" in ds) { PFV.pasted = $("#pf-text").value; const got = parseP16(PFV.pasted), n = Object.keys(got.v).length;
     if (!n) return toast("Couldn't find your traits in that text. Slide them below instead");
     Object.assign(PFV.v, got.v); renderP16();
