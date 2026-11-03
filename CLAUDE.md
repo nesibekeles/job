@@ -52,3 +52,5 @@ Bir şeyi "eklendi" diye teslim etmeden önce kullanıcının gözünden bütün
 - **Veri:** güncellemeler ve canlı site senkronu kullanıcı verisini asla silmesin; telefon ve Mac verisi birleşir.
 - **Tutarlılık ve görünüm:** benchmark'lara bak (Apple Wallet, iOS, modern SaaS); mevcut tasarım diliyle aynı, profesyonel görünmeli. Ekran görüntüsü alıp gerçekten bak; "çalışıyor" yetmez, "iyi görünüyor ve anlaşılır" olmalı.
 - **Tarayıcı popup'ı yok:** confirm/alert yerine uygulamanın kendi diyalogları.
+- **Eski özellikler kaybolmaz:** yeni bir yayın daha önce istenmiş bir özelliği silmez ya da bozmaz; ancak Nesibe söylediyse ya da yeni sürüm onu gerçekten daha iyi yapıyorsa değişir (ve bu ona söylenir). Büyük değişiklikten sonra git HEAD ile karşılaştır: silinen fonksiyon, `data-*` handler'ı, buton var mı? Telefon ↔ Mac birleştirmesi (`mergeShared`) yeni bir alan eklenince o alanı da korumalı.
+- **Uygulama içi görevler elle tiklenmez:** challenge, test, karar, paket, başvuru gibi Jobness'te yapılan to-do'lar iş gerçekten yapılınca kendiliğinden tiklenir; elle tiklenince nerede yapılacağını söyleyen uyarı çıkar.
