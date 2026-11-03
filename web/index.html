@@ -1128,6 +1128,7 @@
   .wd-row { display: grid; grid-template-columns: repeat(5, 46px); gap: 6px; }
   .wd-c { height: 46px; display: grid; place-items: center; border-radius: 10px; font: 800 20px var(--head); box-shadow: inset 0 0 0 2px var(--line); text-transform: uppercase; }
   .wd-c.wd-f { box-shadow: inset 0 0 0 2px var(--muted); }
+  .wd-row.shake { animation: wdShake .4s; } @keyframes wdShake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
   .wd-g { background: #4c9a6e; color: #fff; box-shadow: none !important; } .wd-y { background: #d4a72c; color: #fff; box-shadow: none !important; } .wd-x { background: #8a8796; color: #fff; box-shadow: none !important; }
   .kb-wrap { display: flex; flex-direction: column; gap: 6px; } .kb-row { display: flex; gap: 5px; justify-content: center; }
   .kb { flex: 1 1 0; max-width: 38px; height: 44px; border: 0; border-radius: 8px; background: var(--soft); color: var(--ink); font: 700 14px var(--head); cursor: pointer; padding: 0; }
@@ -2623,7 +2624,7 @@ function walletCard(r, last) {
   const id = r.j.id, open = WALLET_OPEN === id, d = r.decision;
   const n = (APP.state.journey.events || []).filter((e) => e.job === id).length;
   return `<article class="wc t-${STATUS_TINT[d.status] || "lav"} ${open ? "open" : ""} ${last ? "last" : ""}" data-wid="${esc(id)}">
-    <div class="wc-head"><button class="wc-main" data-wgo="${esc(id)}" title="${hasPack(id) ? "Open pack" : "Open details"}">${avatar(r.j.company)}
+    <div class="wc-head"><button class="wc-main" data-wgo="${esc(id)}" title="${open || last ? (hasPack(id) ? "Open pack" : "Open details") : "Show card"}">${avatar(r.j.company)}
       <span class="wc-t"><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.d.city)}${n ? ` · ${n} date${n > 1 ? "s" : ""}` : ""}</small></span>
       <span class="wc-st">${esc(d.status)}</span></button>
       ${last ? "" : `<button class="wc-go ${open ? "up" : ""}" data-wopen="${esc(id)}" aria-expanded="${open}" aria-label="${open ? "Close card" : "Show status and dates"}">${icon("chev")}</button>`}</div>
@@ -2662,7 +2663,9 @@ function appCard(r) {
 document.addEventListener("click", (e) => {
   const a = e.target.closest("[data-funnel],[data-pipe-tog],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wgo],[data-wopen],[data-wclose]"); if (!a) return;
   const ds = a.dataset; e.preventDefault();
-  if (ds.wgo) return hasPack(ds.wgo) ? openPack(ds.wgo, "job") : openDetail(ds.wgo);
+  if (ds.wgo) { // a card behind others first comes forward; only an opened card (or the last, already open) opens its pack or details
+    const c = a.closest(".wc"); if (!c.classList.contains("open") && !c.classList.contains("last")) { WALLET_OPEN = ds.wgo; return flipRender(renderLists); }
+    return hasPack(ds.wgo) ? openPack(ds.wgo, "job") : openDetail(ds.wgo); }
   if (ds.wopen) { WALLET_OPEN = WALLET_OPEN === ds.wopen ? null : ds.wopen; return flipRender(renderLists); }
   if ("wclose" in ds) { WALLET_OPEN = null; return flipRender(renderLists); }
   if (ds.funnel) { const k = ds.funnel; SHORT_F = k === "all" ? [] : SHORT_F.includes(k) ? SHORT_F.filter((x) => x !== k) : [...SHORT_F, k];
@@ -3582,7 +3585,7 @@ function openChallenge() {
   const ch = APP.state.challenge;
   Object.assign(QUIZ, { kind: "challenge", step: 0, items: todaysChallenge(), score: 0, picked: null, guesses: [], cur: "", notes: "", log: [], review: false });
   if (ch.last === today()) QUIZ.step = QUIZ.items.length;
-  renderChallenge(); $("#m-quiz").classList.add("on");
+  renderChallenge(); $("#m-quiz").classList.add("on"); loadWords();
 }
 function wordleRow(g, a) {
   // green: right letter, right spot · yellow: in the word elsewhere (each letter counted once) · gray: not in it
@@ -3642,11 +3645,22 @@ function answerChallenge(val) {
     why: it.type === "open" ? `${it.steps.join(" ")} ${it.end}` : it.why || null };
   renderChallenge();
 }
+// guesses must be real English words: the public-domain ENABLE list's 5-letter words plus a few modern ones (email, login, inbox…) in web/words5.txt, kept on the device after the first load
+let WORDS5 = null;
+async function loadWords() {
+  if (WORDS5) return WORDS5;
+  let txt = null; try { txt = localStorage.getItem("jobness-words5"); } catch {}
+  if (!txt) { try { const r = await fetch("words5.txt"); if (r.ok) txt = (await r.text()).trim(); } catch {} if (txt) try { localStorage.setItem("jobness-words5", txt); } catch {} }
+  if (txt) WORDS5 = new Set([...txt.toUpperCase().match(/[A-Z]{5}/g), ...WORDLE]);
+  return WORDS5;
+}
 function wordleKey(k) {
   const it = QUIZ.items[QUIZ.step]; if (it?.type !== "wordle" || QUIZ.picked != null) return;
   if (k === "back") QUIZ.cur = QUIZ.cur.slice(0, -1);
   else if (k === "enter") {
     if (QUIZ.cur.length < 5) return toast("Five letters, please");
+    if (!WORDS5) { loadWords().then((w) => w ? wordleKey("enter") : toast("Couldn't load the word list. Check your connection and press Enter again")); return; }
+    if (!WORDS5.has(QUIZ.cur)) { toast("Not in the word list"); const row = document.querySelectorAll(".wd-row")[QUIZ.guesses.length]; row?.classList.remove("shake"); void row?.offsetWidth; row?.classList.add("shake"); return; }
     QUIZ.guesses.push(QUIZ.cur); const g = QUIZ.cur; QUIZ.cur = "";
     if (g === it.a || QUIZ.guesses.length === 6) return answerChallenge(g === it.a ? it.a : g);
   } else if (/^[A-Z]$/.test(k) && QUIZ.cur.length < 5) QUIZ.cur += k;
