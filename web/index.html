@@ -1094,15 +1094,18 @@
   .sg-item em { font-style: normal; font-size: 12px; font-weight: 700; white-space: nowrap; } .sg-item em.pos { color: var(--mint); } .sg-item em.neg { color: var(--rose); }
   @media (max-width: 760px) { .wd-row { grid-template-columns: repeat(5, 42px); } .wd-c { height: 42px; } .kb { height: 46px; } .sc-b { min-height: 66px; } }
 
-  /* 16PF */
+  /* 16Personalities */
   .pf-paste { margin-bottom: 12px; } .pf-paste summary { cursor: pointer; font-weight: 600; font-size: 13.5px; margin-bottom: 8px; }
   .pf-list { display: flex; flex-direction: column; gap: 10px; }
   .pf-row { padding: 10px 12px; border-radius: 14px; background: var(--soft); }
-  .pf-h { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; } .pf-h b { font: 800 13px var(--head); color: var(--lav); min-width: 22px; } .pf-h span { flex: 1; font-weight: 600; font-size: 13.5px; }
-  .pf-h em { font: 800 15px var(--head); font-style: normal; }
-  .pf-scale { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
-  .pf-scale button { border: 0; height: 30px; border-radius: 7px; background: var(--surface); color: var(--ink-2); font: 600 12px var(--body); cursor: pointer; padding: 0; }
-  .pf-scale button.on { background: var(--ink); color: var(--surface); }
+  .pf-h { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; } .pf-h span { flex: 1; font-weight: 600; font-size: 13.5px; }
+  .pf-h em { font: 800 14px var(--head); font-style: normal; color: var(--lav); }
+  .pf-row.unset .pf-h em { color: var(--muted); font-weight: 600; } .pf-row.unset input[type=range] { opacity: .45; }
+  .pf-row input[type=range] { display: block; margin: 6px 0 0; height: 28px; }
+  .p16-clear { border: 0; background: none; padding: 2px; color: var(--muted); cursor: pointer; display: grid; place-items: center; } .p16-clear .i { width: 14px; height: 14px; }
+  .p16-type { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px; padding: 10px 14px; border-radius: 14px; background: var(--lav-100); }
+  .p16-type b { font: 800 18px var(--head); color: var(--lav); } .p16-type span { font-weight: 600; }
+  .p16-code { font: 700 13px var(--head); color: var(--lav); background: var(--lav-100); padding: 2px 8px; border-radius: 99px; vertical-align: middle; }
   .pf-poles { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 4px; }
   .pf-read { margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: var(--soft); display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; }
   .pf-tag { display: inline-block; font: 700 11px var(--head); padding: 2px 8px; border-radius: 99px; background: var(--lav-100); color: var(--lav); margin-right: 8px; }
@@ -3026,7 +3029,7 @@ const SG_OPEN = new Set();
 document.addEventListener("click", (e) => {
   const b = e.target.closest("[data-sgtog]"); if (!b) return;
   const c = b.dataset.sgtog; SG_OPEN.has(c) ? SG_OPEN.delete(c) : SG_OPEN.add(c);
-  const y = $("#quiz").scrollTop; QUIZ.kind === "pf16" ? renderPf16() : renderTest(); $("#quiz").scrollTop = y;
+  const y = $("#quiz").scrollTop; QUIZ.kind === "p16" ? renderP16() : renderTest(); $("#quiz").scrollTop = y;
 });
 function sgHTML(sg) {
   queueMicrotask(markMixed); // runs right after the HTML is in place
@@ -3077,110 +3080,141 @@ function applyTest() {
 }
 document.addEventListener("change", (e) => {
   const t = e.target;
-  const again = () => { const y = $("#quiz").scrollTop; QUIZ.kind === "pf16" ? renderPf16() : renderTest(); $("#quiz").scrollTop = y; };
+  const again = () => { const y = $("#quiz").scrollTop; QUIZ.kind === "p16" ? renderP16() : renderTest(); $("#quiz").scrollTop = y; };
   if (t.dataset.sg != null) { t.checked ? QUIZ.sel.add(+t.dataset.sg) : QUIZ.sel.delete(+t.dataset.sg); return again(); }
   if (t.dataset.sgall) { (QUIZ.sg || []).forEach((x, i) => { if (x.cat === t.dataset.sgall) t.checked ? QUIZ.sel.add(i) : QUIZ.sel.delete(i); }); return again(); }
 });
 
-// ---- 16PF: enter (or paste) the 16 primary factor scores from a report; they become a work-style profile and the
-// same pick-and-apply suggestions as the self-discovery test. Scores stay on her devices (never published). ----
-const PF16 = [
-  ["A", "Warmth", "Reserved", "Warm"], ["B", "Reasoning", "Concrete", "Abstract"], ["C", "Emotional stability", "Reactive", "Stable"],
-  ["E", "Dominance", "Deferential", "Dominant"], ["F", "Liveliness", "Serious", "Lively"], ["G", "Rule-consciousness", "Expedient", "Rule-conscious"],
-  ["H", "Social boldness", "Shy", "Bold"], ["I", "Sensitivity", "Utilitarian", "Sensitive"], ["L", "Vigilance", "Trusting", "Vigilant"],
-  ["M", "Abstractedness", "Practical", "Imaginative"], ["N", "Privateness", "Forthright", "Private"], ["O", "Apprehension", "Self-assured", "Apprehensive"],
-  ["Q1", "Openness to change", "Traditional", "Open to change"], ["Q2", "Self-reliance", "Group-oriented", "Self-reliant"],
-  ["Q3", "Perfectionism", "Tolerates disorder", "Perfectionistic"], ["Q4", "Tension", "Relaxed", "Tense"]];
-// how each factor leans the work-style traits the suggestions use (sten 1–10 → −1…+1 around the middle)
-const PF_MAP = {
-  small: { A: 0.5, Q2: -0.3 }, crew: { A: 0.6, Q2: -0.4 }, pace: { F: 0.5, H: 0.3, Q1: 0.3, G: -0.2 }, data: { B: 0.5, Q3: 0.3, I: -0.3 },
-  story: { I: 0.5, M: 0.5, F: 0.3 }, customer: { A: 0.4, I: 0.3, H: 0.2 }, strategy: { B: 0.4, E: 0.4, Q3: 0.3 }, owner: { E: 0.5, H: 0.3, C: 0.2 },
-  lead: { E: 0.5, H: 0.4, C: 0.2 }, builder: { E: 0.4, Q1: 0.4, H: 0.3 }, novel: { Q1: 0.6, M: 0.3 }, dig: { B: 0.5, M: 0.3, N: 0.2 },
-  critic: { Q3: 0.4, E: 0.3, L: 0.2 }, ritual: { G: 0.4, A: 0.3, Q1: -0.3 }, stable: { G: 0.4, O: 0.3, Q1: -0.4, Q4: 0.2 },
-  remote: { Q2: 0.4, N: 0.3, A: -0.3 }, b2b: { B: 0.3, E: 0.3, I: -0.3 }, mission: { I: 0.4, M: 0.3 }, stretch: { C: 0.4, Q1: 0.3, O: -0.3 }, product: { B: 0.4, M: 0.3 },
+// ---- 16Personalities: enter (or paste) the five trait percentages from a 16personalities.com result; they become a
+// work-style profile and the same pick-and-apply suggestions as the self-discovery test. Kept on her devices (never published). ----
+// [key, aspect, left pole, left letter, right pole, right letter]; a value is the % toward the right pole (0–100)
+const P16 = [["energy", "Energy", "Extraverted", "E", "Introverted", "I"], ["mind", "Mind", "Intuitive", "N", "Observant", "S"],
+  ["nature", "Nature", "Thinking", "T", "Feeling", "F"], ["tactics", "Tactics", "Judging", "J", "Prospecting", "P"], ["identity", "Identity", "Assertive", "A", "Turbulent", "T"]];
+const P16_TYPES = { INTJ: "Architect", INTP: "Logician", ENTJ: "Commander", ENTP: "Debater", INFJ: "Advocate", INFP: "Mediator", ENFJ: "Protagonist", ENFP: "Campaigner",
+  ISTJ: "Logistician", ISFJ: "Defender", ESTJ: "Executive", ESFJ: "Consul", ISTP: "Virtuoso", ISFP: "Adventurer", ESTP: "Entrepreneur", ESFP: "Entertainer" };
+const P16_ROLES = {
+  Analysts: "Rational and independent: you like solving hard problems with logic and strategy.",
+  Diplomats: "Empathic and idealistic: you work best when the work means something and people come first.",
+  Sentinels: "Practical and dependable: you bring order, follow-through and steady results.",
+  Explorers: "Spontaneous and hands-on: you learn by doing and thrive on variety.",
 };
-// one plain sentence per pole, for the reading of her most distinctive factors
-const PF_READ = {
-  A: ["You keep a professional distance and do well with independent work.", "You warm to people fast: close teams and customer-facing work suit you."],
-  B: ["You think in concrete terms: practical, hands-on problems.", "You enjoy abstract problems: strategy, models, the why behind the numbers."],
-  C: ["You feel things strongly; calm, supportive teams help you thrive.", "You stay steady under pressure: high-stakes, changing roles suit you."],
-  E: ["You prefer collaborating to leading from the front.", "You like to lead, decide and own the outcome."],
-  F: ["You're serious and focused: deep work over buzz.", "You bring energy and spontaneity: fast, lively teams suit you."],
-  G: ["You're flexible with rules: start-ups and ambiguity are fine.", "You value structure and doing things properly: established companies fit."],
-  H: ["You prefer smaller rooms to the stage.", "You're comfortable in front of people: pitching, partnerships, leading meetings."],
-  I: ["You're pragmatic and results-first.", "You're sensitive to people and taste: brand, story and customer experience."],
-  L: ["You trust easily and assume good intent.", "You question and check: good at spotting what doesn't add up."],
-  M: ["You're grounded and practical: execution is your strength.", "You're imaginative: ideas, concepts and new angles come easily."],
-  N: ["You're open and direct.", "You're discreet and diplomatic: you read the room before you speak."],
-  O: ["You're self-assured and bounce back fast.", "You think ahead about what could go wrong: careful and thorough."],
-  Q1: ["You value what works and proven methods.", "You love change and new ideas: scale-ups, new markets, 0 to 1."],
-  Q2: ["You think best with the team around you.", "You're self-reliant: you like autonomy and owning your work."],
-  Q3: ["You're relaxed about order and improvise well.", "You set high standards and plan carefully."],
-  Q4: ["You're relaxed and patient.", "You have drive and urgency; a clear pace and outlet for that energy helps."],
+const P16_STRATEGIES = {
+  "Confident Individualism": "You trust your own judgement and prefer working on your own terms.",
+  "People Mastery": "You're socially confident and comfortable leading people and rooms.",
+  "Constant Improvement": "You're quietly driven to get better, and feedback fuels you.",
+  "Social Engagement": "You're energised by people and push hard for results.",
 };
-const PFV = { scores: {}, pasted: "", stage: "enter" };
-function openPf16() {
-  Object.assign(PFV, { scores: { ...(APP.state.pf16?.scores || {}) }, pasted: "", stage: "enter" });
-  QUIZ.kind = "pf16"; QUIZ.sg = null; QUIZ.sel = null; renderPf16(); $("#m-quiz").classList.add("on");
+// how each trait leans the work-style traits the suggestions use (+ = the left pole: Extraverted, Intuitive, Thinking, Judging, Assertive)
+const P16_MAP = {
+  small: { energy: -0.3, nature: -0.2 }, crew: { energy: 0.3, nature: -0.5 }, pace: { energy: 0.4, tactics: -0.4, identity: 0.2 }, data: { nature: 0.6, mind: -0.2 },
+  story: { nature: -0.5, mind: 0.4 }, customer: { energy: 0.4, nature: -0.4 }, strategy: { mind: 0.5, nature: 0.3, tactics: 0.2 }, owner: { identity: 0.4, tactics: 0.3, energy: 0.2 },
+  lead: { energy: 0.5, identity: 0.4, tactics: 0.2 }, builder: { mind: 0.4, tactics: -0.3, identity: 0.3 }, novel: { mind: 0.6, tactics: -0.3 }, dig: { mind: 0.4, energy: -0.3, nature: 0.2 },
+  critic: { nature: 0.4, tactics: 0.3, identity: -0.2 }, ritual: { tactics: 0.4, nature: -0.3, mind: -0.2 }, stable: { tactics: 0.4, mind: -0.4, identity: -0.2 },
+  remote: { energy: -0.5 }, b2b: { nature: 0.4, energy: 0.2 }, mission: { nature: -0.5, mind: 0.3 }, stretch: { identity: 0.5, tactics: -0.2, mind: 0.2 }, product: { mind: 0.4, nature: 0.3 },
+};
+// one plain sentence per pole about work
+const P16_READ = {
+  Extraverted: "People give you energy: partnerships, pitching and busy teams suit you.", Introverted: "You recharge alone: focus time and small, calm teams help you do your best work.",
+  Intuitive: "You think in ideas and possibilities: strategy, concepts, new markets.", Observant: "You're grounded in what's real: execution, details and what works today.",
+  Thinking: "You decide with logic: numbers, trade-offs, clear reasoning.", Feeling: "You decide with people in mind: brand, story, customers and culture.",
+  Judging: "You like a plan and closure: clear goals, structure, follow-through.", Prospecting: "You keep options open: you improvise well and spot opportunities.",
+  Assertive: "You stay calm under pressure and bounce back fast.", Turbulent: "You hold high standards and keep pushing to improve; good feedback suits you.",
+};
+const PFV = { v: {}, pasted: "", stage: "enter" };
+const p16Pct = (k) => PFV.v[k]; // % toward the right pole, or undefined
+function p16Label(k, v) {
+  const a = P16.find((x) => x[0] === k);
+  if (v == null) return "Not set";
+  return v === 50 ? "50 / 50" : v > 50 ? `${v}% ${a[4]}` : `${100 - v}% ${a[2]}`;
 }
-function pfTraits(scores) {
-  const z = (k) => (scores[k] == null ? 0 : (scores[k] - 5.5) / 4.5), tr = {};
-  for (const [t, w] of Object.entries(PF_MAP)) tr[t] = clamp(Object.entries(w).reduce((a, [k, x]) => a + x * z(k), 0) * 1.6, -1.5, 1.5);
+function p16Type(v) {
+  if (P16.slice(0, 4).some(([k]) => v[k] == null)) return null;
+  const code = P16.slice(0, 4).map(([k, , , l, , r]) => (v[k] > 50 ? r : l)).join("");
+  const id = v.identity == null ? "" : v.identity > 50 ? "T" : "A";
+  const role = code[1] === "N" ? (code[2] === "T" ? "Analysts" : "Diplomats") : code[3] === "J" ? "Sentinels" : "Explorers";
+  const strategy = id ? { IA: "Confident Individualism", EA: "People Mastery", IT: "Constant Improvement", ET: "Social Engagement" }[code[0] + id] : null;
+  return { code, full: id ? `${code}-${id}` : code, name: P16_TYPES[code], role, strategy };
+}
+function openP16() {
+  Object.assign(PFV, { v: { ...(APP.state.p16?.v || {}) }, pasted: "", stage: "enter" });
+  QUIZ.kind = "p16"; QUIZ.sg = null; QUIZ.sel = null; renderP16(); $("#m-quiz").classList.add("on");
+}
+function p16Traits(v) {
+  const z = (k) => (v[k] == null ? 0 : (50 - v[k]) / 50), tr = {};
+  for (const [t, w] of Object.entries(P16_MAP)) tr[t] = clamp(Object.entries(w).reduce((a, [k, x]) => a + x * z(k), 0) * 1.6, -1.5, 1.5);
   return { tr, like: [], avoid: [], more: [] };
 }
-// read "Warmth (A) 7", "A: 7", "A 7/10", "Openness to Change 8"… from a pasted report
-function parsePf16(text) {
+// read "Energy: 62% Introverted", "Introverted 62%", "INFJ-T", "Advocate"… from a pasted result
+function parseP16(text) {
   const out = {}, T = " " + text.replace(/\s+/g, " ") + " ";
-  for (const [k, name] of PF16) {
-    const keyRx = k.replace("Q", "Q\\s?");
-    const pats = [new RegExp(`${name}\\s*(?:\\(${keyRx}\\))?[^0-9]{0,24}?\\b(10|[1-9])\\b`, "i"), new RegExp(`[\\s(]${keyRx}\\)?\\s*[:=\\-–]?\\s*(10|[1-9])\\b(?!\\s*(?:%|years?|yrs))`)];
-    for (const rx of pats) { const m = T.match(rx); if (m) { out[k] = +m[1]; break; } }
+  for (const [k, , L, , R] of P16) for (const [pole, right] of [[L, false], [R, true]]) {
+    const m = T.match(new RegExp(`(\\d{1,3})\\s*%\\s*${pole}`, "i")) || T.match(new RegExp(`${pole}\\s*[:\\-–]?\\s*(\\d{1,3})\\s*%`, "i"));
+    if (m && +m[1] <= 100 && out[k] == null) out[k] = right ? +m[1] : 100 - +m[1];
   }
-  return out;
+  // a type code (or name) fills what the percentages didn't, at a moderate 65%
+  let code = (T.match(/\b([IE][NS][TF][JP])(?:-([AT]))?\b/) || [])[0];
+  if (!code) { const nm = Object.entries(P16_TYPES).find(([, n]) => new RegExp(`\\b${n}\\b`, "i").test(T)); if (nm) code = nm[0]; }
+  if (code) {
+    const [c, id] = code.split("-");
+    P16.slice(0, 4).forEach(([k, , , l], i) => { if (out[k] == null) out[k] = c[i] === l ? 35 : 65; });
+    if (id && out.identity == null) out.identity = id === "A" ? 35 : 65;
+  }
+  return { v: out, code: !!code };
 }
-function renderPf16() {
-  const head = `<div class="sheet-head"><h2>16PF results</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
-  const n = Object.keys(PFV.scores).length;
+function renderP16() {
+  const head = `<div class="sheet-head"><h2>16Personalities</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
+  const ty = p16Type(PFV.v);
   if (PFV.stage === "enter") {
     $("#quiz").innerHTML = `${head}
-      <p class="small muted" style="margin:0 0 10px">Enter the 16 primary factor scores (sten, 1–10) from your 16PF report, or paste the report's text and let Jobness read them. Your scores stay on your devices: they're never published to the live site.</p>
-      <details class="pf-paste" ${n ? "" : "open"}><summary>Paste your report</summary>
-        <textarea class="field" id="pf-text" rows="4" style="width:100%" placeholder="e.g. Warmth (A) 7 · Reasoning (B) 8 · …">${esc(PFV.pasted)}</textarea>
-        <button class="btn sm" data-pf-read style="margin-top:6px">${icon("sparkle")}Read the scores</button></details>
-      <div class="pf-list">${PF16.map(([k, name, lo, hi]) => { const v = PFV.scores[k];
-        return `<div class="pf-row"><div class="pf-h"><b>${k}</b><span>${name}</span><em>${v ?? "–"}</em></div>
-          <div class="pf-scale">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((x) => `<button class="${v === x ? "on" : ""}" data-pf="${k}:${x}" aria-label="${name} ${x}">${x}</button>`).join("")}</div>
-          <div class="pf-poles"><span>${lo}</span><span>${hi}</span></div></div>`; }).join("")}</div>
-      <div class="sheet-actions"><span class="small muted" style="margin-right:auto">${n} of 16 entered</span><button class="btn" data-close="m-quiz">Cancel</button>
-        <button class="btn primary" data-pf-go ${n >= 8 ? "" : "disabled"} title="${n >= 8 ? "" : "Enter at least 8 factors"}">See my suggestions</button></div>`;
+      <p class="small muted" style="margin:0 0 10px">Enter your result from <a href="https://www.16personalities.com/free-personality-test" target="_blank" rel="noopener">16personalities.com</a>: slide each trait to your percentage, or paste the result and let Jobness read it. Your result stays on your devices.</p>
+      <details class="pf-paste" ${PFV.pasted ? "open" : ""}><summary>Paste your result</summary>
+        <textarea class="field" id="pf-text" rows="3" style="width:100%" placeholder="e.g. INFJ-T · Energy 62% Introverted · Mind 71% Intuitive …">${esc(PFV.pasted)}</textarea>
+        <div style="display:flex;justify-content:flex-end;margin-top:6px"><button class="btn" data-pf-read>Read my result</button></div></details>
+      ${ty ? `<div class="p16-type"><b>${ty.full}</b><span>${ty.name}</span></div>` : ""}
+      <div class="pf-list">${P16.map(([k, asp, L, , R]) => { const v = PFV.v[k];
+        return `<div class="pf-row ${v == null ? "unset" : ""}"><div class="pf-h"><span>${asp}</span><em data-p16v="${k}">${p16Label(k, v)}</em>${v != null ? `<button class="p16-clear" data-p16clear="${k}" aria-label="Clear ${asp}">${icon("x")}</button>` : ""}</div>
+          <input type="range" min="0" max="100" step="1" value="${v ?? 50}" data-p16="${k}" aria-label="${asp}: ${L} to ${R}">
+          <div class="pf-poles"><span>${L}</span><span>${R}</span></div></div>`; }).join("")}</div>
+      <div class="sheet-actions"><span class="small muted" style="margin-right:auto">${ty ? "Identity is optional" : "Set the first four traits"}</span><button class="btn" data-close="m-quiz">Cancel</button>
+        <button class="btn primary" data-pf-go ${ty ? "" : "disabled"}>See my suggestions</button></div>`;
     return;
   }
-  const prof = pfTraits(PFV.scores), persona = personaOf(prof.tr), p = PERSONAS[persona];
+  const prof = p16Traits(PFV.v), persona = personaOf(prof.tr), p = PERSONAS[persona];
   const sg = (QUIZ.sg = QUIZ.sg || testSuggestions(prof)); QUIZ.sel = QUIZ.sel || new Set(sg.map((_, i) => i));
-  const top = Object.entries(PFV.scores).sort((a, b) => Math.abs(b[1] - 5.5) - Math.abs(a[1] - 5.5)).slice(0, 4);
+  const rows = P16.filter(([k]) => PFV.v[k] != null).sort((a, b) => Math.abs(PFV.v[b[0]] - 50) - Math.abs(PFV.v[a[0]] - 50));
   $("#quiz").innerHTML = `${head}
-    <div class="persona"><div class="eyebrow">Your work style reads like</div><h3>${esc(p.name)}</h3><p class="muted" style="margin:0">${esc(p.text)}</p></div>
-    <div class="pf-read"><b>What stands out</b>${top.map(([k, v]) => { const f = PF16.find((x) => x[0] === k);
-      return `<div><span class="pf-tag">${k} · ${v}</span>${esc(PF_READ[k][v >= 5.5 ? 1 : 0])}</div>`; }).join("")}</div>
-    <p class="small muted" style="margin:12px 0 4px">These suggestions translate your profile into your job search. 16PF describes personality, not ability: treat them as a nudge, and only apply what feels right.</p>
+    <div class="persona"><div class="eyebrow">${esc(ty.role)}${ty.strategy ? ` · ${esc(ty.strategy)}` : ""}</div><h3>${esc(ty.name)} <span class="p16-code">${ty.full}</span></h3>
+      <p class="muted" style="margin:0">${esc(P16_ROLES[ty.role])}${ty.strategy ? " " + esc(P16_STRATEGIES[ty.strategy]) : ""}</p>
+      <div class="small muted" style="margin-top:8px">Your work style reads like <b>${esc(p.name)}</b></div></div>
+    <div class="pf-read"><b>What it means for work</b>${rows.map(([k, asp, L, , R]) => { const v = PFV.v[k];
+      return `<div><span class="pf-tag">${asp} · ${p16Label(k, v)}</span>${esc(P16_READ[v > 50 ? R : L])}</div>`; }).join("")}</div>
+    <p class="small muted" style="margin:12px 0 4px">These suggestions translate your type into your job search. 16Personalities describes preferences, not ability: treat them as a nudge, and only apply what feels right.</p>
     ${sgHTML(sg)}
-    <div class="sheet-actions"><button class="btn ghost" data-pf-edit style="margin-right:auto">Edit scores</button><button class="btn" data-close="m-quiz">Not now</button>
-      <button class="btn primary" data-pf-apply>${QUIZ.sel.size ? `Apply ${QUIZ.sel.size} selected` : "Save my scores"}</button></div>`;
+    <div class="sheet-actions"><button class="btn ghost" data-pf-edit style="margin-right:auto">Edit result</button><button class="btn" data-close="m-quiz">Not now</button>
+      <button class="btn primary" data-pf-apply>${QUIZ.sel.size ? `Apply ${QUIZ.sel.size} selected` : "Save my result"}</button></div>`;
 }
+document.addEventListener("input", (e) => {
+  const k = e.target.dataset?.p16; if (!k) return;
+  PFV.v[k] = +e.target.value; // updated in place while dragging; the full redraw (clear button, type) waits for the release
+  const row = e.target.closest(".pf-row"); row.classList.remove("unset"); row.querySelector("em").textContent = p16Label(k, PFV.v[k]);
+});
+document.addEventListener("change", (e) => { if (e.target.dataset?.p16) { const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; } });
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-pf],[data-pf-read],[data-pf-go],[data-pf-edit],[data-pf-apply]"); if (!a) return;
+  const a = e.target.closest("[data-p16clear],[data-pf-read],[data-pf-go],[data-pf-edit],[data-pf-apply]"); if (!a) return;
   const ds = a.dataset;
-  if (ds.pf) { const [k, v] = ds.pf.split(":"); PFV.scores[k] === +v ? delete PFV.scores[k] : (PFV.scores[k] = +v); const y = $("#quiz").scrollTop; renderPf16(); $("#quiz").scrollTop = y; return; }
-  if ("pfRead" in ds) { PFV.pasted = $("#pf-text").value; const got = parsePf16(PFV.pasted), n = Object.keys(got).length;
-    if (!n) return toast("Couldn't find factor scores in that text. Enter them below instead");
-    Object.assign(PFV.scores, got); renderPf16(); return toast(`Read ${n} of 16 factors. Check them below`); }
-  if ("pfGo" in ds) { PFV.stage = "result"; QUIZ.sg = null; QUIZ.sel = null; renderPf16(); $("#quiz").scrollTop = 0; return; }
-  if ("pfEdit" in ds) { PFV.stage = "enter"; return renderPf16(); }
+  if (ds.p16clear) { delete PFV.v[ds.p16clear]; const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; return; }
+  if ("pfRead" in ds) { PFV.pasted = $("#pf-text").value; const got = parseP16(PFV.pasted), n = Object.keys(got.v).length;
+    if (!n) return toast("Couldn't find your traits in that text. Slide them below instead");
+    Object.assign(PFV.v, got.v); renderP16();
+    return toast(got.code && n === 5 && !/%/.test(PFV.pasted) ? "Read your type. Adjust the percentages if you know them" : `Read ${n} of 5 traits. Check them below`); }
+  if ("pfGo" in ds) { PFV.stage = "result"; QUIZ.sg = null; QUIZ.sel = null; renderP16(); $("#quiz").scrollTop = 0; return; }
+  if ("pfEdit" in ds) { PFV.stage = "enter"; return renderP16(); }
   if ("pfApply" in ds) {
     const chosen = [...QUIZ.sel].map((i) => QUIZ.sg[i]).filter(Boolean); chosen.forEach((x) => x.apply());
-    APP.state.pf16 = { scores: { ...PFV.scores }, persona: personaOf(pfTraits(PFV.scores).tr), at: new Date().toISOString() };
+    const ty = p16Type(PFV.v);
+    APP.state.p16 = { v: { ...PFV.v }, type: ty.full, name: ty.name, persona: personaOf(p16Traits(PFV.v).tr), at: new Date().toISOString() };
     $("#m-quiz").classList.remove("on"); QUIZ.sg = null; QUIZ.sel = null; commit();
-    toast(chosen.length ? `${chosen.length} change${chosen.length === 1 ? "" : "s"} applied from your 16PF` : "Scores saved");
+    toast(chosen.length ? `${chosen.length} change${chosen.length === 1 ? "" : "s"} applied from your ${ty.full} result` : "Result saved");
   }
 });
 
@@ -4143,7 +4177,7 @@ function renderProfile() {
     <div class="prof-list">
       ${rowB("puzzle", "mint", "Today's challenge", 'data-open="challenge"', APP.state.challenge.last === today() ? "done for today" : "5 quick questions")}
       ${rowB("sparkle", "lav", "Self-discovery test", 'data-open="test"', APP.state.test ? "retake it" : "about 3 minutes")}
-      ${rowB("chart", "sky", "16PF results", 'data-open="pf16"', APP.state.pf16 ? `saved · ${PERSONAS[APP.state.pf16.persona]?.name || "edit scores"}` : "enter your scores, get suggestions")}
+      ${rowB("chart", "sky", "16Personalities", 'data-open="p16"', APP.state.p16 ? `${APP.state.p16.type} · ${APP.state.p16.name}` : "enter your result, get suggestions")}
     </div></div>`;
 }
 document.addEventListener("click", (e) => { if (e.target.closest("[data-theme-open]")) openLookFeel(); });
@@ -4240,7 +4274,7 @@ document.addEventListener("click", (e) => {
   if (ds.v) return showView(ds.v);
   if (ds.r) return a.classList.toggle("on");
   if (ds.close) return $("#" + ds.close).classList.remove("on");
-  if (ds.open === "pf16") { $("#m-more")?.classList.remove("on"); return openPf16(); }
+  if (ds.open === "p16") { $("#m-more")?.classList.remove("on"); return openP16(); }
   if (ds.open === "add-job") { e.preventDefault(); return openAddJob(); }
   if (ds.open === "home-custom") { e.preventDefault(); return openLookFeel(); }
   if (ds.open === "test") { $("#m-more").classList.remove("on"); return openTest(); }
@@ -4495,8 +4529,8 @@ function mergeShared(shared, local) {
   m.viewed = { ...(shared.viewed || {}) };
   for (const [id, v] of Object.entries(local.viewed || {})) if (!m.viewed[id] || v > m.viewed[id]) m.viewed[id] = v;
   if (local.test && (!shared.test || (local.test.at || "") > (shared.test.at || ""))) m.test = local.test;
-  m.packs = local.packs; // pack edits, 16PF scores and contact details made here stay (none is ever published)
-  if (local.pf16 && (!shared.pf16 || (local.pf16.at || "") > (shared.pf16.at || ""))) m.pf16 = local.pf16;
+  m.packs = local.packs; // pack edits, 16Personalities result and contact details made here stay (none is ever published)
+  if (local.p16 && (!shared.p16 || (local.p16.at || "") > (shared.p16.at || ""))) m.p16 = local.p16;
   m.profile = { ...(shared.profile || {}), email: local.profile?.email || "", phone: local.profile?.phone || "" };
   return m;
 }
