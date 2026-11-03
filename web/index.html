@@ -704,6 +704,7 @@
   .cal-dots i.t-lav, .cal-ev i.t-lav { background: var(--lav); } .cal-dots i.t-sky, .cal-ev i.t-sky { background: var(--sky); } .cal-dots i.t-peach, .cal-ev i.t-peach { background: var(--peach); }
   .cal-dots i.t-mint, .cal-ev i.t-mint { background: var(--mint); } .cal-dots i.t-rose, .cal-ev i.t-rose { background: var(--rose); } .cal-dots i.t-butter, .cal-ev i.t-butter { background: #c9a13b; }
   .ev-add { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; } .ev-add input { flex: 1 1 180px; } .ev-add select { flex: 0 0 auto; }
+  .seg.seg-wrap { flex-wrap: wrap; } .seg button small { margin-left: 4px; opacity: .6; font-size: 11px; }
   .note-acts { flex-wrap: wrap; } .note-acts .btn { flex: 1 1 auto; justify-content: center; }
   .ev-add input.ev-time { flex: 0 0 110px; } .cal-all { margin-top: 12px; width: 100%; justify-content: center; }
   .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
@@ -1777,7 +1778,7 @@ const avatar = (name) => {
 const post = (u, body) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((r) => r.json());
 
 const APP = { data: null, server: false, state: null, rows: [], byId: {}, model: null, history: [], wf: "all", cof: "all",
-  order: [], idx: 0, sinceOrder: 0, filters: { q: "", cities: [], cos: [], tags: [], min: 0, exp: 0, sponsor: false, top: false, fresh: false, scene: false } };
+  order: [], idx: 0, sinceOrder: 0, filters: { q: "", cities: [], cos: [], tags: [], min: 0, exp: [], sponsor: false, top: false, fresh: false, scene: false } };
 
 // ---------------- state ----------------
 function defaultCompanies(cfg) {
@@ -1972,7 +1973,7 @@ function passesFilters(r) {
   return !r.d.filtered && !r.d.hiddenWhy && !r.j.closed
     && (!q || matchQ(r, q))
     && (!f.cities.length || f.cities.includes(r.d.city)) && (!f.cos.length || f.cos.includes(r.j.company)) && r.score >= f.min
-    && (!f.exp || !r.j.f.years_required || r.j.f.years_required <= f.exp)
+    && (!f.exp.length || f.exp.includes(expBucket(r.j.f.years_required)))
     && (!f.sponsor || r.j.f.sponsorship === "yes") && (!f.top || r.d.coPriority) && (!f.fresh || r.j.is_new) && (!f.scene || r.d.scene.fit >= 40)
     && (!f.tags.length || f.tags.some((x) => r.d.tags.some((t) => t.label === x) || r.d.cotags.includes(x)));
 }
@@ -2456,7 +2457,10 @@ function bindCardPop() {
 // ---------------- discover chrome ----------------
 // filters live in one sheet; the Discover bar only shows a search box and a "Filters" button with how many are on
 const FILTER_TOGGLES = [["sponsor", "Sponsorship ✓"], ["top", "Priority company"], ["fresh", "New"], ["scene", "Feels like my movie"]];
-const filterCount = () => { const f = APP.filters; return (f.cities.length ? 1 : 0) + (f.cos.length ? 1 : 0) + f.tags.length + (f.min ? 1 : 0) + (f.exp ? 1 : 0) + FILTER_TOGGLES.filter(([k]) => f[k]).length; };
+// years asked, in buckets (8+ never reaches Discover)
+const EXP_BUCKETS = [["0-2", "0–2 yrs"], ["3-5", "3–5 yrs"], ["6-7", "6–7 yrs"], ["none", "Unspecified"]];
+const expBucket = (y) => !y ? "none" : y <= 2 ? "0-2" : y <= 5 ? "3-5" : "6-7";
+const filterCount = () => { const f = APP.filters; return (f.cities.length ? 1 : 0) + (f.cos.length ? 1 : 0) + f.tags.length + (f.min ? 1 : 0) + (f.exp.length ? 1 : 0) + FILTER_TOGGLES.filter(([k]) => f[k]).length; };
 // ---- Excel-style filter lists: grouped, searchable, multi-select; a whole group can be ticked at once ----
 const CONTINENT = { "New Zealand": "Oceania", Australia: "Oceania", "United Arab Emirates": "Middle East", Singapore: "Asia", Japan: "Asia", "United States": "Americas", Canada: "Americas" };
 // sectors in her order: e-commerce, technology, gaming, FMCG, banking, telecom, then the rest
@@ -2555,8 +2559,9 @@ function renderFilterSheet() {
     <p class="small muted" style="margin:0 0 6px">Pick as many as you like. Within a group, any match counts.</p>
     <div class="cust-sec">Quick</div><div class="chips">${FILTER_TOGGLES.map(([k, l]) => pill("data-fq", k, l, f[k])).join("")}</div>
     <div class="cust-sec">Minimum score</div><div class="seg">${[[0, "Any"], [50, "50+"], [65, "65+"], [80, "80+"]].map(([v, l]) => `<button data-fmin="${v}" class="${f.min === v ? "on" : ""}">${l}</button>`).join("")}</div>
-    <div class="cust-sec">Experience asked</div><div class="seg">${[[0, "Any"], [3, "Up to 3 yrs"], [5, "Up to 5"], [7, "Up to 7"]].map(([v, l]) => `<button data-fexp="${v}" class="${f.exp === v ? "on" : ""}">${l}</button>`).join("")}</div>
-    <div class="small muted" style="margin-top:6px">Roles that don't state years stay in.</div>
+    <div class="cust-sec">Experience asked</div><div class="seg seg-wrap"><button data-fexp="any" class="${f.exp.length ? "" : "on"}">Any</button>${EXP_BUCKETS.map(([v, l]) => { const n = open.filter((r) => expBucket(r.j.f.years_required) === v).length;
+      return `<button data-fexp="${v}" class="${f.exp.includes(v) ? "on" : ""}">${l}<small>${n}</small></button>`; }).join("")}</div>
+    <div class="small muted" style="margin-top:6px">Any shows all. Pick one or more ranges to show only those.</div>
     <div class="cust-sec">Cities</div>${msHTML("cities")}
     <div class="cust-sec">Companies</div>${msHTML("cos")}
     <div class="cust-sec">Tags & personas</div><div class="chips">${Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 30).map(([t, k]) => pill("data-ftag", t, t, f.tags.includes(t), k)).join("")}</div>
@@ -2571,10 +2576,10 @@ document.addEventListener("click", (e) => {
   const f = APP.filters, ds = a.dataset, flip = (arr, v) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
   if (ds.fq) f[ds.fq] = !f[ds.fq];
   else if (ds.fmin != null) f.min = +ds.fmin;
-  else if (ds.fexp != null) f.exp = +ds.fexp;
+  else if (ds.fexp) { f.exp = ds.fexp === "any" ? [] : f.exp.includes(ds.fexp) ? f.exp.filter((x) => x !== ds.fexp) : [...f.exp, ds.fexp]; if (f.exp.length === EXP_BUCKETS.length) f.exp = []; }
   else if (ds.fcity) f.cities = flip(f.cities, ds.fcity);
   else if (ds.ftag) f.tags = flip(f.tags, ds.ftag);
-  else Object.assign(f, { cities: [], cos: [], tags: [], min: 0, exp: 0, sponsor: false, top: false, fresh: false, scene: false });
+  else Object.assign(f, { cities: [], cos: [], tags: [], min: 0, exp: [], sponsor: false, top: false, fresh: false, scene: false });
   applyFilters();
 });
 
