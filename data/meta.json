@@ -1,5 +1,7 @@
 {
-  "last_fetch": "2026-11-03T07:44:32.944362+00:00",
-  "errors": {},
-  "count": 219
+  "last_fetch": "2026-11-03T12:08:02.745567+00:00",
+  "errors": {
+    "Doctolib": "HTTP Error 404: Not Found"
+  },
+  "count": 220
 }
