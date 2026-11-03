@@ -927,6 +927,17 @@
   .tf-row { display: flex; gap: 8px; align-items: center; } .tf-row select { flex: 1; min-width: 0; }
   .tf-rep { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
   .tf-acts { display: flex; gap: 8px; justify-content: flex-end; }
+  .tf-pick { position: relative; } .tf-pick-in { position: relative; display: flex; align-items: center; }
+  .tf-pick-in > .i { position: absolute; left: 10px; width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
+  .tf-pick-in input.field { padding-left: 32px !important; padding-right: 38px !important; }
+  .tf-pick-open { position: absolute; right: 4px; width: 32px; height: 32px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; }
+  .tf-pick-open .i { width: 15px; height: 15px; transform: rotate(90deg); }
+  .tf-pick-list { margin-top: 6px; max-height: 260px; overflow-y: auto; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow-card); padding: 4px; }
+  .tf-opt { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; background: none; padding: 7px 8px; border-radius: 10px; cursor: pointer; color: var(--ink); font: inherit; }
+  .tf-opt:hover, .tf-opt.on { background: var(--soft); } .tf-opt .avatar { width: 30px; height: 30px; flex: none; }
+  .tf-opt span { flex: 1; min-width: 0; display: flex; flex-direction: column; } .tf-opt b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .tf-opt small { font-size: 11.5px; color: var(--muted); }
+  .tf-opt em { font: 700 11.5px var(--head); font-style: normal; color: var(--muted); }
+  .tf-more { padding: 8px 10px; font-size: 12px; color: var(--muted); }
   .todo.editing { display: block; }
   [data-theme="business"] .todo-form .field { background: #111216; }
 
@@ -3998,8 +4009,22 @@ document.addEventListener("click", (e) => {
 let TODO_EDIT = null; // { id: "new" } or { store, id }
 const todoStore = (store) => store === "daily" ? (APP.state.home.todos = APP.state.home.todos || []) : ((APP.state.extra_todos = APP.state.extra_todos || {})[today()] = APP.state.extra_todos[today()] || []);
 const VIEW_LINKS = [["discover", "Discover"], ["short", "Shortlist"], ["journey", "My journey"], ["settings", "Preferences"]];
+// roles a to-do can point to: shortlisted without a pack, packs ready, and roles still waiting in Discover
+const PICK_TYPES = { short: "A shortlist role", ready: "A ready pack", discover: "A Discover role" };
+function pickRows(type) {
+  const liked = APP.rows.filter((r) => r.decision?.decision === "like");
+  if (type === "short") return liked.filter((r) => !hasPack(r.j.id));
+  if (type === "ready") return liked.filter((r) => hasPack(r.j.id));
+  return APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed);
+}
+const pickLabel = (r) => `${r.j.company} · ${r.j.title}`;
 function todoLinkBtn(link) {
   if (!link?.v) return "";
+  if (link.t === "short") { const d = APP.state.decisions[link.v];
+    return hasPack(link.v) ? `<button class="btn sm primary" data-openpack="${esc(link.v)}">Open pack</button>` : d?.status === "Pack requested" ? `<span class="small muted">Pack requested</span>`
+      : d?.decision === "like" ? `<button class="btn sm" data-pack="${esc(link.v)}">Request a pack</button>` : `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>`; }
+  if (link.t === "ready") return hasPack(link.v) ? `<button class="btn sm primary" data-openpack="${esc(link.v)}">Open pack</button>` : `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>`;
+  if (link.t === "discover") return APP.state.decisions[link.v] ? `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>` : `<button class="btn sm" data-opencard="${esc(link.v)}">Decide</button>`;
   if (link.t === "pack") return hasPack(link.v) ? `<button class="btn sm" data-openpack="${esc(link.v)}">Open pack</button>` : `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>`;
   if (link.t === "job") return `<button class="btn sm" data-detail="${esc(link.v)}">Open role</button>`;
   if (link.t === "view") return `<button class="btn sm" data-v="${esc(link.v)}">${esc(VIEW_LINKS.find((x) => x[0] === link.v)?.[1] || "Open")}</button>`;
@@ -4008,22 +4033,27 @@ function todoLinkBtn(link) {
 }
 function todoForm(own) {
   const x = own ? todoStore(own.store).find((t) => t.id === own.id) || {} : {}, lk = x.link || {};
-  const liked = APP.rows.filter((r) => r.decision?.decision === "like");
-  const sel = (v) => (`${lk.t}:${lk.v}` === v ? "selected" : "");
+  const sel = (v) => (`${lk.t}:${lk.v}` === v ? "selected" : ""), pickT = PICK_TYPES[lk.t] ? lk.t : null;
+  TF_PICK = pickT ? lk.v : null; const picked = pickT && APP.byId[lk.v];
   return `<div class="todo-form">
     <div class="tf-line"><span class="box-ph"></span><input id="tf-text" value="${esc(x.text || "")}" placeholder="What do you want to do?" autocomplete="off" enterkeyhint="next"></div>
     <input class="field" id="tf-sub" value="${esc(x.sub ?? "")}" placeholder="Details (optional), e.g. before 6 pm" enterkeyhint="next">
     <div class="tf-row"><select class="field" id="tf-link"><option value="">No link</option>
         <optgroup label="A page">${VIEW_LINKS.map(([k, l]) => `<option value="view:${k}" ${sel("view:" + k)}>${l}</option>`).join("")}</optgroup>
-        ${liked.length ? `<optgroup label="A shortlisted role">${liked.map((r) => `<option value="${hasPack(r.j.id) ? "pack" : "job"}:${esc(r.j.id)}" ${sel((hasPack(r.j.id) ? "pack:" : "job:") + r.j.id)}>${esc(r.j.company)} · ${esc(r.j.title.slice(0, 36))}</option>`).join("")}</optgroup>` : ""}
+        ${["pack", "job"].includes(lk.t) ? `<option value="${lk.t}:${esc(lk.v)}" selected>${esc(APP.byId[lk.v] ? pickLabel(APP.byId[lk.v]).slice(0, 40) : "A role")}</option>` : ""}
+        ${Object.entries(PICK_TYPES).map(([k, l]) => `<option value="pick:${k}" ${pickT === k ? "selected" : ""}>${l}…</option>`).join("")}
         <option value="url:" ${lk.t === "url" ? "selected" : ""}>A web link…</option></select>
       <label class="tf-rep"><input type="checkbox" id="tf-daily" ${own?.store === "daily" ? "checked" : ""}>Every day</label></div>
     <input class="field" id="tf-url" value="${esc(lk.t === "url" ? lk.v : "")}" placeholder="https://…" ${lk.t === "url" ? "" : "hidden"}>
+    <div class="tf-pick" ${pickT ? "" : "hidden"}><div class="tf-pick-in">${icon("search")}<input class="field" id="tf-pick" value="${esc(picked ? pickLabel(picked) : "")}" placeholder="Search a company or role, or type its # number" autocomplete="off" enterkeyhint="done">
+      <button class="tf-pick-open" data-tfpick-open aria-label="Show all">${icon("chev")}</button></div><div class="tf-pick-list" hidden></div></div>
     <div class="tf-acts"><button class="btn sm" data-tf-cancel>Cancel</button><button class="btn primary sm" data-tf-save>${own ? "Save" : "Add"}</button></div></div>`;
 }
 function saveTodo() {
   const text = $("#tf-text").value.trim(); if (!text) { $("#tf-text").focus(); return toast("Write the to-do first"); }
-  const lv = $("#tf-link").value, [lt, ...rest] = lv.split(":"), link = !lv ? null : lt === "url" ? ($("#tf-url").value.trim() ? { t: "url", v: $("#tf-url").value.trim() } : null) : { t: lt, v: rest.join(":") };
+  const lv = $("#tf-link").value, [lt, ...rest] = lv.split(":");
+  if (lt === "pick" && !TF_PICK) { $("#tf-pick").focus(); showPickList(); return toast("Pick a role from the list"); }
+  const link = !lv ? null : lt === "pick" ? { t: rest[0], v: TF_PICK } : lt === "url" ? ($("#tf-url").value.trim() ? { t: "url", v: $("#tf-url").value.trim() } : null) : { t: lt, v: rest.join(":") };
   const store = $("#tf-daily").checked ? "daily" : "today", item = { text, sub: $("#tf-sub").value.trim(), link };
   if (TODO_EDIT.id === "new") todoStore(store).push({ id: Date.now().toString(36), ...item });
   else { // edited: may also move between "today" and "every day"
@@ -4046,12 +4076,40 @@ document.addEventListener("click", (e) => {
   if (t.closest("[data-tf-cancel]")) { TODO_EDIT = null; return renderHome(); }
   if (t.closest("[data-tf-save]")) return saveTodo();
 });
-document.addEventListener("change", (e) => { if (e.target.id === "tf-link") $("#tf-url").hidden = !e.target.value.startsWith("url:"); });
+document.addEventListener("change", (e) => {
+  if (e.target.id !== "tf-link") return;
+  const v = e.target.value; $("#tf-url").hidden = !v.startsWith("url:");
+  $(".tf-pick").hidden = !v.startsWith("pick:"); TF_PICK = null; $("#tf-pick").value = "";
+  if (v.startsWith("pick:")) { $("#tf-pick").focus(); showPickList(); }
+});
+// the role picker: free text, a Discover # number, or the full list
+let TF_PICK = null;
+function showPickList() {
+  const type = ($("#tf-link").value.split(":")[1]) || "short", box = $(".tf-pick-list"); if (!box) return;
+  const raw = $("#tf-pick").value.trim(), q = raw.toLowerCase(), num = raw.replace(/^#/, "");
+  const all = pickRows(type), hit = !q || (TF_PICK && raw === pickLabel(APP.byId[TF_PICK] || { j: {} })) ? all
+    : /^\d+$/.test(num) ? all.filter((r) => String(cardNum(r.j.id)) === num || String(cardNum(r.j.id)).startsWith(num))
+    : all.filter((r) => `${r.j.company} ${r.j.title} ${r.d.city}`.toLowerCase().includes(q));
+  const shown = hit.slice(0, 60);
+  box.innerHTML = shown.length ? shown.map((r) => `<button class="tf-opt ${r.j.id === TF_PICK ? "on" : ""}" data-tfpick="${esc(r.j.id)}">${avatar(r.j.company)}<span><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.d.city)}</small></span>${cardNum(r.j.id) !== "" ? `<em>#${cardNum(r.j.id)}</em>` : ""}</button>`).join("")
+      + (hit.length > shown.length ? `<div class="tf-more">Showing ${shown.length} of ${hit.length}. Type to narrow it down.</div>` : "")
+    : `<div class="tf-more">${all.length ? "No match. Try a company name or a # number." : type === "short" ? "No shortlisted role without a pack." : type === "ready" ? "No pack is ready yet." : "Nothing left in Discover."}</div>`;
+  box.hidden = false;
+}
+document.addEventListener("input", (e) => { if (e.target.id === "tf-pick") { TF_PICK = null; showPickList(); } });
+document.addEventListener("focusin", (e) => { if (e.target.id === "tf-pick") showPickList(); });
+document.addEventListener("click", (e) => {
+  const o = e.target.closest("[data-tfpick]");
+  if (o) { TF_PICK = o.dataset.tfpick; $("#tf-pick").value = pickLabel(APP.byId[TF_PICK]); $(".tf-pick-list").hidden = true; return; }
+  if (e.target.closest("[data-tfpick-open]")) { const b = $(".tf-pick-list"); if (b.hidden) { if (TF_PICK) { $("#tf-pick").select?.(); } showPickList(); } else b.hidden = true; return; }
+  if (!e.target.closest(".tf-pick") && $(".tf-pick-list") && !$(".tf-pick-list").hidden) $(".tf-pick-list").hidden = true;
+});
 // Enter moves to the next field; only the Add / Save button saves
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Enter") return;
   if (e.target.id === "tf-text") { e.preventDefault(); $("#tf-sub").focus(); }
   else if (e.target.id === "tf-sub" || e.target.id === "tf-url") { e.preventDefault(); $("#tf-link").focus(); }
+  else if (e.target.id === "tf-pick") { e.preventDefault(); const first = $(".tf-pick-list [data-tfpick]"); if (first && !TF_PICK) first.click(); }
 });
 // ---- customize home: show/hide, order and width of each card, summary rows, name, own to-dos ----
 function renderHomeCustom() {
