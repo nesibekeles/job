@@ -2242,6 +2242,7 @@ function renderPanel(r) {
 }
 function openDetail(id) {
   const r = APP.byId[id]; if (!r) return;
+  stopWiggle();
   markViewed(id);
   const { j } = r;
   $("#detail").innerHTML = `
@@ -2293,7 +2294,7 @@ function openCard(id) {
     </div>
     <div class="cp-hint">Swipe right to shortlist · left to pass · close to decide later</div>`;
   $("#m-card").classList.add("on");
-  setTimeout(() => $("#m-card").classList.contains("on") && wiggle(pop, false), 450);
+  stopWiggle(); // no swipe tutorial in the detail popup; the card behind it stops leaning too
   pop.querySelector(".cp-body").scrollTop = 0;
 }
 function closeCard() { $("#m-card").classList.remove("on"); CARD.id = null; }
@@ -3184,7 +3185,18 @@ document.addEventListener("click", (e) => {
 });
 
 // ---- daily challenge: five questions, the same for everyone on a given day ----
-// 1 a city question · 2 Wordle · 3 a hard brain teaser · 4 an out-of-the-box interview question (open, not scored) · 5 another hard teaser
+// 1 marketing · 2 Wordle · 3 a city question · 4 an out-of-the-box interview question (open, not scored) · 5 a hard brain teaser
+const MARKETING = [
+  { q: "What does CAC stand for?", o: ["Customer Acquisition Cost", "Cost After Conversion", "Campaign Audience Coverage", "Customer Average Contribution"], why: "The total cost of winning one new customer." },
+  { q: "ROAS is calculated as…", o: ["Revenue from ads ÷ ad spend", "Ad spend ÷ revenue", "Profit ÷ customers", "Clicks ÷ impressions"], why: "Return on ad spend: how much revenue each unit of ad spend brings back." },
+  { q: "The “pirate metrics” framework is…", o: ["AARRR", "SMART", "RACE", "AIDA"], why: "Acquisition, Activation, Retention, Referral, Revenue. Coined by Dave McClure." },
+  { q: "Net Promoter Score can range from…", o: ["-100 to 100", "0 to 10", "0 to 100", "1 to 5"], why: "% promoters minus % detractors, so it can go negative." },
+  { q: "A common rule of thumb for a healthy LTV:CAC ratio is…", o: ["3:1", "1:1", "1:3", "10:1"], why: "Lifetime value about three times the cost to acquire a customer." },
+  { q: "The “chicken-and-egg problem” in marketplaces means…", o: ["You need supply to attract demand, and demand to attract supply", "Prices rise faster than costs", "Customers churn after one order", "Ads stop working at scale"], why: "Neither side shows up until the other one is there." },
+  { q: "What does GTM stand for?", o: ["Go-to-market", "Growth tracking model", "Gross target margin", "Global trade marketing"], why: "The plan for bringing a product to its customers." },
+  { q: "Churn rate measures…", o: ["The share of customers lost in a period", "New customers per month", "Average order value", "Ad click-through rate"], why: "Lost customers ÷ customers at the start of the period." },
+  { q: "In an A/B test, the “control” is…", o: ["The version without the change", "The winning version", "The newest version", "The version with the most traffic"], why: "The baseline you compare the change against." },
+];
 const PLACES = [
   { q: "What is the capital of New Zealand?", o: ["Wellington", "Auckland", "Christchurch", "Queenstown"], why: "Auckland is the largest city; Wellington is the capital." },
   { q: "Aotearoa is the Māori name for…", o: ["New Zealand", "Australia", "Hawaii", "Tasmania"], why: "Often translated as “land of the long white cloud”." },
@@ -3258,11 +3270,11 @@ function seeded(seed) { let a = [...seed].reduce((h, c) => Math.imul(h ^ c.charC
 function shuffle(arr, rnd) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const k = Math.floor(rnd() * (i + 1)); [a[i], a[k]] = [a[k], a[i]]; } return a; }
 function todaysChallenge() {
   const rnd = seeded("jobness-" + today());
-  const place = shuffle(PLACES, rnd)[0], word = shuffle(WORDLE, rnd)[0], open = shuffle(OPEN, rnd)[0];
-  const [t1, t2] = shuffle(TEASERS, rnd);
+  const marketing = shuffle(MARKETING, rnd)[0], place = shuffle(PLACES, rnd)[0];
+  const word = shuffle(WORDLE, rnd)[0], open = shuffle(OPEN, rnd)[0], teaser = shuffle(TEASERS, rnd)[0];
   const mc = (t, kind) => { const order = shuffle(t.o.map((_, i) => i), rnd); return { type: "mc", kind, q: t.q, o: order.map((i) => t.o[i]), a: order.indexOf(0), why: t.why }; };
-  return [mc(place, "Places"), { type: "wordle", kind: "Wordle", q: "Guess today's 5-letter word", hint: "Business & marketing", a: word }, mc(t1, "Brain teaser"),
-    { type: "open", kind: "Out of the box", sub: open.t, q: open.q, steps: open.steps, end: open.end }, mc(t2, "Brain teaser")];
+  return [mc(marketing, "Marketing"), { type: "wordle", kind: "Wordle", q: "Guess today's 5-letter word", hint: "Business & marketing", a: word }, mc(place, "Places"),
+    { type: "open", kind: "Out of the box", sub: open.t, q: open.q, steps: open.steps, end: open.end }, mc(teaser, "Brain teaser")];
 }
 const GRADED = 4; // the out-of-the-box question has no single right answer, so it isn't scored
 function openChallenge() {
