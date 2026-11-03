@@ -32,6 +32,12 @@ Nesibe'nin hayal ettiği iş bir yaşam tarzı: küçük, samimi, gösterişsiz 
 ## Komut: "şu ilanı ekle <link>"
 Linki Chrome'da (salt okuma) ya da web-fetch ile aç, metni al ve `data/manual_jobs.json`'a `jobfinder.job(...)` formatında ekle (`"manual": true`), sonra `python3 jobfinder.py rescore`. LinkedIn'de toplu tarama yapma; sadece kullanıcının verdiği tek ilanlar.
 
+## Telefondan ilan ve şehir ekleme
+- Uygulamada **Add a job** (Discover'daki +, Profile → Add a job): link yapıştırılır. Mac'te `/api/add-url` anında okur; telefonda "Add job" başlıklı GitHub issue açılır, `.github/workflows/add-job.yml` okur, ekler, kapatır, siteyi yeniden kurar. Elle: `python3 jobfinder.py add-url <link> [metin-dosyası]`.
+- Okunan kaynaklar: LinkedIn'in herkese açık ilan sayfası (tek ilan, tarama yok), Greenhouse/Lever/Ashby API'leri, diğer sitelerde schema.org JobPosting. Okunamazsa yapıştırılan metin kullanılır.
+- **Add a city** (Preferences → Cities): Mac'te `/api/city` `config/cities.json`'a ekler ve yayınlar; telefonda "Add city: X" issue'su. Elle: `python3 jobfinder.py add-city <şehir> [ülke] [öncelik] [hedef €/yıl]`.
+- İstanbul `home: true`: vize gerekmez. Lever'da şehir yazmayan şirketlere `base` alanı (ör. Peak Games → Istanbul).
+
 ## Komut: "yeni şirket ekle X"
 Hangi ATS'i kullandığını bul (kariyer sayfası linkinden: boards.greenhouse.io, jobs.lever.co, jobs.ashbyhq.com, *.myworkdayjobs.com, jobs.smartrecruiters.com), API'nin cevap verdiğini doğrula, `config/companies.json`'a ekle. Okunamıyorsa watchlist'e koy.
 

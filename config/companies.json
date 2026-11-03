@@ -549,6 +549,104 @@
         "AI"
       ],
       "priority": false
+    },
+    {
+      "name": "Trendyol",
+      "ats": "lever",
+      "slug": "trendyol",
+      "tier": "top",
+      "pay": "high",
+      "sponsor": "unknown",
+      "tags": [
+        "E-commerce",
+        "Marketplace",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Codeway",
+      "ats": "ashby",
+      "slug": "codeway",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "unknown",
+      "tags": [
+        "Technology",
+        "Mobile apps",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Peak Games",
+      "ats": "lever",
+      "slug": "peakgames",
+      "base": "Istanbul",
+      "tier": "big",
+      "pay": "high",
+      "sponsor": "unknown",
+      "tags": [
+        "Gaming",
+        "Mobile",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Dream Games",
+      "ats": "lever",
+      "slug": "dreamgames",
+      "base": "Istanbul",
+      "tier": "scaleup",
+      "pay": "high",
+      "sponsor": "unknown",
+      "tags": [
+        "Gaming",
+        "Mobile",
+        "Türkiye"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Çiçeksepeti",
+      "ats": "lever",
+      "slug": "ciceksepeti",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "unknown",
+      "tags": [
+        "E-commerce",
+        "Türkiye"
+      ],
+      "priority": false
+    },
+    {
+      "name": "iyzico",
+      "ats": "lever",
+      "slug": "iyzico",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "unknown",
+      "tags": [
+        "Fintech",
+        "Payments",
+        "Türkiye"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Midas",
+      "ats": "lever",
+      "slug": "getmidas",
+      "tier": "scaleup",
+      "pay": "mid",
+      "sponsor": "unknown",
+      "tags": [
+        "Fintech",
+        "Türkiye"
+      ],
+      "priority": false
     }
   ],
   "_watchlist_help": "Otomatik okunamayan kariyer siteleri. Uygulamada link olarak çıkar; beğendiğin ilanı '+ İlan ekle' ile ya da Claude Code'a linki vererek eklersin.",
@@ -670,7 +768,7 @@
         "FMCG",
         "Beauty"
       ],
-      "priority": false
+      "priority": true
     },
     {
       "name": "Heineken",
@@ -698,6 +796,124 @@
         "Consumer",
         "Travel",
         "New Zealand"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Getir",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Getir+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "E-commerce",
+        "Quick commerce",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "n11",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=n11+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "E-commerce",
+        "Marketplace",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Nesine",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Nesine+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Technology",
+        "Gaming",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Yemeksepeti",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Yemeksepeti+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "E-commerce",
+        "Food delivery",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Hepsiburada",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Hepsiburada+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "E-commerce",
+        "Marketplace",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Rollic",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Rollic+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Gaming",
+        "Mobile",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Garanti BBVA",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Garanti+BBVA+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Banking",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Coca-Cola İçecek",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Coca-Cola+%C4%B0%C3%A7ecek+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "FMCG",
+        "Brand building",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "BSH",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=BSH+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Consumer goods",
+        "Brand building",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Turkcell",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Turkcell+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Telecom",
+        "Technology",
+        "Türkiye"
+      ],
+      "priority": true
+    },
+    {
+      "name": "Insider",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Insider+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Technology",
+        "Martech",
+        "Türkiye"
+      ],
+      "priority": false
+    },
+    {
+      "name": "Papara",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Papara+marketing&location=Istanbul%2C+T%C3%BCrkiye",
+      "tags": [
+        "Fintech",
+        "Türkiye"
       ],
       "priority": false
     }

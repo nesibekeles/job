@@ -149,6 +149,21 @@ def add_url(url, pasted=""):
     return added
 
 
+def add_city(name, country="", priority=6, target=None):
+    """A new city on the list: jobs there are fetched from the next run on. Target = gross €/yr; min is 15% below."""
+    cfg = load_json(CONFIG / "cities.json")
+    name = name.strip()
+    if not name:
+        raise ValueError("City name is empty")
+    if any(c["name"].lower() == name.lower() for c in cfg["cities"]):
+        return False
+    target = int(target or 60000)
+    cfg["cities"].append({"name": name, "country": country.strip(), "aliases": [name.lower()], "priority": int(priority),
+                          "gross_target_eur": target, "gross_min_eur": round(target * 0.85, -3), "_added": "from the app"})
+    save_json(CONFIG / "cities.json", cfg)
+    return True
+
+
 def strip_html(s):
     if not s:
         return ""
@@ -221,7 +236,7 @@ def fetch_lever(c, m):
     out = []
     for j in d:
         cat = j.get("categories", {})
-        locs = [cat.get("location", "")] + (cat.get("allLocations") or [])
+        locs = [cat.get("location", "")] + (cat.get("allLocations") or []) + ([c["base"]] if c.get("base") else [])  # base: boards that leave the city out
         if not m.title_ok(j["text"]) or not m.location(*locs, j.get("workplaceType", "")):
             continue
         parts = [j.get("descriptionPlain", "")]
@@ -655,6 +670,8 @@ if __name__ == "__main__":
         print(rescore(), "jobs rescored")
     elif cmd == "export":
         export_static(sys.argv[2])
+    elif cmd == "add-city":  # add-city <name> [country] [priority] [target €/yr]
+        print(add_city(*sys.argv[2:6]))
     elif cmd == "add-url":  # add-url <link> [file with pasted text]; prints a one-line summary (used by the add-job workflow)
         pasted = open(sys.argv[3]).read() if len(sys.argv) > 3 else ""
         j = add_url(sys.argv[2], pasted)

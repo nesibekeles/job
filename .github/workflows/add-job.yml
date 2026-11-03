@@ -1,4 +1,4 @@
-name: Add a job from a link
+name: Add a job or a city from the phone
 
 # Nesibe shares a job link from her phone; it arrives as an issue titled "Add job" in this repo.
 # This reads that one posting (never a crawl), adds and scores it, answers on the issue and redeploys the site.
@@ -18,11 +18,12 @@ concurrency:
 jobs:
   add:
     # the repo is public: only issues opened by the owner are read
-    if: github.event.issue.user.login == github.repository_owner && github.event.issue.state == 'open' && (contains(github.event.issue.labels.*.name, 'add-job') || startsWith(github.event.issue.title, 'Add job'))
+    if: github.event.issue.user.login == github.repository_owner && github.event.issue.state == 'open' && (contains(github.event.issue.labels.*.name, 'add-job') || startsWith(github.event.issue.title, 'Add job') || startsWith(github.event.issue.title, 'Add city'))
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
       BODY: ${{ github.event.issue.body }}
+      TITLE: ${{ github.event.issue.title }}
       N: ${{ github.event.issue.number }}
     steps:
       - uses: actions/checkout@v4
@@ -36,6 +37,17 @@ jobs:
           import os, re, json, jobfinder as jf
           body = os.environ.get("BODY") or ""
           m = re.search(r"https?://\S+", body)
+          if os.environ.get("TITLE", "").startswith("Add city"):  # "Add city: Zurich" with lines country: / priority: / target:
+              f = dict(re.findall(r"(?im)^\s*(country|priority|target)\s*:\s*(.+?)\s*$", body))
+              city = os.environ["TITLE"].split(":", 1)[-1].strip()
+              try:
+                  added = jf.add_city(city, f.get("country", ""), f.get("priority", 6), re.sub(r"\D", "", f.get("target", "")) or None)
+                  out = {"ok": True, "city": city, "added": added}
+              except Exception as e:
+                  out = {"ok": False, "error": str(e)[:200]}
+              json.dump(out, open("result.json", "w"))
+              open("comment.md", "w").write((f"Added **{city}** to your cities. Jobs there arrive with the next update (a few minutes)." if out.get("added") else f"**{city}** was already on your list.") if out["ok"] else f"Couldn't add the city: {out['error']}")
+              raise SystemExit
           if not m:
               out = {"ok": False, "error": "There's no link in this issue."}
           else:
@@ -59,8 +71,8 @@ jobs:
           if python3 -c "import json,sys; sys.exit(0 if json.load(open('result.json'))['ok'] else 1)"; then
             git config user.name "job-radar-bot"
             git config user.email "actions@users.noreply.github.com"
-            git add data/manual_jobs.json data/jobs.json
-            git diff --cached --quiet || git commit -m "Add job from issue #$N [skip ci]"
+            git add data/manual_jobs.json data/jobs.json config/cities.json
+            git diff --cached --quiet || git commit -m "From the phone, issue #$N [skip ci]"
             for i in 1 2 3 4 5; do git pull --rebase -q && git push && break; sleep 6; done
             gh workflow run update.yml --ref main
             gh issue close "$N" --comment "$(cat comment.md)"

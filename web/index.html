@@ -1042,6 +1042,27 @@
     html.kb-open .modal.drawer .sheet.pack-sheet { height: 100dvh !important; border-radius: 0; }
   }
 
+  /* passed page */
+  .pass-sec { margin: 34px 0 14px; } .pass-sec h3 { margin: 0 0 4px; } .pass-sec p { margin: 0; max-width: 640px; }
+  #v-rejected .pass-sec:first-of-type { margin-top: 26px; }
+  .item.tap { cursor: pointer; transition: transform .12s; } .item.tap:hover { transform: translateY(-1px); }
+  .item > div { min-width: 0; } .item h4 { overflow-wrap: anywhere; }
+  .item .tag { white-space: normal; max-width: 100%; }
+  /* add a city */
+  .addcity { display: grid; grid-template-columns: 1.2fr 1fr .6fr 1fr; gap: 8px; align-items: end; margin-top: 12px; padding: 12px; border-radius: 16px; background: var(--soft); }
+  .addcity label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; color: var(--ink-2); }
+  .ac-acts { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; justify-content: flex-end; } .ac-acts span { margin-right: auto; }
+  @media (max-width: 760px) { .addcity { grid-template-columns: 1fr 1fr; } .addcity #nc-name, .addcity #nc-country { grid-column: 1 / -1; } .ac-acts { flex-wrap: wrap; } }
+  .addcity .field { background: var(--surface); width: 100%; }
+  .un-role > div { min-width: 0; } .un-role span { overflow-wrap: anywhere; } .sheet { overflow-x: hidden; }
+  /* deeper tile colours so they still read as colours in bright sunlight */
+  :root { --t-lav: linear-gradient(135deg, #e3dcfb, #cfc3f4); --t-peach: linear-gradient(135deg, #fde0cf, #f6c6ab); --t-mint: linear-gradient(135deg, #d6efe2, #bde2cd);
+    --t-sky: linear-gradient(135deg, #d9e5f6, #bfd3ee); --t-rose: linear-gradient(135deg, #f8dbe2, #efc2cd); --t-butter: linear-gradient(135deg, #f8ebc6, #eed797); }
+  /* business: white ring and checklist bar, a neon "New today" */
+  [data-theme="business"] .bt-hero .ring .rf, [data-theme="business"] .glance-ring .ring .rf { stroke: #ffffff !important; }
+  [data-theme="business"] .bt-todo .bar i, [data-theme="business"] .bt-todo > .bar i { background: #ffffff !important; }
+  [data-theme="business"] .badge-new { background: rgba(57, 255, 136, .14); color: #39ff88; box-shadow: inset 0 0 0 1px rgba(57, 255, 136, .35); }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   /* Business: graphite dark mode, one periwinkle accent; same fonts as every theme */
   html[data-theme="business"] {
@@ -1084,7 +1105,7 @@
     --mint: #3f7466; --mint-50: #ecf3f0; --rose: #a24d68; --rose-50: #f7edf1; --butter: #7d6524; --butter-50: #f6f2e6;
     --sky: #4f58b5; --sky-50: #eeeffa; --peach: #7b4fb0; --peach-50: #f3edfa;
     --radius: 12px; --shadow-sm: none; --shadow: 0 10px 24px -14px rgba(35, 29, 61, .25); --shadow-card: 0 0 0 1px #e4e0f0;
-    --t-lav: #ebe7fa; --t-peach: #efe9f8; --t-mint: #e9e7f6; --t-sky: #e6e5f7; --t-rose: #f1e9f5; --t-butter: #f0edf8;
+    --t-lav: #e0d9f8; --t-peach: #e6dcf6; --t-mint: #ddd9f3; --t-sky: #d9d7f3; --t-rose: #eadcf2; --t-butter: #e7e2f6;
   }
   html[data-theme="smart"] body { background: var(--bg); }
   [data-theme="smart"] .box, [data-theme="smart"] .hcard, [data-theme="smart"] .bt, [data-theme="smart"] .sheet, [data-theme="smart"] .mini, [data-theme="smart"] .card-pop,
@@ -1247,9 +1268,9 @@
       <div class="eyebrow">Left behind</div>
       <h1 class="hero">Passed.</h1>
       <p class="sub">Roles you passed on and roles filtered out automatically. If something was filtered by mistake, you can bring it back from here.</p>
-      <h3 class="sec section-title">You passed</h3>
+      <div class="pass-sec"><h3 class="sec">You passed</h3><p class="small muted">Tap a card to see the role. Changed your mind? Shortlist it and say why.</p></div>
       <div class="list" id="rej-mine"></div>
-      <h3 class="sec section-title">Filtered automatically <span class="small muted" style="font-weight:500">· no sponsorship, language requirement or salary too low</span></h3>
+      <div class="pass-sec"><h3 class="sec">Filtered automatically</h3><p class="small muted">No sponsorship for an on-site role abroad, a language requirement, salary too low or 8+ years asked. If the filter got one wrong, shortlist it.</p></div>
       <div class="list" id="rej-auto"></div>
     </section>
 
@@ -1314,6 +1335,7 @@
           <p class="hint">1 = most wanted. Jobs in switched-off cities are hidden. Target = gross per year, in € equivalent.</p>
           <div class="city head"><span></span><span>City</span><span>Priority</span><span>Target (€/yr)</span><span class="min">Min</span></div>
           <div id="s-cities"></div>
+          <div id="s-addcity"></div>
         </div>
         <div class="grid-2">
           <div class="box pad">
@@ -1396,6 +1418,7 @@
   <div class="small" id="pp-err" style="color:var(--rose);margin-top:8px"></div>
   <div class="sheet-actions"><button class="btn" data-close="m-packpass">Cancel</button><button class="btn primary" id="pp-go">Unlock</button></div>
 </div></div>
+<div class="modal" id="m-rescue"><div class="sheet" id="rescue-sheet" style="max-width:480px"></div></div>
 <div class="modal" id="m-unshort"><div class="sheet" id="unshort-sheet" style="max-width:460px"></div></div>
 <div class="modal" id="m-update"><div class="sheet" style="max-width:440px">
   <div class="sheet-head"><h2>Fresh jobs twice a day</h2><button class="icon-btn" data-close="m-update"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -2353,7 +2376,7 @@ document.addEventListener("click", (e) => {
 // ---------------- lists ----------------
 function itemHTML(r, acts) {
   const { j, d } = r, pk = APP.packs?.[j.id];
-  return `<div class="box item">${avatar(j.company)}
+  return `<div class="box item tap" data-itemopen="${esc(j.id)}">${avatar(j.company)}
     <div><h4>${esc(j.title)}</h4><div class="small muted">${esc(j.company)} · ${esc(d.city)} · ${esc(j.f.workplace)} · score <b style="color:var(--ink)">${r.score}</b>${j.closed ? " · <b>post closed</b>" : ""}${d.hiddenWhy ? ` · ${esc(d.hiddenWhy)}` : ""}</div>
     ${r.decision?.reasons?.length ? `<div class="tags" style="margin-top:6px">${r.decision.reasons.map((x) => `<span class="tag red">${esc(x)}</span>`).join("")}</div>` : ""}
     ${d.filtered && !r.decision ? `<div class="tags" style="margin-top:6px"><span class="tag red">${esc(d.filtered)}</span></div>` : ""}
@@ -2420,6 +2443,33 @@ document.addEventListener("click", (e) => {
   if (ds.goday) { JOURNEY.sel = ds.goday; JOURNEY.month = ds.goday.slice(0, 7); return showView("journey"); }
   if (ds.unshort) return openUnshort(ds.unshort);
 });
+// a passed or filtered role goes to the shortlist only with a reason, so the ranking learns from it
+const RESCUE_REASONS = ["Changed my mind", "Sponsorship looks possible", "Salary works for me", "The filter got it wrong", "Worth a try anyway", "A contact can refer me"];
+let RESCUE = null;
+function openRescue(id) {
+  const r = APP.byId[id]; RESCUE = id;
+  $("#rescue-sheet").innerHTML = `<div class="sheet-head"><h2>Shortlist it after all?</h2><button class="icon-btn" data-close="m-rescue">${icon("x")}</button></div>
+    <div class="un-role">${avatar(r.j.company)}<div><b>${esc(r.j.title)}</b><span>${esc(r.j.company)} · ${esc(r.d.city)}${r.d.filtered ? ` · filtered: ${esc(r.d.filtered)}` : ""}</span></div></div>
+    <div class="small muted" style="margin-bottom:8px">Why? Pick at least one, or write your own.</div>
+    <div class="chips">${RESCUE_REASONS.map((x) => `<button class="chip" data-rr="${esc(x)}">${esc(x)}</button>`).join("")}</div>
+    <input class="field" id="rescue-note" placeholder="Your own reason (optional)" style="width:100%;margin-top:12px">
+    <div class="sheet-actions"><button class="btn" data-close="m-rescue">Cancel</button><button class="btn primary" data-rescue-save>Add to shortlist</button></div>`;
+  $("#m-rescue").classList.add("on");
+}
+document.addEventListener("click", (e) => {
+  const c = e.target.closest("[data-rr]"); if (c) { c.classList.toggle("on"); return; }
+  if (!e.target.closest("[data-rescue-save]") || !RESCUE) return;
+  const reasons = [...document.querySelectorAll("#rescue-sheet .chip.on")].map((x) => x.dataset.rr), note = $("#rescue-note").value.trim();
+  if (!reasons.length && !note) return toast("Pick a reason or write one");
+  const id = RESCUE, prev = APP.state.decisions[id];
+  APP.state.decisions[id] = { id, decision: "like", status: "Saved", reasons: [], at: new Date().toISOString(), rescued: { reasons, note, from: prev ? "passed" : "filtered" } };
+  RESCUE = null; $("#m-rescue").classList.remove("on"); commit();
+  undoSnack("Added to your shortlist", () => { if (prev) APP.state.decisions[id] = prev; else delete APP.state.decisions[id]; commit(); });
+});
+document.addEventListener("click", (e) => {
+  const card = e.target.closest("[data-itemopen]");
+  if (card && !e.target.closest("button, a, select, input")) openDetail(card.dataset.itemopen);
+});
 // removing from the shortlist: our own dialog with the two real choices
 let UNSHORT = null;
 function openUnshort(id) {
@@ -2463,8 +2513,8 @@ function renderLists() {
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#c-rej").textContent = mine.length + auto.length || "";
-  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Undo</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
-  $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm" data-detail="${esc(r.j.id)}">Details</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
+  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Back to Discover</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
+  $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
   $("#pack-help").innerHTML = APP.server
     ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Tap a pipeline step to see only those roles.`
     : `Press <b>Prepare pack</b> on your Mac and ask Claude Code to prepare it. Review, apply, then update the status. Tap a pipeline step to see only those roles.`;
@@ -2707,6 +2757,21 @@ function chipEditor(el, list, key, weighted) {
     + `<input class="chip-add" placeholder="+ add, Enter">`;
   el.dataset.key = key; el.dataset.weighted = weighted ? "1" : "";
 }
+let ADDING_CITY = false;
+document.addEventListener("click", async (e) => {
+  const t = e.target;
+  if (t.closest("[data-nc-open]")) { ADDING_CITY = true; renderSettings(); return setTimeout(() => $("#nc-name")?.focus(), 30); }
+  if (t.closest("[data-nc-cancel]")) { ADDING_CITY = false; return renderSettings(); }
+  if (!t.closest("[data-nc-save]")) return;
+  const name = $("#nc-name").value.trim(), country = $("#nc-country").value.trim(), priority = +$("#nc-prio").value, target = +$("#nc-target").value || 60000;
+  if (!name) { $("#nc-name").focus(); return toast("Write the city name"); }
+  const s = APP.state.settings;
+  if (s.cities.some((c) => c.name.toLowerCase() === name.toLowerCase())) return toast(`${name} is already on your list`);
+  s.cities.push({ name, country, priority, on: true, target, custom: true });
+  ADDING_CITY = false; commit(); renderSettings();
+  if (APP.server) { const r = await post("/api/city", { name, country, priority, target }).catch(() => ({})); toast(r.ok ? `${name} added. Jobs there come with the next update` : "Saved here; couldn't update the job reader"); }
+  else { window.open(`https://github.com/${REPO}/issues/new?title=${encodeURIComponent("Add city: " + name)}&body=${encodeURIComponent(`country: ${country}\npriority: ${priority}\ntarget: ${target}`)}`, "_blank", "noopener"); toast("Tap Create on GitHub to start fetching jobs there"); }
+});
 function renderSettings() {
   renderPackPhone();
   const s = APP.state.settings, fx = APP.data.config.cities.fx_to_eur;
@@ -2721,6 +2786,13 @@ function renderSettings() {
       <input class="field" type="number" step="1000" data-ctarget value="${target}" style="width:100%">
       <span class="min">min ${eur(min)}</span></div>`;
   };
+  $("#s-addcity").innerHTML = ADDING_CITY ? `<div class="addcity">
+      <input class="field" id="nc-name" placeholder="City, e.g. Zurich"><input class="field" id="nc-country" placeholder="Country">
+      <label class="small">Priority <select class="field" id="nc-prio">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option ${n === 5 ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+      <label class="small">Target €/yr gross <input class="field" id="nc-target" type="number" step="1000" value="60000"></label>
+      <div class="ac-acts"><span class="small muted">${APP.server ? "Jobs there are fetched from the next update." : "GitHub opens to confirm: tap Create. Jobs there arrive in a few minutes."}</span>
+        <button class="btn sm" data-nc-cancel>Cancel</button><button class="btn primary sm" data-nc-save>${APP.server ? "Add city" : "Continue on GitHub"}</button></div></div>`
+    : `<button class="btn ghost sm" data-nc-open style="margin-top:10px">${icon("plus")}Add a city</button>`;
   $("#s-cities").innerHTML = s.cities.map((c, i) => [c, i]).sort((a, b) => a[0].priority - b[0].priority || a[0].name.localeCompare(b[0].name)).map(([c, i]) => cityRow(c, i)).join("") + cityRow(s.remote, -1, true);
   chipEditor($("#s-exact"), s.exact_kw, "exact_kw");
   chipEditor($("#s-adjacent"), s.adjacent_kw, "adjacent_kw");
@@ -3846,7 +3918,7 @@ document.addEventListener("click", (e) => {
   if (a.id === "do-reorder") { e.preventDefault(); buildOrder(); renderStack(); return toast("Order updated"); }
   if (ds.pack) { APP.state.decisions[ds.pack].status = "Pack requested"; toast(APP.server ? "Queued. Type “paketleri hazırla” in Claude Code." : "Marked. Download your backup and give it to Claude Code."); return commit(); }
   if (ds.unrej) { delete APP.state.decisions[ds.unrej]; return commit(); }
-  if (ds.rescue) { APP.state.decisions[ds.rescue] = { id: ds.rescue, decision: "like", reasons: [], status: "Saved", at: new Date().toISOString() }; toast("Added to your shortlist"); return commit(); }
+  if (ds.rescue) return openRescue(ds.rescue);
   if ("costar" in ds) { const c = APP.state.settings.companies[a.closest("[data-co]").dataset.co]; c.priority = !c.priority; return commit(); }
   if ("coedit" in ds) return companySheet(a.closest("[data-co]").dataset.co);
   if (ds.cof) { APP.cof = ds.cof; document.querySelectorAll("#co-filter button").forEach((b) => b.classList.toggle("on", b === a)); return renderCompanies(); }

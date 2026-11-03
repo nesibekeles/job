@@ -84,6 +84,9 @@ def publish_state():
     try:
         token = subprocess.run([str(GH), "auth", "token"], capture_output=True, text=True, timeout=30).stdout.strip()
         headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "jobness"}
+        if PUBLISH.get("cities_dirty"):  # a city added in the app: the daily fetch reads this file
+            gh_put(SHARED_API.replace("data/shared_state.json", "config/cities.json"), (jf.CONFIG / "cities.json").read_bytes(), "Add a city from the app", headers)
+            PUBLISH["cities_dirty"] = False
         if PUBLISH["packs_dirty"] and PACKS_ENC.is_file():  # ciphertext only; it opens with Nesibe's passphrase
             gh_put(PACKS_API, PACKS_ENC.read_bytes(), "Update encrypted packs", headers)
             PUBLISH["packs_dirty"] = False
@@ -211,6 +214,16 @@ class Handler(SimpleHTTPRequestHandler):
             if not FETCH["running"]:
                 threading.Thread(target=run_fetch, daemon=True).start()
             return self.send_json({"ok": True})
+        if path == "/api/city":
+            try:
+                with LOCK:
+                    added = jf.add_city(b.get("name", ""), b.get("country", ""), b.get("priority", 6), b.get("target"))
+                if added:
+                    PUBLISH["cities_dirty"] = True
+                    schedule_publish(delay=20)
+                return self.send_json({"ok": True, "added": added})
+            except Exception as e:
+                return self.send_json({"ok": False, "error": str(e)[:200]}, 400)
         if path == "/api/add-url":  # one posting from a link (LinkedIn's public page or a careers page), pasted text as fallback
             try:
                 with LOCK:
