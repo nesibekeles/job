@@ -704,6 +704,8 @@
   .cal-dots i.t-lav, .cal-ev i.t-lav { background: var(--lav); } .cal-dots i.t-sky, .cal-ev i.t-sky { background: var(--sky); } .cal-dots i.t-peach, .cal-ev i.t-peach { background: var(--peach); }
   .cal-dots i.t-mint, .cal-ev i.t-mint { background: var(--mint); } .cal-dots i.t-rose, .cal-ev i.t-rose { background: var(--rose); } .cal-dots i.t-butter, .cal-ev i.t-butter { background: #c9a13b; }
   .ev-add { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; } .ev-add input { flex: 1 1 180px; } .ev-add select { flex: 0 0 auto; }
+  .note-acts { flex-wrap: wrap; } .note-acts .btn { flex: 1 1 auto; justify-content: center; }
+  .ev-add input.ev-time { flex: 0 0 110px; } .cal-all { margin-top: 12px; width: 100%; justify-content: center; }
   .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
   .app { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; } .app.rej { opacity: .7; }
   .app-top { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center; }
@@ -2624,7 +2626,7 @@ function appCard(r) {
     <div class="dates">${dates.map((e, i) => `<button class="date-chip" data-goday="${e.date}" title="${esc((EV_KIND[e.kind]?.[0] || "") + (e.note ? " · " + e.note : ""))}"><em>${i + 1}</em>${fmt(e.date)} · ${esc(EV_KIND[e.kind]?.[0] || "Date")}</button>`).join("")}
       <button class="date-chip add" data-date-for="${esc(id)}">${icon("calendar")}${dates.length ? "Add" : "Add a date"}</button></div>
     ${DATE_FOR === id ? `<div class="date-form"><input class="field" type="date" id="df-date" value="${today()}"><select class="field" id="df-type"><option value="interview">Interview</option><option value="deadline">Deadline</option><option value="call">Call</option><option value="other">Note</option></select>
-      <input class="field" id="df-note" placeholder="Note (optional)"><button class="btn sm" data-date-cancel>Cancel</button><button class="btn primary sm" data-date-save="${esc(id)}">Save</button></div>` : ""}
+      <input class="field" type="time" id="df-time" aria-label="Time (optional)" title="Time (optional)"><input class="field" id="df-note" placeholder="Note (optional)"><button class="btn sm" data-date-cancel>Cancel</button><button class="btn primary sm" data-date-save="${esc(id)}">Save</button></div>` : ""}
     <div class="app-acts"><select class="field" data-status="${esc(id)}">${APP.data.statuses.map((s) => `<option ${s === d.status ? "selected" : ""}>${s}</option>`).join("")}</select>
       ${hasPack(id) ? `<button class="btn primary sm" data-openpack="${esc(id)}">${APP.packs?.[id] ? "" : "🔒 "}Open pack</button>` : d.status === "Saved" ? `<button class="btn sm" data-pack="${esc(id)}">Prepare pack</button>`
         : !APP.server && d.status === "Pack ready" ? `<span class="pack-pill">Pack on your Mac</span>` : ""}
@@ -2640,7 +2642,7 @@ document.addEventListener("click", (e) => {
   if (ds.funnel) { SHORT_F = SHORT_F === ds.funnel && ds.funnel !== "all" ? "all" : ds.funnel; WALLET_OPEN = null; return flipRender(renderLists); }
   if (ds.dateFor) { DATE_FOR = DATE_FOR === ds.dateFor ? null : ds.dateFor; return renderLists(); }
   if ("dateCancel" in ds) { DATE_FOR = null; return renderLists(); }
-  if (ds.dateSave) { addEvent(ds.dateSave, $("#df-date").value || today(), $("#df-type").value, $("#df-note").value.trim()); DATE_FOR = null; toast("Date added to your calendar"); return renderLists(); }
+  if (ds.dateSave) { addEvent(ds.dateSave, $("#df-date").value || today(), $("#df-type").value, $("#df-note").value.trim(), $("#df-time").value); DATE_FOR = null; return renderLists(); }
   if (ds.goday) { JOURNEY.sel = ds.goday; JOURNEY.month = ds.goday.slice(0, 7); return showView("journey"); }
   if (ds.unshort) return openUnshort(ds.unshort);
 });
@@ -3924,7 +3926,7 @@ function todoGate(key) {
 }
 function noteDialog(title, text, btn) {
   $("#note-sheet").innerHTML = `<div class="sheet-head"><h2>${title}</h2><button class="icon-btn" data-close="m-note">${icon("x")}</button></div>
-    <p class="muted" style="margin:0 0 4px">${text}</p><div class="sheet-actions"><button class="btn" data-close="m-note">OK</button>${btn}</div>`;
+    <p class="muted" style="margin:0 0 4px">${text}</p><div class="sheet-actions note-acts"><button class="btn" data-close="m-note">OK</button>${btn}</div>`;
   $("#m-note").classList.add("on");
 }
 // a "go there" button in the note closes it first, then does its usual job
@@ -4420,19 +4422,78 @@ function renderJourney() {
       <div class="cal">${["M", "T", "W", "T", "F", "S", "S"].map((d) => `<span class="cal-h">${d}</span>`).join("")}
         ${cells.map((d) => d ? `<button class="cal-d ${d === today() ? "today" : ""} ${d === JOURNEY.sel ? "sel" : ""}" data-day="${d}">${+d.slice(8)}<span class="cal-dots">${(byDay[d] || []).slice(0, 3).map((e) => `<i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i>`).join("")}</span></button>` : "<span></span>").join("")}</div>
       <div class="cal-list"><div class="small muted" style="margin-bottom:6px">${new Date(JOURNEY.sel).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}</div>
-        ${dayEv.length ? dayEv.map((e) => `<div class="cal-ev"><i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i><div><b>${esc(e.title)}</b><span>${esc(e.sub || EV_KIND[e.kind]?.[0] || "")}</span></div>
+        ${dayEv.length ? dayEv.map((e) => `<div class="cal-ev"><i class="t-${EV_KIND[e.kind]?.[1] || "lav"}"></i><div><b>${esc(e.title)}</b><span>${e.time ? `${esc(e.time)} · ` : ""}${esc(e.sub || EV_KIND[e.kind]?.[0] || "")}</span></div>
+          ${e.mine ? `<button class="icon-btn" data-cal-add="${esc(e.id)}" title="Add to my phone calendar" aria-label="Add to my phone calendar">${icon("calendar")}</button>` : ""}
           ${e.job && hasPack(e.job) ? `<button class="btn sm" data-openpack="${esc(e.job)}">Pack</button>` : e.job ? `<button class="btn sm" data-detail="${esc(e.job)}">Role</button>` : ""}
           ${e.mine ? `<button class="icon-btn" data-ev-del="${esc(e.id)}" title="Remove">${icon("trash")}</button>` : ""}</div>`).join("") : `<div class="small muted">Nothing on this day.</div>`}
         <div class="ev-add"><select class="field" id="ev-job"><option value="">No application</option>${liked.map((r) => `<option value="${esc(r.j.id)}">${esc(r.j.company)} · ${esc(r.j.title.slice(0, 40))}</option>`).join("")}</select>
           <select class="field" id="ev-type"><option value="interview">Interview</option><option value="deadline">Deadline</option><option value="call">Call</option><option value="other">Note</option></select>
-          <input class="field" id="ev-title" placeholder="Note, e.g. 14:00 with the hiring manager"><button class="btn primary sm" data-ev-add>Add</button></div></div>
+          <input class="field ev-time" type="time" id="ev-time" aria-label="Time (optional)" title="Time (optional)">
+          <input class="field" id="ev-title" placeholder="Note, e.g. with the hiring manager"><button class="btn primary sm" data-ev-add>Add</button></div>
+        ${upcoming().length ? `<button class="btn sm cal-all" data-cal-all>${icon("calendar")}Add upcoming dates to my phone calendar</button>` : ""}</div>
     </section>`;
 }
+// ---- dates go to the phone's own calendar: an .ics file (iPhone, Apple, Outlook) or a Google Calendar link ----
+const calStamp = (date, time) => date.replace(/-/g, "") + (time ? "T" + time.replace(":", "") + "00" : "");
+function calInfo(e) {
+  const r = e.job && APP.byId[e.job], kind = EV_KIND[e.kind]?.[0] || "Date";
+  const title = r ? `${kind}: ${r.j.company}` : e.note || kind;
+  const details = [r ? `${r.j.title} at ${r.j.company}` : "", r && e.note ? e.note : "", r?.j.url ? `Job post: ${r.j.url}` : "", "Jobness: https://nesibekeles.github.io/job/"].filter(Boolean).join("\n");
+  if (e.time) { const end = new Date(+new Date(`${e.date}T${e.time}`) + 3600e3); return { title, details, timed: true, start: calStamp(e.date, e.time), end: calStamp(ymd(end), `${String(end.getHours()).padStart(2, "0")}:${String(end.getMinutes()).padStart(2, "0")}`) }; }
+  const next = new Date(`${e.date}T12:00`); next.setDate(next.getDate() + 1);
+  return { title, details, timed: false, start: calStamp(e.date), end: calStamp(ymd(next)) };
+}
+const icsEsc = (x) => String(x).replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/([,;])/g, "\\$1");
+function icsFile(events) {
+  const now = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+  const body = events.map((e) => { const c = calInfo(e);
+    return ["BEGIN:VEVENT", `UID:${e.id}@jobness`, `DTSTAMP:${now}`, c.timed ? `DTSTART:${c.start}` : `DTSTART;VALUE=DATE:${c.start}`, c.timed ? `DTEND:${c.end}` : `DTEND;VALUE=DATE:${c.end}`,
+      `SUMMARY:${icsEsc(c.title)}`, `DESCRIPTION:${icsEsc(c.details)}`,
+      "BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${icsEsc(c.title)}`, c.timed ? "TRIGGER:-PT1H" : "TRIGGER:-PT15H", "END:VALARM", "END:VEVENT"].join("\r\n"); }); // reminder: an hour before, or 9:00 the day before
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Jobness//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", ...body, "END:VCALENDAR"].join("\r\n");
+}
+function downloadIcs(events, name) {
+  const url = URL.createObjectURL(new Blob([icsFile(events)], { type: "text/calendar;charset=utf-8" }));
+  const a = Object.assign(document.createElement("a"), { href: url, download: name });
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+function googleCalUrl(e) {
+  const c = calInfo(e), enc = encodeURIComponent;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${enc(c.title)}&dates=${c.start}/${c.end}&details=${enc(c.details)}${c.timed ? `&ctz=${enc(Intl.DateTimeFormat().resolvedOptions().timeZone)}` : ""}`;
+}
+const myEvent = (id) => (APP.state.journey.events || []).find((x) => x.id === id);
+const upcoming = () => (APP.state.journey.events || []).filter((x) => x.date >= today()).sort((a, b) => (a.date + (a.time || "")).localeCompare(b.date + (b.time || "")));
+function openCalAdd(id) {
+  const e = myEvent(id); if (!e) return; const c = calInfo(e);
+  const when = new Date(`${e.date}T12:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }) + (e.time ? ` · ${e.time}` : " · all day");
+  noteDialog("Add to your calendar", `<b>${esc(c.title)}</b><br>${esc(when)}. A reminder is included${e.time ? " an hour before" : " for the day before"}.`,
+    `<button class="btn" data-go data-ical="${esc(id)}">${icon("calendar")}iPhone / Apple</button><a class="btn primary" data-go href="${esc(googleCalUrl(e))}" target="_blank" rel="noopener">${icon("ext")}Google Calendar</a>`);
+}
+function openCalAll() {
+  const list = upcoming(); if (!list.length) return toast("No upcoming dates yet");
+  noteDialog("Add upcoming dates", `${list.length} upcoming date${list.length === 1 ? "" : "s"} go into one file: your iPhone (or Mac, or Outlook) adds them all at once. For Google Calendar, add dates one by one with the calendar button next to each.`,
+    `<button class="btn primary" data-go data-ical-all>${icon("calendar")}Add ${list.length} to iPhone / Apple</button>`);
+}
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-ical],[data-ical-all],[data-cal-add],[data-cal-all]"); if (!a) return;
+  const ds = a.dataset;
+  if (ds.calAdd) return openCalAdd(ds.calAdd);
+  if ("calAll" in ds) return openCalAll();
+  if (ds.ical) { const ev = myEvent(ds.ical); return ev && downloadIcs([ev], `jobness-${ev.date}.ics`); }
+  if ("icalAll" in ds) return downloadIcs(upcoming(), "jobness-dates.ics");
+});
+// right after a date is added: offer to put it in the phone calendar
+function offerCalendar(ev) {
+  const el = $("#snack"); SNACK.id = null; SNACK.undo = () => openCalAdd(ev.id);
+  $("#snack-text").innerHTML = `${icon("calendar")}<span>Date added</span>`; $("#snack-undo").textContent = "Add to phone calendar";
+  el.classList.remove("on"); void el.offsetWidth; el.classList.add("on");
+  clearTimeout(SNACK.timer); SNACK.timer = setTimeout(() => { hideSnack(); SNACK.undo = null; $("#snack-undo").textContent = "Take back"; }, 6000);
+}
 // a date on an application (from the shortlist card or the calendar)
-function addEvent(job, date, type, note) {
-  const jr = APP.state.journey;
-  (jr.events = jr.events || []).push({ id: Date.now().toString(36), date, type, kind: type, job: job || null, note: note || "", title: note || EV_KIND[type]?.[0] || "Date" });
-  save();
+function addEvent(job, date, type, note, time) {
+  const jr = APP.state.journey, ev = { id: Date.now().toString(36), date, time: time || "", type, kind: type, job: job || null, note: note || "", title: note || EV_KIND[type]?.[0] || "Date" };
+  (jr.events = jr.events || []).push(ev);
+  save(); offerCalendar(ev); return ev;
 }
 document.addEventListener("click", (e) => {
   const a = e.target.closest("[data-cal],[data-day],[data-ev-add],[data-ev-del],[data-g-edit],[data-g-save],[data-g-cancel],[data-g-moved],[data-road-toggle],[data-road-edit],[data-road-save],[data-road-cancel],[data-road-reset],[data-road-add],[data-rdelstep],[data-rtick],[data-road-prefs],[data-jcal]");
@@ -4441,7 +4502,7 @@ document.addEventListener("click", (e) => {
   if (ds.cal != null) { if (ds.cal === "0") { JOURNEY.month = today().slice(0, 7); JOURNEY.sel = today(); } else { const [y, m] = JOURNEY.month.split("-").map(Number), d = new Date(y, m - 1 + +ds.cal, 1); JOURNEY.month = ymd(d).slice(0, 7); } return renderJourney(); }
   if (ds.day) { JOURNEY.sel = ds.day; return renderJourney(); }
   if ("evAdd" in ds) { const job = $("#ev-job").value, note = $("#ev-title").value.trim(); if (!job && !note) return toast("Pick an application or write a note");
-    addEvent(job, JOURNEY.sel, $("#ev-type").value, note); renderLists(); return renderJourney(); }
+    addEvent(job, JOURNEY.sel, $("#ev-type").value, note, $("#ev-time").value); renderLists(); return renderJourney(); }
   if (ds.evDel) { jr.events = jr.events.filter((x) => x.id !== ds.evDel); save(); renderLists(); return renderJourney(); }
   if ("gEdit" in ds) { JOURNEY.editGoal = !JOURNEY.editGoal; return renderJourney(); }
   if ("gCancel" in ds) { JOURNEY.editGoal = false; return renderJourney(); }
