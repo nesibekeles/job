@@ -54,7 +54,7 @@ PUBLISH_DELAY = 90  # seconds of quiet after the last change, so a swiping sessi
 
 def shared_view(state):
     """Everything except pack edits: cover letter drafts and form answers never leave this computer."""
-    view = {k: v for k, v in state.items() if k != "packs"}
+    view = {k: v for k, v in state.items() if k not in ("packs", "pf16")}  # 16PF scores are personal: they stay on her devices
     if isinstance(view.get("profile"), dict):  # contact details stay private too: the repo is public
         view["profile"] = {k: v for k, v in view["profile"].items() if k not in ("email", "phone")}
     view["published_at"] = now()
