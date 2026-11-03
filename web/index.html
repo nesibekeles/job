@@ -705,6 +705,7 @@
   .cal-dots i.t-mint, .cal-ev i.t-mint { background: var(--mint); } .cal-dots i.t-rose, .cal-ev i.t-rose { background: var(--rose); } .cal-dots i.t-butter, .cal-ev i.t-butter { background: #c9a13b; }
   .ev-add { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; } .ev-add input { flex: 1 1 180px; } .ev-add select { flex: 0 0 auto; }
   .seg.seg-wrap { flex-wrap: wrap; } .seg button small { margin-left: 4px; opacity: .6; font-size: 11px; }
+  .co-search { flex: 1 1 220px; max-width: 360px; position: relative; } .co-search .field { width: 100%; }
   .note-acts { flex-wrap: wrap; } .note-acts .btn { flex: 1 1 auto; justify-content: center; }
   .ev-add input.ev-time { flex: 0 0 110px; } .cal-all { margin-top: 12px; width: 100%; justify-content: center; }
   .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
@@ -940,6 +941,10 @@
   .ms-row { display: flex; align-items: center; gap: 9px; padding: 7px 6px; border-radius: 8px; cursor: pointer; font-size: 13.5px; flex: 1; min-width: 0; }
   .ms-row input { width: 17px; height: 17px; accent-color: var(--lav); margin: 0; flex: none; } .ms-row span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ms-row b { flex: 1; font-weight: 700; } .ms-row small { color: var(--muted); font-size: 12px; } .ms-row em { font: 700 10px var(--head); font-style: normal; text-transform: uppercase; letter-spacing: .05em; color: var(--lav); background: var(--lav-100); padding: 2px 6px; border-radius: 99px; }
+  .ms-item input { appearance: none; -webkit-appearance: none; width: 17px; height: 17px; border: 1.6px solid var(--lav); border-radius: 4px; background: transparent; display: grid; place-items: center; cursor: pointer; }
+  .ms-item input::after { content: ""; width: 4px; height: 8px; border: solid var(--lav); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); opacity: 0; }
+  .ms-item input:checked::after { opacity: 1; } .ms-item input:focus-visible { outline: 2px solid var(--lav-100); outline-offset: 1px; }
+  .ms-item.zero span, .ms-item.zero small { color: var(--muted); }
   .ms-allrow { border-bottom: 1px solid var(--line); border-radius: 0; margin-bottom: 2px; }
   .ms-gh { display: flex; align-items: center; } .ms-exp { width: 28px; height: 28px; border: 0; background: none; color: var(--muted); display: grid; place-items: center; cursor: pointer; flex: none; padding: 0; }
   .ms-exp .i { width: 14px; height: 14px; transition: transform .2s; } .ms-exp.on .i { transform: rotate(90deg); }
@@ -1386,6 +1391,7 @@
       <p class="sub">Your watchlist, job sources and editable company personas.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
         <button class="btn primary" id="add-co"><svg class="i"><use href="#i-plus"/></svg>Add company</button>
+        <div class="search co-search"><svg class="i"><use href="#i-search"/></svg><input class="field" id="co-q" placeholder="Search a company, tag or sector" autocomplete="off"></div>
         <div class="seg" id="co-filter"><button data-cof="all" class="on">All</button><button data-cof="priority">Priority</button><button data-cof="feed">Auto feed</button><button data-cof="manual">Manual</button><button data-cof="hidden">Hidden</button></div>
       </div>
       <div class="note" style="margin-bottom:18px"><svg class="i"><use href="#i-info"/></svg><div>Jobs from companies on Greenhouse, Lever, Ashby, SmartRecruiters and Workday come in automatically. Others link to their careers page. Persona tags are your preferences, not verified culture assessments.</div></div>
@@ -2465,20 +2471,23 @@ const filterCount = () => { const f = APP.filters; return (f.cities.length ? 1 :
 const CONTINENT = { "New Zealand": "Oceania", Australia: "Oceania", "United Arab Emirates": "Middle East", Singapore: "Asia", Japan: "Asia", "United States": "Americas", Canada: "Americas" };
 // sectors in her order: e-commerce, technology, gaming, FMCG, banking, telecom, then the rest
 // the most specific sector wins (Wolt is food before it is a marketplace)
-const CO_SECTORS = [["Fintech & banking", ["Fintech", "Payments", "Banking"]], ["Food & delivery", ["Food", "Quick commerce", "Food delivery"]], ["Travel & mobility", ["Travel", "Mobility"]],
+const CO_SECTORS = [["Fintech & banking", ["Fintech", "Payments", "Banking"]], ["Food & delivery", ["Food", "Food delivery"]], ["Travel & mobility", ["Travel", "Mobility"]],
   ["Health & education", ["Health", "EdTech"]], ["Gaming & entertainment", ["Gaming", "Music", "Entertainment", "Social"]], ["Brands & FMCG", ["FMCG", "Brand building", "Beauty", "Consumer goods"]],
-  ["Telecom", ["Telecom"]], ["E-commerce & marketplaces", ["E-commerce", "Marketplace", "Fashion", "Retail"]],
+  ["Telecom", ["Telecom"]], ["E-commerce & marketplaces", ["E-commerce", "Quick commerce", "Marketplace", "Fashion", "Retail"]],
   ["Tech & SaaS", ["SaaS", "AI", "Technology", "Martech", "Design", "Creative", "B2B", "Global scale"]], ["Consumer apps", ["Consumer", "Mobile apps", "Mobile"]]];
 const CO_ORDER = ["E-commerce & marketplaces", "Tech & SaaS", "Gaming & entertainment", "Brands & FMCG", "Fintech & banking", "Telecom", "Travel & mobility", "Food & delivery", "Consumer apps", "Health & education", "Other"];
 const sectorOf = (tags = []) => CO_SECTORS.find(([, t]) => t.some((x) => tags.includes(x)))?.[0] || "Other";
 const MS = { open: null, q: { cities: "", cos: "" }, exp: { cities: new Set(), cos: new Set() } };
 function msData(key) {
-  const rows = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed), items = {};
-  for (const r of rows) {
-    const v = key === "cities" ? r.d.city : r.j.company; if (!v) continue;
-    const it = (items[v] = items[v] || { v, n: 0 }); it.n++;
-    if (key === "cities") { const c = APP.state.settings.cities.find((x) => x.name === v); it.group = v === "Remote" ? "Remote" : c ? CONTINENT[c.country] || "Europe" : "Other"; it.rank = c?.priority ?? 99; it.top = it.rank < 9; }
-    else { const co = companyOf(r.j); it.group = sectorOf(co.tags); it.top = co.tier === "top" || !!co.priority; }
+  // every company on her list and every switched-on city shows, with how many open roles it has today (0 included)
+  const rows = APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed), items = {}, st = APP.state.settings;
+  const seed = key === "cities" ? st.cities.filter((c) => c.on !== false).map((c) => c.name) : Object.entries(st.companies).filter(([, c]) => !c.hidden).map(([n]) => n);
+  for (const v of seed) items[v] = { v, n: 0 };
+  for (const r of rows) { const v = key === "cities" ? r.d.city : r.j.company; if (v) (items[v] = items[v] || { v, n: 0 }).n++; }
+  for (const it of Object.values(items)) {
+    const v = it.v;
+    if (key === "cities") { const c = st.cities.find((x) => x.name === v); it.group = v === "Remote" ? "Remote" : c ? CONTINENT[c.country] || "Europe" : "Other"; it.rank = c?.priority ?? 99; it.top = it.rank < 9; }
+    else { const co = st.companies[v] || companyOf(rows.find((r) => r.j.company === v)?.j || { f: {} }); it.group = sectorOf(co.tags); it.top = co.tier === "top" || !!co.priority; }
   }
   const groups = {};
   for (const it of Object.values(items)) (groups[it.group] = groups[it.group] || []).push(it);
@@ -2512,7 +2521,7 @@ function msList(key) {
     ${groups.map((g) => { const on = g.items.filter((x) => msOn(key, x.v)).length, exp = q || MS.exp[key].has(g.name), n = g.items.reduce((a, x) => a + x.n, 0);
       let rows = "", split = false;
       for (const x of g.items) { if (!x.top && !split && g.items[0].top) { split = true; rows += `<div class="ms-split"></div>`; }
-        rows += `<label class="ms-row ms-item"><input type="checkbox" data-ms-item="${key}" value="${esc(x.v)}" ${msOn(key, x.v) ? "checked" : ""}><span>${esc(x.v)}</span>${x.top ? `<em>${key === "cities" ? "top" : "top tier"}</em>` : ""}<small>${x.n}</small></label>`; }
+        rows += `<label class="ms-row ms-item ${x.n ? "" : "zero"}" ${x.n ? "" : `title="No open roles in Discover right now"`}><input type="checkbox" data-ms-item="${key}" value="${esc(x.v)}" ${msOn(key, x.v) ? "checked" : ""}><span>${esc(x.v)}</span>${x.top ? `<em>${key === "cities" ? "top" : "top tier"}</em>` : ""}<small>${x.n}</small></label>`; }
       return `<div class="ms-grp"><div class="ms-gh"><button class="ms-exp ${exp ? "on" : ""}" data-ms-exp="${key}" value="${esc(g.name)}" aria-label="${exp ? "Collapse" : "Expand"} ${esc(g.name)}">${icon("chev")}</button>
         <label class="ms-row"><input type="checkbox" data-ms-grp="${key}" value="${esc(g.name)}" ${on === g.items.length ? "checked" : ""} ${on && on < g.items.length ? 'data-mixed="1"' : ""}><b>${esc(g.name)}</b><small>${n}</small></label></div>
         ${exp ? `<div class="ms-items">${rows}</div>` : ""}</div>`; }).join("")}`;
@@ -2732,7 +2741,8 @@ function renderLists() {
 function companyRoles() { const m = {}; for (const r of APP.rows) if (!r.d.filtered && !r.decision) m[r.j.company] = (m[r.j.company] || 0) + 1; return m; }
 function renderCompanies() {
   const cs = APP.state.settings.companies, roles = companyRoles(), f = APP.cof;
-  const list = Object.entries(cs).filter(([, c]) => f === "hidden" ? c.hidden : !c.hidden && (f === "all" || (f === "priority" && c.priority) || (f === "feed" && c.source && c.source !== "manual") || (f === "manual" && c.source === "manual")));
+  const q = ($("#co-q")?.value || "").trim(), hit = ([n, c]) => !q || fold(q).split(/\s+/).filter(Boolean).every((w) => fold(`${n} ${(c.tags || []).join(" ")} ${sectorOf(c.tags)}`).includes(w));
+  const list = Object.entries(cs).filter(([, c]) => f === "hidden" ? c.hidden : !c.hidden && (f === "all" || (f === "priority" && c.priority) || (f === "feed" && c.source && c.source !== "manual") || (f === "manual" && c.source === "manual"))).filter(hit);
   list.sort((a, b) => (b[1].priority - a[1].priority) || (roles[b[0]] || 0) - (roles[a[0]] || 0) || a[0].localeCompare(b[0]));
   $("#c-co").textContent = Object.values(cs).filter((c) => !c.hidden).length;
   $("#co-grid").innerHTML = list.map(([n, c]) => {
@@ -2745,8 +2755,9 @@ function renderCompanies() {
       <div class="tags">${(c.tags || []).map((t) => `<span class="tag line">${esc(t)}</span>`).join("") || `<span class="small muted">No tags</span>`}</div>
       <div class="foot"><span class="src ${c.user_added ? "user" : feed ? "feed" : "manual"}">${c.user_added ? "added by you · " : ""}${esc(feed ? c.source + " feed" : "manual import")}</span>
         ${c.url ? `<a class="small" href="${esc(c.url)}" target="_blank" rel="noopener" style="display:inline-flex;gap:4px;align-items:center">Careers ${icon("ext")}</a>` : ""}</div></div>`;
-  }).join("") || `<div class="muted">No companies in this view.</div>`;
+  }).join("") || `<div class="muted">${q ? `No company matches “${esc(q)}”${f !== "all" ? " in this view. Try All" : ""}.` : "No companies in this view."}</div>`;
 }
+document.addEventListener("input", (e) => { if (e.target.id === "co-q") renderCompanies(); });
 function detectATS(raw) {
   let url, m;
   try { url = new URL(raw.trim()); } catch { return null; }
