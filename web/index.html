@@ -541,7 +541,8 @@
   :root { --bg: #f4f4f8; --radius: 20px; --peach: #c0623d; --peach-50: #fdeee6;
     --shadow-card: 0 1px 2px rgba(24, 22, 48, .04), 0 12px 32px -16px rgba(40, 36, 80, .18);
     --t-lav: linear-gradient(135deg, #ece8fc, #ddd5f8); --t-peach: linear-gradient(135deg, #fdeee5, #f9dccd); --t-mint: linear-gradient(135deg, #e3f4ec, #cdeadc);
-    --t-sky: linear-gradient(135deg, #e6eef9, #d2e1f3); --t-rose: linear-gradient(135deg, #fbe9ed, #f4d5dd); --t-butter: linear-gradient(135deg, #fbf3dc, #f3e5b8); }
+    --t-sky: linear-gradient(135deg, #e6eef9, #d2e1f3); --t-rose: linear-gradient(135deg, #fbe9ed, #f4d5dd); --t-butter: linear-gradient(135deg, #fbf3dc, #f3e5b8);
+    --t-teal: linear-gradient(135deg, #dff5f2, #c4ebe5); }
   body { background: radial-gradient(900px 520px at 105% -12%, #e9e4fb 0%, rgba(233, 228, 251, 0) 62%), radial-gradient(760px 440px at -12% 108%, #fbece4 0%, rgba(251, 236, 228, 0) 60%) fixed var(--bg); }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .hand { font: 700 11px/1.2 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
@@ -641,7 +642,9 @@
   .jmini { display: flex; gap: 16px; align-items: center; }
   /* tints */
   .t-lav, .bt.t-lav { background: var(--t-lav); } .t-peach, .bt.t-peach { background: var(--t-peach); } .t-mint, .bt.t-mint { background: var(--t-mint); }
-  .t-sky, .bt.t-sky { background: var(--t-sky); } .t-rose, .bt.t-rose { background: var(--t-rose); } .t-butter, .bt.t-butter { background: var(--t-butter); }
+  .t-sky, .bt.t-sky { background: var(--t-sky); } .t-rose, .bt.t-rose { background: var(--t-rose); } .t-butter, .bt.t-butter { background: var(--t-butter); } .t-teal { background: var(--t-teal); }
+  /* stage colours, the same in every theme */
+  .st-lav { --st: #6655c4; } .st-sky { --st: #3a7bd5; } .st-butter { --st: #e0ab1f; } .st-teal { --st: #17a99b; } .st-peach { --st: #f0843a; } .st-mint { --st: #2f9e6e; } .st-rose { --st: #d0485e; }
   .t-lav .ico, .t-peach .ico, .t-mint .ico, .t-sky .ico, .t-rose .ico { background: rgba(255, 255, 255, .75); }
 
   /* ---------- home layout: bento ---------- */
@@ -965,16 +968,23 @@
 
   /* ---------- shortlist v3: pipeline chart + wallet stack ---------- */
   #pipeline { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow-card); padding: 14px 16px 10px; margin: 6px 0 22px; max-width: 720px; display: block; }
-  .pl-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; } .pl-head b { font: 700 15px var(--head); }
-  .pl-row { display: grid; grid-template-columns: 116px 1fr 30px; align-items: center; gap: 12px; width: 100%; border: 0; background: none; padding: 6px 8px; margin: 0 -8px; width: calc(100% + 16px);
+  .pl-head { display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: none; padding: 2px 0 4px; cursor: pointer; color: var(--ink); font: inherit; text-align: left; }
+  .pl-head > b { font: 700 15px var(--head); flex: none; } .pl-head > .i { width: 15px; height: 15px; color: var(--muted); transform: rotate(90deg); transition: transform .2s; flex: none; }
+  #pipeline.open .pl-head > .i { transform: rotate(-90deg); } .pl-rows { margin-top: 6px; } .pl-hint { margin: 0 0 6px; }
+  .pl-chips { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+  .pl-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; font: 600 12px var(--body); background: color-mix(in srgb, var(--st) 14%, transparent); color: var(--ink); }
+  .pl-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--st); } .pl-chip b { font: 700 12px var(--head); }
+  .pl-row .pl-bar i { background: var(--st); }
+  .pl-box { display: inline-grid; place-items: center; width: 15px; height: 15px; border-radius: 4px; border: 1.6px solid var(--st); margin-right: 8px; vertical-align: -3px; color: var(--st); } .pl-box .i { width: 11px; height: 11px; }
+  .pl-row { display: grid; grid-template-columns: 146px 1fr 30px; align-items: center; gap: 12px; width: 100%; border: 0; background: none; padding: 6px 8px; margin: 0 -8px; width: calc(100% + 16px);
     border-radius: 10px; font: inherit; color: var(--ink-2); cursor: pointer; text-align: left; }
   .pl-row:hover:not(:disabled) { background: var(--soft); }
   .pl-row:disabled { cursor: default; opacity: .45; }
   .pl-row.sep { margin-top: 6px; border-top: 1px solid var(--soft); border-radius: 0 0 10px 10px; padding-top: 10px; }
   .pl-l { font-size: 13px; font-weight: 600; } .pl-row b { font: 700 14px var(--head); text-align: right; color: var(--ink); }
   .pl-bar { height: 10px; border-radius: 99px; background: var(--soft); overflow: hidden; } .pl-bar i { display: block; height: 100%; border-radius: 99px; transition: width .4s; filter: saturate(1.4) brightness(.95); }
-  .pl-row.on, .pl-row.on:hover, .pl-row.on:focus { background: var(--ink); color: var(--surface); }
-  .pl-row:focus { outline: none; } .pl-row:focus-visible { box-shadow: 0 0 0 3px var(--lav-100); } .pl-row.on b { color: var(--surface); } .pl-row.on .pl-bar { background: rgba(255, 255, 255, .18); }
+  .pl-row.on, .pl-row.on:hover, .pl-row.on:focus { background: color-mix(in srgb, var(--st) 14%, transparent); color: var(--ink); }
+  .pl-row:focus { outline: none; } .pl-row:focus-visible { box-shadow: 0 0 0 3px var(--lav-100); } .pl-row.on b { color: var(--ink); }
   .wstack { display: flex; flex-direction: column; max-width: 720px; padding-bottom: 8px; }
   .wc { position: relative; border-radius: 24px; box-shadow: 0 -10px 24px -16px rgba(40, 36, 80, .45), 0 1px 0 rgba(255, 255, 255, .6) inset; margin-bottom: -58px; transition: margin .35s cubic-bezier(.2, .8, .2, 1); }
   .wc.last, .wc.open { margin-bottom: 14px; }
@@ -995,7 +1005,7 @@
   .un-opt { display: flex; gap: 14px; align-items: center; width: 100%; border: 0; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 16px; padding: 14px; margin-bottom: 8px; font: inherit; color: var(--ink); text-align: left; cursor: pointer; }
   .un-opt:hover { background: var(--soft); } .un-opt b { display: block; font-size: 14.5px; } .un-opt small { color: var(--muted); font-size: 12.5px; }
   [data-theme="business"] .wc-st { background: rgba(255, 255, 255, .08); color: var(--ink-2); }
-  @media (max-width: 760px) { .pl-row { grid-template-columns: 104px 1fr 26px; gap: 10px; } .wc-head { height: 72px; padding: 0 10px 0 14px; } .wc { margin-bottom: -54px; } .wc:not(.open):not(.last) .wc-body { height: 54px; } }
+  @media (max-width: 760px) { .pl-row { grid-template-columns: 136px 1fr 26px; gap: 10px; } .pl-l { white-space: nowrap; } .wc-head { height: 72px; padding: 0 10px 0 14px; } .wc { margin-bottom: -54px; } .wc:not(.open):not(.last) .wc-body { height: 54px; } }
 
   .sc-i { width: 15px; height: 15px; } .scene-dot .sc-i { width: 14px; height: 14px; }
   .sc-ico { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--lav-50); color: var(--lav); }
@@ -1103,7 +1113,8 @@
   .un-role > div { min-width: 0; } .un-role span { overflow-wrap: anywhere; } .sheet { overflow-x: hidden; }
   /* deeper tile colours so they still read as colours in bright sunlight */
   :root { --t-lav: linear-gradient(135deg, #e3dcfb, #cfc3f4); --t-peach: linear-gradient(135deg, #fde0cf, #f6c6ab); --t-mint: linear-gradient(135deg, #d6efe2, #bde2cd);
-    --t-sky: linear-gradient(135deg, #d9e5f6, #bfd3ee); --t-rose: linear-gradient(135deg, #f8dbe2, #efc2cd); --t-butter: linear-gradient(135deg, #f8ebc6, #eed797); }
+    --t-sky: linear-gradient(135deg, #d9e5f6, #bfd3ee); --t-rose: linear-gradient(135deg, #f8dbe2, #efc2cd); --t-butter: linear-gradient(135deg, #f8ebc6, #eed797);
+    --t-teal: linear-gradient(135deg, #d2f0eb, #b3e3db); }
   /* business: white ring and checklist bar, a neon "New today" */
   [data-theme="business"] .bt-hero .ring .rf, [data-theme="business"] .glance-ring .ring .rf { stroke: #ffffff !important; }
   [data-theme="business"] .bt-todo .bar i, [data-theme="business"] .bt-todo > .bar i { background: #ffffff !important; }
@@ -1184,7 +1195,7 @@
     --shadow-sm: 0 1px 0 rgba(255, 255, 255, .04); --shadow: 0 22px 44px -18px rgba(0, 0, 0, .85);
     --shadow-card: inset 0 1px 0 rgba(255, 255, 255, .05), 0 18px 36px -20px rgba(0, 0, 0, .9);
     --t-lav: linear-gradient(135deg, #262c4f, #1c2036); --t-peach: linear-gradient(135deg, #2a2741, #1d1c2b); --t-mint: linear-gradient(135deg, #1f2a3a, #181e29);
-    --t-sky: linear-gradient(135deg, #222b45, #1a1f30); --t-rose: linear-gradient(135deg, #2c2540, #1f1b2c); --t-butter: linear-gradient(135deg, #29283b, #1e1d29);
+    --t-sky: linear-gradient(135deg, #222b45, #1a1f30); --t-rose: linear-gradient(135deg, #2c2540, #1f1b2c); --t-butter: linear-gradient(135deg, #29283b, #1e1d29); --t-teal: linear-gradient(135deg, #1c2e33, #162227);
     color-scheme: dark;
   }
   html[data-theme="business"] body { background: radial-gradient(1000px 520px at 80% -10%, #1f2440 0%, rgba(31, 36, 64, 0) 60%) fixed var(--bg); }
@@ -1193,8 +1204,8 @@
   [data-theme="business"] .tabbar { background: rgba(24, 27, 34, .94) !important; box-shadow: 0 14px 32px -12px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .06) !important; }
   [data-theme="business"] .mini { background-color: #181b22 !important; } [data-theme="business"] .mini.center { background-color: #1e222b !important; }
   [data-theme="business"] .btn.primary, [data-theme="business"] .navlink.on, [data-theme="business"] .chip.on, [data-theme="business"] .chip-toggle.on,
-  [data-theme="business"] .cal-d.sel, [data-theme="business"] .pl-row.on, [data-theme="business"] .pl-row.on:hover, [data-theme="business"] #f-open.on { background: var(--lav); color: #11131a; }
-  [data-theme="business"] .pl-row.on b { color: #11131a; }
+  [data-theme="business"] .cal-d.sel, [data-theme="business"] #f-open.on { background: var(--lav); color: #11131a; }
+  [data-theme="business"] .wc-go { background: rgba(255, 255, 255, .1); color: var(--ink); }
   [data-theme="business"] .btn.primary:hover { background: #b1bcff; color: #11131a; }
   [data-theme="business"] .field, [data-theme="business"] .todo-form .field { background: #12141a; }
   [data-theme="business"] .switch span { background: #343844; }
@@ -1216,7 +1227,7 @@
     --mint: #3f7466; --mint-50: #ecf3f0; --rose: #a24d68; --rose-50: #f7edf1; --butter: #7d6524; --butter-50: #f6f2e6;
     --sky: #4f58b5; --sky-50: #eeeffa; --peach: #7b4fb0; --peach-50: #f3edfa;
     --radius: 12px; --shadow-sm: none; --shadow: 0 10px 24px -14px rgba(35, 29, 61, .25); --shadow-card: 0 0 0 1px #e4e0f0;
-    --t-lav: #e0d9f8; --t-peach: #e6dcf6; --t-mint: #ddd9f3; --t-sky: #d9d7f3; --t-rose: #eadcf2; --t-butter: #e7e2f6;
+    --t-lav: #e0d9f8; --t-peach: #e6dcf6; --t-mint: #ddd9f3; --t-sky: #d9d7f3; --t-rose: #eadcf2; --t-butter: #e7e2f6; --t-teal: #dbe2f4;
   }
   html[data-theme="smart"] body { background: var(--bg); }
   [data-theme="smart"] .box, [data-theme="smart"] .hcard, [data-theme="smart"] .bt, [data-theme="smart"] .sheet, [data-theme="smart"] .mini, [data-theme="smart"] .card-pop,
@@ -2602,10 +2613,11 @@ function itemHTML(r, acts) {
     ${pk ? `<div style="margin-top:6px"><span class="pack-pill">📦 Application pack ready · ${packProgress(j.id)}</span></div>` : ""}
     </div><div class="acts">${acts}</div></div>`;
 }
-const FUNNEL = [["all", "Shortlisted", "lav"], ["Saved", "Saved", "lav"], ["Pack requested", "Pack requested", "sky"], ["Pack ready", "Pack ready", "mint"], ["Applied", "Applied", "peach"],
-  ["Interview", "Interview", "butter"], ["Offer", "Offer", "mint"], ["Rejected", "Rejected", "rose"]];
-const STATUS_TINT = { Saved: "lav", "Pack requested": "sky", "Pack ready": "mint", Applied: "peach", Interview: "butter", Offer: "mint", Rejected: "rose" };
-let SHORT_F = "all", DATE_FOR = null, WALLET_OPEN = null;
+// every stage has its own colour, the same in every theme (st-* below)
+const FUNNEL = [["all", "Shortlisted", "lav"], ["Saved", "Saved", "lav"], ["Pack requested", "Pack requested", "sky"], ["Pack ready", "Pack ready", "butter"], ["Applied", "Applied", "teal"],
+  ["Interview", "Interview", "peach"], ["Offer", "Offer", "mint"], ["Rejected", "Rejected", "rose"]];
+const STATUS_TINT = { Saved: "lav", "Pack requested": "sky", "Pack ready": "butter", Applied: "teal", Interview: "peach", Offer: "mint", Rejected: "rose" };
+let SHORT_F = [], PIPE_OPEN = false, DATE_FOR = null, WALLET_OPEN = null; // SHORT_F: the stages picked (none = all)
 // wallet stack (Apple Wallet): every card shows its top strip; tap one and it opens in place while the others slide away
 function walletCard(r, last) {
   const id = r.j.id, open = WALLET_OPEN === id, d = r.decision;
@@ -2648,12 +2660,14 @@ function appCard(r) {
       ${isApplied(id) ? "" : `<a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`}</div></div>`;
 }
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-funnel],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wgo],[data-wopen],[data-wclose]"); if (!a) return;
+  const a = e.target.closest("[data-funnel],[data-pipe-tog],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wgo],[data-wopen],[data-wclose]"); if (!a) return;
   const ds = a.dataset; e.preventDefault();
   if (ds.wgo) return hasPack(ds.wgo) ? openPack(ds.wgo, "job") : openDetail(ds.wgo);
   if (ds.wopen) { WALLET_OPEN = WALLET_OPEN === ds.wopen ? null : ds.wopen; return flipRender(renderLists); }
   if ("wclose" in ds) { WALLET_OPEN = null; return flipRender(renderLists); }
-  if (ds.funnel) { SHORT_F = SHORT_F === ds.funnel && ds.funnel !== "all" ? "all" : ds.funnel; WALLET_OPEN = null; return flipRender(renderLists); }
+  if (ds.funnel) { const k = ds.funnel; SHORT_F = k === "all" ? [] : SHORT_F.includes(k) ? SHORT_F.filter((x) => x !== k) : [...SHORT_F, k];
+    if (SHORT_F.length === FUNNEL.length - 1) SHORT_F = []; WALLET_OPEN = null; return flipRender(renderLists); }
+  if ("pipeTog" in ds) { PIPE_OPEN = !PIPE_OPEN; return renderLists(); }
   if (ds.dateFor) { DATE_FOR = DATE_FOR === ds.dateFor ? null : ds.dateFor; return renderLists(); }
   if ("dateCancel" in ds) { DATE_FOR = null; return renderLists(); }
   if (ds.dateSave) { addEvent(ds.dateSave, $("#df-date").value || today(), $("#df-type").value, $("#df-note").value.trim(), $("#df-time").value); DATE_FOR = null; return renderLists(); }
@@ -2718,23 +2732,29 @@ function renderLists() {
   setText("#st-applied", liked.filter((r) => ["Applied", "Interview", "Offer"].includes(r.decision.status)).length);
   // pipeline: how many roles sit at each step right now (the first row is all of them); tap a row to filter
   const at = (k) => k === "all" ? liked : liked.filter((r) => r.decision.status === k);
-  const max = Math.max(1, liked.length);
-  $("#pipeline").innerHTML = `<div class="pl-head"><b>Pipeline</b><span class="small muted">${SHORT_F === "all" ? "tap a step to filter" : `<a href="#" data-funnel="all">show all ${liked.length}</a>`}</span></div>` +
-    FUNNEL.map(([k, l, tint]) => { const n = at(k).length;
-      return `<button class="pl-row ${SHORT_F === k ? "on" : ""} ${k === "Rejected" ? "sep" : ""}" data-funnel="${esc(k)}" ${n || k === "all" ? "" : "disabled"}>
-        <span class="pl-l">${l}</span><span class="pl-bar"><i class="t-${tint}" style="width:${n ? Math.max(6, (n / max) * 100) : 0}%"></i></span><b>${n}</b></button>`; }).join("");
-  const list = at(SHORT_F).sort((a, b) => reachedOf(b.decision) - reachedOf(a.decision) || (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at));
+  const max = Math.max(1, liked.length), picked = SHORT_F.filter((k) => FUNNEL.some((x) => x[0] === k));
+  const shown = picked.length ? liked.filter((r) => picked.includes(r.decision.status)) : liked;
+  // collapsed: one line with the picked stages in their colours; open: every stage, tap any to add or remove it
+  const chips = (picked.length ? picked.map((k) => FUNNEL.find((x) => x[0] === k)) : [FUNNEL[0]])
+    .map(([k, l, tint]) => `<span class="pl-chip st-${tint}"><i></i>${esc(l)}<b>${at(k).length}</b></span>`).join("");
+  $("#pipeline").classList.toggle("open", PIPE_OPEN);
+  $("#pipeline").innerHTML = `<button class="pl-head" data-pipe-tog aria-expanded="${PIPE_OPEN}"><b>Pipeline</b><span class="pl-chips">${chips}</span>${icon("chev")}</button>` +
+    (PIPE_OPEN ? `<div class="pl-rows"><div class="small muted pl-hint">${picked.length ? `<a href="#" data-funnel="all">Show all ${liked.length}</a> · ` : ""}tap steps to see them together</div>` +
+    FUNNEL.map(([k, l, tint]) => { const n = at(k).length, on = k === "all" ? !picked.length : picked.includes(k);
+      return `<button class="pl-row st-${tint} ${on ? "on" : ""} ${k === "Rejected" ? "sep" : ""}" data-funnel="${esc(k)}" aria-pressed="${on}" ${n || k === "all" || on ? "" : "disabled"}>
+        <span class="pl-l">${k === "all" ? "" : `<span class="pl-box">${on ? icon("check") : ""}</span>`}${l}</span><span class="pl-bar"><i style="width:${n ? Math.max(6, (n / max) * 100) : 0}%"></i></span><b>${n}</b></button>`; }).join("") + `</div>` : "");
+  const list = shown.sort((a, b) => reachedOf(b.decision) - reachedOf(a.decision) || (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at));
   if (WALLET_OPEN && !list.some((r) => r.j.id === WALLET_OPEN)) WALLET_OPEN = null;
   $("#short-list").innerHTML = list.length ? `<div class="wstack">${list.map((r, i) => walletCard(r, i === list.length - 1)).join("")}</div>`
-    : `<div class="box empty">${liked.length ? `No roles at “${esc(FUNNEL.find((x) => x[0] === SHORT_F)[1])}” right now. <a href="#" data-funnel="all">Show all</a>` : "Nothing shortlisted yet. Swipe a card right on Discover."}</div>`;
+    : `<div class="box empty">${liked.length ? `No roles at ${esc(picked.map((k) => FUNNEL.find((x) => x[0] === k)[1]).join(" or "))} right now. <a href="#" data-funnel="all">Show all</a>` : "Nothing shortlisted yet. Swipe a card right on Discover."}</div>`;
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#c-rej").textContent = mine.length + auto.length || "";
   $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
   $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
   $("#pack-help").innerHTML = APP.server
-    ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Tap a pipeline step to see only those roles.`
-    : `Press <b>Prepare pack</b> on your Mac and ask Claude Code to prepare it. Review, apply, then update the status. Tap a pipeline step to see only those roles.`;
+    ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Open Pipeline and tap one or more steps to see only those roles.`
+    : `Press <b>Prepare pack</b> on your Mac and ask Claude Code to prepare it. Review, apply, then update the status. Open Pipeline and tap one or more steps to see only those roles.`;
 }
 
 // ---------------- companies ----------------
