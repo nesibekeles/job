@@ -1947,11 +1947,14 @@ function compute() {
   APP.rows = rows.sort((a, b) => b.score - a.score);
 }
 
+// search: every word must appear somewhere in company, role, city or locations; case, accents and Turkish letters don't matter
+const fold = (x) => String(x || "").toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i");
+const matchQ = (r, q) => { const hay = fold(`${r.j.company} ${r.j.title} ${r.d.city} ${(r.j.locations || []).join(" ")}`); return fold(q).split(/\s+/).filter(Boolean).every((w) => hay.includes(w)); };
 // ---------------- deck order (frozen while browsing so the position stays meaningful) ----------------
 function passesFilters(r) {
-  const f = APP.filters, q = f.q.trim().toLowerCase();
+  const f = APP.filters, q = f.q.trim();
   return !r.d.filtered && !r.d.hiddenWhy && !r.j.closed
-    && (!q || `${r.j.title} ${r.j.company} ${r.d.city}`.toLowerCase().includes(q))
+    && (!q || matchQ(r, q))
     && (!f.cities.length || f.cities.includes(r.d.city)) && r.score >= f.min
     && (!f.sponsor || r.j.f.sponsorship === "yes") && (!f.top || r.d.coPriority) && (!f.fresh || r.j.is_new) && (!f.scene || r.d.scene.fit >= 40)
     && (!f.tags.length || f.tags.some((x) => r.d.tags.some((t) => t.label === x) || r.d.cotags.includes(x)));
@@ -4018,6 +4021,14 @@ function pickRows(type) {
   return APP.rows.filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && !r.j.closed);
 }
 const pickLabel = (r) => `${r.j.company} · ${r.j.title}`;
+// nothing in this list: say where that company's roles are instead
+function pickElsewhere(type, raw) {
+  const other = Object.entries(PICK_TYPES).filter(([k]) => k !== type).map(([k, l]) => [l, pickRows(k).filter((r) => matchQ(r, raw)).length]).filter(([, n]) => n);
+  if (other.length) return `No “${esc(raw)}” here. Found in ${other.map(([l, n]) => `${l} (${n})`).join(" and ")}: pick that above.`;
+  const any = APP.rows.filter((r) => matchQ(r, raw));
+  if (!any.length) return `No “${esc(raw)}” in your feed. Add the company in Companies, or add a job by its link.`;
+  return `“${esc(raw)}” has ${any.length} role${any.length === 1 ? "" : "s"} in your feed, but none here: they're passed, applied or filtered out.`;
+}
 function todoLinkBtn(link) {
   if (!link?.v) return "";
   if (link.t === "short") { const d = APP.state.decisions[link.v];
@@ -4089,11 +4100,11 @@ function showPickList() {
   const raw = $("#tf-pick").value.trim(), q = raw.toLowerCase(), num = raw.replace(/^#/, "");
   const all = pickRows(type), hit = !q || (TF_PICK && raw === pickLabel(APP.byId[TF_PICK] || { j: {} })) ? all
     : /^\d+$/.test(num) ? all.filter((r) => String(cardNum(r.j.id)) === num || String(cardNum(r.j.id)).startsWith(num))
-    : all.filter((r) => `${r.j.company} ${r.j.title} ${r.d.city}`.toLowerCase().includes(q));
+    : all.filter((r) => matchQ(r, raw));
   const shown = hit.slice(0, 60);
   box.innerHTML = shown.length ? shown.map((r) => `<button class="tf-opt ${r.j.id === TF_PICK ? "on" : ""}" data-tfpick="${esc(r.j.id)}">${avatar(r.j.company)}<span><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.d.city)}</small></span>${cardNum(r.j.id) !== "" ? `<em>#${cardNum(r.j.id)}</em>` : ""}</button>`).join("")
       + (hit.length > shown.length ? `<div class="tf-more">Showing ${shown.length} of ${hit.length}. Type to narrow it down.</div>` : "")
-    : `<div class="tf-more">${all.length ? "No match. Try a company name or a # number." : type === "short" ? "No shortlisted role without a pack." : type === "ready" ? "No pack is ready yet." : "Nothing left in Discover."}</div>`;
+    : `<div class="tf-more">${q && !/^\d+$/.test(num) ? pickElsewhere(type, raw) : all.length ? "No match. Try a company name or a # number." : type === "short" ? "No shortlisted role without a pack." : type === "ready" ? "No pack is ready yet." : "Nothing left in Discover."}</div>`;
   box.hidden = false;
 }
 document.addEventListener("input", (e) => { if (e.target.id === "tf-pick") { TF_PICK = null; showPickList(); } });
