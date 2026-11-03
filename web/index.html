@@ -1110,9 +1110,13 @@
   .p16-type div { display: flex; align-items: baseline; gap: 8px; } .p16-type b { font: 800 18px var(--head); color: var(--lav); } .p16-type span { font-weight: 600; }
   .p16-type p { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); }
   .p16-fit .chips { margin-top: 4px; } .p16-fit .chip { cursor: default; } .p16-fit .chip.p16-s { background: var(--lav-100); color: var(--lav); border-color: transparent; font-weight: 700; }
-  .p16-job { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; background: var(--surface); border-radius: 12px; padding: 8px 10px; cursor: pointer; color: inherit; font: inherit; }
-  .p16-job span { flex: 1; min-width: 0; display: flex; flex-direction: column; } .p16-job b { font-size: 13.5px; } .p16-job small { color: var(--muted); font-size: 12px; }
-  .p16-job em { font: 800 14px var(--head); font-style: normal; color: var(--lav); } .p16-job .avatar, .p16-job img { flex: none; }
+  .p16-job { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: 12px; padding: 4px 8px 4px 4px; }
+  .p16-open { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; text-align: left; border: 0; background: none; padding: 6px; cursor: pointer; color: inherit; font: inherit; }
+  .p16-open span { flex: 1; min-width: 0; display: flex; flex-direction: column; } .p16-open b { font-size: 13.5px; } .p16-open small { color: var(--muted); font-size: 12px; }
+  .p16-open em { font: 800 14px var(--head); font-style: normal; color: var(--lav); } .p16-open .avatar, .p16-open img { flex: none; }
+  .p16-on { display: inline-flex; align-items: center; gap: 4px; font: 700 11.5px var(--body); font-style: normal; color: var(--mint); margin-top: 3px; } .p16-on .i { width: 12px; height: 12px; }
+  .p16-sl { flex: none; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); display: grid; place-items: center; cursor: pointer; padding: 0; }
+  .p16-sl .i { width: 17px; height: 17px; } .p16-sl.on { background: var(--mint-50); border-color: transparent; color: var(--mint); }
   .p16-code { font: 700 13px var(--head); color: var(--lav); background: var(--lav-100); padding: 2px 8px; border-radius: 99px; vertical-align: middle; }
   .pf-poles { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 4px; }
   .pf-read { margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: var(--soft); display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; }
@@ -2186,6 +2190,7 @@ function takeBack(id) {
   if (!APP.order.includes(id)) APP.order.splice(APP.idx, 0, id);
   refresh(true);
   APP.idx = Math.max(0, deckRows().findIndex((r) => r.j.id === id)); renderStack(-1); flashCard("restored");
+  P16_ADDED.delete(id); p16Redraw();
 }
 $("#snack-undo").onclick = () => { const id = SNACK.id, undo = SNACK.undo; hideSnack(); SNACK.undo = null; if (undo) undo(); else if (id) takeBack(id); };
 // "Deleted … · Undo" for anything removable
@@ -3148,11 +3153,13 @@ const P16_FIT = {
   ESFP: { about: "Energetic people-people who make experiences fun and memorable.", strengths: ["Energy", "Live experiences", "Making people feel welcome"], roles: ["Events and experiential", "Influencer", "Social", "Brand activation"], kw: ["event", "influencer", "social", "activation", "community", "brand"], watch: "Solitary desk work drains you." },
 };
 const P16_ID = { A: "Assertive: you stay calm under pressure and handle targets with confidence.", T: "Turbulent: you push hard to improve; a team that gives good feedback brings out your best." };
-// open jobs whose title has one of the type's words, best score first
+// jobs whose title has one of the type's words, best score first: open ones plus the ones already on her shortlist (so a row stays put once shortlisted)
 function p16Jobs(code) {
   const kw = P16_FIT[code]?.kw || [];
-  return (APP.rows || []).filter((r) => !r.decision && !r.d.filtered && !r.d.hiddenWhy && kw.some((w) => r.j.title.toLowerCase().includes(w)));
+  return (APP.rows || []).filter((r) => [undefined, "like"].includes(APP.state.decisions[r.j.id]?.decision) && !r.d.filtered && !r.d.hiddenWhy && kw.some((w) => r.j.title.toLowerCase().includes(w)));
 }
+const P16_ADDED = new Set(); // shortlisted from the results in this visit: tapping again takes it back
+function p16Redraw() { if (QUIZ.kind === "p16" && PFV.stage === "result" && $("#m-quiz").classList.contains("on")) { const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; } }
 // a typed code like "enfp-a": sets each trait to its side (keeps a percentage already on that side)
 function p16FromCode(raw) {
   const m = raw.trim().toUpperCase().replace(/\s+/g, "").match(/^([IE])([NS])([TF])([JP])(?:-?([AT]))?$/); if (!m) return false;
@@ -3177,13 +3184,16 @@ function p16Type(v) {
 }
 function p16FitHTML(ty) {
   const f = P16_FIT[ty.code], jobs = p16Jobs(ty.code), id = ty.full.split("-")[1];
+  const open = jobs.filter((r) => !APP.state.decisions[r.j.id]).length, onList = jobs.length - open;
   return `<div class="pf-read p16-fit"><b>How ${esc(ty.name)}s tend to work</b><div>${esc(f.about)}</div>
       <div><span class="muted small">Strengths</span><div class="chips">${f.strengths.map((x) => `<span class="chip p16-s">${esc(x)}</span>`).join("")}</div></div>
       <div><span class="muted small">Roles that often suit you</span><div class="chips">${f.roles.map((x) => `<span class="chip">${esc(x)}</span>`).join("")}</div></div>
       <div class="small">${esc(f.watch)}${id ? " " + esc(P16_ID[id]) : ""}</div></div>
-    <div class="pf-read p16-jobs"><b>${jobs.length ? `${jobs.length} open role${jobs.length === 1 ? "" : "s"} like these in your feed` : "No open roles like these in your feed right now"}</b>
-      ${jobs.slice(0, 5).map((r) => `<button class="p16-job" data-detail="${esc(r.j.id)}">${avatar(r.j.company)}<span><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.j.locations[0] || "")}</small></span><em>${r.score}</em></button>`).join("")}
-      ${jobs.length > 5 ? `<div class="small muted">Best 5 by score. The rest are in Discover.</div>` : ""}</div>`;
+    <div class="pf-read p16-jobs"><b>${jobs.length ? `${open} open role${open === 1 ? "" : "s"} like these in your feed${onList ? ` · ${onList} on your shortlist` : ""}` : "No open roles like these in your feed right now"}</b>
+      ${jobs.slice(0, 5).map((r) => { const on = APP.state.decisions[r.j.id]?.decision === "like"; // read from state: the row list refreshes a moment later
+        return `<div class="p16-job"><button class="p16-open" data-detail="${esc(r.j.id)}">${avatar(r.j.company)}<span><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.j.locations[0] || "")}</small>${on ? `<i class="p16-on">${icon("check")}On your shortlist</i>` : ""}</span><em>${r.score}</em></button>
+          <button class="p16-sl ${on ? "on" : ""}" data-p16like="${esc(r.j.id)}" aria-label="${on ? "On your shortlist" : "Add to shortlist"}" title="${on ? "On your shortlist" : "Add to shortlist"}">${icon(on ? "check" : "heart")}</button></div>`; }).join("")}
+      ${jobs.length ? `<div class="small muted">Tap the heart to shortlist${jobs.length > 5 ? ". Best 5 by score; the rest are in Discover" : ""}.</div>` : ""}</div>`;
 }
 function openP16() {
   Object.assign(PFV, { v: { ...(APP.state.p16?.v || {}) }, pasted: "", stage: "enter" });
@@ -3259,8 +3269,16 @@ function useP16Code() {
 document.addEventListener("keydown", (e) => { if (e.target.id === "p16-code" && e.key === "Enter") { e.preventDefault(); useP16Code(); } });
 document.addEventListener("change", (e) => { if (e.target.dataset?.p16) { const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; } });
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-p16clear],[data-p16code],[data-pf-read],[data-pf-go],[data-pf-edit],[data-pf-apply]"); if (!a) return;
+  const a = e.target.closest("[data-p16clear],[data-p16code],[data-p16like],[data-pf-read],[data-pf-go],[data-pf-edit],[data-pf-apply]"); if (!a) return;
   const ds = a.dataset;
+  if (ds.p16like) {
+    const id = ds.p16like, d = APP.state.decisions[id];
+    if (d?.decision === "like") {
+      if (!P16_ADDED.has(id)) return toast("Already on your shortlist. Remove it from the Shortlist page");
+      hideSnack(); takeBack(id); return toast("Taken off your shortlist");
+    }
+    P16_ADDED.add(id); decide(id, "like", []); return p16Redraw();
+  }
   if (ds.p16clear) { delete PFV.v[ds.p16clear]; const y = $("#quiz").scrollTop; renderP16(); $("#quiz").scrollTop = y; return; }
   if ("p16code" in ds) return useP16Code();
   if ("pfRead" in ds) { PFV.pasted = $("#pf-text").value; const got = parseP16(PFV.pasted), n = Object.keys(got.v).length;
