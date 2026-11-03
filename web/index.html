@@ -1075,7 +1075,7 @@
   .kb-wrap { display: flex; flex-direction: column; gap: 6px; } .kb-row { display: flex; gap: 5px; justify-content: center; }
   .kb { flex: 1 1 0; max-width: 38px; height: 44px; border: 0; border-radius: 8px; background: var(--soft); color: var(--ink); font: 700 14px var(--head); cursor: pointer; padding: 0; }
   .kb.wide { max-width: 64px; flex: 1.6 1 0; font-size: 12px; } .kb:disabled { opacity: .5; }
-  .fermi { margin: 8px 0; padding-left: 20px; } .fermi li { margin-bottom: 4px; }
+  .think { margin: 8px 0; padding-left: 20px; } .think li { margin-bottom: 4px; }
   .review { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
   .rv { padding: 12px 14px; border-radius: 14px; background: var(--soft); border-left: 4px solid var(--muted); } .rv.ok { border-left-color: var(--mint); } .rv.bad { border-left-color: var(--rose); } .rv.free { border-left-color: var(--lav); }
   .rv p { margin: 6px 0; font-weight: 600; font-size: 14px; } .rv-h { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
@@ -3184,17 +3184,8 @@ document.addEventListener("click", (e) => {
 });
 
 // ---- daily challenge: five questions, the same for everyone on a given day ----
-// 1 marketing · 2 Wordle · 3 a city question · 4 an out-of-the-box estimate (no single answer) · 5 a brain teaser
-const TRIVIA = [
-  { q: "What does CAC stand for?", o: ["Customer Acquisition Cost", "Cost After Conversion", "Campaign Audience Coverage", "Customer Average Contribution"], why: "The total cost of winning one new customer." },
-  { q: "ROAS is calculated as…", o: ["Revenue from ads ÷ ad spend", "Ad spend ÷ revenue", "Profit ÷ customers", "Clicks ÷ impressions"], why: "Return on ad spend: how much revenue each unit of ad spend brings back." },
-  { q: "The “pirate metrics” framework is…", o: ["AARRR", "SMART", "RACE", "AIDA"], why: "Acquisition, Activation, Retention, Referral, Revenue. Coined by Dave McClure." },
-  { q: "Net Promoter Score can range from…", o: ["-100 to 100", "0 to 10", "0 to 100", "1 to 5"], why: "% promoters minus % detractors, so it can go negative." },
-  { q: "A common rule of thumb for a healthy LTV:CAC ratio is…", o: ["3:1", "1:1", "1:3", "10:1"], why: "Lifetime value about three times the cost to acquire a customer." },
-  { q: "The “chicken-and-egg problem” in marketplaces means…", o: ["You need supply to attract demand, and demand to attract supply", "Prices rise faster than costs", "Customers churn after one order", "Ads stop working at scale"], why: "Neither side shows up until the other one is there." },
-  { q: "What does GTM stand for?", o: ["Go-to-market", "Growth tracking model", "Gross target margin", "Global trade marketing"], why: "The plan for bringing a product to its customers." },
-  { q: "Churn rate measures…", o: ["The share of customers lost in a period", "New customers per month", "Average order value", "Ad click-through rate"], why: "Lost customers ÷ customers at the start of the period." },
-  { q: "In an A/B test, the “control” is…", o: ["The version without the change", "The winning version", "The newest version", "The version with the most traffic"], why: "The baseline you compare the change against." },
+// 1 a city question · 2 Wordle · 3 a hard brain teaser · 4 an out-of-the-box interview question (open, not scored) · 5 another hard teaser
+const PLACES = [
   { q: "What is the capital of New Zealand?", o: ["Wellington", "Auckland", "Christchurch", "Queenstown"], why: "Auckland is the largest city; Wellington is the capital." },
   { q: "Aotearoa is the Māori name for…", o: ["New Zealand", "Australia", "Hawaii", "Tasmania"], why: "Often translated as “land of the long white cloud”." },
   { q: "Which river runs through Dublin?", o: ["Liffey", "Shannon", "Thames", "Danube"], why: "The Liffey splits Dublin into north and south side." },
@@ -3208,50 +3199,72 @@ const TRIVIA = [
 const WORDLE = ["BRAND", "CHURN", "PITCH", "PIVOT", "MEDIA", "LEADS", "SCALE", "PRICE", "OFFER", "AGILE", "VALUE", "TREND", "GOALS", "SALES", "PROMO", "ASSET",
   "BUYER", "CLAIM", "MOTTO", "NICHE", "PANEL", "QUOTA", "RATIO", "RIVAL", "STORY", "TRUST", "USERS", "VIRAL", "YIELD", "AUDIT", "BOARD", "CYCLE", "FOCUS",
   "GRANT", "INDEX", "MERGE", "NUDGE", "OWNER", "PILOT", "RALLY", "SHARE", "SPEND", "STOCK", "TEAMS", "TOKEN", "VENUE", "VOICE", "LOGIC", "CRAFT", "SPARK"];
-const FERMI = [
-  { q: "How many party balloons would fit in a meeting room of 5 × 4 × 3 metres?", steps: ["Room volume: 5 × 4 × 3 = 60 m³.", "An inflated balloon is roughly a 25–30 cm ball: about 0.01 m³.", "Balloons don't pack perfectly: assume ~60% of the space is filled.", "60 × 0.6 ÷ 0.01 ≈ 3,600."], range: "About 3,000–4,000 balloons." },
-  { q: "How many weddings happen in Türkiye in a year?", steps: ["Population ≈ 85 million.", "Countries like Türkiye record about 6–7 marriages a year per 1,000 people.", "85 million × 6.5 ÷ 1,000 ≈ 550,000 weddings.", "Sanity check: about a million people turn 27 each year; if most marry once, around half a million weddings a year fits."], range: "About 500,000–600,000 a year." },
-  { q: "How many cups of coffee are sold in Istanbul's cafés on a weekday?", steps: ["Istanbul ≈ 16 million people; ~60% are adults who could drink coffee: ~10M.", "Maybe 1 in 5 buys a café coffee on a weekday: 2M people.", "Some buy two: average 1.3 cups.", "2M × 1.3 ≈ 2.6 million cups."], range: "Roughly 2–3 million cups." },
-  { q: "How many piano tuners work in London?", steps: ["London ≈ 9 million people, ~3.5 million households.", "Maybe 1 in 20 households has a piano, plus schools and venues: ~200,000 pianos.", "A piano is tuned about once a year: 200,000 tunings.", "A tuner does ~4 a day × 220 days ≈ 900 a year.", "200,000 ÷ 900 ≈ 220 tuners."], range: "Around 200–300." },
-  { q: "How many tennis balls fit in a city bus?", steps: ["Bus inside ≈ 12 m × 2.5 m × 2.5 m ≈ 75 m³; seats take ~25% → ~55 m³.", "A tennis ball is ~6.7 cm across: its cube is ~0.0003 m³.", "Packing ~65%: 55 × 0.65 ÷ 0.0003 ≈ 120,000."], range: "About 100,000–150,000." },
-  { q: "How many Uber rides happen in London on a Friday?", steps: ["London adults ≈ 7 million; maybe 1 in 10 takes a ride-hail trip on a Friday: 700,000 people.", "Many ride twice (out and home): ~1.5 trips each.", "Add tourists and business travellers: +15%.", "700,000 × 1.5 × 1.15 ≈ 1.2 million trips across all apps; Uber with ~70% share ≈ 850,000."], range: "Around 0.7–1 million rides." },
-  { q: "What would you charge to wash every window in Vienna once?", steps: ["Vienna ≈ 2 million people, ~1 million homes; average 8 windows: 8M windows.", "Add offices and shops: ×1.5 → 12M windows.", "A cleaner does ~15 windows an hour: 800,000 hours.", "At ~€35 an hour: ≈ €28 million, plus equipment and margin."], range: "Roughly €30–40 million." },
-  { q: "How many smartphones are sold in Europe every year?", steps: ["Europe ≈ 450 million people in the EU+UK, ~85% own a smartphone: ~380M phones in use.", "People replace a phone every ~3 years: 380M ÷ 3 ≈ 125M a year.", "Add first-time buyers and second phones: +5%."], range: "About 120–140 million." },
-  { q: "How many hotel rooms are there in Barcelona?", steps: ["Barcelona gets ~12 million overnight visitors a year staying ~3 nights: 36M guest-nights.", "Hotels take maybe 60% (the rest is apartments): ~22M guest-nights.", "1.8 guests per room → ~12M room-nights.", "At ~80% occupancy: 12M ÷ (365 × 0.8) ≈ 41,000 rooms."], range: "Around 40,000 rooms." },
-  { q: "How many emails does a 1,000-person company send in a day?", steps: ["About 70% of staff are desk workers: 700 people.", "Each sends ~30 emails a day.", "700 × 30 = 21,000, plus automated mails (≈ +50%)."], range: "Around 25,000–35,000 a day." },
-  { q: "How many golf balls fit in a Boeing 747?", steps: ["Cabin roughly 70 m long × 6 m wide × 2.5 m high ≈ 1,000 m³; seats and galleys take ~25% → 750 m³.", "Golf ball ≈ 4.3 cm: its cube is ~0.00008 m³.", "Packing ~65%: 750 × 0.65 ÷ 0.00008 ≈ 6 million."], range: "About 5–7 million." },
-  { q: "How much revenue does a busy Amsterdam coffee shop (the coffee kind) make a year?", steps: ["Open ~360 days, 12 hours.", "Busy hours: ~60 orders an hour for 4 hours, ~20 an hour for 8 hours: ~400 orders a day.", "Average ticket ≈ €6.", "400 × €6 × 360 ≈ €860,000."], range: "Roughly €0.7–1 million." },
+// out-of-the-box interview questions: estimates, explaining simply, brainstorming, selling. No right answer; the steps show one strong way to answer.
+const OPEN_HINT = {
+  Estimate: "There's no single right answer. Interviewers want to see how you break it down.",
+  "Explain simply": "They listen for clarity, warmth, and whether you check that the listener follows.",
+  Brainstorm: "Go for many ideas first, then pick your favourite and say why.",
+  Persuade: "Start with who it's for and what they need, then make your case.",
+};
+const OPEN = [
+  { t: "Estimate", q: "How many golf balls fit in a school bus?", steps: ["Inside a bus: about 10 m long × 2.3 m wide × 1.9 m high ≈ 44 m³.", "Seats, wheel arches and the driver's area take maybe 20%: ~35 m³.", "A golf ball is 4.3 cm across: about 41 cm³.", "Balls pack loosely, filling ~64% of the space: 35,000,000 × 0.64 ÷ 41 ≈ 550,000."], end: "About 500,000. Say your assumptions out loud; that's what's graded." },
+  { t: "Estimate", q: "How many party balloons would fit in a meeting room of 5 × 4 × 3 metres?", steps: ["Room volume: 5 × 4 × 3 = 60 m³.", "An inflated balloon is roughly a 25–30 cm ball: about 0.01 m³.", "Balloons don't pack perfectly: assume ~60% of the space is filled.", "60 × 0.6 ÷ 0.01 ≈ 3,600."], end: "About 3,000–4,000 balloons." },
+  { t: "Estimate", q: "How many weddings happen in Türkiye in a year?", steps: ["Population ≈ 85 million.", "Countries like Türkiye record about 6–7 marriages a year per 1,000 people.", "85 million × 6.5 ÷ 1,000 ≈ 550,000 weddings.", "Sanity check: about a million people turn 27 each year; if most marry once, around half a million weddings a year fits."], end: "About 500,000–600,000 a year." },
+  { t: "Estimate", q: "How many piano tuners work in London?", steps: ["London ≈ 9 million people, ~3.5 million households.", "Maybe 1 in 20 households has a piano, plus schools and venues: ~200,000 pianos.", "A piano is tuned about once a year: 200,000 tunings.", "A tuner does ~4 a day × 220 days ≈ 900 a year.", "200,000 ÷ 900 ≈ 220 tuners."], end: "Around 200–300." },
+  { t: "Estimate", q: "What would you charge to wash every window in Vienna once?", steps: ["Vienna ≈ 2 million people, ~1 million homes; average 8 windows: 8M windows.", "Add offices and shops: ×1.5 → 12M windows.", "A cleaner does ~15 windows an hour: 800,000 hours.", "At ~€35 an hour: ≈ €28 million, plus equipment and margin."], end: "Roughly €30–40 million." },
+  { t: "Estimate", q: "How many different ways can you think of to measure the height of a tall building using only a barometer?", steps: ["Physics: compare air pressure at the bottom and the top.", "Drop it from the roof and time the fall: height ≈ ½ × 9.8 × t².", "On a sunny day, compare the barometer's shadow with the building's shadow.", "Tie it to a string, lower it to the ground and measure the string.", "Or offer it to the caretaker in exchange for the building's plans."], end: "The point is range: practical, clever and cheeky answers all count." },
+  { t: "Explain simply", q: "How would you describe the colour red to someone who has been blind since birth?", steps: ["Drop sight completely and borrow the other senses.", "Touch: red is the warmth on your cheeks next to a fire, or after running.", "Taste and smell: ripe strawberries, a spicy pepper.", "Sound and feeling: a trumpet, a racing heartbeat, being angry or in love.", "Contrast it: blue is cool water on your hands; red is the opposite.", "Ask what it feels like to them, and adjust."], end: "Strong answers use several senses, contrast, and a check-in." },
+  { t: "Explain simply", q: "Teach me something you know really well in two minutes. It can be anything: a recipe, a tool, an art fact.", steps: ["Pick something small and concrete you love (e.g. how to brew Turkish coffee).", "Hook: why it's worth knowing, in one sentence.", "Three steps at most, each with one detail that makes it work (cold water, low heat, don't stir once it foams).", "One common mistake and how to avoid it.", "Check: “So what would you do first?”"], end: "They judge clarity, energy, and whether you teach to the listener." },
+  { t: "Explain simply", q: "Explain what you do at work to a 7-year-old.", steps: ["Start with something they know: a shop, a game, a birthday party.", "Your job as one picture: “I help people find the right wedding venue, like a matchmaker for parties.”", "What a good day looks like: “When more couples find their place, I win.”", "One fun detail they'd remember.", "Let them ask a question back."], end: "If a child gets it, a hiring manager from another team will too." },
+  { t: "Explain simply", q: "Explain the internet to someone who just woke up from a 30-year sleep.", steps: ["Anchor on what they knew: phones, post, libraries, TV.", "One picture: “Every computer and phone is joined by invisible post that arrives in a second.”", "Three everyday uses: messages, maps, buying things.", "One warning: not everything on it is true.", "Show, don't tell: hand them a phone."], end: "Good answers start from their world, not yours." },
+  { t: "Brainstorm", q: "How many uses can you think of for a paperclip? Go for at least 10.", steps: ["Warm up with the obvious: hold paper, bookmark, SIM-card tool.", "Change the shape: hook, keyring, zip pull, tiny sculpture.", "Change the scale: a thousand of them as a chain curtain; one giant one as a coat rack.", "Change the material use: melt it, magnetise it into a compass needle.", "Games and emergencies: lock pick in films, fishing hook, reset button."], end: "Quantity, then categories, then your favourite and why." },
+  { t: "Brainstorm", q: "If you could add an eighth day to the week, what would it be for and what would you call it?", steps: ["Pick a clear purpose: rest, curiosity, people, or making something.", "Name it so it sticks (e.g. “Wonderday”).", "Rules that make it special: no screens before noon, try one new thing, cook with a friend.", "Why the world would be better with it.", "How you'd keep it from turning into another Monday."], end: "They want imagination with a bit of structure." },
+  { t: "Brainstorm", q: "Why are manhole covers round? Give as many reasons as you can.", steps: ["A circle can't fall through its own hole at any angle; a square can, along the diagonal.", "It can be rolled instead of carried.", "It fits back in any orientation, no lining up.", "Round pipes and shafts are round; it matches.", "It's easier to cast and spreads load evenly."], end: "One reason is good; several, sorted by importance, is great." },
+  { t: "Brainstorm", q: "You're shrunk to the size of a coin and dropped into an empty blender. The blades start in 60 seconds. What do you do?", steps: ["Ask questions first: is the lid on? Is it glass? Is anyone around?", "Physics helps you: small creatures can jump many times their height. Jump out.", "Or lie flat under the blade's centre, where the gap is.", "Or wedge yourself somewhere the blades can't reach.", "Pick one and explain why it's best."], end: "They're testing how you think under pressure, not the right answer." },
+  { t: "Brainstorm", q: "Design a fridge for someone who can't see.", steps: ["Who: someone blind or with low vision, living alone or with family.", "Problems: finding things, knowing what's gone off, reading labels.", "Ideas: shelves with fixed spots and tactile markers; a voice that reads labels; a button that says what's inside.", "Smell or expiry alerts that talk.", "Pick one to test first and how you'd know it works."], end: "User first, then ideas, then a way to test one." },
+  { t: "Brainstorm", q: "How would you find out, in one afternoon with no budget, whether people in Istanbul prefer cats or dogs?", steps: ["Define “prefer”: own, like, or want?", "Quick proxies: count cat vs. dog posts on local hashtags; count pet-shop shelf space.", "A street poll: 50 people at two very different neighbourhoods.", "Check local vet or shelter numbers online.", "Name the biases (street cats!) and how confident you'd be."], end: "Scrappy methods plus honesty about their limits." },
+  { t: "Persuade", q: "Sell me this pen.", steps: ["Don't pitch yet: ask questions. “When did you last use a pen? What for?”", "Find the need: signing contracts, notes in meetings, a gift.", "Match one feature to that need.", "Create a reason to act now.", "Ask for the sale."], end: "The best answers sell to the person, not the pen." },
+  { t: "Persuade", q: "How would you get 1,000 people to an event in your city next Saturday, with no budget?", steps: ["Who's it for? Pick one audience and what they get out of it.", "Borrow audiences: partner with 5 communities, cafés or clubs that already have the people.", "Give people a reason to bring friends: tickets for pairs, a group perk.", "Make it shareable: one striking image and line.", "Count backwards: 1,000 people ≈ 3,000 interested ≈ 30,000 reached."], end: "Funnel thinking with a clear audience wins." },
+  { t: "Persuade", q: "Convince me to take a cold shower tomorrow morning.", steps: ["Ask what they care about: energy, mood, skin, grit.", "Lead with the benefit they want, not facts.", "Make it tiny: just the last 30 seconds.", "Remove the fear: what's the worst that happens?", "Ask for a commitment: “Tomorrow, 30 seconds. Text me after.”"], end: "Tailor, shrink the ask, get a yes." },
+  { t: "Persuade", q: "Pick a product you use every day. How would you make it better?", steps: ["Choose one you know well and name who it's for.", "What job does it do, and where does it annoy you?", "One improvement with a clear reason.", "How you'd test it cheaply.", "What you'd measure to know it worked."], end: "Users, pain point, idea, test, metric." },
 ];
+// hard brain teasers: logic, probability, maths with a twist
 const TEASERS = [
-  { q: "A bat and a ball cost €1.10 together. The bat costs €1.00 more than the ball. How much is the ball?", o: ["5 cents", "10 cents", "1 cent", "15 cents"], why: "Ball = x, bat = x + 1.00 → 2x + 1.00 = 1.10 → x = 0.05. Ten cents feels right but would make the bat €1.10." },
-  { q: "5 machines make 5 widgets in 5 minutes. How long do 100 machines take to make 100 widgets?", o: ["5 minutes", "100 minutes", "20 minutes", "1 minute"], why: "Each machine makes one widget in 5 minutes, so 100 machines make 100 widgets in the same 5 minutes." },
-  { q: "A patch of lilies doubles in size every day. It covers the whole lake on day 48. When did it cover half the lake?", o: ["Day 47", "Day 24", "Day 36", "Day 46"], why: "It doubles daily, so the day before it's full, it was half." },
-  { q: "A snail climbs 3 m up a 10 m well every day and slips back 2 m every night. On which day does it get out?", o: ["Day 8", "Day 10", "Day 7", "Day 9"], why: "After 7 days it's at 7 m; on day 8 it climbs 3 m to the top and never slips back." },
-  { q: "You have two ropes that each take exactly 60 minutes to burn, but burn unevenly. How do you measure 45 minutes?", o: ["Light rope A at both ends and rope B at one end; when A is gone, light B's other end", "Cut both ropes in half and burn one piece", "Burn one rope, then three quarters of the other", "It can't be done with uneven ropes"], why: "A burning from both ends lasts 30 minutes. B then has 30 minutes left; lighting its other end halves that to 15. 30 + 15 = 45." },
-  { q: "Three switches outside a closed room, one bulb inside. You may enter once. How do you find the right switch?", o: ["Turn one on for a few minutes, switch it off, turn a second on, then go in and feel the bulb", "Flip them one at a time and peek through the keyhole", "Turn all three on, then off one by one", "It can't be done in one visit"], why: "Lit: the second switch. Off but warm: the first. Off and cold: the third." },
+  { q: "A family has two children. At least one of them is a boy born on a Tuesday. What's the chance both are boys?", o: ["13/27", "1/2", "1/3", "1/4"], why: "Each child has 14 equally likely types (boy/girl × 7 days). 27 combinations include a Tuesday boy, and 13 of those are two boys. The Tuesday detail matters!" },
+  { q: "You have 12 coins. One is fake: it's either heavier or lighter, you don't know which. What's the fewest weighings on a balance scale to find it and tell whether it's heavier or lighter?", o: ["3", "4", "2", "5"], why: "Each weighing has 3 outcomes (left, right, level), so 3 weighings give 27 outcomes, enough for the 24 possibilities (12 coins × heavier/lighter)." },
+  { q: "25 horses, a track that races 5 at a time, no stopwatch. What's the fewest races to find the 3 fastest?", o: ["7", "6", "8", "10"], why: "5 heats, then a race of the 5 winners (6). Only 5 horses can still be in the top 3 apart from the overall winner: race them (7)." },
+  { q: "Write the numbers 1 to 100. How many times do you write the digit 1?", o: ["21", "20", "11", "19"], why: "Ten times in the units (1, 11 … 91), ten in the tens (10–19), and once in 100." },
+  { q: "What comes next: 8, 5, 4, 9, 1, 7, 6, …?", o: ["10", "3", "2", "0"], why: "They're in alphabetical order of their English names: eight, five, four, nine, one, seven, six, ten, three, two." },
+  { q: "You drive 60 km at 30 km/h. How fast must you drive the 60 km back to average 60 km/h for the whole trip?", o: ["It's impossible", "90 km/h", "120 km/h", "180 km/h"], why: "To average 60 km/h over 120 km you have 2 hours, and the first leg already took 2 hours." },
+  { q: "In a 100 m race, A beats B by 10 m and B beats C by 10 m. By how much does A beat C?", o: ["19 m", "20 m", "18 m", "21 m"], why: "When A finishes, B is at 90 m. C runs 90% of B's distance: 81 m. So A wins by 19 m." },
+  { q: "A rope ladder hangs over a ship's side with its bottom rung touching the water. Rungs are 30 cm apart. The tide rises 1.5 m. How many rungs are under water?", o: ["None: only the bottom one still touches", "5", "6", "4"], why: "The ship floats, so it rises with the tide, and the ladder with it." },
+  { q: "How many zeros are at the end of 100! (1 × 2 × 3 × … × 100)?", o: ["24", "20", "11", "25"], why: "Each zero needs a 5 × 2, and 5s are rarer. Multiples of 5 give 20, and 25, 50, 75, 100 give one extra each: 24." },
+  { q: "10 bags of 10 coins. One bag is all fakes weighing 1.1 g instead of 1 g. With ONE reading of a digital scale, how do you find the fake bag?", o: ["Take 1 coin from bag 1, 2 from bag 2 … 10 from bag 10, and weigh them all", "Weigh one coin from each bag together", "Weigh the bags two at a time", "It can't be done in one weighing"], why: "That's 55 coins. Every extra 0.1 g above 55 g points to a bag: 55.7 g means bag 7." },
+  { q: "Three friends pay €30 for a room. The manager refunds €5; the bellboy keeps €2 and gives each friend €1. So each paid €9 (€27) plus the bellboy's €2 = €29. Where's the missing euro?", o: ["There isn't one: the €27 already includes the bellboy's €2", "The bellboy has it", "The manager kept it", "It was lost in change"], why: "€27 paid = €25 for the room + €2 for the bellboy. Adding the €2 again is the trick; add the €3 refund instead to get €30." },
+  { q: "A man looks at a portrait and says: “Brothers and sisters I have none, but that man's father is my father's son.” Who's in the portrait?", o: ["His son", "Himself", "His father", "His nephew"], why: "“My father's son” is the man himself (no brothers). So the portrait's father is him: it's his son." },
+  { q: "In 24 hours, how many times do a clock's hour and minute hands lie exactly on top of each other?", o: ["22", "24", "23", "11"], why: "The minute hand does 24 laps, the hour hand 2. The minute hand catches up 24 − 2 = 22 times." },
+  { q: "Which is bigger: 2¹⁰⁰ or 10³⁰?", o: ["2¹⁰⁰", "10³⁰", "They're equal", "Can't tell without a calculator"], why: "2¹⁰ = 1,024 is a bit more than 1,000 = 10³. So 2¹⁰⁰ = (2¹⁰)¹⁰ is more than (10³)¹⁰ = 10³⁰." },
+  { q: "A painted 3 × 3 × 3 cube is cut into 27 small cubes. How many small cubes have paint on exactly two faces?", o: ["12", "8", "6", "24"], why: "Two painted faces = the middle of each edge. A cube has 12 edges." },
+  { q: "A 3-litre jug, a 5-litre jug, unlimited water. What's the fewest moves (each fill, empty or pour counts) to measure exactly 4 litres?", o: ["6", "4", "5", "8"], why: "Fill 5, pour into 3 (2 left), empty 3, pour the 2 in, fill 5, top up the 3: 4 litres stay in the 5." },
   { q: "100 lockers are closed. Person 1 toggles every locker, person 2 every 2nd, person 3 every 3rd… up to person 100. How many lockers end up open?", o: ["10", "50", "0", "25"], why: "A locker is toggled once for each of its divisors; only perfect squares have an odd number of divisors. There are 10 perfect squares up to 100." },
-  { q: "If 3 cats catch 3 mice in 3 minutes, how many cats catch 100 mice in 100 minutes?", o: ["3", "100", "33", "9"], why: "3 cats catch a mouse a minute together, so in 100 minutes they catch 100." },
-  { q: "You flip a fair coin and get heads five times in a row. What's the chance the next flip is heads?", o: ["50%", "Less than 50%", "More than 50%", "About 3%"], why: "The coin has no memory. Each flip is 50/50; 3% is the chance of six heads in a row before you start." },
   { q: "Game show: three doors, one car. You pick door 1; the host, who knows, opens door 3 to show a goat. Should you switch to door 2?", o: ["Yes: switching wins 2 times out of 3", "No: it's 50/50 now", "It doesn't matter", "No: your first pick is safer"], why: "Your first pick was right 1 in 3 times. The host's reveal moves the remaining 2/3 onto the other closed door." },
   { q: "What comes next: 1, 11, 21, 1211, 111221, …?", o: ["312211", "1112221", "122211", "211211"], why: "Each term describes the previous one: “one 1, one 2, two 1s” → 111221 → “three 1s, two 2s, one 1” = 312211." },
-  { q: "In a room of 23 people, roughly how likely is it that two share a birthday?", o: ["About 50%", "About 6%", "About 23%", "About 90%"], why: "There are 253 pairs of people, which is why the odds climb so fast: 23 people is just past 50%." },
-  { q: "At 3:15, what is the angle between the hour and minute hands?", o: ["7.5°", "0°", "15°", "22.5°"], why: "The minute hand is on the 3. The hour hand has moved a quarter of the way to the 4: a quarter of 30° = 7.5°." },
   { q: "How many squares of any size are on a chessboard?", o: ["204", "64", "100", "128"], why: "1² + 2² + … + 8² = 204: sixty-four 1×1s, forty-nine 2×2s, and so on down to one 8×8." },
-  { q: "A man pushes his car to a hotel and tells the owner he's bankrupt. What's going on?", o: ["He's playing Monopoly", "His car broke down near a casino", "The hotel is a bank", "He's a hotel inspector"], why: "A lateral thinking classic: the car is his token, and he landed on a hotel he can't afford." },
-  { q: "A train leaves at 1 pm going 60 km/h; a second leaves the same station at 2 pm going 90 km/h on the same track. When does the second catch up?", o: ["4 pm", "3 pm", "5 pm", "3:30 pm"], why: "At 2 pm the first is 60 km ahead. The second closes 30 km an hour: 2 hours, so 4 pm." },
+  { q: "You break a stick at two random points. What's the chance the three pieces can form a triangle?", o: ["1/4", "1/2", "1/3", "1/8"], why: "A triangle needs every piece shorter than half the stick. Drawn as a square of all break points, that region is a quarter of it." },
+  { q: "Two ropes each take exactly 60 minutes to burn, but burn unevenly. How do you measure 45 minutes?", o: ["Light rope A at both ends and rope B at one end; when A is gone, light B's other end", "Cut both ropes in half and burn one piece", "Burn one rope, then three quarters of the other", "It can't be done with uneven ropes"], why: "A burning from both ends lasts 30 minutes. B then has 30 minutes left; lighting its other end halves that to 15. 30 + 15 = 45." },
 ];
 // the same "random" picks for everyone on the same day
 function seeded(seed) { let a = [...seed].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 2654435761) >>> 0, 1779033703); return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 function shuffle(arr, rnd) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const k = Math.floor(rnd() * (i + 1)); [a[i], a[k]] = [a[k], a[i]]; } return a; }
 function todaysChallenge() {
   const rnd = seeded("jobness-" + today());
-  const marketing = shuffle(TRIVIA.slice(0, 9), rnd)[0], place = shuffle(TRIVIA.slice(9), rnd)[0];
-  const word = shuffle(WORDLE, rnd)[0], fermi = shuffle(FERMI, rnd)[0], teaser = shuffle(TEASERS, rnd)[0];
+  const place = shuffle(PLACES, rnd)[0], word = shuffle(WORDLE, rnd)[0], open = shuffle(OPEN, rnd)[0];
+  const [t1, t2] = shuffle(TEASERS, rnd);
   const mc = (t, kind) => { const order = shuffle(t.o.map((_, i) => i), rnd); return { type: "mc", kind, q: t.q, o: order.map((i) => t.o[i]), a: order.indexOf(0), why: t.why }; };
-  return [mc(marketing, "Marketing"), { type: "wordle", kind: "Wordle", q: "Guess today's 5-letter word", hint: "Business & marketing", a: word },
-    mc(place, "Places"), { type: "fermi", kind: "Out of the box", q: fermi.q, steps: fermi.steps, range: fermi.range }, mc(teaser, "Brain teaser")];
+  return [mc(place, "Places"), { type: "wordle", kind: "Wordle", q: "Guess today's 5-letter word", hint: "Business & marketing", a: word }, mc(t1, "Brain teaser"),
+    { type: "open", kind: "Out of the box", sub: open.t, q: open.q, steps: open.steps, end: open.end }, mc(t2, "Brain teaser")];
 }
-const GRADED = 4; // the estimate has no single right answer, so it isn't scored
+const GRADED = 4; // the out-of-the-box question has no single right answer, so it isn't scored
 function openChallenge() {
   const ch = APP.state.challenge;
   Object.assign(QUIZ, { kind: "challenge", step: 0, items: todaysChallenge(), score: 0, picked: null, guesses: [], cur: "", notes: "", log: [], review: false });
@@ -3297,20 +3310,20 @@ function renderChallenge() {
     const kb = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"].map((line, li) => `<div class="kb-row">${li === 2 ? `<button class="kb wide" data-wk="enter">Enter</button>` : ""}${[...line].map((c) => `<button class="kb ${st[c] ? "wd-" + st[c] : ""}" data-wk="${c}" ${done ? "disabled" : ""}>${c}</button>`).join("")}${li === 2 ? `<button class="kb wide" data-wk="back" aria-label="Delete">⌫</button>` : ""}</div>`).join("");
     body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 12px">Theme: ${esc(it.hint)} · 6 tries · green = right spot, yellow = in the word</div>
       <div class="wd-grid">${grid}</div>${done ? `<div class="why">${QUIZ.picked === it.a ? `Solved in ${rows.length} ${rows.length === 1 ? "try" : "tries"}!` : `The word was <b>${it.a}</b>.`}</div>` : `<div class="kb-wrap">${kb}</div>`}`;
-  } else if (it.type === "fermi") {
-    body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 10px">There's no single right answer. Interviewers want to see how you break it down.</div>
-      <textarea class="field" id="fermi-in" rows="4" style="width:100%" placeholder="Your estimate and how you got there (optional)" ${answered ? "disabled" : ""}>${esc(QUIZ.notes)}</textarea>
-      ${answered ? `<div class="why"><b>One way to think it through</b><ol class="fermi">${it.steps.map((x) => `<li>${esc(x)}</li>`).join("")}</ol><b>${esc(it.range)}</b></div>` : ""}`;
+  } else if (it.type === "open") {
+    body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 10px">${esc(OPEN_HINT[it.sub] || OPEN_HINT.Estimate)}</div>
+      <textarea class="field" id="think-in" rows="4" style="width:100%" placeholder="Your answer, the way you'd say it in the interview (optional)" ${answered ? "disabled" : ""}>${esc(QUIZ.notes)}</textarea>
+      ${answered ? `<div class="why"><b>One way to answer</b><ol class="think">${it.steps.map((x) => `<li>${esc(x)}</li>`).join("")}</ol><b>${esc(it.end)}</b></div>` : ""}`;
   }
-  $("#quiz").innerHTML = `${head}${progress}<div class="small muted">Question ${QUIZ.step + 1} of ${n} · ${esc(it.kind)}</div>${body}
-    <div class="sheet-actions">${it.type === "fermi" && !answered ? `<button class="btn primary" data-fermi>Show a way to think</button>` : ""}${answered ? `<button class="btn primary" data-cnext>${QUIZ.step === n - 1 ? "See my score" : "Next"}</button>` : ""}</div>`;
+  $("#quiz").innerHTML = `${head}${progress}<div class="small muted">Question ${QUIZ.step + 1} of ${n} · ${esc(it.kind)}${it.sub ? ` · ${esc(it.sub)}` : ""}</div>${body}
+    <div class="sheet-actions">${it.type === "open" && !answered ? `<button class="btn primary" data-think>Show a way to answer</button>` : ""}${answered ? `<button class="btn primary" data-cnext>${QUIZ.step === n - 1 ? "See my score" : "Next"}</button>` : ""}</div>`;
 }
 function answerChallenge(val) {
   const it = QUIZ.items[QUIZ.step]; QUIZ.picked = val;
-  const ok = it.type === "fermi" ? null : val === it.a;
+  const ok = it.type === "open" ? null : val === it.a;
   if (ok) QUIZ.score++;
-  QUIZ.log[QUIZ.step] = { kind: it.kind, q: it.q, ok, yours: it.type === "mc" ? it.o[val] : it.type === "fermi" ? QUIZ.notes : val, right: it.type === "mc" ? it.o[it.a] : it.type === "wordle" ? it.a : null,
-    why: it.type === "fermi" ? `${it.steps.join(" ")} ${it.range}` : it.why || null };
+  QUIZ.log[QUIZ.step] = { kind: it.kind, q: it.q, ok, yours: it.type === "mc" ? it.o[val] : it.type === "open" ? QUIZ.notes : val, right: it.type === "mc" ? it.o[it.a] : it.type === "wordle" ? it.a : null,
+    why: it.type === "open" ? `${it.steps.join(" ")} ${it.end}` : it.why || null };
   renderChallenge();
 }
 function wordleKey(k) {
@@ -4204,9 +4217,11 @@ const commit = () => { save(); refresh(); };
 
 // ---------------- events ----------------
 const ruleOf = (el) => APP.state.rules.find((r) => r.id === el.closest("[data-rule]")?.dataset.rule);
+let downOn = null; // where the tap started: the dialog closes only when the tap both starts and ends on the backdrop
+document.addEventListener("pointerdown", (e) => { downOn = e.target; }, true);
 document.addEventListener("click", (e) => {
   const t = e.target;
-  if (t.classList.contains("modal")) return t.classList.remove("on");
+  if (t.classList.contains("modal")) { if (downOn === t) t.classList.remove("on"); return; }
   const a = t.closest("button, [data-r], [data-ftoggle], [data-wcycle], [data-v], a#unhide, a#do-reorder");
   if (!a || (a.closest("#co-sheet") && !a.dataset.close)) return;
   const ds = a.dataset;
@@ -4228,7 +4243,7 @@ document.addEventListener("click", (e) => {
   if ("tapply" in ds) return applyTest();
   if (ds.cpick != null) return answerChallenge(+ds.cpick);
   if (ds.wk) return wordleKey(ds.wk === "enter" || ds.wk === "back" ? ds.wk : ds.wk.toUpperCase());
-  if ("fermi" in ds) { QUIZ.notes = $("#fermi-in").value.trim(); return answerChallenge("done"); }
+  if ("think" in ds) { QUIZ.notes = $("#think-in").value.trim(); return answerChallenge("done"); }
   if ("creview" in ds) { QUIZ.review = true; return renderChallenge(); }
   if ("cnext" in ds) { QUIZ.step++; QUIZ.picked = null; QUIZ.guesses = []; QUIZ.cur = ""; QUIZ.notes = ""; if (QUIZ.step >= QUIZ.items.length) finishChallenge(); return renderChallenge(); }
   if (ds.detail) return openDetail(ds.detail);
