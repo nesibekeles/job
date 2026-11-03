@@ -1063,6 +1063,37 @@
   [data-theme="business"] .bt-todo .bar i, [data-theme="business"] .bt-todo > .bar i { background: #ffffff !important; }
   [data-theme="business"] .badge-new { background: rgba(57, 255, 136, .14); color: #39ff88; box-shadow: inset 0 0 0 1px rgba(57, 255, 136, .35); }
 
+  /* challenge: answered options, Wordle, estimate, review */
+  .opt.dim, .opt.dim:hover { background: var(--soft) !important; color: var(--muted) !important; border-color: transparent !important; cursor: not-allowed; opacity: .7; }
+  .opt:disabled:hover { background: inherit; }
+  .opt.right:hover { background: var(--mint-50); } .opt.wrong:hover { background: var(--rose-50); }
+  .wd-grid { display: grid; gap: 6px; justify-content: center; margin: 4px 0 14px; }
+  .wd-row { display: grid; grid-template-columns: repeat(5, 46px); gap: 6px; }
+  .wd-c { height: 46px; display: grid; place-items: center; border-radius: 10px; font: 800 20px var(--head); box-shadow: inset 0 0 0 2px var(--line); text-transform: uppercase; }
+  .wd-c.wd-f { box-shadow: inset 0 0 0 2px var(--muted); }
+  .wd-g { background: #4c9a6e; color: #fff; box-shadow: none !important; } .wd-y { background: #d4a72c; color: #fff; box-shadow: none !important; } .wd-x { background: #8a8796; color: #fff; box-shadow: none !important; }
+  .kb-wrap { display: flex; flex-direction: column; gap: 6px; } .kb-row { display: flex; gap: 5px; justify-content: center; }
+  .kb { flex: 1 1 0; max-width: 38px; height: 44px; border: 0; border-radius: 8px; background: var(--soft); color: var(--ink); font: 700 14px var(--head); cursor: pointer; padding: 0; }
+  .kb.wide { max-width: 64px; flex: 1.6 1 0; font-size: 12px; } .kb:disabled { opacity: .5; }
+  .fermi { margin: 8px 0; padding-left: 20px; } .fermi li { margin-bottom: 4px; }
+  .review { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .rv { padding: 12px 14px; border-radius: 14px; background: var(--soft); border-left: 4px solid var(--muted); } .rv.ok { border-left-color: var(--mint); } .rv.bad { border-left-color: var(--rose); } .rv.free { border-left-color: var(--lav); }
+  .rv p { margin: 6px 0; font-weight: 600; font-size: 14px; } .rv-h { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+  .rv.ok .rv-h b { color: var(--mint); } .rv.bad .rv-h b { color: var(--rose); } .rv.free .rv-h b { color: var(--lav); }
+  /* self-test: scales and results */
+  .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .sc-b { border: 0; border-radius: 14px; background: var(--soft); padding: 12px 4px 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; font: inherit; color: var(--ink); min-height: 72px; }
+  .sc-b b { font: 800 20px var(--head); } .sc-b span { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.2; }
+  .sc-b:hover { background: var(--lav-50); } .sc-b.on { background: var(--ink); color: var(--surface); } .sc-b.on span { color: inherit; opacity: .8; }
+  .sg-cat { margin-top: 16px; border-radius: 16px; background: var(--soft); padding: 10px 12px; }
+  .sg-all { display: flex; align-items: center; gap: 10px; font: 700 15px var(--head); cursor: pointer; } .sg-all span { margin-left: auto; font: 600 12px var(--body); color: var(--muted); }
+  .sg-help { margin: 2px 0 6px 28px; }
+  .sg-item { display: grid; grid-template-columns: 18px 1fr auto; gap: 10px; align-items: start; padding: 9px 0; border-top: 1px solid rgba(0, 0, 0, .05); cursor: pointer; }
+  .sg-item input, .sg-all input { width: 17px; height: 17px; accent-color: var(--lav); margin: 2px 0 0; }
+  .sg-t b { display: block; font-size: 13.5px; } .sg-t small { color: var(--muted); font-size: 12px; } .sg-sec { display: block; font-size: 12px; color: var(--lav); font-weight: 600; }
+  .sg-item em { font-style: normal; font-size: 12px; font-weight: 700; white-space: nowrap; } .sg-item em.pos { color: var(--mint); } .sg-item em.neg { color: var(--rose); }
+  @media (max-width: 760px) { .wd-row { grid-template-columns: repeat(5, 42px); } .wd-c { height: 42px; } .kb { height: 46px; } .sc-b { min-height: 66px; } }
+
   /* ---------- themes: casual (default) · business (black ceramic) · private (prefer not to disclose) ---------- */
   /* Business: graphite dark mode, one periwinkle accent; same fonts as every theme */
   html[data-theme="business"] {
@@ -1307,7 +1338,7 @@
       </div>
       <div class="box pad">
         <div class="add-row">
-          <select class="field" id="w-kind" style="flex:0 0 160px"><option value="t">Word in title</option><option value="co">Company</option><option value="cotag">Company tag</option><option value="city">City</option><option value="tag">Tag</option><option value="role">Role type</option></select>
+          <select class="field" id="w-kind" style="flex:0 0 160px"><option value="t">Word in title</option><option value="d">Word in job description</option><option value="co">Company</option><option value="cotag">Company tag</option><option value="city">City</option><option value="tag">Tag</option><option value="role">Role type</option></select>
           <div class="combo" style="flex:1;min-width:160px"><input class="field" id="w-val" data-combo="weight" autocomplete="off" placeholder="pick or type a new one"><button class="combo-tog" type="button" tabindex="-1" aria-label="Show options"><svg class="i"><use href="#i-chev"/></svg></button><div class="combo-list"></div></div>
           <input class="field" id="w-pts" type="number" step="0.5" value="3" style="flex:0 0 84px">
           <button class="btn primary" id="w-add">Add</button>
@@ -1556,7 +1587,7 @@ const FIELDS = {
 const OPS = { text: [["has", "contains"], ["not", "doesn't contain"]], select: [["is", "="], ["isnt", "≠"]], number: [["eq", "="], ["neq", "≠"], ["lt", "<"], ["lte", "≤"], ["gt", ">"], ["gte", "≥"], ["between", "between"]] };
 // select fields with an open list of values: pick one that exists or type a brand new one
 const OPEN_FIELDS = new Set(["tag", "cotag", "company", "city"]);
-const W_KIND = { t: "Word in title", co: "Company", cotag: "Company tag", city: "City", tag: "Tag", role: "Role type" };
+const W_KIND = { t: "Word in title", d: "Word in job description", co: "Company", cotag: "Company tag", city: "City", tag: "Tag", role: "Role type" };
 const PAY = { top: "above market", high: "pays well", mid: "mid-market" };
 const SPONSOR_NOTE = { known: "company sponsors", sometimes: "sometimes", rare: "rarely" };
 
@@ -1832,6 +1863,8 @@ function compute() {
   APP.byId = Object.fromEntries(rows.map((r) => [r.j.id, r]));
   const m = (APP.model = learn(APP.byId, st.decisions));
   const hidden = new Set(st.hidden);
+  const DESC_W = Object.entries(st.overrides).filter(([k]) => k.startsWith("d:"))
+    .map(([k, v]) => [k, v, new RegExp("(^|[^a-z0-9])" + k.slice(2).replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?:s|es)?($|[^a-z0-9])", "i")]); // plurals count too
   for (const r of rows) {
     const base = baseScore(r.j, r.d, m.rw);
     const rules = st.rules.filter((x) => ruleHits(x, r.j, r.d)).map((x) => [x.name, x.pts]);
@@ -1842,6 +1875,8 @@ function compute() {
       if (k in st.overrides) { manual += st.overrides[k]; wparts.push([k, st.overrides[k], "manual"]); }
       else if (m.weights[k]) { auto += m.weights[k]; wparts.push([k, m.weights[k], "auto"]); }
     }
+    // words in the job description (manual only): points when the post mentions them as a whole word or phrase
+    for (const [k, v, rx] of DESC_W) if (!hidden.has(k) && rx.test(r.d.text)) { manual += v; wparts.push([k, v, "manual"]); }
     auto = clamp(auto, -15, 15);
     const rsum = rules.reduce((a, [, p]) => a + p, 0);
     // a quarter-fit is neutral; below it costs up to a third of the points, a perfect fit earns them all
@@ -2513,7 +2548,7 @@ function renderLists() {
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
   $("#c-rej").textContent = mine.length + auto.length || "";
-  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm" data-unrej="${esc(r.j.id)}">${icon("undo")}Back to Discover</button><button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
+  $("#rej-mine").innerHTML = mine.map((r) => itemHTML(r, `<button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist</button>`)).join("") || `<div class="muted small">Nothing yet.</div>`;
   $("#rej-auto").innerHTML = auto.map((r) => itemHTML(r, `<button class="btn sm mint" data-rescue="${esc(r.j.id)}">${icon("heart")}Shortlist anyway</button>`)).join("") || `<div class="muted small">None.</div>`;
   $("#pack-help").innerHTML = APP.server
     ? `Press <b>Prepare pack</b>, then type <b>paketleri hazırla</b> in Claude Code. A tailored CV, cover letter and form answers appear here. Review, apply, then update the status. Tap a pipeline step to see only those roles.`
@@ -2611,7 +2646,7 @@ function companySheet(name) {
 // ---------------- scoring ----------------
 function prettyKey(k) {
   const [kind, ...rest] = k.split(":"), v = rest.join(":");
-  return kind === "t" ? `“${v}” in title` : `${W_KIND[kind] || kind}: ${v}`;
+  return kind === "t" ? `“${v}” in title` : kind === "d" ? `“${v}” in the job description` : `${W_KIND[kind] || kind}: ${v}`;
 }
 function selectOptions(f) {
   if (SELECT_LABELS[f]) return Object.entries(SELECT_LABELS[f]);
@@ -2687,7 +2722,7 @@ function renderWeights() {
       <span class="act">${r.k in st.overrides && r.auto != null ? `<button class="icon-btn" data-wreset title="Back to learned value">${icon("undo")}</button>` : ""}<button class="icon-btn" data-wdel title="Delete">${icon("trash")}</button></span></div>`).join("")
     : `<div class="muted small" style="padding:12px 0">No weights yet. They appear as you swipe, or add your own above.</div>`;
   $("#hidden-info").innerHTML = st.hidden.length ? `${st.hidden.length} deleted weights are no longer learned. <a href="#" id="unhide">Restore</a>` : "";
-  $("#w-val").placeholder = { t: "e.g. marketing", co: "pick a company or type one", cotag: "pick a company tag or type a new one", city: "pick a city", tag: "e.g. Remote, Turkish a plus", role: "pick a role type" }[$("#w-kind").value];
+  $("#w-val").placeholder = { t: "e.g. marketing", d: "a word or phrase, e.g. b2c, small team", co: "pick a company or type one", cotag: "pick a company tag or type a new one", city: "pick a city", tag: "e.g. Remote, Turkish a plus", role: "pick a role type" }[$("#w-kind").value];
 }
 // ---- combo: a dropdown of known values that also takes free text ----
 function comboHTML(attrs, value, ph) {
@@ -2698,6 +2733,8 @@ function comboOptions(input) {
   if (f === "weight") {
     const kind = $("#w-kind").value;
     if (kind === "t") return [...new Set(APP.rows.flatMap((r) => (r.j.title.toLowerCase().match(/[a-z]+/g) || []).filter((w) => w.length > 2)))].sort().map((x) => [x, x]);
+    if (kind === "d") { const s = APP.state.settings; return [...new Set([...Object.keys(s.cv_keywords), ...s.exact_kw, ...s.adjacent_kw, ...Object.values(s.scene_lex).flatMap(Object.keys)].map((x) => x.trim().toLowerCase()).filter(Boolean))].sort()
+      .map((w) => [w, w, APP.rows.filter((r) => !r.d.filtered && r.d.text.includes(w)).length]); }
     f = { co: "company", cotag: "cotag", city: "city", tag: "tag", role: "role_type" }[kind];
   }
   const opts = selectOptions(f);
@@ -2711,7 +2748,7 @@ function openCombo(input, all) {
   const opts = comboOptions(input), hits = opts.filter(([v, l]) => !q || l.toLowerCase().includes(q) || v.toLowerCase().includes(q)).slice(0, 80);
   const typed = input.value.trim(), exists = opts.some(([v]) => v.toLowerCase() === typed.toLowerCase());
   list.innerHTML = (typed && !exists ? `<button type="button" class="combo-new" data-pick="${esc(typed)}">${icon("plus")}Add “${esc(typed)}” as a new one</button>` : "")
-    + hits.map(([v, l, n]) => `<button type="button" data-pick="${esc(v)}" class="${v.toLowerCase() === typed.toLowerCase() ? "on" : ""}"><span>${esc(l)}</span>${n != null ? `<small>${n} jobs</small>` : ""}</button>`).join("")
+    + hits.map(([v, l, n]) => `<button type="button" data-pick="${esc(v)}" class="${v.toLowerCase() === typed.toLowerCase() ? "on" : ""}"><span>${esc(l)}</span>${n != null ? `<small>${n} ${n === 1 ? "job" : "jobs"}</small>` : ""}</button>`).join("")
     + (!hits.length && !typed ? `<div class="combo-empty">Nothing here yet. Type a new one.</div>` : "");
   document.querySelectorAll(".combo.open").forEach((c) => c !== box && c.classList.remove("open"));
   box.classList.add("open");
@@ -2809,9 +2846,9 @@ function renderPromo() {
   const html = `<div class="promo-track">
       <div class="promo-card challenge ${PROMO.i === 0 ? "on" : ""}">
         <svg class="i" style="color:var(--mint)"><use href="#i-puzzle"/></svg>
-        <div class="meta">${ch.streak ? `🔥 ${ch.streak}-day streak` : "3 quick questions a day"}</div>
+        <div class="meta">${ch.streak ? `🔥 ${ch.streak}-day streak` : "5 quick questions a day"}</div>
         <h4>Accept today's challenge.</h4>
-        <p>${done ? `Done for today: ${ch.results[today()]}/3. New one tomorrow.` : "Marketing trivia, a word puzzle and a city question."}</p>
+        <p>${done ? `Done for today: ${ch.results[today()]}/4. New one tomorrow.` : "Marketing, a Wordle, a city, an estimate and a brain teaser."}</p>
         <button class="btn sm ${done ? "" : "primary"}" data-open="challenge">${done ? "See today's result" : "Play"}</button>
       </div>
       <div class="promo-card test ${PROMO.i === 1 ? "on" : ""}">
@@ -2850,81 +2887,170 @@ const PERSONAS = {
   showrunner: { emoji: "🎬", name: "The Showrunner", text: "You want a writers' room, not an org chart: a small crew, an idea that grows from a seed, reviewing what you made and pushing the next version further. Every week a new episode, with a few traditions you keep." },
   storyteller: { emoji: "🎙️", name: "The Brand Storyteller", text: "You care how a product lands in people's lives. Launches, positioning and the story behind the numbers are where you add the most." },
 };
-const R = (name, f, op, v, pts) => ({ name, all: [{ f, op, v }], pts });
-const TEST = [
-  { q: "What pace do you do your best work at?", opts: [
-    { t: "Fast and scrappy: build it while it flies", ax: "builder", rules: [R("Test: scale-ups", "tier", "is", "scaleup", 4)] },
-    { t: "Steady and structured, with room to plan", ax: "strategist", rules: [R("Test: top-tier companies", "tier", "is", "top", 4), R("Test: avoid long hours", "tag", "is", "Fast pace / long hours", -4)] },
-    { t: "A mix: momentum without chaos", ax: null, rules: [R("Test: less of the hustle", "tag", "is", "Fast pace / long hours", -2)] } ] },
-  { q: "Who do you want to build for?", opts: [
-    { t: "Consumers I can picture using it", ax: "storyteller", rules: [R("Test: consumer companies", "cotag", "is", "Consumer", 4)] },
-    { t: "Businesses with a clear ROI", ax: "strategist", rules: [R("Test: B2B companies", "cotag", "is", "B2B", 4)] },
-    { t: "Both sides of a marketplace", ax: "builder", rules: [R("Test: marketplaces", "tag", "is", "Marketplace", 5)] } ] },
-  { q: "Your ideal week looks like…", opts: [
-    { t: "Mostly in the office, with the team", ax: null, rules: [] },
-    { t: "Hybrid: a few days in, a few at home", ax: null, rules: [R("Test: not office-only", "workplace", "is", "Office", -3)] },
-    { t: "Mostly remote", ax: null, rules: [R("Test: remote roles", "workplace", "is", "Remote", 4), R("Test: no office-only", "workplace", "is", "Office", -5)] } ] },
-  { q: "Which part of the work lights you up?", opts: [
-    { t: "Deciding where to play and setting the plan", ax: "strategist", rules: [R("Test: strategic roles", "role_type", "is", "strategic", 4)] },
-    { t: "Experiments, funnels and numbers", ax: "scientist", rules: [R("Test: growth & experiments", "tag", "is", "Growth / Experiments", 4)] },
-    { t: "Launches, positioning and the story", ax: "storyteller", rules: [R("Test: product marketing", "title", "has", "product marketing", 4)] },
-    { t: "Opening new markets and growing supply", ax: "builder", rules: [R("Test: exactly my kind of role", "family", "is", "exact", 3)] },
-    { t: "Reviewing what we made, then pushing the next idea further", ax: "showrunner", rules: [R("Test: feels like my movie", "scene", "gte", 40, 5)] } ] },
-  { q: "Where would you rather make your mark?", opts: [
-    { t: "A global giant with a famous name", ax: "strategist", rules: [R("Test: priority companies", "priority", "is", "yes", 4)] },
-    { t: "A big brand that's still hungry", ax: "storyteller", rules: [R("Test: big brands", "tier", "is", "big", 4)] },
-    { t: "A scale-up where I can shape things", ax: "builder", rules: [R("Test: scale-ups (shape things)", "tier", "is", "scaleup", 4)] },
-    { t: "A small crew where everyone knows each other", ax: "showrunner", rules: [R("Test: small, kind teams", "scene", "gte", 30, 3)] } ] },
-  { q: "Which world pulls you most?", opts: [
-    { t: "Travel", ax: null, rules: [R("Test: travel", "cotag", "is", "Travel", 4)] },
-    { t: "Fintech", ax: null, rules: [R("Test: fintech", "cotag", "is", "Fintech", 4)] },
-    { t: "Food & delivery", ax: null, rules: [R("Test: food & delivery", "cotag", "is", "Food", 4)] },
-    { t: "SaaS & AI", ax: "scientist", rules: [R("Test: SaaS", "cotag", "is", "SaaS", 4)] },
-    { t: "Brands & FMCG", ax: "storyteller", rules: [R("Test: FMCG & brands", "cotag", "is", "FMCG", 4)] } ] },
-  { q: "Stretch roles or a strong fit?", opts: [
-    { t: "Give me the stretch", ax: null, rules: [R("Test: open to stretch roles", "years", "gte", 9, 4)] },
-    { t: "Roles I can nail from day one", ax: null, rules: [R("Test: strong CV fit", "cv", "gte", 4.5, 4), R("Test: experience I have", "years", "lte", 5, 3)] },
-    { t: "A bit of both", ax: null, rules: [] } ] },
+// ---- self-discovery test v2: 1–5 scales, pick-any lists and "what would you do" scenarios (no right answers) ----
+// answers build a trait profile; the profile turns into suggestions she picks from (companies, weights, keywords)
+const SECTORS = [["Travel", "Travel", ["Travel"]], ["Fintech", "Fintech & payments", ["Fintech", "Payments"]], ["Banking", "Banking", ["Banking"]],
+  ["E-commerce", "E-commerce", ["E-commerce", "Quick commerce"]], ["Marketplace", "Marketplaces", ["Marketplace"]], ["Food", "Food & delivery", ["Food", "Food delivery"]],
+  ["SaaS", "SaaS & AI", ["SaaS", "AI", "Technology", "Martech"]], ["FMCG", "Brands & FMCG", ["FMCG", "Brand building", "Consumer goods"]], ["Gaming", "Gaming", ["Gaming"]],
+  ["Consumer", "Consumer apps", ["Consumer", "Mobile apps", "Mobile"]], ["Telecom", "Telecom", ["Telecom"]]];
+const MORE_OF = [["owner", "Owning a number end to end"], ["lead", "Leading a team"], ["story", "Shaping the brand and the story"], ["data", "Running experiments"],
+  ["builder", "Opening new markets"], ["product", "Working closely with product and engineers"], ["customer", "Customer research"], ["b2b", "Partnerships and B2B deals"]];
+const TQ = [
+  { type: "scale", q: "I do my best work in a small team where everyone knows each other.", t: { small: 1 } },
+  { type: "scale", q: "A fast, scrappy pace gives me more energy than it takes.", t: { pace: 1 } },
+  { type: "multi", q: "Which worlds pull you? Pick any.", key: "like", opts: SECTORS.map(([k, l]) => [k, l]) },
+  { type: "single", q: "Your launch is 30% below target after week one. What do you do first?", opts: [
+    { t: "Open the funnel data and find where it leaks", e: { data: 1 } }, { t: "Get the team together for a quick retro and new ideas", e: { crew: 1, critic: 1 } },
+    { t: "Call five customers this week and just listen", e: { customer: 1, story: 0.5 } }, { t: "Step back and re-check the plan and priorities with leadership", e: { strategy: 1 } }] },
+  { type: "scale", q: "I'd rather test a hunch than debate it.", t: { data: 1 } },
+  { type: "single", q: "Your ideal week looks like…", opts: [
+    { t: "Mostly in the office, with the team", e: { remote: -1 } }, { t: "Hybrid: a few days in, a few at home", e: { remote: 0.4 } }, { t: "Mostly remote", e: { remote: 1 } }] },
+  { type: "multi", q: "What do you want more of in your next role? Pick up to three.", key: "more", max: 3, opts: MORE_OF },
+  { type: "single", q: "A senior stakeholder pushes an idea you think won't work. You…", opts: [
+    { t: "Bring the numbers to the next meeting", e: { data: 1 } }, { t: "Suggest a small test to settle it", e: { data: 0.5, novel: 0.5 } },
+    { t: "Talk to them one-on-one first, then present a shared version", e: { strategy: 0.5, crew: 0.5 } }, { t: "Go with it and learn from the result", e: { pace: 0.5, novel: 0.3 } }] },
+  { type: "scale", q: "The mission matters more to me than the company's famous name.", t: { mission: 1, stable: -0.5 } },
+  { type: "single", q: "Where would you rather make your mark?", opts: [
+    { t: "A global giant with a famous name", e: { stable: 1 } }, { t: "A big brand that's still hungry", e: { stable: 0.5, story: 0.3 } },
+    { t: "A scale-up where I can shape things", e: { small: 0.5, stable: -0.5, builder: 0.5 } }, { t: "A small crew where everyone knows each other", e: { small: 1, stable: -1 } }] },
+  { type: "scale", q: "Team rituals matter to me: offsites, demo days, little traditions.", t: { ritual: 1 } },
+  { type: "single", q: "Your first 90 days in a new country and a new role. What matters most?", opts: [
+    { t: "Quick wins with clear numbers", e: { owner: 1, pace: 0.3 } }, { t: "Building relationships across the team", e: { crew: 1 } },
+    { t: "Learning the market deeply", e: { dig: 1 } }, { t: "A clear plan agreed with my manager", e: { strategy: 1 } }] },
+  { type: "scale", q: "I'd enjoy B2B marketing as much as consumer marketing.", t: { b2b: 1 } },
+  { type: "multi", q: "Any worlds you'd rather avoid? Pick any, or none.", key: "avoid", opts: SECTORS.map(([k, l]) => [k, l]) },
+  { type: "single", q: "Stretch roles or a strong fit?", opts: [
+    { t: "Give me the stretch", e: { stretch: 1 } }, { t: "Roles I can nail from day one", e: { stretch: -1 } }, { t: "A bit of both", e: {} }] },
 ];
-const QUIZ = { kind: null, step: 0, answers: [], items: [], score: 0, picked: null };
-function openTest() { Object.assign(QUIZ, { kind: "test", step: 0, answers: [], picked: null }); renderTest(); $("#m-quiz").classList.add("on"); }
-function testResult() {
-  const ax = {};
-  QUIZ.answers.forEach((a, i) => { const o = TEST[i].opts[a]; if (o.ax) ax[o.ax] = (ax[o.ax] || 0) + (i === 3 ? 1.5 : 1); });
-  const persona = Object.entries(ax).sort((a, b) => b[1] - a[1])[0]?.[0] || "builder";
-  const rules = QUIZ.answers.flatMap((a, i) => TEST[i].opts[a].rules);
-  return { persona, rules };
+const SCALE_LABELS = ["Not me", "", "Somewhat", "", "Totally me"];
+const QUIZ = { kind: null, step: 0, answers: [], items: [], score: 0, picked: null, multi: [], sel: null };
+function openTest() { Object.assign(QUIZ, { kind: "test", step: 0, answers: [], picked: null, multi: [], sel: null }); renderTest(); $("#m-quiz").classList.add("on"); }
+function traitsOf(answers) {
+  const tr = {}, add = (k, v) => (tr[k] = (tr[k] || 0) + v);
+  const sets = { like: [], avoid: [], more: [] };
+  TQ.forEach((q, i) => {
+    const a = answers[i]; if (a == null) return;
+    if (q.type === "scale") for (const [k, w] of Object.entries(q.t)) add(k, ((a - 3) / 2) * w);
+    if (q.type === "single") for (const [k, w] of Object.entries(q.opts[a].e)) add(k, w);
+    if (q.type === "multi") { sets[q.key] = a; if (q.key === "more") for (const k of a) add(k, 1); }
+  });
+  for (const k of Object.keys(tr)) tr[k] = clamp(tr[k], -1.5, 1.5);
+  return { tr, ...sets };
 }
+function personaOf(tr) {
+  const v = (k) => tr[k] || 0;
+  const s = { builder: v("builder") + v("owner") + v("pace") * 0.5, strategist: v("strategy") + v("stable") * 0.5, scientist: v("data") * 1.2 + v("product") * 0.5,
+    showrunner: v("small") + v("ritual") * 0.7 + v("critic") * 0.5 + v("novel") * 0.5, storyteller: v("story") + v("customer") * 0.7 };
+  return Object.entries(s).sort((a, b) => b[1] - a[1])[0][0];
+}
+// every suggestion knows its group, what it changes (shown as "now → after") and how to apply itself
+function testSuggestions({ tr, like, avoid }) {
+  const v = (k) => tr[k] || 0, st = APP.state, s = st.settings, out = [];
+  const coTagged = (keys) => Object.entries(s.companies).filter(([, c]) => (c.tags || []).some((t) => keys.some((k) => SECTORS.find((x) => x[0] === k)[2].some((m) => m.toLowerCase() === t.toLowerCase()))));
+  // 1 · companies
+  const seen = new Set();
+  for (const k of like) for (const [n, c] of coTagged([k])) if (!c.priority && !c.hidden && !seen.has(n)) { seen.add(n);
+    out.push({ cat: "co", label: `Prioritise ${n}`, why: `${SECTORS.find((x) => x[0] === k)[1]}, which you picked`, eff: "priority", apply: () => (s.companies[n].priority = true) }); }
+  for (const k of avoid) for (const [n, c] of coTagged([k])) if (!c.hidden && !like.includes(k)) {
+    out.push({ cat: "co", label: `Hide ${n}`, why: `you'd rather avoid ${SECTORS.find((x) => x[0] === k)[1].toLowerCase()}`, eff: "hidden", neg: true, apply: () => (s.companies[n].hidden = true) }); }
+  const tierPick = v("small") >= 0.5 && v("stable") <= 0 ? ["scaleup", "you like small teams you can shape"] : v("stable") >= 0.5 ? ["top", "you'd like a famous name behind you"] : null;
+  if (tierPick) for (const [n, c] of Object.entries(s.companies).filter(([n2, c2]) => c2.tier === tierPick[0] && !c2.priority && !c2.hidden && !seen.has(n2)).slice(0, 6)) { seen.add(n);
+    out.push({ cat: "co", label: `Prioritise ${n}`, why: tierPick[1], eff: "priority", apply: () => (s.companies[n].priority = true) }); }
+  // 2 · weights (points added to or taken from every job that has it)
+  const W = [["tag:Fast pace / long hours", -4, v("pace") <= -0.3, "you prefer a steady pace"], ["tag:Office-heavy", -4, v("remote") >= 0.3, "you want home days"],
+    ["tag:Remote", 3, v("remote") >= 0.7, "you'd like to work mostly remote"], ["tag:Hybrid", 2, v("remote") > 0 && v("remote") < 0.7, "hybrid is your ideal week"],
+    ["role:strategic", 3, v("strategy") >= 0.5, "you like setting the plan"], ["role:operational", -3, v("strategy") >= 0.3 || v("owner") >= 0.5, "you want to shape, not just run"],
+    ["tag:B2C / Consumer", 3, v("b2b") <= -0.3 || v("customer") >= 0.5, "consumer work is closer to you"], ["tag:B2B", -2, v("b2b") <= -0.5, "B2B isn't your thing"],
+    ["tag:B2B", 2, v("b2b") >= 0.5, "you enjoy B2B too"], ["tag:Growth / Experiments", 3, v("data") >= 0.5, "you'd rather test than debate"],
+    ["tag:Marketplace", 3, v("builder") >= 0.5, "you like building both sides of a market"], ["d:experimentation", 2, v("data") >= 0.5, "experiments energise you"],
+    ["d:a/b test", 2, v("data") >= 0.8, "experiments energise you"], ["d:positioning", 3, v("story") >= 0.5, "you want to shape the story"],
+    ["d:storytelling", 2, v("story") >= 0.8, "you want to shape the story"], ["d:customer research", 2, v("customer") >= 0.5, "you like hearing customers first-hand"],
+    ["d:small team", 3, v("small") >= 0.5, "small teams suit you"], ["d:new markets", 3, v("builder") >= 0.5, "opening markets lights you up"],
+    ["d:p&l", 3, v("owner") >= 0.5, "you want to own a number"], ["d:lead a team", 2, v("lead") >= 0.5, "you want to lead people"],
+    ["d:offsite", 1, v("ritual") >= 0.5, "rituals matter to you"], ["d:mission", 2, v("mission") >= 0.5, "the mission matters more than the name"],
+    ["d:rockstar", -2, v("pace") <= 0, "you don't want hustle culture"], ["d:hustle", -2, v("pace") <= 0, "you don't want hustle culture"]];
+  const wanted = new Map(W.filter((x) => x[2]).map(([k, p, , why]) => [k, [p, why]]));
+  for (const [k, [p, why]] of wanted) if (st.overrides[k] !== p) {
+    const now = st.overrides[k] ?? APP.model.weights[k];
+    out.push({ cat: "w", label: prettyKey(k), why, eff: `${now == null ? "not weighted" : signed(now)} → ${signed(p)} ${Math.abs(p) === 1 ? "pt" : "pts"}`, neg: p < 0, apply: () => { st.overrides[k] = p; st.hidden = st.hidden.filter((x) => x !== k); } });
+  }
+  const oldRules = st.rules.filter((r) => r.source === "test");
+  if (oldRules.length) out.push({ cat: "w", label: `Remove ${oldRules.length} rules from your previous test`, why: oldRules.slice(0, 3).map((r) => `${r.name.replace(/^Test: /, "")} ${signed(r.pts)}`).join(", ") + (oldRules.length > 3 ? "…" : ""), eff: "removed", neg: true,
+    apply: () => (st.rules = st.rules.filter((r) => r.source !== "test")) });
+  // 3 · keywords, each with the section it goes into
+  const has = (list, w) => list.some((x) => x.trim().toLowerCase() === w);
+  const kw = (cond, sec, word, why, w = 1) => { if (!cond) return;
+    if (sec === "exact" && !has(s.exact_kw, word)) out.push({ cat: "k", label: `“${word}”`, sec: "Role fit · exactly what I do", why, eff: "add", apply: () => s.exact_kw.push(word) });
+    if (sec === "adjacent" && !has(s.adjacent_kw, word)) out.push({ cat: "k", label: `“${word}”`, sec: "Role fit · close to my field", why, eff: "add", apply: () => s.adjacent_kw.push(word) });
+    if (sec === "cv" && !(word in s.cv_keywords)) out.push({ cat: "k", label: `“${word}”`, sec: "CV keywords", why, eff: `add (weight ${w})`, apply: () => (s.cv_keywords[word] = w) });
+    if (sec.startsWith("scene:")) { const dim = sec.slice(6); if (!(word in (s.scene_lex[dim] || {}))) out.push({ cat: "k", label: `“${word}”`, sec: `Scene engine · ${SCENES[dim].name}`, why, eff: `add (×${w})`, apply: () => ((s.scene_lex[dim] = s.scene_lex[dim] || {})[word] = w) }); }
+  };
+  const drop = (cond, sec, word, why) => { if (!cond) return; const list = sec === "exact" ? s.exact_kw : s.adjacent_kw;
+    if (has(list, word)) out.push({ cat: "k", label: `“${word}”`, sec: sec === "exact" ? "Role fit · exactly what I do" : "Role fit · close to my field", why, eff: "remove", neg: true,
+      apply: () => { const arr = sec === "exact" ? s.exact_kw : s.adjacent_kw; const i = arr.findIndex((x) => x.trim().toLowerCase() === word); if (i >= 0) arr.splice(i, 1); } }); };
+  kw(v("strategy") >= 0.5, "exact", "strategy", "you like setting the plan"); kw(v("builder") >= 0.5, "exact", "market expansion", "opening markets lights you up");
+  kw(v("story") >= 0.5, "adjacent", "brand marketing", "you want to shape the story"); kw(v("story") >= 0.8, "adjacent", "content marketing", "you want to shape the story");
+  kw(v("data") >= 0.5, "adjacent", "experimentation", "you'd rather test than debate"); kw(v("customer") >= 0.5, "adjacent", "customer insights", "customers first-hand");
+  kw(v("product") >= 0.5, "adjacent", "product growth", "you like working with product"); drop(v("b2b") <= -0.5, "adjacent", "partnership", "B2B isn't your thing");
+  drop(v("story") <= -0.5, "adjacent", "brand", "brand work isn't your pull");
+  kw(v("data") >= 0.5, "cv", "experimentation", "you run experiments", 1); kw(v("owner") >= 0.5, "cv", "p&l", "you own numbers", 1);
+  kw(v("small") >= 0.5, "scene:cast", "small team", "small teams suit you", 1.5); kw(v("small") >= 0.5, "scene:cast", "tight-knit", "small teams suit you", 1);
+  kw(v("ritual") >= 0.5, "scene:ritual", "demo day", "rituals matter to you", 1); kw(v("ritual") >= 0.5, "scene:ritual", "offsite", "rituals matter to you", 1);
+  kw(v("novel") >= 0.4, "scene:novel", "0 to 1", "you like new things", 1); kw(v("builder") >= 0.5, "scene:novel", "new market", "opening markets lights you up", 1);
+  kw(v("dig") >= 0.5, "scene:dig", "deep dive", "you learn a market deeply", 1); kw(v("critic") >= 0.5, "scene:critic", "retro", "you review and improve", 1);
+  kw(v("critic") >= 0.5 || v("crew") >= 0.5, "scene:critic", "feedback culture", "you review and improve", 1); kw(v("pace") <= -0.3, "scene:crew", "work-life balance", "you prefer a steady pace", 1);
+  return out;
+}
+const SG_CATS = [["co", "Companies", "Who you'd be happiest at: priorities to add, companies to hide."], ["w", "Weights", "Points added to (+) or taken from (−) every job's score that has it. A score is out of 100."],
+  ["k", "Keywords", "Words that decide role fit, CV match and the scene engine. Each shows where it goes."]];
 function renderTest() {
-  const progress = `<div class="quiz-progress">${TEST.map((_, i) => `<i class="${i < QUIZ.step ? "done" : ""}"></i>`).join("")}</div>`;
+  const progress = `<div class="quiz-progress">${TQ.map((_, i) => `<i class="${i < QUIZ.step ? "done" : ""}"></i>`).join("")}</div>`;
   const head = `<div class="sheet-head"><h2>Discover yourself</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
-  if (QUIZ.step < TEST.length) {
-    const q = TEST[QUIZ.step];
-    $("#quiz").innerHTML = `${head}${progress}
-      <div class="small muted">Question ${QUIZ.step + 1} of ${TEST.length}</div>
-      <p class="quiz-q">${esc(q.q)}</p>
-      <div class="opts">${q.opts.map((o, i) => `<button class="opt ${QUIZ.answers[QUIZ.step] === i ? "picked" : ""}" data-tpick="${i}"><span class="k">${"ABCDE"[i]}</span>${esc(o.t)}</button>`).join("")}</div>
-      <div class="sheet-actions">${QUIZ.step ? `<button class="btn ghost" data-tback style="margin-right:auto">Back</button>` : ""}</div>`;
+  const back = QUIZ.step ? `<button class="btn ghost" data-tback style="margin-right:auto">Back</button>` : "";
+  if (QUIZ.step < TQ.length) {
+    const q = TQ[QUIZ.step], a = QUIZ.answers[QUIZ.step];
+    let body = "";
+    if (q.type === "scale") body = `<div class="scale">${[1, 2, 3, 4, 5].map((n) => `<button class="sc-b ${a === n ? "on" : ""}" data-tpick="${n}"><b>${n}</b><span>${SCALE_LABELS[n - 1]}</span></button>`).join("")}</div>`;
+    if (q.type === "single") body = `<div class="opts">${q.opts.map((o, i) => `<button class="opt ${a === i ? "picked" : ""}" data-tpick="${i}"><span class="k">${"ABCDE"[i]}</span>${esc(o.t)}</button>`).join("")}</div>
+      <div class="small muted" style="margin-top:10px">No right or wrong answer: this only shows how you like to work.</div>`;
+    if (q.type === "multi") { const sel = QUIZ.multi;
+      body = `<div class="chips">${q.opts.map(([k, l]) => `<button class="chip ${sel.includes(k) ? "on" : ""}" data-tmulti="${k}">${sel.includes(k) ? icon("check") : ""}${esc(l)}</button>`).join("")}</div>
+        <div class="small muted" style="margin-top:10px">${q.max ? `${sel.length} of ${q.max} picked` : `${sel.length} picked`}</div>`; }
+    $("#quiz").innerHTML = `${head}${progress}<div class="small muted">Question ${QUIZ.step + 1} of ${TQ.length}</div><p class="quiz-q">${esc(q.q)}</p>${body}
+      <div class="sheet-actions">${back}${q.type === "multi" ? `<button class="btn primary" data-tmulti-next>${QUIZ.multi.length ? "Next" : "None of these"}</button>` : ""}</div>`;
     return;
   }
-  const { persona, rules } = testResult(), p = PERSONAS[persona];
+  const prof = traitsOf(QUIZ.answers), persona = personaOf(prof.tr), p = PERSONAS[persona];
+  const sg = (QUIZ.sg = QUIZ.sg || testSuggestions(prof)); QUIZ.sel = QUIZ.sel || new Set(sg.map((_, i) => i));
+  const n = QUIZ.sel.size;
   $("#quiz").innerHTML = `${head}${progress}
-    <div class="persona"><div class="emoji">${p.emoji}</div><div class="eyebrow">You're</div><h3>${esc(p.name)}</h3><p class="muted" style="margin:0">${esc(p.text)}</p></div>
-    ${rules.length ? `<div class="small" style="margin-top:16px;font-weight:600">These rules will be added to your scoring</div>
-      <ul class="effects">${rules.map((r) => `<li><span>${esc(r.name.replace(/^Test: /, ""))}</span><b class="${r.pts > 0 ? "pos" : "neg"}">${signed(r.pts)}</b></li>`).join("")}</ul>
-      <div class="small muted" style="margin-top:8px">You can change or switch them off anytime in Scoring.</div>` : ""}
-    <div class="sheet-actions"><button class="btn ghost" data-tretake style="margin-right:auto">Retake</button><button class="btn" data-close="m-quiz">Not now</button><button class="btn primary" data-tapply>Apply to my scoring</button></div>`;
+    <div class="persona"><div class="eyebrow">You're</div><h3>${esc(p.name)}</h3><p class="muted" style="margin:0">${esc(p.text)}</p></div>
+    <p class="small muted" style="margin:14px 0 4px">Here's what your answers suggest. Nothing changes until you apply, and you can switch anything back later in Scoring or Preferences.</p>
+    ${SG_CATS.map(([c, name, help]) => { const items = sg.map((x, i) => [x, i]).filter(([x]) => x.cat === c); if (!items.length) return "";
+      const all = items.every(([, i]) => QUIZ.sel.has(i));
+      return `<div class="sg-cat"><label class="sg-all"><input type="checkbox" data-sgall="${c}" ${all ? "checked" : ""}><b>${name}</b><span>${items.length}</span></label><div class="small muted sg-help">${help}</div>
+        ${items.map(([x, i]) => `<label class="sg-item"><input type="checkbox" data-sg="${i}" ${QUIZ.sel.has(i) ? "checked" : ""}><span class="sg-t"><b>${esc(x.label)}</b>${x.sec ? `<span class="sg-sec">→ ${esc(x.sec)}</span>` : ""}<small>${esc(x.why)}</small></span><em class="${x.neg ? "neg" : "pos"}">${esc(x.eff)}</em></label>`).join("")}</div>`; }).join("")
+      || `<div class="small muted" style="margin:14px 0">Your current setup already matches your answers. Nothing to change.</div>`}
+    <div class="sheet-actions"><button class="btn ghost" data-tretake style="margin-right:auto">Retake</button><button class="btn" data-close="m-quiz">Not now</button>
+      <button class="btn primary" data-tapply>${n ? `Apply ${n} selected` : "Save my result"}</button></div>`;
 }
 function applyTest() {
-  const { persona, rules } = testResult();
-  APP.state.rules = APP.state.rules.filter((r) => r.source !== "test").concat(rules.map((r) => ({ id: uid(), on: true, source: "test", ...structuredClone(r) })));
-  APP.state.test = { persona, answers: [...QUIZ.answers], at: new Date().toISOString() };
+  const prof = traitsOf(QUIZ.answers), persona = personaOf(prof.tr), sg = QUIZ.sg || [];
+  const chosen = [...(QUIZ.sel || [])].map((i) => sg[i]).filter(Boolean);
+  chosen.forEach((x) => x.apply());
+  APP.state.test = { persona, answers: [...QUIZ.answers], traits: prof.tr, at: new Date().toISOString(), v: 2 };
   $("#m-quiz").classList.remove("on");
-  toast(`${PERSONAS[persona].name}: ${rules.length} rules added to your scoring`);
-  commit(); renderPromo();
+  toast(`${PERSONAS[persona].name}: ${chosen.length} change${chosen.length === 1 ? "" : "s"} applied`);
+  QUIZ.sg = null; QUIZ.sel = null; commit(); renderPromo();
 }
+document.addEventListener("change", (e) => {
+  const t = e.target;
+  if (t.dataset.sg != null) { t.checked ? QUIZ.sel.add(+t.dataset.sg) : QUIZ.sel.delete(+t.dataset.sg); return renderTest(); }
+  if (t.dataset.sgall) { (QUIZ.sg || []).forEach((x, i) => { if (x.cat === t.dataset.sgall) t.checked ? QUIZ.sel.add(i) : QUIZ.sel.delete(i); }); return renderTest(); }
+});
 
-// ---- daily challenge: same three questions for everyone on a given day ----
+// ---- daily challenge: five questions, the same for everyone on a given day ----
+// 1 marketing · 2 Wordle · 3 a city question · 4 an out-of-the-box estimate (no single answer) · 5 a brain teaser
 const TRIVIA = [
   { q: "What does CAC stand for?", o: ["Customer Acquisition Cost", "Cost After Conversion", "Campaign Audience Coverage", "Customer Average Contribution"], why: "The total cost of winning one new customer." },
   { q: "ROAS is calculated as…", o: ["Revenue from ads ÷ ad spend", "Ad spend ÷ revenue", "Profit ÷ customers", "Clicks ÷ impressions"], why: "Return on ad spend: how much revenue each unit of ad spend brings back." },
@@ -2945,33 +3071,79 @@ const TRIVIA = [
   { q: "Which currency does Denmark use?", o: ["Danish krone", "Euro", "Swedish krona", "Danish mark"], why: "Denmark is in the EU but kept its own currency." },
   { q: "Vienna sits on which river?", o: ["Danube", "Rhine", "Elbe", "Vltava"], why: "The Danube flows through Vienna on its way to the Black Sea." },
 ];
-const WORDS = [["FUNNEL", "Where leads become customers"], ["CHURN", "Customers who leave"], ["PRICING", "What you charge, and how"], ["LAUNCH", "Day one of a product"],
-  ["RETENTION", "Keeping the customers you won"], ["MARKETPLACE", "Two sides, one platform"], ["GROWTH", "Up and to the right"], ["BRAND", "What people say when you're not in the room"],
-  ["PIVOT", "A change of direction"], ["UPSELL", "Selling more to the same customer"], ["AUCKLAND", "The City of Sails"], ["VIENNA", "Coffee houses and waltzes"], ["SPONSOR", "What your visa needs"], ["OFFER", "The email you're waiting for"]];
+const WORDLE = ["BRAND", "CHURN", "PITCH", "PIVOT", "MEDIA", "LEADS", "SCALE", "PRICE", "OFFER", "AGILE", "VALUE", "TREND", "GOALS", "SALES", "PROMO", "ASSET",
+  "BUYER", "CLAIM", "MOTTO", "NICHE", "PANEL", "QUOTA", "RATIO", "RIVAL", "STORY", "TRUST", "USERS", "VIRAL", "YIELD", "AUDIT", "BOARD", "CYCLE", "FOCUS",
+  "GRANT", "INDEX", "MERGE", "NUDGE", "OWNER", "PILOT", "RALLY", "SHARE", "SPEND", "STOCK", "TEAMS", "TOKEN", "VENUE", "VOICE", "LOGIC", "CRAFT", "SPARK"];
+const FERMI = [
+  { q: "How many party balloons would fit in a meeting room of 5 × 4 × 3 metres?", steps: ["Room volume: 5 × 4 × 3 = 60 m³.", "An inflated balloon is roughly a 25–30 cm ball: about 0.01 m³.", "Balloons don't pack perfectly: assume ~60% of the space is filled.", "60 × 0.6 ÷ 0.01 ≈ 3,600."], range: "About 3,000–4,000 balloons." },
+  { q: "How many weddings happen in Türkiye in a year?", steps: ["Population ≈ 85 million.", "Countries like Türkiye record about 6–7 marriages a year per 1,000 people.", "85 million × 6.5 ÷ 1,000 ≈ 550,000 weddings.", "Sanity check: about a million people turn 27 each year; if most marry once, around half a million weddings a year fits."], range: "About 500,000–600,000 a year." },
+  { q: "How many cups of coffee are sold in Istanbul's cafés on a weekday?", steps: ["Istanbul ≈ 16 million people; ~60% are adults who could drink coffee: ~10M.", "Maybe 1 in 5 buys a café coffee on a weekday: 2M people.", "Some buy two: average 1.3 cups.", "2M × 1.3 ≈ 2.6 million cups."], range: "Roughly 2–3 million cups." },
+  { q: "How many piano tuners work in London?", steps: ["London ≈ 9 million people, ~3.5 million households.", "Maybe 1 in 20 households has a piano, plus schools and venues: ~200,000 pianos.", "A piano is tuned about once a year: 200,000 tunings.", "A tuner does ~4 a day × 220 days ≈ 900 a year.", "200,000 ÷ 900 ≈ 220 tuners."], range: "Around 200–300." },
+  { q: "How many tennis balls fit in a city bus?", steps: ["Bus inside ≈ 12 m × 2.5 m × 2.5 m ≈ 75 m³; seats take ~25% → ~55 m³.", "A tennis ball is ~6.7 cm across: its cube is ~0.0003 m³.", "Packing ~65%: 55 × 0.65 ÷ 0.0003 ≈ 120,000."], range: "About 100,000–150,000." },
+  { q: "How many Uber rides happen in London on a Friday?", steps: ["London adults ≈ 7 million; maybe 1 in 10 takes a ride-hail trip on a Friday: 700,000 people.", "Many ride twice (out and home): ~1.5 trips each.", "Add tourists and business travellers: +15%.", "700,000 × 1.5 × 1.15 ≈ 1.2 million trips across all apps; Uber with ~70% share ≈ 850,000."], range: "Around 0.7–1 million rides." },
+  { q: "What would you charge to wash every window in Vienna once?", steps: ["Vienna ≈ 2 million people, ~1 million homes; average 8 windows: 8M windows.", "Add offices and shops: ×1.5 → 12M windows.", "A cleaner does ~15 windows an hour: 800,000 hours.", "At ~€35 an hour: ≈ €28 million, plus equipment and margin."], range: "Roughly €30–40 million." },
+  { q: "How many smartphones are sold in Europe every year?", steps: ["Europe ≈ 450 million people in the EU+UK, ~85% own a smartphone: ~380M phones in use.", "People replace a phone every ~3 years: 380M ÷ 3 ≈ 125M a year.", "Add first-time buyers and second phones: +5%."], range: "About 120–140 million." },
+  { q: "How many hotel rooms are there in Barcelona?", steps: ["Barcelona gets ~12 million overnight visitors a year staying ~3 nights: 36M guest-nights.", "Hotels take maybe 60% (the rest is apartments): ~22M guest-nights.", "1.8 guests per room → ~12M room-nights.", "At ~80% occupancy: 12M ÷ (365 × 0.8) ≈ 41,000 rooms."], range: "Around 40,000 rooms." },
+  { q: "How many emails does a 1,000-person company send in a day?", steps: ["About 70% of staff are desk workers: 700 people.", "Each sends ~30 emails a day.", "700 × 30 = 21,000, plus automated mails (≈ +50%)."], range: "Around 25,000–35,000 a day." },
+  { q: "How many golf balls fit in a Boeing 747?", steps: ["Cabin roughly 70 m long × 6 m wide × 2.5 m high ≈ 1,000 m³; seats and galleys take ~25% → 750 m³.", "Golf ball ≈ 4.3 cm: its cube is ~0.00008 m³.", "Packing ~65%: 750 × 0.65 ÷ 0.00008 ≈ 6 million."], range: "About 5–7 million." },
+  { q: "How much revenue does a busy Amsterdam coffee shop (the coffee kind) make a year?", steps: ["Open ~360 days, 12 hours.", "Busy hours: ~60 orders an hour for 4 hours, ~20 an hour for 8 hours: ~400 orders a day.", "Average ticket ≈ €6.", "400 × €6 × 360 ≈ €860,000."], range: "Roughly €0.7–1 million." },
+];
+const TEASERS = [
+  { q: "A bat and a ball cost €1.10 together. The bat costs €1.00 more than the ball. How much is the ball?", o: ["5 cents", "10 cents", "1 cent", "15 cents"], why: "Ball = x, bat = x + 1.00 → 2x + 1.00 = 1.10 → x = 0.05. Ten cents feels right but would make the bat €1.10." },
+  { q: "5 machines make 5 widgets in 5 minutes. How long do 100 machines take to make 100 widgets?", o: ["5 minutes", "100 minutes", "20 minutes", "1 minute"], why: "Each machine makes one widget in 5 minutes, so 100 machines make 100 widgets in the same 5 minutes." },
+  { q: "A patch of lilies doubles in size every day. It covers the whole lake on day 48. When did it cover half the lake?", o: ["Day 47", "Day 24", "Day 36", "Day 46"], why: "It doubles daily, so the day before it's full, it was half." },
+  { q: "A snail climbs 3 m up a 10 m well every day and slips back 2 m every night. On which day does it get out?", o: ["Day 8", "Day 10", "Day 7", "Day 9"], why: "After 7 days it's at 7 m; on day 8 it climbs 3 m to the top and never slips back." },
+  { q: "You have two ropes that each take exactly 60 minutes to burn, but burn unevenly. How do you measure 45 minutes?", o: ["Light rope A at both ends and rope B at one end; when A is gone, light B's other end", "Cut both ropes in half and burn one piece", "Burn one rope, then three quarters of the other", "It can't be done with uneven ropes"], why: "A burning from both ends lasts 30 minutes. B then has 30 minutes left; lighting its other end halves that to 15. 30 + 15 = 45." },
+  { q: "Three switches outside a closed room, one bulb inside. You may enter once. How do you find the right switch?", o: ["Turn one on for a few minutes, switch it off, turn a second on, then go in and feel the bulb", "Flip them one at a time and peek through the keyhole", "Turn all three on, then off one by one", "It can't be done in one visit"], why: "Lit: the second switch. Off but warm: the first. Off and cold: the third." },
+  { q: "100 lockers are closed. Person 1 toggles every locker, person 2 every 2nd, person 3 every 3rd… up to person 100. How many lockers end up open?", o: ["10", "50", "0", "25"], why: "A locker is toggled once for each of its divisors; only perfect squares have an odd number of divisors. There are 10 perfect squares up to 100." },
+  { q: "If 3 cats catch 3 mice in 3 minutes, how many cats catch 100 mice in 100 minutes?", o: ["3", "100", "33", "9"], why: "3 cats catch a mouse a minute together, so in 100 minutes they catch 100." },
+  { q: "You flip a fair coin and get heads five times in a row. What's the chance the next flip is heads?", o: ["50%", "Less than 50%", "More than 50%", "About 3%"], why: "The coin has no memory. Each flip is 50/50; 3% is the chance of six heads in a row before you start." },
+  { q: "Game show: three doors, one car. You pick door 1; the host, who knows, opens door 3 to show a goat. Should you switch to door 2?", o: ["Yes: switching wins 2 times out of 3", "No: it's 50/50 now", "It doesn't matter", "No: your first pick is safer"], why: "Your first pick was right 1 in 3 times. The host's reveal moves the remaining 2/3 onto the other closed door." },
+  { q: "What comes next: 1, 11, 21, 1211, 111221, …?", o: ["312211", "1112221", "122211", "211211"], why: "Each term describes the previous one: “one 1, one 2, two 1s” → 111221 → “three 1s, two 2s, one 1” = 312211." },
+  { q: "In a room of 23 people, roughly how likely is it that two share a birthday?", o: ["About 50%", "About 6%", "About 23%", "About 90%"], why: "There are 253 pairs of people, which is why the odds climb so fast: 23 people is just past 50%." },
+  { q: "At 3:15, what is the angle between the hour and minute hands?", o: ["7.5°", "0°", "15°", "22.5°"], why: "The minute hand is on the 3. The hour hand has moved a quarter of the way to the 4: a quarter of 30° = 7.5°." },
+  { q: "How many squares of any size are on a chessboard?", o: ["204", "64", "100", "128"], why: "1² + 2² + … + 8² = 204: sixty-four 1×1s, forty-nine 2×2s, and so on down to one 8×8." },
+  { q: "A man pushes his car to a hotel and tells the owner he's bankrupt. What's going on?", o: ["He's playing Monopoly", "His car broke down near a casino", "The hotel is a bank", "He's a hotel inspector"], why: "A lateral thinking classic: the car is his token, and he landed on a hotel he can't afford." },
+  { q: "A train leaves at 1 pm going 60 km/h; a second leaves the same station at 2 pm going 90 km/h on the same track. When does the second catch up?", o: ["4 pm", "3 pm", "5 pm", "3:30 pm"], why: "At 2 pm the first is 60 km ahead. The second closes 30 km an hour: 2 hours, so 4 pm." },
+];
+// the same "random" picks for everyone on the same day
 function seeded(seed) { let a = [...seed].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 2654435761) >>> 0, 1779033703); return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 function shuffle(arr, rnd) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const k = Math.floor(rnd() * (i + 1)); [a[i], a[k]] = [a[k], a[i]]; } return a; }
 function todaysChallenge() {
   const rnd = seeded("jobness-" + today());
   const marketing = shuffle(TRIVIA.slice(0, 9), rnd)[0], place = shuffle(TRIVIA.slice(9), rnd)[0];
-  const [word, hint] = shuffle(WORDS, rnd)[0];
-  let letters = shuffle([...word], rnd);
-  if (letters.join("") === word) letters = letters.reverse();
-  const mc = (t) => { const order = shuffle(t.o.map((_, i) => i), rnd); return { type: "mc", q: t.q, o: order.map((i) => t.o[i]), a: order.indexOf(0), why: t.why }; };
-  return [mc(marketing), { type: "word", q: "Unscramble the word", hint, letters, a: word }, mc(place)];
+  const word = shuffle(WORDLE, rnd)[0], fermi = shuffle(FERMI, rnd)[0], teaser = shuffle(TEASERS, rnd)[0];
+  const mc = (t, kind) => { const order = shuffle(t.o.map((_, i) => i), rnd); return { type: "mc", kind, q: t.q, o: order.map((i) => t.o[i]), a: order.indexOf(0), why: t.why }; };
+  return [mc(marketing, "Marketing"), { type: "wordle", kind: "Wordle", q: "Guess today's 5-letter word", hint: "Business & marketing", a: word },
+    mc(place, "Places"), { type: "fermi", kind: "Out of the box", q: fermi.q, steps: fermi.steps, range: fermi.range }, mc(teaser, "Brain teaser")];
 }
+const GRADED = 4; // the estimate has no single right answer, so it isn't scored
 function openChallenge() {
-  Object.assign(QUIZ, { kind: "challenge", step: 0, items: todaysChallenge(), score: 0, picked: null });
-  if (APP.state.challenge.last === today()) QUIZ.step = 3;
+  const ch = APP.state.challenge;
+  Object.assign(QUIZ, { kind: "challenge", step: 0, items: todaysChallenge(), score: 0, picked: null, guesses: [], cur: "", notes: "", log: [], review: false });
+  if (ch.last === today()) QUIZ.step = QUIZ.items.length;
   renderChallenge(); $("#m-quiz").classList.add("on");
 }
+function wordleRow(g, a) {
+  // green: right letter, right spot · yellow: in the word elsewhere (each letter counted once) · gray: not in it
+  const res = Array(5).fill("x"), left = {};
+  [...a].forEach((c, i) => { if (g[i] === c) res[i] = "g"; else left[c] = (left[c] || 0) + 1; });
+  [...g].forEach((c, i) => { if (res[i] !== "g" && left[c]) { res[i] = "y"; left[c]--; } });
+  return res;
+}
 function renderChallenge() {
-  const ch = APP.state.challenge, items = QUIZ.items;
+  const ch = APP.state.challenge, items = QUIZ.items, n = items.length;
   const progress = `<div class="quiz-progress">${items.map((_, i) => `<i class="${i < QUIZ.step || (i === QUIZ.step && QUIZ.picked != null) ? "done" : ""}"></i>`).join("")}</div>`;
   const head = `<div class="sheet-head"><h2>Today's challenge</h2><button class="icon-btn" data-close="m-quiz">${icon("x")}</button></div>`;
-  if (QUIZ.step >= items.length) {
-    const s = ch.results[today()] ?? QUIZ.score;
-    $("#quiz").innerHTML = `${head}${progress}<div class="scoreboard"><b>${s}/3</b><div class="muted">${s === 3 ? "Perfect. The jungle is yours." : s === 2 ? "Nicely done." : "Tomorrow's another round."}</div>
-      <div style="margin-top:14px" class="tags" ><span class="tag green">🔥 ${ch.streak}-day streak</span><span class="tag gray">Best: ${ch.best} ${ch.best === 1 ? "day" : "days"}</span></div></div>
+  if (QUIZ.step >= n) {
+    const s = ch.results[today()] ?? QUIZ.score, log = ch.review?.[today()] || QUIZ.log;
+    $("#quiz").innerHTML = `${head}${progress}<div class="scoreboard"><b>${s}/${GRADED}</b><div class="muted">${s === GRADED ? "Perfect. The jungle is yours." : s >= GRADED - 1 ? "Nicely done." : "Tomorrow's another round."}</div>
+      <div style="margin-top:14px" class="tags"><span class="tag green">${ch.streak}-day streak</span><span class="tag gray">Best: ${ch.best} ${ch.best === 1 ? "day" : "days"}</span></div></div>
+      ${log.length ? (QUIZ.review ? `<div class="review">${log.map((x, i) => `<div class="rv ${x.ok === true ? "ok" : x.ok === false ? "bad" : "free"}">
+          <div class="rv-h"><span>${i + 1} · ${esc(x.kind)}</span><b>${x.ok === true ? "Correct" : x.ok === false ? "Wrong" : "Your thinking"}</b></div>
+          <p>${esc(x.q)}</p>${x.yours != null ? `<div class="small"><span class="muted">You:</span> ${esc(x.yours) || "—"}</div>` : ""}${x.right != null && x.ok === false ? `<div class="small"><span class="muted">Answer:</span> <b>${esc(x.right)}</b></div>` : ""}
+          ${x.why ? `<div class="small muted" style="margin-top:4px">${esc(x.why)}</div>` : ""}</div>`).join("")}</div>`
+        : `<button class="btn" data-creview style="width:100%;justify-content:center;margin-top:6px">${icon("check")}Review my answers</button>`) : ""}
       <div class="sheet-actions"><button class="btn primary" data-close="m-quiz">See you tomorrow</button></div>`;
     return;
   }
@@ -2979,32 +3151,53 @@ function renderChallenge() {
   let body;
   if (it.type === "mc") {
     body = `<p class="quiz-q">${esc(it.q)}</p><div class="opts">${it.o.map((o, i) => {
-      const cls = answered ? (i === it.a ? "right" : i === QUIZ.picked ? "wrong" : "") : "";
+      // once answered: right = green, her wrong pick = red, everything else gray and not clickable
+      const cls = answered ? (i === it.a ? "right" : i === QUIZ.picked ? "wrong" : "dim") : "";
       return `<button class="opt ${cls}" data-cpick="${i}" ${answered ? "disabled" : ""}><span class="k">${"ABCD"[i]}</span>${esc(o)}</button>`;
     }).join("")}</div>${answered ? `<div class="why">${esc(it.why)}</div>` : ""}`;
-  } else {
-    const ok = answered && QUIZ.picked === it.a;
-    body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 12px">Hint: ${esc(it.hint)}</div>
-      <div class="letters">${it.letters.map((l) => `<span>${l}</span>`).join("")}</div>
-      <div style="display:flex;gap:8px"><input class="field" id="word-in" style="flex:1;text-transform:uppercase" placeholder="Your answer" ${answered ? "disabled" : ""} value="${answered ? esc(QUIZ.picked) : ""}" autocomplete="off">
-      ${answered ? "" : `<button class="btn primary" data-wordcheck>Check</button>`}</div>
-      ${answered ? `<div class="why">${ok ? "Correct!" : `The word was <b>${it.a}</b>.`}</div>` : ""}`;
+  } else if (it.type === "wordle") {
+    const rows = [...QUIZ.guesses]; const done = answered;
+    const grid = Array.from({ length: 6 }, (_, r) => { const g = rows[r] || (r === rows.length && !done ? QUIZ.cur.padEnd(5) : "     "); const res = rows[r] ? wordleRow(rows[r], it.a) : null;
+      return `<div class="wd-row">${[...g].map((c, i) => `<span class="wd-c ${res ? "wd-" + res[i] : c.trim() ? "wd-f" : ""}">${c.trim()}</span>`).join("")}</div>`; }).join("");
+    const st = {}; rows.forEach((g) => wordleRow(g, it.a).forEach((r, i) => { const c = g[i]; if (r === "g" || (r === "y" && st[c] !== "g") || !st[c]) st[c] = r === "x" && st[c] ? st[c] : r; }));
+    const kb = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"].map((line, li) => `<div class="kb-row">${li === 2 ? `<button class="kb wide" data-wk="enter">Enter</button>` : ""}${[...line].map((c) => `<button class="kb ${st[c] ? "wd-" + st[c] : ""}" data-wk="${c}" ${done ? "disabled" : ""}>${c}</button>`).join("")}${li === 2 ? `<button class="kb wide" data-wk="back" aria-label="Delete">⌫</button>` : ""}</div>`).join("");
+    body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 12px">Theme: ${esc(it.hint)} · 6 tries · green = right spot, yellow = in the word</div>
+      <div class="wd-grid">${grid}</div>${done ? `<div class="why">${QUIZ.picked === it.a ? `Solved in ${rows.length} ${rows.length === 1 ? "try" : "tries"}!` : `The word was <b>${it.a}</b>.`}</div>` : `<div class="kb-wrap">${kb}</div>`}`;
+  } else if (it.type === "fermi") {
+    body = `<p class="quiz-q">${esc(it.q)}</p><div class="small muted" style="margin:-8px 0 10px">There's no single right answer. Interviewers want to see how you break it down.</div>
+      <textarea class="field" id="fermi-in" rows="4" style="width:100%" placeholder="Your estimate and how you got there (optional)" ${answered ? "disabled" : ""}>${esc(QUIZ.notes)}</textarea>
+      ${answered ? `<div class="why"><b>One way to think it through</b><ol class="fermi">${it.steps.map((x) => `<li>${esc(x)}</li>`).join("")}</ol><b>${esc(it.range)}</b></div>` : ""}`;
   }
-  $("#quiz").innerHTML = `${head}${progress}<div class="small muted">Question ${QUIZ.step + 1} of 3</div>${body}
-    <div class="sheet-actions">${answered ? `<button class="btn primary" data-cnext>${QUIZ.step === 2 ? "See my score" : "Next"}</button>` : ""}</div>`;
-  if (it.type === "word" && !answered) setTimeout(() => $("#word-in")?.focus(), 30);
+  $("#quiz").innerHTML = `${head}${progress}<div class="small muted">Question ${QUIZ.step + 1} of ${n} · ${esc(it.kind)}</div>${body}
+    <div class="sheet-actions">${it.type === "fermi" && !answered ? `<button class="btn primary" data-fermi>Show a way to think</button>` : ""}${answered ? `<button class="btn primary" data-cnext>${QUIZ.step === n - 1 ? "See my score" : "Next"}</button>` : ""}</div>`;
 }
 function answerChallenge(val) {
-  const it = QUIZ.items[QUIZ.step];
-  QUIZ.picked = val;
-  if (it.type === "mc" ? val === it.a : val === it.a) QUIZ.score++;
+  const it = QUIZ.items[QUIZ.step]; QUIZ.picked = val;
+  const ok = it.type === "fermi" ? null : val === it.a;
+  if (ok) QUIZ.score++;
+  QUIZ.log[QUIZ.step] = { kind: it.kind, q: it.q, ok, yours: it.type === "mc" ? it.o[val] : it.type === "fermi" ? QUIZ.notes : val, right: it.type === "mc" ? it.o[it.a] : it.type === "wordle" ? it.a : null,
+    why: it.type === "fermi" ? `${it.steps.join(" ")} ${it.range}` : it.why || null };
+  renderChallenge();
+}
+function wordleKey(k) {
+  const it = QUIZ.items[QUIZ.step]; if (it?.type !== "wordle" || QUIZ.picked != null) return;
+  if (k === "back") QUIZ.cur = QUIZ.cur.slice(0, -1);
+  else if (k === "enter") {
+    if (QUIZ.cur.length < 5) return toast("Five letters, please");
+    QUIZ.guesses.push(QUIZ.cur); const g = QUIZ.cur; QUIZ.cur = "";
+    if (g === it.a || QUIZ.guesses.length === 6) return answerChallenge(g === it.a ? it.a : g);
+  } else if (/^[A-Z]$/.test(k) && QUIZ.cur.length < 5) QUIZ.cur += k;
   renderChallenge();
 }
 function finishChallenge() {
   const ch = APP.state.challenge, t = today();
   const y = new Date(); y.setDate(y.getDate() - 1);
   const yesterday = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, "0")}-${String(y.getDate()).padStart(2, "0")}`;
-  if (ch.last !== t) { ch.streak = ch.last === yesterday ? ch.streak + 1 : 1; ch.best = Math.max(ch.best, ch.streak); ch.last = t; ch.results[t] = QUIZ.score; save(); }
+  if (ch.last !== t) {
+    ch.streak = ch.last === yesterday ? ch.streak + 1 : 1; ch.best = Math.max(ch.best, ch.streak); ch.last = t; ch.results[t] = QUIZ.score;
+    ch.review = Object.fromEntries(Object.entries({ ...(ch.review || {}), [t]: QUIZ.log }).sort().slice(-7)); // keep a week of answers to look back on
+    save();
+  }
   renderPromo();
 }
 
@@ -3310,7 +3503,7 @@ function homeTodos(h) {
   (APP.state.home.todos || []).forEach((x) => { add(`mine:${x.id}`, x.text, x.sub ?? "every day", todoLinkBtn(x.link)); out.at(-1).own = { store: "daily", id: x.id }; });
   (APP.state.extra_todos?.[t] || []).forEach((x) => { add(`extra:${x.id}`, x.text, x.sub ?? "today", todoLinkBtn(x.link)); out.at(-1).own = { store: "today", id: x.id }; });
   const playedToday = APP.state.challenge?.last === t;
-  add("challenge", "Play today's challenge", playedToday ? `done: ${APP.state.challenge.results[t]}/3` : "3 quick questions · keep your streak", playedToday ? "" : `<button class="btn sm" data-open="challenge">Play</button>`, playedToday);
+  add("challenge", "Play today's challenge", playedToday ? `done: ${APP.state.challenge.results[t]}/4` : "5 quick questions · keep your streak", playedToday ? "" : `<button class="btn sm" data-open="challenge">Play</button>`, playedToday);
   if (!APP.state.test) add("test", "Take the 2-minute self-discovery test", "it tunes your scoring", `<button class="btn sm" data-open="test">Start</button>`);
   out.sort((a, b) => a.done - b.done);
   return { out, soon };
@@ -3789,7 +3982,7 @@ function renderProfile() {
     </div>
     <div class="prof-sec">For fun</div>
     <div class="prof-list">
-      ${rowB("puzzle", "mint", "Today's challenge", 'data-open="challenge"', APP.state.challenge.last === today() ? "done for today" : "3 quick questions")}
+      ${rowB("puzzle", "mint", "Today's challenge", 'data-open="challenge"', APP.state.challenge.last === today() ? "done for today" : "5 quick questions")}
       ${rowB("sparkle", "lav", "Self-discovery test", 'data-open="test"', APP.state.test ? "retake it" : "2 minutes")}
     </div></div>`;
 }
@@ -3890,13 +4083,18 @@ document.addEventListener("click", (e) => {
   if (ds.open === "test") { $("#m-more").classList.remove("on"); return openTest(); }
   if (ds.open === "challenge") { $("#m-more").classList.remove("on"); return openChallenge(); }
   if (ds.dot != null) { promoGo(+ds.dot); return; }
-  if (ds.tpick != null) { QUIZ.answers[QUIZ.step] = +ds.tpick; QUIZ.step++; return renderTest(); }
-  if ("tback" in ds) { QUIZ.step--; return renderTest(); }
-  if ("tretake" in ds) { QUIZ.step = 0; QUIZ.answers = []; return renderTest(); }
+  if (ds.tpick != null) { QUIZ.answers[QUIZ.step] = +ds.tpick; QUIZ.step++; QUIZ.sg = null; QUIZ.sel = null; QUIZ.multi = Array.isArray(QUIZ.answers[QUIZ.step]) ? [...QUIZ.answers[QUIZ.step]] : []; return renderTest(); }
+  if (ds.tmulti) { const q = TQ[QUIZ.step], i = QUIZ.multi.indexOf(ds.tmulti);
+    if (i >= 0) QUIZ.multi.splice(i, 1); else if (q.max && QUIZ.multi.length >= q.max) toast(`Up to ${q.max}: remove one first`); else QUIZ.multi.push(ds.tmulti); return renderTest(); }
+  if ("tmultiNext" in ds) { QUIZ.answers[QUIZ.step] = [...QUIZ.multi]; QUIZ.step++; QUIZ.sg = null; QUIZ.sel = null; QUIZ.multi = Array.isArray(QUIZ.answers[QUIZ.step]) ? [...QUIZ.answers[QUIZ.step]] : []; return renderTest(); }
+  if ("tback" in ds) { QUIZ.step--; QUIZ.multi = Array.isArray(QUIZ.answers[QUIZ.step]) ? [...QUIZ.answers[QUIZ.step]] : []; return renderTest(); }
+  if ("tretake" in ds) { QUIZ.step = 0; QUIZ.answers = []; QUIZ.multi = []; QUIZ.sg = null; QUIZ.sel = null; return renderTest(); }
   if ("tapply" in ds) return applyTest();
   if (ds.cpick != null) return answerChallenge(+ds.cpick);
-  if ("wordcheck" in ds) { const v = $("#word-in").value.trim().toUpperCase(); if (v) answerChallenge(v); return; }
-  if ("cnext" in ds) { QUIZ.step++; QUIZ.picked = null; if (QUIZ.step >= 3) finishChallenge(); return renderChallenge(); }
+  if (ds.wk) return wordleKey(ds.wk === "enter" || ds.wk === "back" ? ds.wk : ds.wk.toUpperCase());
+  if ("fermi" in ds) { QUIZ.notes = $("#fermi-in").value.trim(); return answerChallenge("done"); }
+  if ("creview" in ds) { QUIZ.review = true; return renderChallenge(); }
+  if ("cnext" in ds) { QUIZ.step++; QUIZ.picked = null; QUIZ.guesses = []; QUIZ.cur = ""; QUIZ.notes = ""; if (QUIZ.step >= QUIZ.items.length) finishChallenge(); return renderChallenge(); }
   if (ds.detail) return openDetail(ds.detail);
   if (ds.opencard) return openCard(ds.opencard);
   if (ds.hgo) return homeGo(ds.hgo);
@@ -3966,7 +4164,8 @@ document.addEventListener("input", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   const t = e.target instanceof Element ? e.target : document.body;
-  if (t.id === "word-in" && e.key === "Enter" && t.value.trim()) return answerChallenge(t.value.trim().toUpperCase());
+  if (QUIZ.kind === "challenge" && $("#m-quiz").classList.contains("on") && !/input|textarea/i.test(t.tagName || "")) { // typing works for Wordle too
+    if (e.key === "Enter") return wordleKey("enter"); if (e.key === "Backspace") return wordleKey("back"); if (/^[a-z]$/i.test(e.key)) return wordleKey(e.key.toUpperCase()); }
   if (t.classList.contains("chip-add") && t.closest("[data-key]") && e.key === "Enter" && t.value.trim()) {
     const el = t.closest("[data-key]"), [o, key] = settingSlot(el.dataset.key), v = t.value.trim().toLowerCase();
     if (el.dataset.weighted) o[key][v] = o[key][v] ?? 1; else if (!o[key].includes(v)) o[key].push(v);
@@ -3999,7 +4198,7 @@ $("#w-kind").onchange = renderWeights;
 $("#w-add").onclick = () => {
   const kind = $("#w-kind").value, v = $("#w-val").value.trim(), pts = +$("#w-pts").value;
   if (!v) return toast("Type a value first");
-  const k = `${kind}:${kind === "t" ? v.toLowerCase() : v}`;
+  const k = `${kind}:${kind === "t" || kind === "d" ? v.toLowerCase() : v}`;
   APP.state.overrides[k] = pts; APP.state.hidden = APP.state.hidden.filter((x) => x !== k);
   $("#w-val").value = ""; toast(`${prettyKey(k)} → ${signed(pts)}`); commit();
 };
