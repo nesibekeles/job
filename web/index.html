@@ -995,7 +995,7 @@
   .wc-t small { font-size: 12.5px; color: var(--ink-2); }
   .wc-st { flex: none; font: 700 11px var(--head); text-transform: uppercase; letter-spacing: .06em; padding: 5px 10px; border-radius: 99px; background: rgba(255, 255, 255, .75); color: var(--ink-2); }
   .wc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .38s cubic-bezier(.2, .8, .2, 1); padding: 0 8px; }
-  .wc-body > .app { overflow: hidden; min-height: 0; }
+  .wc-body > .app { overflow: hidden; min-height: 0; } .wc.open .app, .wc.last .app { cursor: pointer; } .wc { cursor: pointer; }
   .wc.last .wc-body, .wc.open .wc-body { grid-template-rows: 1fr; padding-bottom: 8px; }
   .wc:not(.open):not(.last) .wc-body { height: 58px; }
   .wc .app { background: var(--surface); border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: none; }
@@ -2624,12 +2624,12 @@ function walletCard(r, last) {
   const id = r.j.id, open = WALLET_OPEN === id, d = r.decision;
   const n = (APP.state.journey.events || []).filter((e) => e.job === id).length;
   return `<article class="wc t-${STATUS_TINT[d.status] || "lav"} ${open ? "open" : ""} ${last ? "last" : ""}" data-wid="${esc(id)}">
-    <div class="wc-head"><button class="wc-main" data-wgo="${esc(id)}" title="${open || last ? (hasPack(id) ? "Open pack" : "Open details") : "Show card"}">${avatar(r.j.company)}
+    <div class="wc-head"><button class="wc-main" aria-expanded="${open || last}" title="${open ? "Close card" : last ? "" : "Show card"}">${avatar(r.j.company)}
       <span class="wc-t"><b>${esc(r.j.title)}</b><small>${esc(r.j.company)} · ${esc(r.d.city)}${n ? ` · ${n} date${n > 1 ? "s" : ""}` : ""}</small></span>
       <span class="wc-st">${esc(d.status)}</span></button>
       ${last ? "" : `<button class="wc-go ${open ? "up" : ""}" data-wopen="${esc(id)}" aria-expanded="${open}" aria-label="${open ? "Close card" : "Show status and dates"}">${icon("chev")}</button>`}</div>
     ${open ? `<button class="wc-close" data-wclose aria-label="Close card">${icon("x")}</button>` : ""}
-    <div class="wc-body">${appCard(r)}</div></article>`;
+    <div class="wc-body">${appCard(r).replace('<div class="app', `<div title="${hasPack(id) ? "Open pack" : "Open details"}" class="app`)}</div></article>`;
 }
 // FLIP: remember where every card was, re-render, then glide each one from its old spot to the new one
 function flipRender(render) {
@@ -2660,12 +2660,18 @@ function appCard(r) {
       <button class="btn sm" data-detail="${esc(id)}">Details</button>
       ${isApplied(id) ? "" : `<a class="btn sm" href="${esc(r.j.apply_url || r.j.url)}" target="_blank" rel="noopener">${icon("ext")}Apply</a>`}</div></div>`;
 }
+// shortlist card: its coloured part (top strip and border) moves the stack; the white plate of an open card opens its pack or details
 document.addEventListener("click", (e) => {
-  const a = e.target.closest("[data-funnel],[data-pipe-tog],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wgo],[data-wopen],[data-wclose]"); if (!a) return;
+  const c = e.target.closest(".wc"), ctl = e.target.closest("button,a,select,input,textarea,label,.date-form");
+  if (!c || (ctl && !ctl.classList.contains("wc-main"))) return;
+  const id = c.dataset.wid, open = c.classList.contains("open"), last = c.classList.contains("last");
+  if ((open || last) && !ctl && e.target.closest(".app")) return hasPack(id) ? openPack(id, "job") : openDetail(id);
+  const next = open || last ? null : id; if (next === WALLET_OPEN) return;
+  WALLET_OPEN = next; flipRender(renderLists);
+});
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-funnel],[data-pipe-tog],[data-date-for],[data-date-cancel],[data-date-save],[data-goday],[data-unshort],[data-wopen],[data-wclose]"); if (!a) return;
   const ds = a.dataset; e.preventDefault();
-  if (ds.wgo) { // a card behind others first comes forward; only an opened card (or the last, already open) opens its pack or details
-    const c = a.closest(".wc"); if (!c.classList.contains("open") && !c.classList.contains("last")) { WALLET_OPEN = ds.wgo; return flipRender(renderLists); }
-    return hasPack(ds.wgo) ? openPack(ds.wgo, "job") : openDetail(ds.wgo); }
   if (ds.wopen) { WALLET_OPEN = WALLET_OPEN === ds.wopen ? null : ds.wopen; return flipRender(renderLists); }
   if ("wclose" in ds) { WALLET_OPEN = null; return flipRender(renderLists); }
   if (ds.funnel) { const k = ds.funnel; SHORT_F = k === "all" ? [] : SHORT_F.includes(k) ? SHORT_F.filter((x) => x !== k) : [...SHORT_F, k];
