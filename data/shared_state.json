@@ -301,14 +301,22 @@
   "exact_kw": [
    "growth",
    "revenue",
-   "go-to-market",
-   "gtm",
    "commercial",
    "category",
    "expansion",
    "monetization",
    "monetisation",
-   "market development"
+   "market development",
+   "product manager",
+   "product owner",
+   "product lead",
+   "martech",
+   "marketing technology",
+   "tools",
+   "improvement",
+   "optimization",
+   "optimisation",
+   "experimentation"
   ],
   "adjacent_kw": [
    "product marketing",
@@ -319,13 +327,13 @@
    "marketing manager",
    "marketing lead",
    "partnership",
-   "product manager",
-   "product owner",
    "insights",
    "consumer",
    "b2c",
    "acquisition",
-   "retention"
+   "retention",
+   "go-to-market",
+   "gtm"
   ],
   "scene_pts": 20,
   "scene_w": {
@@ -514,8 +522,8 @@
   "cv_keywords": {
    "growth": 2,
    "revenue": 2,
-   "go-to-market": 2,
-   "gtm": 2,
+   "go-to-market": 1,
+   "gtm": 1,
    "marketplace": 2,
    "market expansion": 2,
    "expansion": 1,
@@ -562,7 +570,11 @@
    "field sales": 1,
    "local market": 1,
    "sales enablement": 1,
-   "acquisition": 1
+   "acquisition": 1,
+   "category strategy": 2,
+   "experimentation": 1.5,
+   "optimization": 1,
+   "optimisation": 1
   },
   "gap_keywords": [
    "sql",
@@ -1578,7 +1590,8 @@
     "source": "manual",
     "url": "https://www.linkedin.com/jobs/search/?keywords=Papara+marketing&location=Istanbul%2C+T%C3%BCrkiye"
    }
-  }
+  },
+  "fit_v2": true
  },
  "test": null,
  "challenge": {
@@ -1589,7 +1602,7 @@
    "2026-11-01": 3
   }
  },
- "updated_at": "2026-11-04T18:30:19.737Z",
+ "updated_at": "2026-11-06T00:32:22.613Z",
  "viewed": {
   "spotify-7f0a8faa-f4f5-4db9-9f51-4101d6a29b34": "2026-11-01T22:35:22.721Z",
   "datadog-8127916": "2026-11-03T13:43:49.409Z",
@@ -1623,5 +1636,5 @@
  "extra_todos": {
   "2026-11-02": []
  },
- "published_at": "2026-11-04T18:31:51.690502+00:00"
+ "published_at": "2026-11-06T01:07:42.050712+00:00"
 }
