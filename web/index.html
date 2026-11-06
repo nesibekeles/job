@@ -37,6 +37,7 @@
   .brand b { color: var(--mint); }
   .brand small { display: block; font: 500 11.5px/1.3 var(--body); letter-spacing: 0; color: var(--muted); margin-top: 4px; }
   .side .eyebrow { padding: 6px 10px 8px; }
+  .navlink[hidden] { display: none; }
   .navlink { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; border: 0; background: none; cursor: pointer; color: var(--ink-2); font-weight: 500; text-align: left; width: 100%; }
   .navlink:hover { background: var(--soft); }
   .navlink.on { background: var(--lav-50); color: var(--lav); font-weight: 600; }
@@ -1011,7 +1012,10 @@
   /* computer: one column per stage, scrolls sideways when the stages don't all fit */
   .kboard { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 14px; align-items: flex-start; scrollbar-width: thin; }
   .kb-col { flex: 3 1 0; min-width: 250px; transition: flex-grow .4s; } .kb-col.kb-none { flex: 1 1 0; min-width: 112px; } .kb-col .wstack { max-width: none; }
-  .kb-col.kb-none .kb-h { align-items: flex-start; } .kb-col.kb-none .pl-chip { white-space: normal; line-height: 1.25; }
+  .kb-col.kb-none .kb-h { align-items: flex-start; }
+  .kb-col { border-radius: 20px; transition: flex-grow .4s, background .15s, box-shadow .15s; } .kb-col .wc-head { cursor: grab; }
+  .kb-col.drop-on { background: color-mix(in srgb, var(--lav) 7%, transparent); box-shadow: 0 0 0 2px var(--lav-200); }
+  .kb-col .wc.dragging-wc { opacity: .35; } .kb-col.kb-none .pl-chip { white-space: normal; line-height: 1.25; }
   .kb-h { display: flex; align-items: center; gap: 10px; padding: 2px 4px 12px; } .kb-h b { font: 600 13px var(--body); color: var(--muted); }
   .kb-empty { border: 1.5px dashed var(--line); border-radius: 18px; padding: 22px 12px; text-align: center; color: var(--muted); font-size: 12.5px; }
   .kb-col .wc-head { height: 70px; padding: 0 10px 0 12px; } .kb-col .wc { margin-bottom: -52px; } .kb-col .wc.last, .kb-col .wc.open { margin-bottom: 12px; }
@@ -1366,10 +1370,11 @@
   <button class="navlink" data-v="discover"><svg class="i"><use href="#i-compass"/></svg>Discover<span class="count" id="c-deck"></span></button>
   <button class="navlink" data-v="short"><svg class="i"><use href="#i-bookmark"/></svg>Shortlist<span class="count" id="c-short"></span></button>
   <button class="navlink" data-v="journey"><svg class="i"><use href="#i-route"/></svg>My journey</button>
-  <button class="navlink" data-v="rejected"><svg class="i"><use href="#i-xc"/></svg>Passed<span class="count" id="c-rej"></span></button>
-  <button class="navlink" data-v="companies"><svg class="i"><use href="#i-building"/></svg>Companies<span class="count" id="c-co"></span></button>
-  <button class="navlink" data-v="scoring"><svg class="i"><use href="#i-sliders"/></svg>Scoring</button>
-  <button class="navlink" data-v="settings"><svg class="i"><use href="#i-gear"/></svg>Preferences</button>
+  <!-- Passed, Companies, Scoring and Preferences live under the profile (the chip below); hidden here, kept for their counts -->
+  <button class="navlink" data-v="rejected" hidden><svg class="i"><use href="#i-xc"/></svg>Passed<span class="count" id="c-rej"></span></button>
+  <button class="navlink" data-v="companies" hidden><svg class="i"><use href="#i-building"/></svg>Companies<span class="count" id="c-co"></span></button>
+  <button class="navlink" data-v="scoring" hidden><svg class="i"><use href="#i-sliders"/></svg>Scoring</button>
+  <button class="navlink" data-v="settings" hidden><svg class="i"><use href="#i-gear"/></svg>Preferences</button>
   <div class="promo" id="promo-side"></div>
   <button class="me-chip" data-v="profile"><span class="me-av">NK</span><span><b>Nesibe Keleş</b><small>Istanbul → Europe</small></span><svg class="i"><use href="#i-chev"/></svg></button>
 </aside>
@@ -1402,9 +1407,9 @@
           <div class="position">
             <div class="count" id="pos">0 <span>/ 0</span></div>
             <div class="bar"><i id="pos-bar" style="width:0"></i></div>
-            <button class="icon-btn" id="b-undo" title="Undo last decision (U)" aria-label="Undo last decision"><svg class="i"><use href="#i-undo"/></svg></button>
+            <button class="icon-btn" id="b-undo" title="Take back the last decision (Space)" aria-label="Undo last decision"><svg class="i"><use href="#i-undo"/></svg></button>
           </div>
-          <div class="keys"><span><kbd>↑</kbd><kbd>↓</kbd> browse</span><span><kbd>←</kbd> pass</span><span><kbd>→</kbd> shortlist</span><span><kbd>D</kbd> open card</span></div>
+          <div class="keys"><span><kbd>↑</kbd><kbd>↓</kbd> browse</span><span><kbd>←</kbd> pass</span><span><kbd>→</kbd> shortlist</span><span><kbd>D</kbd> open card</span><span><kbd>Space</kbd> take back</span></div>
           <div class="note reorder" id="reorder"><svg class="i"><use href="#i-sparkle"/></svg><div>I've learned from your decisions and can update the order. <a href="#" id="do-reorder">Re-rank</a></div></div>
         </div>
       </div>
@@ -2309,9 +2314,9 @@ function takeBack(id) {
 }
 $("#snack-undo").onclick = () => { const id = SNACK.id, undo = SNACK.undo; hideSnack(); SNACK.undo = null; if (undo) undo(); else if (id) takeBack(id); };
 // "Deleted … · Undo" for anything removable
-function undoSnack(text, undo) {
+function undoSnack(text, undo, ic = "trash") {
   const el = $("#snack"); SNACK.id = null; SNACK.undo = undo;
-  $("#snack-text").innerHTML = `${icon("trash")}<span>${text}</span>`; $("#snack-undo").textContent = "Undo";
+  $("#snack-text").innerHTML = `${icon(ic)}<span>${text}</span>`; $("#snack-undo").textContent = "Undo";
   el.classList.remove("on"); void el.offsetWidth; el.classList.add("on");
   clearTimeout(SNACK.timer); SNACK.timer = setTimeout(() => { hideSnack(); SNACK.undo = null; $("#snack-undo").textContent = "Take back"; }, 5000);
 }
@@ -2702,6 +2707,29 @@ function renderBoard(liked, at) {
       ${rs.length ? `<div class="wstack">${rs.map((r, i) => walletCard(r, i === rs.length - 1)).join("")}</div>` : `<div class="kb-empty">No roles here</div>`}</section>`; }).join("")}</div>`
     : `<div class="box empty">Nothing shortlisted yet. Swipe a card right on Discover.</div>`;
 }
+// board: drag a card onto another stage's column to move it there (glides into place, with Undo); fields inside the card stay usable
+let DRAG_ID = null;
+const dragDone = () => { DRAG_ID = null; document.querySelectorAll(".dragging-wc, .drop-on").forEach((x) => x.classList.remove("dragging-wc", "drop-on")); };
+document.addEventListener("pointerdown", (e) => { const c = e.target.closest?.(".kb-col .wc"); if (c) c.draggable = !e.target.closest("input, select, textarea, .date-form"); });
+document.addEventListener("dragstart", (e) => {
+  const c = e.target.closest?.(".kb-col .wc"); if (!c) return;
+  DRAG_ID = c.dataset.wid; e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", DRAG_ID);
+  requestAnimationFrame(() => c.classList.add("dragging-wc"));
+});
+document.addEventListener("dragover", (e) => {
+  const col = DRAG_ID && e.target.closest?.(".kb-col"); if (!col) return;
+  e.preventDefault(); e.dataTransfer.dropEffect = "move";
+  document.querySelectorAll(".drop-on").forEach((x) => x !== col && x.classList.remove("drop-on")); col.classList.add("drop-on");
+});
+document.addEventListener("dragend", dragDone);
+document.addEventListener("drop", (e) => {
+  const col = DRAG_ID && e.target.closest?.(".kb-col"); if (!col) return;
+  e.preventDefault(); const id = DRAG_ID, to = col.dataset.col, d = APP.state.decisions[id]; dragDone();
+  if (!d || d.status === to) return;
+  const prev = JSON.parse(JSON.stringify(d));
+  setStatus(id, to); commit();
+  undoSnack(`Moved to ${esc(FUNNEL.find((x) => x[0] === to)?.[1] || to)}`, () => { APP.state.decisions[id] = prev; commit(); }, "check");
+});
 let BOARD_ON = DESKTOP(); addEventListener("resize", () => { if (DESKTOP() !== BOARD_ON) { BOARD_ON = DESKTOP(); APP.state && renderLists(); } });
 // one application: where it stands, its dates (1, 2, 3…), and what to do next
 function appCard(r) {
@@ -4763,6 +4791,7 @@ function showView(v) {
   if (v === "more") v = "profile";
   document.querySelectorAll(".modal.on").forEach((m) => m.classList.remove("on"));
   document.querySelectorAll("[data-v]").forEach((b) => b.classList.toggle("on", b.dataset.v === v));
+  $(".me-chip")?.classList.toggle("on", ["profile", "rejected", "companies", "scoring", "settings"].includes(v)); // its pages keep the profile chip lit
   document.querySelectorAll(".view").forEach((x) => x.classList.toggle("on", x.id === "v-" + v));
   $("#crumb").textContent = VIEW_NAMES[v];
   if (v === "home") renderHome();
@@ -4895,6 +4924,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") askReason();
   if (e.key.toLowerCase() === "d" && current()) openCard(current().j.id);
   if (e.key.toLowerCase() === "u") undo();
+  if (e.key === " " && !e.repeat) { e.preventDefault(); undo(); } // Space takes back the last pass or shortlist (and doesn't re-press a focused button)
 });
 $("#r-save").onclick = () => {
   const reasons = [...document.querySelectorAll("#reasons .chip.on")].map((c) => c.dataset.r);
