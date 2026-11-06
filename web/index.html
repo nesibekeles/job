@@ -143,7 +143,8 @@
   .stack { position: relative; height: 430px; touch-action: none; user-select: none; outline: none; }
   .mini { position: absolute; left: 0; right: 0; top: 50%; height: 190px; margin-top: -95px; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;
           background: #fbfbfd; border: 1px solid var(--line); box-shadow: 0 2px 6px rgba(30, 29, 38, .05); overflow: hidden; cursor: pointer;
-          transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .38s, box-shadow .3s; }
+          transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .38s, box-shadow .3s;
+          will-change: transform, opacity; backface-visibility: hidden; -webkit-backface-visibility: hidden; -webkit-font-smoothing: antialiased; } /* own layer: text scales as one piece instead of re-snapping while cards glide */
   .mini:not(.center) > :not(.stamp) { opacity: .45; transition: opacity .3s; }
   .mini.center { background: var(--surface); box-shadow: var(--shadow); border-color: #dedce8; cursor: grab; }
   .mini.dragging { transition: none; cursor: grabbing; }
@@ -179,6 +180,18 @@
   .deck-actions .round { transition: transform .12s, background .15s, color .15s; }
   .deck-actions .round.yes.hot { background: var(--mint); color: #fff; border-color: var(--mint); }
   .deck-actions .round.no.hot { background: var(--rose); color: #fff; border-color: var(--rose); }
+  /* computer: a soft drag dot instead of the grabbing hand, and Pass / Shortlist buttons for those who'd rather click; phones keep swiping only */
+  @media (min-width: 761px) {
+    .mini.center { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Ccircle cx='22' cy='22' r='20' fill='%231e1d26' fill-opacity='.86'/%3E%3Cpath d='M17.5 16.5 12 22l5.5 5.5M26.5 16.5 32 22l-5.5 5.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 22 22, grab; }
+    .mini.dragging { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Ccircle cx='22' cy='22' r='17' fill='%236655c4' fill-opacity='.86'/%3E%3Cpath d='M17.5 16.5 12 22l5.5 5.5M26.5 16.5 32 22l-5.5 5.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 22 22, grabbing; }
+    .deck-actions { display: flex; justify-content: center; gap: 14px; margin-top: 14px; }
+    .deck-actions .round { width: auto !important; height: 46px !important; border-radius: 99px !important; padding: 0 22px 0 18px; display: inline-flex !important; align-items: center; gap: 8px;
+      font: 700 14px var(--head); border: 1px solid var(--line) !important; background: var(--surface); box-shadow: var(--shadow-sm) !important; }
+    .deck-actions .round svg { width: 18px !important; height: 18px !important; }
+    .deck-actions .round.no:hover { background: var(--rose-50); } .deck-actions .round.yes:hover { background: var(--mint-50); }
+    .deck-actions .round.yes.hot { background: var(--mint); color: #fff; } .deck-actions .round.no.hot { background: var(--rose); color: #fff; }
+  }
+  @media (max-width: 760px) { .deck-actions { display: none !important; } }
   .stamp.nope { left: 18px; color: var(--rose); transform: rotate(-6deg); }
   .position { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
   .position .count { font: 700 15px var(--head); white-space: nowrap; }
@@ -891,6 +904,15 @@
 
   /* ---------- journey v2: pull-out road map, calendar always open ---------- */
   .goal-wrap { margin: 6px 0 18px; }
+  @media (min-width: 761px) and (max-width: 1280px) { .j-split .goal .ring { display: none; } } /* half a screen: the bar already shows the %, the ring would squeeze the text */
+  /* computer: progress and road map on the left, a compact calendar on the right */
+  @media (min-width: 761px) {
+    .j-split { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+    .j-split .goal-wrap { margin: 6px 0 0; } .j-split .j-cal { margin-top: 6px; }
+    .j-split .goal { padding: 22px 22px; gap: 14px; } .j-split .goal-pct { font-size: 44px; }
+    .j-split .goal-pct small { white-space: nowrap; }
+    .j-split .cal { gap: 2px; } .j-split .cal-d { aspect-ratio: auto; height: 44px; font-size: 12.5px; border-radius: 10px; }
+  }
   .goal { position: relative; z-index: 2; margin: 0 !important; }
   .goal-edit-btn { position: absolute; top: 12px; left: 12px; width: 32px; height: 32px; justify-content: center; align-items: center; padding: 0; background: rgba(255, 255, 255, .6); color: var(--ink-2); }
   .goal .goal-l { padding-left: 26px; }
@@ -986,6 +1008,16 @@
   .pl-row.on, .pl-row.on:hover, .pl-row.on:focus { background: color-mix(in srgb, var(--st) 14%, transparent); color: var(--ink); }
   .pl-row:focus { outline: none; } .pl-row:focus-visible { box-shadow: 0 0 0 3px var(--lav-100); } .pl-row.on b { color: var(--ink); }
   .wstack { display: flex; flex-direction: column; max-width: 720px; padding-bottom: 8px; }
+  /* computer: one column per stage, scrolls sideways when the stages don't all fit */
+  .kboard { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 14px; align-items: flex-start; scrollbar-width: thin; }
+  .kb-col { flex: 3 1 0; min-width: 250px; transition: flex-grow .4s; } .kb-col.kb-none { flex: 1 1 0; min-width: 112px; } .kb-col .wstack { max-width: none; }
+  .kb-col.kb-none .kb-h { align-items: flex-start; } .kb-col.kb-none .pl-chip { white-space: normal; line-height: 1.25; }
+  .kb-h { display: flex; align-items: center; gap: 10px; padding: 2px 4px 12px; } .kb-h b { font: 600 13px var(--body); color: var(--muted); }
+  .kb-empty { border: 1.5px dashed var(--line); border-radius: 18px; padding: 22px 12px; text-align: center; color: var(--muted); font-size: 12.5px; }
+  .kb-col .wc-head { height: 70px; padding: 0 10px 0 12px; } .kb-col .wc { margin-bottom: -52px; } .kb-col .wc.last, .kb-col .wc.open { margin-bottom: 12px; }
+  .kb-col .wc:not(.open):not(.last) .wc-body { height: 52px; } .kb-col .wc-head .avatar { width: 36px; height: 36px; }
+  .kb-col .wc-st { display: none; } .kb-col .wc-t b { font-size: 14px; } .kb-col .wc-t small { font-size: 12px; }
+  .kb-col .wc .app { padding: 12px; gap: 10px; } .kb-col .app-acts { flex-wrap: wrap; }
   .wc { position: relative; border-radius: 24px; box-shadow: 0 -10px 24px -16px rgba(40, 36, 80, .45), 0 1px 0 rgba(255, 255, 255, .6) inset; margin-bottom: -58px; transition: margin .35s cubic-bezier(.2, .8, .2, 1); }
   .wc.last, .wc.open { margin-bottom: 14px; }
   .wc-head { display: flex; align-items: center; gap: 8px; width: 100%; height: 78px; padding: 0 14px 0 18px; color: var(--ink); }
@@ -1366,6 +1398,7 @@
       <div class="discover">
         <div class="stack-col">
           <div class="stack-wrap"><div class="edge-hint" id="edge-hint"><svg class="i"><use href="#i-up"/></svg><span>You're at the top. Go up once more to jump to the end.</span></div><div class="stack" id="stack" tabindex="0"><div class="empty">Loading jobs…</div></div><div class="swipe-hint" id="swipe-hint"><span class="neg">← Pass</span><i></i><span class="pos">Shortlist →</span></div></div>
+          <div class="deck-actions"><button class="round no" data-deck="pass" title="Pass (←)"><svg class="i"><use href="#i-x"/></svg>Pass</button><button class="round yes" data-deck="like" title="Shortlist (→)"><svg class="i"><use href="#i-heart"/></svg>Shortlist</button></div>
           <div class="position">
             <div class="count" id="pos">0 <span>/ 0</span></div>
             <div class="bar"><i id="pos-bar" style="width:0"></i></div>
@@ -1807,14 +1840,18 @@ function defaultCompanies(cfg) {
   for (const w of cfg.companies.watchlist || []) out[w.name] = { tier: w.priority ? "top" : "big", pay: "high", sponsor: "known", tags: w.tags || [], priority: !!w.priority, hidden: false, source: "manual", url: w.url };
   return out;
 }
+// Nov 2026: growth, category, product and tools/improvement roles come first; go-to-market is still welcome but one step lower
+const FIT_V2 = { exact: ["product manager", "product owner", "product lead", "martech", "marketing technology", "tools", "improvement", "optimization", "optimisation", "experimentation"], adjacent: ["go-to-market", "gtm"] };
+// Head of, Director, VP and C-level titles are a step too senior for now (manager, team lead and executive titles stay); a passed one can still be shortlisted from Passed
+const TOO_SENIOR = /\b(head of|director|vice president|vp|chief|c[emoprg]o|president|general manager)\b/i;
 function defaultSettings(cfg) {
   const c = cfg.cities, p = cfg.profile;
   return {
     istanbul_net_try: c.istanbul_reference?.net_month_try || BASE_TRY, flex_pct: 15,
     cities: c.cities.map((x) => ({ name: x.name, country: x.country, priority: x.priority, on: true, target: x.gross_target_eur })),
     remote: { on: c.remote?.enabled ?? true, priority: c.remote?.priority ?? 6, target: c.remote?.gross_target_eur ?? 45000 },
-    exact_kw: ["growth", "revenue", "go-to-market", "gtm", "commercial", "category", "expansion", "monetization", "monetisation", "market development"],
-    adjacent_kw: ["product marketing", "lifecycle", "crm", "brand", "performance marketing", "marketing manager", "marketing lead", "partnership", "product manager", "product owner", "insights", "consumer", "b2c", "acquisition", "retention"],
+    exact_kw: ["growth", "revenue", "commercial", "category", "expansion", "monetization", "monetisation", "market development", ...FIT_V2.exact],
+    adjacent_kw: ["product marketing", "lifecycle", "crm", "brand", "performance marketing", "marketing manager", "marketing lead", "partnership", "insights", "consumer", "b2c", "acquisition", "retention", ...FIT_V2.adjacent],
     scene_pts: 20, scene_w: { ...DEFAULT_SCENE_W }, scene_lex: structuredClone(DEFAULT_SCENE_LEX),
     hide_title_kw: [], cv_keywords: { ...p.cv_keywords }, gap_keywords: [...(p.gap_keywords || [])],
     companies: defaultCompanies(cfg),
@@ -1842,6 +1879,16 @@ function hydrate(s) {
   st.settings.companies = { ...def.companies };
   for (const [n, c] of Object.entries(saved)) st.settings.companies[n] = { ...(def.companies[n] || {}), ...c, url: c.url || def.companies[n]?.url || "" };
   for (const c of def.cities) if (!st.settings.cities.some((x) => x.name === c.name)) st.settings.cities.push(c);
+  if (!st.settings.fit_v2) { // once: move go-to-market to "close to my field", add product and tools words to "exactly what I do", lower GTM in the CV match
+    const ss = st.settings, low = (a) => a.map((x) => x.trim().toLowerCase());
+    ss.exact_kw = ss.exact_kw.filter((k) => !FIT_V2.adjacent.includes(k.trim().toLowerCase()));
+    ss.adjacent_kw = ss.adjacent_kw.filter((k) => !FIT_V2.exact.includes(k.trim().toLowerCase()));
+    for (const k of FIT_V2.exact) if (!low(ss.exact_kw).includes(k)) ss.exact_kw.push(k);
+    for (const k of FIT_V2.adjacent) if (!low(ss.adjacent_kw).includes(k)) ss.adjacent_kw.push(k);
+    for (const k of ["gtm", "go-to-market"]) if (ss.cv_keywords[k] > 1) ss.cv_keywords[k] = 1;
+    for (const [k, w] of [["category strategy", 2], ["experimentation", 1.5], ["optimization", 1], ["optimisation", 1]]) if (!(k in ss.cv_keywords)) ss.cv_keywords[k] = w;
+    ss.fit_v2 = true;
+  }
   st.challenge = { streak: 0, best: 0, last: null, results: {}, ...(st.challenge || {}) };
   st.home = { ...HOME_DEFAULT, ...(st.home || {}) };
   if (!st.home.v3) { st.home.hidden = [...new Set([...st.home.hidden.filter((k) => k !== "fun"), "journey"])]; st.home.order = st.home.order.filter((k) => k !== "fun"); st.home.v3 = true; }
@@ -1882,6 +1929,7 @@ function derive(j) {
   const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "on target" : "below target") : "not stated";
   let filtered = f.filtered && !/^Salary too low/.test(f.filtered) ? f.filtered : null;
   if (!filtered && f.years_required >= 8) filtered = `Asks ${f.years_required}+ years of experience`;
+  if (!filtered && TOO_SENIOR.test(j.title)) filtered = "Too senior for now (Head of, Director or C-level)";
   if (!filtered && f.sponsorship === "no" && !f.remote && !f.home) filtered = "No visa sponsorship for an on-site role abroad";
   if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Salary too low (€${f.salary.max_eur.toLocaleString("en")} < min €${min.toLocaleString("en")})`;
   const hiddenWhy = cc && cc.on === false ? "city switched off" : co.hidden ? "company hidden" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "title hidden" : null;
@@ -2113,7 +2161,8 @@ function renderStack(dir = 0) {
       el.style.transform = placement(dir > 0 ? 3 : dir < 0 ? -3 : o).transform; el.style.opacity = 0;
       stack.appendChild(el); STACK.els.set(id, el); el.getBoundingClientRect();
     }
-    el.innerHTML = miniHTML(r);
+    const html = miniHTML(r); if (el._html !== html) { el.innerHTML = html; el._html = html; } // rewriting a card mid-glide made its text jump on phones
+    else el.querySelectorAll(".stamp").forEach((x) => { x.style.opacity = ""; x.style.transform = ""; });
     const p = placement(o);
     el.style.transform = p.transform; el.style.opacity = p.opacity; el.style.zIndex = p.z;
     el.classList.toggle("center", o === 0); el.dataset.o = o;
@@ -2190,6 +2239,7 @@ function bindStack() {
   });
   stack.addEventListener("pointercancel", () => { if (st) swipeFeel(st.card, 0); st = null; renderStack(); });
 }
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-deck]"); if (!b || !deckRows().length) return; stopWiggle(); b.dataset.deck === "like" ? like() : askReason(); });
 // ---- swipe tutorial: the card leans right (shortlist) then left (pass) until she has made a few decisions ----
 const HINT = { anim: [], timer: null, key: "jobness.swipes", needed: 3 };
 const swipesMade = () => { try { return +localStorage.getItem(HINT.key) || 0; } catch { return 0; } };
@@ -2618,6 +2668,7 @@ function itemHTML(r, acts) {
 const FUNNEL = [["all", "Shortlisted", "lav"], ["Saved", "Saved", "lav"], ["Pack requested", "Pack requested", "sky"], ["Pack ready", "Pack ready", "butter"], ["Applied", "Applied", "teal"],
   ["Interview", "Interview", "peach"], ["Offer", "Offer", "mint"], ["Rejected", "Rejected", "rose"]];
 const STATUS_TINT = { Saved: "lav", "Pack requested": "sky", "Pack ready": "butter", Applied: "teal", Interview: "peach", Offer: "mint", Rejected: "rose" };
+const DESKTOP = () => window.innerWidth > 760; // computer layouts (board, open home cards, two-column journey)
 let SHORT_F = [], PIPE_OPEN = false, DATE_FOR = null, WALLET_OPEN = null; // SHORT_F: the stages picked (none = all)
 // wallet stack (Apple Wallet): every card shows its top strip; tap one and it opens in place while the others slide away
 function walletCard(r, last) {
@@ -2631,16 +2682,27 @@ function walletCard(r, last) {
     ${open ? `<button class="wc-close" data-wclose aria-label="Close card">${icon("x")}</button>` : ""}
     <div class="wc-body">${appCard(r).replace('<div class="app', `<div title="${hasPack(id) ? "Open pack" : "Open details"}" class="app`)}</div></article>`;
 }
-// FLIP: remember where every card was, re-render, then glide each one from its old spot to the new one
+// FLIP: remember where every card was, re-render, then glide each one from its old spot to the new one (on the board, across columns too)
 function flipRender(render) {
-  const before = new Map([...document.querySelectorAll("[data-wid]")].map((el) => [el.dataset.wid, el.getBoundingClientRect().top]));
+  const pos = (el) => { const b = el.getBoundingClientRect(); return [b.left, b.top]; };
+  const before = new Map([...document.querySelectorAll("[data-wid]")].map((el) => [el.dataset.wid, pos(el)]));
   render();
   document.querySelectorAll("[data-wid]").forEach((el) => {
-    const was = before.get(el.dataset.wid); if (was == null) return;
-    const dy = was - el.getBoundingClientRect().top;
-    if (dy) el.animate([{ transform: `translateY(${dy}px)` }, { transform: "none" }], { duration: 380, easing: "cubic-bezier(.2,.8,.2,1)" });
+    const was = before.get(el.dataset.wid); if (!was) return;
+    const [x, y] = pos(el), dx = was[0] - x, dy = was[1] - y;
+    if (dx || dy) el.animate([{ transform: `translate(${dx}px, ${dy}px)`, zIndex: 20 }, { transform: "none", zIndex: 20 }], { duration: dx ? 560 : 380, easing: "cubic-bezier(.2,.8,.2,1)" });
   });
 }
+// computer: the pipeline stands up as columns (like a sales board), each holding its roles as a wallet stack
+function renderBoard(liked, at) {
+  if (WALLET_OPEN && !liked.some((r) => r.j.id === WALLET_OPEN)) WALLET_OPEN = null;
+  const newest = (a, b) => (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at);
+  $("#short-list").innerHTML = liked.length ? `<div class="kboard">${FUNNEL.slice(1).map(([k, l, tint]) => { const rs = at(k).sort(newest);
+    return `<section class="kb-col ${rs.length ? "" : "kb-none"}" data-col="${esc(k)}"><div class="kb-h"><span class="pl-chip st-${tint}"><i></i>${esc(l)}</span><b>${rs.length}</b></div>
+      ${rs.length ? `<div class="wstack">${rs.map((r, i) => walletCard(r, i === rs.length - 1)).join("")}</div>` : `<div class="kb-empty">No roles here</div>`}</section>`; }).join("")}</div>`
+    : `<div class="box empty">Nothing shortlisted yet. Swipe a card right on Discover.</div>`;
+}
+let BOARD_ON = DESKTOP(); addEventListener("resize", () => { if (DESKTOP() !== BOARD_ON) { BOARD_ON = DESKTOP(); APP.state && renderLists(); } });
 // one application: where it stands, its dates (1, 2, 3…), and what to do next
 function appCard(r) {
   const d = r.decision, id = r.j.id, rc = reachedOf(d), rej = d.status === "Rejected";
@@ -2746,15 +2808,17 @@ function renderLists() {
   // collapsed: one line with the picked stages in their colours; open: every stage, tap any to add or remove it
   const chips = (picked.length ? picked.map((k) => FUNNEL.find((x) => x[0] === k)) : [FUNNEL[0]])
     .map(([k, l, tint]) => `<span class="pl-chip st-${tint}"><i></i>${esc(l)}<b>${at(k).length}</b></span>`).join("");
+  const board = DESKTOP(); $("#pipeline").hidden = board;
+  if (board) renderBoard(liked, at); // a computer gets one column per stage instead of the pipeline filter
   $("#pipeline").classList.toggle("open", PIPE_OPEN);
-  $("#pipeline").innerHTML = `<button class="pl-head" data-pipe-tog aria-expanded="${PIPE_OPEN}"><b>Pipeline</b><span class="pl-chips">${chips}</span>${icon("chev")}</button>` +
+  if (!board) $("#pipeline").innerHTML = `<button class="pl-head" data-pipe-tog aria-expanded="${PIPE_OPEN}"><b>Pipeline</b><span class="pl-chips">${chips}</span>${icon("chev")}</button>` +
     (PIPE_OPEN ? `<div class="pl-rows"><div class="small muted pl-hint">${picked.length ? `<a href="#" data-funnel="all">Show all ${liked.length}</a> · ` : ""}tap steps to see them together</div>` +
     FUNNEL.map(([k, l, tint]) => { const n = at(k).length, on = k === "all" ? !picked.length : picked.includes(k);
       return `<button class="pl-row st-${tint} ${on ? "on" : ""} ${k === "Rejected" ? "sep" : ""}" data-funnel="${esc(k)}" aria-pressed="${on}" ${n || k === "all" || on ? "" : "disabled"}>
         <span class="pl-l">${k === "all" ? "" : `<span class="pl-box">${on ? icon("check") : ""}</span>`}${l}</span><span class="pl-bar"><i style="width:${n ? Math.max(6, (n / max) * 100) : 0}%"></i></span><b>${n}</b></button>`; }).join("") + `</div>` : "");
   const list = shown.sort((a, b) => reachedOf(b.decision) - reachedOf(a.decision) || (b.decision.status_at || b.decision.at).localeCompare(a.decision.status_at || a.decision.at));
-  if (WALLET_OPEN && !list.some((r) => r.j.id === WALLET_OPEN)) WALLET_OPEN = null;
-  $("#short-list").innerHTML = list.length ? `<div class="wstack">${list.map((r, i) => walletCard(r, i === list.length - 1)).join("")}</div>`
+  if (!board && WALLET_OPEN && !list.some((r) => r.j.id === WALLET_OPEN)) WALLET_OPEN = null;
+  if (!board) $("#short-list").innerHTML = list.length ? `<div class="wstack">${list.map((r, i) => walletCard(r, i === list.length - 1)).join("")}</div>`
     : `<div class="box empty">${liked.length ? `No roles at ${esc(picked.map((k) => FUNNEL.find((x) => x[0] === k)[1]).join(" or "))} right now. <a href="#" data-funnel="all">Show all</a>` : "Nothing shortlisted yet. Swipe a card right on Discover."}</div>`;
   const mine = APP.rows.filter((r) => r.decision?.decision === "dislike");
   const auto = APP.rows.filter((r) => !r.decision && r.d.filtered && !r.d.hiddenWhy);
@@ -4101,7 +4165,7 @@ function renderHome() {
             <button class="sl" data-open="test"><span class="sl-in">${ico("sparkle", "peach")}<span class="sl-tx"><span class="bl">Self-discovery</span><b class="bn sm">${testStatus("2-min test", true)}</b></span></span></button>
           </div><div class="sl-dots"><i class="${SLIDER.i === 0 ? "on" : ""}"></i><i class="${SLIDER.i === 1 ? "on" : ""}"></i><i class="${SLIDER.i === 2 ? "on" : ""}"></i></div></section>
         ${stat("", "mint", "Packs ready", h.ready.length, 'data-v="short"', "file")}`,
-      // picks and checklist open on tap; closed by default so the whole home fits one screen
+      // picks and checklist open on tap; closed by default on a phone so the whole home fits one screen
       picks: () => `<section class="bt bt-picks ${HOME_OPEN.picks ? "open" : ""}"><button class="bth bth-tog" data-hopen="picks">${ico("star", "peach")}<b>Today's picks</b>
             <span class="wv">${picks.length ? `${picks.length} · top ${picks[0].score}` : "none today"}</span><svg class="i tog"><use href="#i-chev"/></svg></button>
           ${HOME_OPEN.picks ? (picks.length ? `<div class="picks">${picks.map(pickHTML).join("")}</div><button class="btn ghost sm" data-v="discover">See all in Discover<svg class="i"><use href="#i-chev"/></svg></button>` : `<div class="home-empty">No new or hot jobs today.</div>`) : ""}</section>`,
@@ -4129,7 +4193,7 @@ function renderHome() {
     </div>` : ""}
     ${shown.length ? body : `<div class="home-empty"><div class="hand">a clean desk</div>Every card is hidden.<br><button class="btn sm" style="margin-top:10px" data-open="home-custom">Bring some back</button></div>`}`;
 }
-let HOME_OPEN = { picks: false, todo: false };
+let HOME_OPEN = { picks: DESKTOP(), todo: DESKTOP() }; // a computer screen has room, so both start open; a phone keeps them closed to fit one screen
 // after a card opens, glide down so its list is in view: never further than its header (just under the top bar), never upwards
 function revealCard(k) {
   const el = k === "todo" ? $("#home-todo") : $("#home .bt-picks"); if (!el) return;
@@ -4375,7 +4439,7 @@ document.addEventListener("click", (e) => {
 document.addEventListener("click", (e) => { const a = e.target.closest(".pack-head a.btn.primary"); if (a && PACKVIEW.id) { PACKVIEW.applied = PACKVIEW.id; setTimeout(refreshPopups, 400); } });
 function setStatus(id, status) {
   const d = APP.state.decisions[id], at = new Date().toISOString();
-  d.status = status; d.status_at = at;
+  d.status = status; d.status_at = at; WALLET_OPEN = id; // the card stays open and glides to its new stage
   (d.log = d.log || []).push({ s: status, at });
   d.reached = Math.max(d.reached ?? -1, STAGES.indexOf(status));
 }
@@ -4404,7 +4468,7 @@ function journeyStats() {
   const days = Math.ceil((new Date(jr.goal_date) - new Date(today())) / DAY);
   return { ms, pct, cur, next: { title: cur.title, left }, days, liked, at };
 }
-const JOURNEY = { month: null, sel: null, editGoal: false, road: false, editRoad: false };
+const JOURNEY = { month: null, sel: null, editGoal: false, road: window.innerWidth > 760, editRoad: false }; // road map starts open on a computer
 function journeyEvents() {
   const jr = APP.state.journey, ev = [];
   for (const r of APP.rows) {
@@ -4456,7 +4520,7 @@ function renderJourney() {
   el.innerHTML = `
     <div class="eyebrow">My journey</div>
     <h1 class="hero">On the way to the dream job.</h1>
-    <div class="goal-wrap">
+    <div class="j-split"><div class="goal-wrap">
     <section class="goal">
       <button class="icon-btn goal-edit-btn" data-g-edit title="Edit goal" aria-label="Edit goal">${icon("edit")}</button>
       <div class="goal-l"><div class="hand">dream job by ${esc(goalDate)}</div>
@@ -4487,7 +4551,7 @@ function renderJourney() {
           <input class="field ev-time" type="time" id="ev-time" aria-label="Time (optional)" title="Time (optional)">
           <input class="field" id="ev-title" placeholder="Note, e.g. with the hiring manager"><button class="btn primary sm" data-ev-add>Add</button></div>
         ${upcoming().length ? `<button class="btn sm cal-all" data-cal-all>${icon("calendar")}Add upcoming dates to my phone calendar</button>` : ""}</div>
-    </section>`;
+    </section></div>`;
 }
 // ---- dates go to the phone's own calendar: an .ics file (iPhone, Apple, Outlook) or a Google Calendar link ----
 const calStamp = (date, time) => date.replace(/-/g, "") + (time ? "T" + time.replace(":", "") + "00" : "");
@@ -4687,7 +4751,7 @@ document.addEventListener("click", (e) => {
 function refresh(keepOrder) {
   compute();
   if (keepOrder) APP.order = APP.order.filter((id) => APP.byId[id]); else buildOrder(true);
-  renderFilters(); renderStack(); renderLists(); renderLearnSummary(); renderCompanies(); renderHome();
+  renderFilters(); renderStack(); $("#v-short").classList.contains("on") ? flipRender(renderLists) : renderLists(); renderLearnSummary(); renderCompanies(); renderHome();
   if ($("#v-journey").classList.contains("on")) renderJourney();
   if ($("#v-profile").classList.contains("on")) renderProfile();
   renderMe();
