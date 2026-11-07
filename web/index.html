@@ -144,7 +144,7 @@
   .stack { position: relative; height: 430px; touch-action: none; user-select: none; outline: none; }
   .mini { position: absolute; left: 0; right: 0; top: 50%; height: 190px; margin-top: -95px; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;
           background: #fbfbfd; border: 1px solid var(--line); box-shadow: 0 2px 6px rgba(30, 29, 38, .05); overflow: hidden; cursor: pointer;
-          transition: transform .38s cubic-bezier(.2,.8,.2,1), clip-path .38s cubic-bezier(.2,.8,.2,1), opacity .38s, box-shadow .3s;
+          transition: transform .38s cubic-bezier(.2,.8,.2,1), opacity .38s, box-shadow .3s;
           will-change: transform, opacity; backface-visibility: hidden; -webkit-backface-visibility: hidden; -webkit-font-smoothing: antialiased; } /* own layer: text scales as one piece instead of re-snapping while cards glide */
   .mini:not(.center) > :not(.stamp) { opacity: .45; transition: opacity .3s; }
   .mini.center { background: var(--surface); box-shadow: var(--shadow); border-color: #dedce8; cursor: grab; }
@@ -2096,8 +2096,7 @@ const STACK = { els: new Map(), lock: 0, acc: 0 };
 const peek = () => (window.innerWidth <= 760 ? { base: 50, step: 14 } : { base: 64, step: 20 }); // ~45 px of each neighbour peeks out
 function placement(o) {
   const a = Math.abs(o), { base, step } = peek(), y = a ? Math.sign(o) * (base + (Math.min(a, 3) - 1) * step) : 0;
-  // no scale: a shrinking card made iPhone re-snap its text every frame (titles shook); cards behind are trimmed at the sides instead
-  return { transform: `translate3d(0, ${y}px, 0)`, clip: a ? `inset(0 ${Math.min(a, 3) * 11}px round 22px)` : "inset(-60px round 24px)", opacity: a > 2 ? 0 : 1, z: 10 - a };
+  return { transform: `translateY(${y}px) scale(${1 - a * 0.065})`, opacity: a > 2 ? 0 : 1, z: 10 - a };
 }
 // quick chips: one fact each, the icon says what it is (no "Salary:" or "Sponsorship:" labels), never repeated as a tag
 const DUP_TAG = /sponsor|relocation|visa|hybrid|remote|office|salary|asks \d|yrs|years|junior level|on-?site/i;
@@ -2186,20 +2185,20 @@ function renderStack(dir = 0) {
   APP.idx = mod(APP.idx, n);
   const want = new Map(visibleSlots(n).map(([o, k]) => [list[k].j.id, [o, list[k]]]));
   for (const [id, el] of STACK.els) if (!want.has(id)) {
-    el.style.transform = placement(dir > 0 ? -3 : 3).transform; el.style.clipPath = placement(3).clip; el.style.opacity = 0;
+    el.style.transform = placement(dir > 0 ? -3 : 3).transform; el.style.opacity = 0;
     STACK.els.delete(id); setTimeout(() => el.remove(), 380);
   }
   for (const [id, [o, r]] of want) {
     let el = STACK.els.get(id);
     if (!el) {
       el = document.createElement("div"); el.className = "mini"; el.dataset.id = id;
-      const p0 = placement(dir > 0 ? 3 : dir < 0 ? -3 : o); el.style.transform = p0.transform; el.style.clipPath = p0.clip; el.style.opacity = 0;
+      el.style.transform = placement(dir > 0 ? 3 : dir < 0 ? -3 : o).transform; el.style.opacity = 0;
       stack.appendChild(el); STACK.els.set(id, el); el.getBoundingClientRect();
     }
     const html = miniHTML(r); if (el._html !== html) { el.innerHTML = html; el._html = html; } // rewriting a card mid-glide made its text jump on phones
     else el.querySelectorAll(".stamp").forEach((x) => { x.style.opacity = ""; x.style.transform = ""; });
     const p = placement(o);
-    el.style.transform = p.transform; el.style.clipPath = p.clip; el.style.opacity = p.opacity; el.style.zIndex = p.z;
+    el.style.transform = p.transform; el.style.opacity = p.opacity; el.style.zIndex = p.z;
     el.classList.toggle("center", o === 0); el.dataset.o = o;
   }
   const num = cardNum(list[APP.idx].j.id) || APP.idx + 1, total = APP.total || n, decided = APP.order.length - n;
