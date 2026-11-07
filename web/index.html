@@ -2068,6 +2068,16 @@ function compute() {
 
 // search: every word must appear somewhere in company, role, city or locations; case, accents and Turkish letters don't matter
 const fold = (x) => String(x || "").toLocaleLowerCase("tr").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ı/g, "i");
+// a post open in many places: her matched city first, one more, then "+N" (the full list on hover)
+function placesHTML(r) {
+  const seen = new Set(), city = r.d.city || "";
+  const all = (r.j.locations || []).flatMap((x) => x.split(/;|\s\|\s/)) // "London, United Kingdom; Madrid, Spain" → London, Madrid
+    .map((x) => { const t = x.trim(); return city && fold(t).includes(fold(city)) ? city : /^[A-Z]{2},/.test(t) ? t.split(",").pop().trim() : t.split(",")[0].trim(); })
+    .filter((x) => x.length > 2 && !seen.has(fold(x)) && seen.add(fold(x)));
+  const list = all.includes(city) ? [city, ...all.filter((x) => x !== city)] : all.length > 2 && city ? [city, ...all] : all;
+  if (list.length <= 2) return esc(list.join(", ") || city);
+  return `<span title="${esc(all.join(", "))}">${esc(list.slice(0, 2).join(", "))}, +${list.length - 2}</span>`;
+}
 const matchQ = (r, q) => { const hay = fold(`${r.j.company} ${r.j.title} ${r.d.city} ${(r.j.locations || []).join(" ")}`); return fold(q).split(/\s+/).filter(Boolean).every((w) => hay.includes(w)); };
 // ---------------- deck order (frozen while browsing so the position stays meaningful) ----------------
 function passesFilters(r) {
@@ -2415,7 +2425,7 @@ function openDetail(id) {
   $("#detail").innerHTML = `
     <div style="display:flex;justify-content:space-between;gap:10px;align-items:start">
       <div style="display:flex;gap:12px">${avatar(j.company)}
-        <div><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2 style="margin:4px 0 0">${esc(j.title)}</h2></div></div>
+        <div><div class="small muted">${esc(j.company)} · ${placesHTML(r)}</div><h2 style="margin:4px 0 0">${esc(j.title)}</h2></div></div>
       <button class="icon-btn" data-close="m-detail">${icon("x")}</button></div>
     ${statusStrip(id)}
     ${detailBody(r)}`;
@@ -2452,7 +2462,7 @@ function openCard(id) {
   pop.style.transform = ""; pop.style.opacity = ""; swipeFeel(pop, 0);
   pop.innerHTML = `<div class="stamp like">♥ SHORTLIST</div><div class="stamp nope">✕ PASS</div>
     <div class="cp-head"><div style="display:flex;gap:12px;min-width:0">${avatar(j.company)}
-        <div style="min-width:0"><div class="small muted">${esc(j.company)} · ${esc(j.locations.join(" / "))}</div><h2>${esc(j.title)}</h2></div></div>
+        <div style="min-width:0"><div class="small muted">${esc(j.company)} · ${placesHTML(r)}</div><h2>${esc(j.title)}</h2></div></div>
       <div style="display:flex;gap:6px;align-items:start"><div class="bigscore"><b>${r.score}</b><span>SCORE</span></div><button class="icon-btn" data-close="m-card" title="Close (Esc)">${icon("x")}</button></div></div>
     <div class="cp-body">${detailBody(r)}</div>
     <div class="cp-foot">
