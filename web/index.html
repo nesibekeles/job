@@ -1659,9 +1659,9 @@
 <script>
 const REPO = "nesibekeles/job";
 const STORE_KEY = "pusula.state.v1"; // pre-rename key, kept so saved swipes survive
-const REASONS = ["Sponsorship / visa risk", "Too operational", "Role content doesn't fit", "Too junior", "Too senior",
+const REASONS = ["Sponsorship / visa risk", "Too operational", "Role content doesn't fit", "Technical skills don't match", "Too junior", "Too senior",
   "Salary may be low", "Not interested in the company", "Not interested in the industry / product", "Location", "Office / work setup", "Other"];
-const REASON_KEYS = { "Sponsorship / visa risk": "sponsor", "Salary may be low": "salary", "Too operational": "operational", "Too junior": "junior", "Too senior": "senior", "Office / work setup": "office" };
+const REASON_KEYS = { "Sponsorship / visa risk": "sponsor", "Salary may be low": "salary", "Too operational": "operational", "Too junior": "junior", "Too senior": "senior", "Office / work setup": "office", "Technical skills don't match": "tech" };
 const CITY_POINTS = { 1: 15, 2: 13, 3: 11, 4: 9, 5: 8, 6: 6, 7: 5, 8: 4, 9: 3 };
 const CURRENCY = { "United Kingdom": ["GBP", "£"], "New Zealand": ["NZD", "NZ$"], Denmark: ["DKK", "DKK "], Sweden: ["SEK", "SEK "], Norway: ["NOK", "NOK "], Czechia: ["CZK", "CZK "], Hungary: ["HUF", "HUF "] };
 const BASE_TRY = 200000; // city targets in config were set for this Istanbul salary
@@ -1849,6 +1849,28 @@ function defaultCompanies(cfg) {
 const FIT_V2 = { exact: ["product manager", "product owner", "product lead", "martech", "marketing technology", "tools", "improvement", "optimization", "optimisation", "experimentation"], adjacent: ["go-to-market", "gtm"] };
 // Head of, Director, VP and C-level titles are a step too senior for now (manager, team lead and executive titles stay); a passed one can still be shortlisted from Passed
 const TOO_SENIOR = /\b(head of|director|vice president|vp|chief|c[emoprg]o|president|general manager)\b/i;
+// technical skills in a post, line by line: required ("strong SQL and Python (required)") vs only a plus ("SQL and BI skills are a plus").
+// She has basic SQL/BI, so SQL only matters when strong; any coding language that is asked is a gap, and a strongly required one is filtered.
+const TECH_LANGS = [["Python", /\bpython\b/i], ["R", /\b(python|sql)\s*(\/|or|and|,)\s*r\b|\br\s*(\/|or)\s*python\b/i], ["JavaScript", /\bjavascript\b|\btypescript\b/i], ["Java", /\bjava\b(?!script)/i], ["C++", /c\+\+/i], ["Scala", /\bscala\b/i], ["Apex", /\bapex\b/i]];
+const TECH_NICE = /\b(plus|bonus|nice[- ]to[- ]have|preferred|desirable|advantage\w*|beneficial|ideally|useful|helpful|not required|un plus|atout)\b/i;
+const TECH_STRONG = /\b(required|must|strong|proficien\w*|advanced|expert\w*|hands[- ]on|deep|fluent|mastery|ma[iî]tris\w*|autonom\w*|production)\b/i;
+const TECH_OPTIONAL = /\b(excel|spreadsheets?|bi|business[- ]intelligence|dashboard\w*|looker|tableau|power bi|analytical tools|or similar|or equivalent|or comparable|data studio|quick-?sight)\b/i;
+function techNeeds(desc) {
+  const out = { code: null, codeLangs: [], sql: null, nice: [] }, rank = { asked: 1, strong: 2 };
+  const lines = desc.split(/\n|•|;|(?<=[a-z)])\.\s+(?=[A-Z])/);
+  for (const line of lines) {
+    const langs = TECH_LANGS.filter(([, re]) => re.test(line)).map(([n]) => n), sql = /\bsql\b/i.test(line);
+    if (!langs.length && !sql) continue;
+    const nice = TECH_NICE.test(line), strong = TECH_STRONG.test(line), oneOf = /\bor\b|such as|e\.g\.|\blike\b/i.test(line) && TECH_OPTIONAL.test(line);
+    const lvl = nice ? "nice" : strong ? "strong" : "asked";
+    if (nice) { for (const n of [...(sql ? ["SQL"] : []), ...langs]) if (!out.nice.includes(n)) out.nice.push(n); continue; }
+    if (oneOf) continue; // "tools such as Excel, SQL, Tableau, Python" or "SQL or dashboards": any one of them will do
+    if (langs.length) { if (!out.code || rank[lvl] > rank[out.code]) out.code = lvl; for (const n of langs) if (!out.codeLangs.includes(n)) out.codeLangs.push(n); }
+    if (sql && lvl === "strong" && !oneOf) out.sql = "strong";
+  }
+  out.nice = out.nice.filter((n) => !(n === "SQL" ? out.sql : out.codeLangs.includes(n)));
+  return out;
+}
 function defaultSettings(cfg) {
   const c = cfg.cities, p = cfg.profile;
   return {
@@ -1933,17 +1955,22 @@ function derive(j) {
   const gaps = s.gap_keywords.filter((g) => new RegExp("\\b" + g.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b").test(text)).slice(0, 5);
   const salaryStatus = f.salary && target ? (f.salary.max_eur >= target ? "on target" : "below target") : "not stated";
   let filtered = f.filtered && !/^Salary too low/.test(f.filtered) ? f.filtered : null;
-  if (!filtered && f.years_required >= 8) filtered = `Asks ${f.years_required}+ years of experience`;
+  if (!filtered && f.years_required > 5) filtered = `Asks ${f.years_required}+ years of experience (you look for up to 5)`;
+  const tech = j._tech || (j._tech = techNeeds(j.description || ""));
+  if (!filtered && tech.code === "strong") filtered = `Needs strong ${tech.codeLangs.slice(0, 2).join(" / ")} (a required coding skill)`;
   if (!filtered && TOO_SENIOR.test(j.title)) filtered = "Too senior for now (Head of, Director or C-level)";
   if (!filtered && f.sponsorship === "no" && !f.remote && !f.home) filtered = "No visa sponsorship for an on-site role abroad";
   if (!filtered && f.salary && min && f.salary.max_eur < min) filtered = `Salary too low (€${f.salary.max_eur.toLocaleString("en")} < min €${min.toLocaleString("en")})`;
   const hiddenWhy = cc && cc.on === false ? "city switched off" : co.hidden ? "company hidden" : s.hide_title_kw.find((k) => k && j.title.toLowerCase().includes(k.toLowerCase())) ? "title hidden" : null;
   const tags = f.tags.filter((t) => !/^Salary (on|below) target/.test(t.label));
   if (salaryStatus !== "not stated") tags.push({ color: salaryStatus === "on target" ? "green" : "yellow", label: salaryStatus === "on target" ? "Salary on target" : "Salary below target" });
+  if (tech.code === "strong" || tech.code === "asked") tags.push({ color: "red", label: `${tech.code === "strong" ? "Needs strong" : "Asks"} ${tech.codeLangs.slice(0, 2).join(" / ")}` });
+  if (tech.sql === "strong") tags.push({ color: "yellow", label: "Needs strong SQL" });
+  if (tech.nice.length) tags.push({ color: "green", label: `${tech.nice.join(" / ")} only a plus` });
   const scene = sceneOf(j); scene.fit = sceneFit(scene);
   return { scene, city: f.city, priority: cc?.priority ?? f.city_priority, target, min, tier: co.tier, pay: co.pay, sponsor: co.sponsor, cotags: co.tags || [], coPriority: !!co.priority,
     cv_match, cv5: Math.round(cv_match * 50) / 10, matched: hits.slice(0, 6).map(([k]) => k.trim()),
-    gaps, family: family(j.title), salaryStatus, filtered, hiddenWhy, tags, text };
+    gaps, family: family(j.title), salaryStatus, filtered, hiddenWhy, tags, text, tech };
 }
 function baseScore(j, d, rw) {
   const f = j.f;
@@ -1955,6 +1982,8 @@ function baseScore(j, d, rw) {
   s += { strategic: 8, mixed: 2, operational: -8 - (rw.operational || 0) }[f.role_type] ?? 0;
   s += { junior: -10 - (rw.junior || 0), exec: -3 - (rw.senior || 0), "mid-senior": 2 }[f.seniority] ?? 0;
   if (f.workplace === "Office") s -= rw.office || 0;
+  if (d.tech.code === "asked") s -= 8 + (rw.tech || 0); // coding asked (not just a plus): a real gap; passing with "Technical skills don't match" deepens it
+  if (d.tech.sql === "strong") s -= 3 + (rw.tech || 0) / 2; // basic SQL is there, strong SQL is a stretch
   return (s / 80) * 100;
 }
 function fieldValue(j, d, f) {
@@ -2531,8 +2560,8 @@ function bindCardPop() {
 // filters live in one sheet; the Discover bar only shows a search box and a "Filters" button with how many are on
 const FILTER_TOGGLES = [["sponsor", "Sponsorship ✓"], ["top", "Priority company"], ["fresh", "New"], ["scene", "Feels like my movie"]];
 // years asked, in buckets (8+ never reaches Discover)
-const EXP_BUCKETS = [["0-2", "0–2 yrs"], ["3-5", "3–5 yrs"], ["6-7", "6–7 yrs"], ["none", "Unspecified"]];
-const expBucket = (y) => !y ? "none" : y <= 2 ? "0-2" : y <= 5 ? "3-5" : "6-7";
+const EXP_BUCKETS = [["0-2", "0–2 yrs"], ["3-5", "3–5 yrs"], ["none", "Unspecified"]]; // roles asking 6+ years are no longer suggested
+const expBucket = (y) => !y ? "none" : y <= 2 ? "0-2" : y <= 5 ? "3-5" : "6+";
 const filterCount = () => { const f = APP.filters; return (f.cities.length ? 1 : 0) + (f.cos.length ? 1 : 0) + f.tags.length + (f.min ? 1 : 0) + (f.exp.length ? 1 : 0) + FILTER_TOGGLES.filter(([k]) => f[k]).length; };
 // ---- Excel-style filter lists: grouped, searchable, multi-select; a whole group can be ticked at once ----
 const CONTINENT = { "New Zealand": "Oceania", Australia: "Oceania", "United Arab Emirates": "Middle East", Singapore: "Asia", Japan: "Asia", "United States": "Americas", Canada: "Americas" };
