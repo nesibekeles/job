@@ -165,6 +165,11 @@
   .mini .row1 .avatar { width: 34px; height: 34px; font-size: 14px; }
   .mini .co { font-weight: 600; font-size: 13.5px; }
   .mini .co span { display: block; font-weight: 400; font-size: 11.5px; color: var(--muted); }
+  /* every card shows its number: next to the company (cards above and the focused one), in the footer for the cards peeking below */
+  .mini .co .cno { font: 800 11px var(--head); font-style: normal; color: var(--muted); margin-left: 7px; letter-spacing: .02em; }
+  .mini.center .foot .cnum { display: none; }
+  .mini .foot { flex-shrink: 0; } .mini .qchips { max-height: none !important; } /* fitMini trims the card instead, so the footer is never cut */
+  .mini[data-o="2"] > :not(.stamp), .mini[data-o="-2"] > :not(.stamp) { opacity: 0 !important; } /* the second card behind only shows its edge, so two footers never overlap */
   .mini .scorepill { margin-left: auto; text-align: right; font: 800 20px/1 var(--head); color: var(--ink); }
   .mini .scorepill small { display: block; font: 600 9.5px var(--head); letter-spacing: .1em; color: var(--muted); margin-top: 2px; }
   .mini h3 { font: 700 17px/1.3 var(--head); margin: 0; letter-spacing: -.02em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -2112,7 +2117,11 @@ function placement(o) {
 }
 // quick chips: one fact each, the icon says what it is (no "Salary:" or "Sponsorship:" labels), never repeated as a tag
 const DUP_TAG = /sponsor|relocation|visa|hybrid|remote|office|salary|asks \d|yrs|years|junior level|on-?site/i;
-function quickChips(r, nHigh = 2) {
+// cards in the stack use short chip words so the whole card fits; the popup keeps the full ones
+const SHORT_TAG = { "Strategic role": "Strategic", "B2C / Consumer": "B2C", "Fast pace / long hours": "Fast pace", "Growth / Experiments": "Growth",
+  "Young & social audience": "Young & social", "Operational focus": "Operational", "Work-life balance": "Work-life" };
+const shortTag = (l) => SHORT_TAG[l] || l.replace(/^(Needs strong|Asks) (\S+) \/ .*/, "$1 $2").replace(/^Needs strong /, "Strong ").replace(/ \/ /g, ", ").replace(/ only a plus$/, " a plus");
+function quickChips(r, nHigh = 2, short = false) {
   const { j, d } = r, f = j.f, out = [];
   const chip = (ic, text, cls = "") => out.push(`<span class="qc ${cls}">${icon(ic)}${esc(text)}</span>`);
   chip("pin", d.city);
@@ -2123,7 +2132,7 @@ function quickChips(r, nHigh = 2) {
   if (f.years_required) chip("briefcase", `${f.years_required}+ yrs`, f.years_required > 6 ? "warn" : "");
   const order = { red: 0, green: 1, yellow: 2 };
   d.tags.filter((t) => !DUP_TAG.test(t.label)).sort((a, b) => (order[a.color] ?? 3) - (order[b.color] ?? 3)).slice(0, nHigh)
-    .forEach((t) => chip("sparkle", t.label, t.color === "red" ? "bad" : t.color === "green" ? "hl" : ""));
+    .forEach((t) => chip("sparkle", short ? shortTag(t.label) : t.label, t.color === "red" ? "bad" : t.color === "green" ? "hl" : ""));
   return out.join("");
 }
 // what the job is, not who the company is: Claude's summary when there is one, else the opening of the post's
@@ -2158,11 +2167,11 @@ function miniHTML(r) {
   const { j, d } = r;
   return `<div class="stamp like">♥ SHORTLIST</div><div class="stamp nope">✕ PASS</div>
     <div class="row1">${avatar(j.company)}
-      <div class="co">${esc(j.company)}<span>${esc(ago(j.posted || j.first_seen))}${d.coPriority ? " · priority" : ""}</span></div>
+      <div class="co">${esc(j.company)}<em class="cno">#${cardNum(j.id)}</em><span>${esc(ago(j.posted || j.first_seen))}${d.coPriority ? " · priority" : ""}</span></div>
       <div class="scorepill">${r.score}<small>SCORE</small></div></div>
     <h3>${esc(j.title)}</h3>
     <p class="brief">${esc(brief(j))}</p>
-    <div class="qchips">${quickChips(r, 3)}</div>
+    <div class="qchips">${quickChips(r, 3, true)}</div>
     <div class="cvrow"><span class="muted">CV match</span><div class="bar"><i style="width:${d.cv5 * 20}%"></i></div><b>${d.cv5}/5</b></div>
     <div class="foot"><span class="cnum">#${cardNum(j.id)}</span>${d.matched.length ? `<span class="kwline">Matches: <em>${esc(d.matched.slice(0, 5).join(", "))}</em>${d.gaps.length ? ` · Gaps: <i>${esc(d.gaps.slice(0, 3).join(", "))}</i>` : ""}</span>` : ""}</div>`;
 }
@@ -2182,6 +2191,21 @@ function flashCard(kind) {
   el.insertAdjacentHTML("beforeend", `<div class="fx fx-${kind}">${FX_TEXT[kind](cardNum(el.dataset.id))}</div>`);
   clearTimeout(el._fx); el._fx = setTimeout(() => { el.classList.remove("ring-next", "ring-back", "ring-restored"); el.querySelector(".fx")?.remove(); }, 1500);
 }
+// a card holds what fits its height: the summary gives up lines first (down to 2), then the last chips go (down to 3); on a very short screen
+// the summary shrinks further and goes, then one more chip. Title, CV match and the footer always stay
+function fitMini(el) {
+  const foot = el.querySelector(".foot"), b = el.querySelector(".brief"), chips = [...el.querySelectorAll(".qchips .qc")];
+  const cv = el.querySelector(".cvrow"), pad = parseFloat(getComputedStyle(el).paddingBottom) || 12;
+  const over = () => cv.offsetTop + cv.offsetHeight + 6 + foot.offsetHeight > el.clientHeight - Math.max(pad, 10); // the footer sits at the bottom: what's above must leave it room
+  for (let n = 4; over() && n > 2 && b; ) b.style.setProperty("-webkit-line-clamp", --n);
+  while (over() && chips.length > 3) chips.pop().remove();
+  if (over() && b) b.style.setProperty("-webkit-line-clamp", 1); // a very short screen: one line of summary,
+  if (over() && b) b.remove(); // then none
+  while (over() && chips.length > 2) chips.pop().remove();
+}
+let FIT_W = innerWidth + "x" + innerHeight;
+addEventListener("resize", () => { clearTimeout(fitMini.t); fitMini.t = setTimeout(() => { // once the screen settles (not on every browser-bar wobble)
+  const k = innerWidth + "x" + innerHeight; if (k === FIT_W) return; FIT_W = k; STACK.els.forEach((el) => (el._html = null)); if (APP.state) renderStack(); }, 250); });
 function renderStack(dir = 0) {
   const list = deckRows(), n = list.length, stack = $("#stack");
   document.querySelectorAll(".deck-actions .round").forEach((b) => { b.style.transform = ""; b.classList.remove("hot"); });
@@ -2207,7 +2231,8 @@ function renderStack(dir = 0) {
       el.style.transform = placement(dir > 0 ? 3 : dir < 0 ? -3 : o).transform; el.style.opacity = 0;
       stack.appendChild(el); STACK.els.set(id, el); el.getBoundingClientRect();
     }
-    const html = miniHTML(r); if (el._html !== html) { el.innerHTML = html; el._html = html; } // rewriting a card mid-glide made its text jump on phones
+    const html = miniHTML(r); if (el._html !== html) { el.innerHTML = html; el._html = html; el._fit = false; } // rewriting a card mid-glide made its text jump on phones
+    if (!el._fit && el.clientHeight) { fitMini(el); el._fit = true; } // only once it's on screen and has a size
     else el.querySelectorAll(".stamp").forEach((x) => { x.style.opacity = ""; x.style.transform = ""; });
     const p = placement(o);
     el.style.transform = p.transform; el.style.opacity = p.opacity; el.style.zIndex = p.z;
