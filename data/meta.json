@@ -1,11 +1,6 @@
 {
-  "last_fetch": "2026-11-14T11:38:52.806741+00:00",
+  "last_fetch": "2026-11-14T18:18:51.379339+00:00",
   "errors": {
-    "Adobe": "Expecting value: line 1 column 1 (char 0)",
-    "P&G": "Expecting value: line 1 column 1 (char 0)",
-    "Nike": "Expecting value: line 1 column 1 (char 0)",
-    "PayPal": "Expecting value: line 1 column 1 (char 0)",
-    "Mastercard": "Expecting value: line 1 column 1 (char 0)",
     "Doctolib": "HTTP Error 404: Not Found"
   },
   "count": 221
